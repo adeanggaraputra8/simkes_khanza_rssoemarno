@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="efeff783-7e1c-425f-b89d-8c67990ed111">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="503"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIMRS_new"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="norawat" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT a.kd_penyakit,b.nm_penyakit FROM diagnosa_pasien a INNER JOIN penyakit b ON a.kd_penyakit=b.kd_penyakit WHERE a.no_rawat= '2022/01/05/000001'  ORDER BY a.prioritas ASC;]]>
+	</queryString>
+	<field name="kd_penyakit" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="kd_penyakit"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="diagnosa_pasien"/>
+	</field>
+	<field name="nm_penyakit" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nm_penyakit"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="penyakit"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="20" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="c16f3815-822a-4643-bde4-f5970bb60862"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="20" y="0" width="510" height="16" forecolor="#000000" backcolor="#F0F0DC" uuid="6f40394f-76ab-4e2d-8d8a-4746ba55d1c8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Deskripsi Penyakit]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="15" width="580" height="1" uuid="024c4bf7-acba-42d6-b2d8-9d19ada291fc"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="580" height="1" uuid="4eefff66-ede1-4e66-ac63-cf1b3fa8ed00"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="20" y="1" width="1" height="14" uuid="f9081efc-43ef-4a9f-8007-3da49d312def"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="15" uuid="419a4a77-8cf5-4533-87fe-76e012f813a3"/>
+			</line>
+			<line>
+				<reportElement x="580" y="0" width="1" height="16" uuid="cdfb3bbc-a1e8-49c1-bdca-0e193c1f2e74"/>
+			</line>
+			<line>
+				<reportElement x="530" y="1" width="1" height="14" uuid="319d6905-9fac-4d22-b863-874a2ddb6f45"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="531" y="1" width="49" height="14" forecolor="#000000" backcolor="#F0F0DC" uuid="8850f565-95b7-4fde-9b3f-c8672d5a236c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ICD 10]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" stretchType="RelativeToTallestObject" x="0" y="11" width="580" height="1" uuid="036e066c-8a0d-47a8-8eeb-cf9a7e3478e7"/>
+				<graphicElement>
+					<pen lineWidth="0.35"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="20" y="-1" width="1" height="12" uuid="468315c4-b191-49a0-a928-3297e3b64c43"/>
+			</line>
+			<line>
+				<reportElement x="0" y="-1" width="1" height="12" uuid="d963f2e4-7b68-4ee9-b3dd-cd9af12c6074"/>
+			</line>
+			<line>
+				<reportElement x="580" y="0" width="1" height="12" uuid="c854b9f9-95cf-4d34-be6f-50a128ea3774"/>
+			</line>
+			<line>
+				<reportElement x="530" y="-1" width="1" height="12" uuid="97f4d0fd-ae6d-420d-94d3-7a3d87b8c1a9"/>
+			</line>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="20" y="0" width="510" height="12" uuid="211b3b3f-7dcf-4178-8960-efcd12b6c194">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="88392a1d-500b-4f36-b9d3-6e71ce2e2ba9"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_penyakit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="532" y="-1" width="48" height="12" uuid="ed45a9f5-96f0-4f00-b98e-3cd0f1264d81">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2856e623-42b1-48e5-93c4-d0ce8dca1945"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kd_penyakit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

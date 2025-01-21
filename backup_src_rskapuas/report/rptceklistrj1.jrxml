@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="556" leftMargin="22" rightMargin="17" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT reg_periksa.no_reg,reg_periksa.no_rkm_medis, pasien.nm_pasien,poliklinik.nm_poli FROM reg_periksa
+INNER JOIN pasien ON reg_periksa.no_rkm_medis=pasien.no_rkm_medis
+INNER JOIN poliklinik ON reg_periksa.kd_poli=poliklinik.kd_poli
+WHERE reg_periksa.tgl_registrasi BETWEEN '2019-08-02' AND '2019-08-02' AND reg_periksa.no_reg BETWEEN '001' AND '002']]>
+	</queryString>
+	<field name="no_reg" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="no_rkm_medis" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nm_pasien" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nm_poli" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="196" y="5" width="160" height="16" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Data Pendistribusian Berkas Rawat Jalan]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="1" y="0" width="29" height="18" forecolor="#000000" backcolor="#F0F0DC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[No. Reg]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="0" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="17" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="1" width="1" height="16"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="30" y="1" width="1" height="16"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="118" y="1" width="1" height="16"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="279" y="1" width="1" height="16"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="31" y="1" width="87" height="16" forecolor="#000000" backcolor="#F0F0DC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[No. RM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="119" y="1" width="160" height="16" forecolor="#000000" backcolor="#F0F0DC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nama Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="280" y="1" width="126" height="16" forecolor="#000000" backcolor="#F0F0DC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Poliklinik]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="407" y="1" width="75" height="16" forecolor="#000000" backcolor="#F0F0DC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Pengirim]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="483" y="1" width="73" height="16" forecolor="#000000" backcolor="#F0F0DC"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+					<font fontName="Tahoma" size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Penerima]]></text>
+			</staticText>
+			<line>
+				<reportElement x="406" y="1" width="1" height="16"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="482" y="1" width="1" height="16"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="556" y="1" width="1" height="16"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="-1" width="1" height="14"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="30" y="-1" width="1" height="14"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="279" y="-1" width="1" height="14"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="118" y="-1" width="1" height="14"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="406" y="-1" width="1" height="14"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="482" y="-1" width="1" height="14"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="556" y="-4" width="1" height="16"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="1" y="0" width="29" height="10"/>
+				<textElement textAlignment="Center" lineSpacing="Single">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{no_reg}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="45" y="0" width="73" height="10"/>
+				<textElement lineSpacing="Single">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="0" width="150" height="10"/>
+				<textElement lineSpacing="Single">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nm_pasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="293" y="0" width="113" height="10"/>
+				<textElement lineSpacing="Single">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nm_poli}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="12" width="556" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="10"/>
+	</pageFooter>
+	<summary>
+		<band height="8">
+			<line>
+				<reportElement x="1" y="0" width="556" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="792" pageHeight="1224" columnWidth="781" leftMargin="4" rightMargin="7" topMargin="7" bottomMargin="7" uuid="05e39865-85de-4793-bab5-b940dcaf4a35">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="pasien" class="java.lang.String"/>
+	<parameter name="norm" class="java.lang.String"/>
+	<parameter name="noresep" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT detail_pemberian_obat.tgl_perawatan,detail_pemberian_obat.jam FROM detail_pemberian_obat 
+WHERE detail_pemberian_obat.no_resep=$P{noresep} LIMIT 1]]>
+	</queryString>
+	<field name="tgl_perawatan" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="jam" class="java.sql.Time">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="143" splitType="Stretch">
+			<line>
+				<reportElement x="41" y="17" width="168" height="1" uuid="3c9fde76-8963-4148-b7ea-e1303b3d9c8f"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="43" y="34" width="57" height="19" uuid="d3547a8d-b780-4061-ad18-40e545a5308d"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nama Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="43" y="53" width="57" height="11" uuid="f8c25644-a6b9-4cfc-86e7-4f143b144f11"/>
+				<textElement markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[No. R.M.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="43" y="77" width="57" height="12" uuid="29eea42d-8b9b-4076-a09d-934d1dab5351"/>
+				<textElement markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Jam]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="43" y="18" width="57" height="16" uuid="90eee1b7-f258-4194-8f0b-8804f075fdc9"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[No. Resep]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="53" width="5" height="11" uuid="d3eb19b3-6d1b-4d5b-b2ad-c769ea18f543"/>
+				<textElement markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="34" width="5" height="19" uuid="12c1d0ca-616f-4bfa-b562-8d7f68eb2fd9"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="77" width="5" height="12" uuid="046149a2-6a57-45d9-8cde-34af83a6e0e5"/>
+				<textElement markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="18" width="5" height="16" uuid="67ea4f0e-6a09-43c0-96f8-e93bfb02a6a2"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="64" width="5" height="13" uuid="938f93f2-6dad-48af-9064-9a666e2aa81b"/>
+				<textElement markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="43" y="64" width="57" height="13" uuid="917e6ae7-b5f9-4316-8679-6dc956f653dd"/>
+				<textElement markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="111" y="34" width="104" height="19" uuid="ed3486f2-18d4-486a-920f-c53f10c6e172"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{pasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="111" y="53" width="104" height="11" uuid="cfe9a977-79c2-4ccd-9ac1-1676a652202c"/>
+				<textElement markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{norm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Transparent" x="111" y="18" width="104" height="16" uuid="c22e16a3-6a72-4d86-a4c8-89d929dc1587"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{noresep}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="111" y="64" width="104" height="13" uuid="4df93bd1-cfc3-482d-8310-4f27af0c6a74"/>
+				<textElement>
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_perawatan}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss">
+				<reportElement x="111" y="77" width="104" height="12" uuid="6233d5e9-ae45-4f11-9dd2-bdda4245fddc"/>
+				<textElement>
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jam}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="75" y="0" width="99" height="17" uuid="764bf41e-bbe3-4d2c-8d15-fcb2c57dd08d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Resi Pasien Umum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="51" y="105" width="215" height="12" uuid="3587e100-fff0-43ee-97a7-3806747064f5"/>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="9"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[** Silahkan Ke kasir dengan membawa resi ini **]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+</jasperReport>

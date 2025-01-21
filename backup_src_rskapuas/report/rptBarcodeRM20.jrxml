@@ -1,0 +1,1043 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="680" pageHeight="842" columnWidth="674" leftMargin="3" rightMargin="3" topMargin="3" bottomMargin="3" uuid="4ddb81cc-4df2-491b-b64e-6ecd48ce7413">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SIMRS"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
+	<parameter name="namars" class="java.lang.String"/>
+	<parameter name="alamatrs" class="java.lang.String"/>
+	<parameter name="kotars" class="java.lang.String"/>
+	<parameter name="propinsirs" class="java.lang.String"/>
+	<parameter name="kontakrs" class="java.lang.String"/>
+	<parameter name="emailrs" class="java.lang.String"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[SELECT pasien.no_rkm_medis, pasien.nm_pasien, pasien.no_ktp, pasien.jk, pasien.tmp_lahir,
+                    pasien.tgl_lahir, pasien.nm_ibu,
+                    concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) AS alamat,
+                    pasien.gol_darah, pasien.pekerjaan, pasien.stts_nikah, pasien.agama, pasien.tgl_daftar,
+                    pasien.no_tlp, pasien.umur, pasien.pnd, pasien.keluarga, pasien.namakeluarga, penjab.png_jawab,
+                    pasien.pekerjaanpj, concat(pasien.alamatpj,', ',pasien.kelurahanpj,', ',pasien.kecamatanpj,', ',pasien.kabupatenpj) AS alamatpj
+                    FROM pasien INNER JOIN kelurahan INNER JOIN kecamatan INNER JOIN kabupaten
+                    INNER JOIN penjab ON pasien.kd_kel = kelurahan.kd_kel AND pasien.kd_kec = kecamatan.kd_kec AND pasien.kd_kab = kabupaten.kd_kab
+                    INNER JOIN reg_periksa ON reg_periksa.kd_pj = penjab.kd_pj AND pasien.no_rkm_medis = reg_periksa.no_rkm_medis
+                    WHERE reg_periksa.no_rkm_medis='0003920']]>
+	</queryString>
+	<field name="no_rkm_medis" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="no_rkm_medis"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nm_pasien" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nm_pasien"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="no_ktp" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="no_ktp"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="jk" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="jk"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tmp_lahir" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tmp_lahir"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tgl_lahir" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="tgl_lahir"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nm_ibu" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nm_ibu"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="alamat" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="alamat"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="gol_darah" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="gol_darah"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pekerjaan" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pekerjaan"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="stts_nikah" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="stts_nikah"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="agama" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="agama"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tgl_daftar" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="tgl_daftar"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="no_tlp" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="no_tlp"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="umur" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="umur"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pnd" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pnd"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="keluarga" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="keluarga"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="namakeluarga" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="namakeluarga"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="png_jawab" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="png_jawab"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="penjab"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pekerjaanpj" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="pekerjaanpj"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pasien"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="alamatpj" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="alamatpj"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="426">
+			<textField pattern="">
+				<reportElement mode="Transparent" x="174" y="4" width="100" height="11" uuid="bf9d9150-5d3f-4258-8113-a809456e2d93"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="174" y="14" width="100" height="11" uuid="511ab403-73b3-4e8f-9277-0da8a6bb580e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="174" y="24" width="100" height="11" uuid="ec8fd472-0641-4ba3-9ff0-acbb7a7ac9a2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="33" width="100" height="11" uuid="25af5024-48db-4d79-b9f0-77203cbe7ad1"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="338" y="14" width="100" height="11" uuid="dfbb0591-70ba-4bed-aa76-3ffb40434c24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="33" width="100" height="11" uuid="cd7a6e13-af97-4b09-b1eb-1a8049caf1bf"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="338" y="4" width="100" height="11" uuid="1180cfd1-54e9-4c34-99cf-526985596c4c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="338" y="24" width="100" height="11" uuid="2665c87a-727b-4961-8a6e-12ee5580addb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="174" y="66" width="100" height="11" uuid="21275749-9368-47b6-8d81-67d41f9fc367"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="85" width="100" height="11" uuid="1c364062-d469-4dd0-92d5-11b99dded6d6"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="174" y="56" width="100" height="11" uuid="9ffc4424-870e-4e9a-a930-ab41ab935a03"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="174" y="76" width="100" height="11" uuid="a1b9ff9b-c173-497e-8037-7368a080af67"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="338" y="66" width="100" height="11" uuid="9a1ac438-91ca-4af3-9161-d0c514e734f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="85" width="100" height="11" uuid="4c51b67d-d229-482a-89e7-9f1fb0dc2340"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="338" y="56" width="100" height="11" uuid="0f94e049-ab50-4f20-8c61-1620b62900df"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="338" y="76" width="100" height="11" uuid="c0f5b50b-da18-4d36-88e4-064336c7d430"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="174" y="120" width="100" height="11" uuid="e6a963a6-116a-4024-85c8-69205c69a322"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="139" width="100" height="11" uuid="4f4bb752-6f46-4b1e-9c33-9ada8dc95efa"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="174" y="110" width="100" height="11" uuid="8350f3b8-d805-41e5-b898-43cca39e6d1e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="174" y="130" width="100" height="11" uuid="11ee99c2-e962-4690-9bea-af764f267d91"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="338" y="120" width="100" height="11" uuid="3073d37e-3868-4268-91a5-bf722515031f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="338" y="110" width="100" height="11" uuid="691f940c-fcf0-46fd-a741-54c5400640c0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="338" y="130" width="100" height="11" uuid="4da15137-4078-4e2c-9718-26c62eafca17"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="139" width="100" height="11" uuid="ef473299-3179-4a7f-a118-43b528d258d3"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="174" y="175" width="100" height="11" uuid="decaf653-2b0e-4a8a-96be-f7c70dab70a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="174" y="165" width="100" height="11" uuid="4bff51ea-2cb1-4ef6-b358-b5c75e40a79b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="174" y="185" width="100" height="11" uuid="163a5cc4-5c86-43cd-baf4-454ce7f2d51c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="194" width="100" height="11" uuid="37c6ee13-9383-4ed3-91ce-60b72fcb34fe"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="338" y="175" width="100" height="11" uuid="6f844420-c0b3-499d-9fbf-f4a1989aab46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="338" y="165" width="100" height="11" uuid="7a089385-9918-448e-89a9-23b1b43a105f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="338" y="185" width="100" height="11" uuid="277fe08a-bc96-4b00-bb40-db1de3b96780"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="194" width="100" height="11" uuid="dd5e34c0-4b57-48c2-a926-f6aedae19bfc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="174" y="254" width="100" height="11" uuid="d9a55e9b-86e1-4e30-bdb1-105b058f706b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="174" y="235" width="100" height="11" uuid="0f1e07ee-020a-48e1-bc78-3cb21d9a035f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="174" y="245" width="100" height="11" uuid="cbc7505c-1bca-40c6-9b2b-652aed5b7e74"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="174" y="225" width="100" height="11" uuid="918469ed-c294-432a-8fac-35d4807a42fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="254" width="100" height="11" uuid="92505cd6-e4f0-421d-8df6-235c2d38aab6"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="338" y="235" width="100" height="11" uuid="fc7aa0ca-dfcb-4446-b278-7446dd2212d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="338" y="245" width="100" height="11" uuid="90084ec4-2605-4623-b2f9-d6faaef35f28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="338" y="225" width="100" height="11" uuid="378e6164-7479-4225-8a6e-653df54ebee7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="30" y="5" width="100" height="11" uuid="35bc592f-7a4d-43bd-9378-bae46fbd175e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="30" y="15" width="100" height="11" uuid="63ee58de-5a0a-4b20-a475-0cdab4474218"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="30" y="25" width="100" height="11" uuid="cdcfc55f-df2c-422a-8ec3-24961c0e0fe3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="34" width="100" height="11" uuid="3cdc06ee-df33-4d97-84e5-c8db5b57924e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="30" y="67" width="100" height="11" uuid="4ec8b8f9-ce93-4512-ab58-81378c6fca41"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="86" width="100" height="11" uuid="d1dae79a-73f7-42e4-acd5-00ccb4d9cc59"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="30" y="57" width="100" height="11" uuid="7dce7078-5471-41ee-9353-fa8ca33321ff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="30" y="77" width="100" height="11" uuid="bf3a7a56-658d-4c37-b6a7-55f2c22816a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="30" y="121" width="100" height="11" uuid="367dac8d-59c3-4e6e-880e-3968e572ebf6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="140" width="100" height="11" uuid="a752b7ef-fa9c-4054-a0f4-4b92b8a4ffb2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="30" y="111" width="100" height="11" uuid="9f46b5db-ec14-429d-a012-a607b9aa52e0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="30" y="131" width="100" height="11" uuid="c1dbc557-d4ea-400d-85dd-48b012def940"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="30" y="176" width="100" height="11" uuid="c68f9124-ecd0-4326-a931-c3ad13b6e7b3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="30" y="166" width="100" height="11" uuid="6fbf4f19-3251-42a0-b10c-93544a7b806c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="30" y="186" width="100" height="11" uuid="54af0be6-e935-44cc-8016-2210b50008c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="195" width="100" height="11" uuid="eda2bd9a-6a35-4296-8205-af208e80169e"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="255" width="100" height="11" uuid="256e52fa-9d9c-4233-8a0e-af371924ae06"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="30" y="236" width="100" height="11" uuid="b0724638-69de-4f46-b500-532709542508"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="30" y="246" width="100" height="11" uuid="c894557e-004f-42dc-9ce4-287ad1cf6b98"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="30" y="226" width="100" height="11" uuid="f045d623-6233-4416-8088-c862b43c640f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="494" y="14" width="100" height="11" uuid="f5fcbc11-ecc7-486f-991a-a55b9ff11888"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="33" width="100" height="11" uuid="8d006969-b7ed-4908-b2a1-98973f8fe975"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="494" y="4" width="100" height="11" uuid="634c54e1-0cf6-4fef-b967-42154aa52b72"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="494" y="24" width="100" height="11" uuid="59841c4c-6d09-4502-bad7-83009db9258e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="494" y="66" width="100" height="11" uuid="caa544e5-862c-4c12-b1c8-18ae34f100c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="85" width="100" height="11" uuid="206a6bdc-b842-49ea-9203-53d7642320e8"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="494" y="56" width="100" height="11" uuid="3011ff51-5cfb-495a-8764-f77f5eb6d727"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="494" y="76" width="100" height="11" uuid="5c39b89c-5ccb-4e97-8950-11a943846b96"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="494" y="120" width="100" height="11" uuid="087a9b7c-d468-4217-91b1-56720161e73e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="494" y="110" width="100" height="11" uuid="1c88f203-a2ba-4240-9d67-7febdc450709"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="494" y="130" width="100" height="11" uuid="72aa4d3e-58ed-49b5-8bba-7ea3753cc9e7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="139" width="100" height="11" uuid="44951550-cc26-4ce6-b265-65c268cc8882"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="494" y="175" width="100" height="11" uuid="b0af2280-7086-4e07-9ae6-44773b8b4aad"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="494" y="165" width="100" height="11" uuid="3abd0ed4-c32f-4d89-8905-52fe0ca985b7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="494" y="185" width="100" height="11" uuid="94c49556-3578-4a3a-aa8b-c4091421b4f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="194" width="100" height="11" uuid="b16d3566-b822-4e1a-a7d0-82eed02f0a92"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="494" y="254" width="100" height="11" uuid="8d274816-7368-4269-9bc4-8b06f96f39f5"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="494" y="235" width="100" height="11" uuid="1eb44426-3948-4f92-a6b2-c669df02b22c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="494" y="245" width="100" height="11" uuid="c4668f93-a5b8-4385-bf24-ae0c17407077"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="494" y="225" width="100" height="11" uuid="91e6bea8-eaf4-4168-8e9e-3aed7ad0d380"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="173" y="287" width="100" height="11" uuid="18a5167b-a04f-4afd-ba62-01cba0472eae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="173" y="277" width="100" height="11" uuid="adc9692f-288a-4117-9339-62241fe80356"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="173" y="297" width="100" height="11" uuid="6d65ab01-064a-4ba1-816d-94257d2baa57"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="173" y="306" width="100" height="11" uuid="3cb92f4c-3038-443e-bf06-3b5465a97ed2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="337" y="287" width="100" height="11" uuid="e311b0cf-ea94-4678-9c74-b2786205ceae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="337" y="277" width="100" height="11" uuid="60ac95d0-fcd1-465b-bc2e-88f24d391268"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="337" y="297" width="100" height="11" uuid="bffd4c06-c01f-434d-8038-6a4fc9a07e2b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="337" y="306" width="100" height="11" uuid="73c26a95-d680-492f-af5c-3ec57e97f643"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="173" y="360" width="100" height="11" uuid="29016d13-d4c2-4ba5-96d8-abd8ffb245ca"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="173" y="341" width="100" height="11" uuid="5eb95f83-08aa-49d0-b85f-65f663a55faf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="173" y="351" width="100" height="11" uuid="5bec75fd-866a-4faa-a3bc-fc622bb93004"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="173" y="331" width="100" height="11" uuid="2604bb7e-df8a-432f-8c9a-f28838e4d89a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="337" y="360" width="100" height="11" uuid="047ac6be-f79a-4bcf-b554-05814ce0394d"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="337" y="341" width="100" height="11" uuid="fd5a91b3-ad90-413b-a5dd-b309793b4084"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="337" y="351" width="100" height="11" uuid="6aacbc99-f9ef-4b48-97a1-9a54bc1efd18"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="337" y="331" width="100" height="11" uuid="6a9c44aa-c6fb-443f-b902-32806eef879c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="29" y="288" width="100" height="11" uuid="574767da-701e-4049-8e3a-2b384779309d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="29" y="278" width="100" height="11" uuid="1d4936e6-2ae6-4e3d-abb9-6d428f4d73a9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="29" y="298" width="100" height="11" uuid="67705b5c-6c4a-486f-a705-78d08b5b3e2a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="307" width="100" height="11" uuid="5128e3df-c79e-4cab-a008-ecda4f13ee21"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="29" y="361" width="100" height="11" uuid="5ba05bd1-422b-400a-a758-965ee1a782ef"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="29" y="342" width="100" height="11" uuid="148ac8f3-8512-41ad-9a77-24e3396edf7d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="29" y="352" width="100" height="11" uuid="cb7d3d93-234c-411e-8390-69d58c5f7570"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="29" y="332" width="100" height="11" uuid="c4fcac64-dcfa-4b8a-99c7-56a3fb984899"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="493" y="287" width="100" height="11" uuid="3dd7ce93-be32-4af9-af76-799f13fd82de"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="493" y="277" width="100" height="11" uuid="90ceda41-b585-4b7c-a88d-2716ef9530c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="493" y="297" width="100" height="11" uuid="c9d4fddf-a4ae-43db-860d-204eb5f4fdd6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="493" y="306" width="100" height="11" uuid="70586fd8-65c3-40be-91fb-71144e9e18eb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="493" y="360" width="100" height="11" uuid="b5c24992-eccb-4633-b7a5-069fd7f845cd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{png_jawab}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="493" y="341" width="100" height="11" uuid="a80b7048-32fe-4a73-bc26-5f78097be906"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}+" ("+$F{jk}+")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement mode="Transparent" x="493" y="351" width="100" height="11" uuid="b444faab-cb57-4c28-923b-5df37e931011"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement mode="Transparent" x="493" y="331" width="100" height="11" uuid="ae1f0830-80e2-4577-b1e9-7a32947f587d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+</jasperReport>
