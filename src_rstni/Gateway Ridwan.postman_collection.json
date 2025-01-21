@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "29b4fa44-43cd-46bc-8b02-24b3dd06601f",
+		"name": "Gateway Ridwan",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30650321"
+	},
+	"item": [
+		{
+			"name": "status user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost/api_gateway/v1/tte/user_status/3171040501840006",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api_gateway",
+						"v1",
+						"tte",
+						"user_status",
+						"3171040501840006"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Log User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"start_date\":\"2023-01-01\",\r\n    \"last_date\":\"2023-10-01\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost/api_gateway/v1/tte/signlog",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api_gateway",
+						"v1",
+						"tte",
+						"signlog"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sign file",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "nik",
+							"value": "0803202100007062",
+							"type": "text"
+						},
+						{
+							"key": "passphrase",
+							"value": "Hantek1234.!",
+							"type": "text"
+						},
+						{
+							"key": "file",
+							"type": "file",
+							"src": "lamaran_kuswono_compressed.pdf"
+						},
+						{
+							"key": "tampilan",
+							"value": "visible",
+							"type": "text"
+						},
+						{
+							"key": "linkQR",
+							"value": "www.example.com/linkqr",
+							"type": "text"
+						},
+						{
+							"key": "page",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "xAxis",
+							"value": "60",
+							"type": "text"
+						},
+						{
+							"key": "yAxis",
+							"value": "60",
+							"type": "text"
+						},
+						{
+							"key": "width",
+							"value": "200",
+							"type": "text"
+						},
+						{
+							"key": "height",
+							"value": "200",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"value": "false",
+							"type": "text"
+						},
+						{
+							"key": "imageTTD",
+							"type": "file",
+							"src": "Lambang_Kodam_Jaya.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/api_gateway/v1/tte/signfileV1",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api_gateway",
+						"v1",
+						"tte",
+						"signfileV1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
