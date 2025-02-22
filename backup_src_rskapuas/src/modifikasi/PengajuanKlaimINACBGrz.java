@@ -8032,11 +8032,11 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
     private void hitungRI() {
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
-            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%' OR kd_kamar LIKE '%NC%') AND no_rawat='" + NrawatTARIF + "'");
+            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%' OR kd_kamar LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
             ri.setText(Valid.SetAngka2(nilaiRI));
 
         } else {
-            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%' OR kd_kamar LIKE '%NC%') AND no_rawat='" + NrawatTARIF + "'");
+            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%' OR kd_kamar LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
             ri1.setText(Valid.SetAngka2(nilaiRI));
         }
     }
@@ -8060,7 +8060,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
-            kmr1 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NC%') AND no_rawat='" + NrawatTARIF + "'");
+            kmr1 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
             kmr2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
                     + "AND (kp.kd_kategori='KMA11')");
@@ -8084,7 +8084,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             kam.setText(Valid.SetAngka2(nilaiKAM));
 
         } else {
-            kmr8 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NC%') AND no_rawat='" + NrawatTARIF + "'");
+            kmr8 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
             kmr9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
                    + "AND (kp.kd_kategori='KMA11')");

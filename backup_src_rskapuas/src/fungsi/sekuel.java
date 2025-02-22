@@ -232,6 +232,37 @@ public final class sekuel {
         return bool;
     }
     
+      public boolean menyimpantf(String table,String isisimpan,String isiedit,String acuan_field){
+        bool=true;
+        try{            
+            ps=connect.prepareStatement("insert into "+table+" values("+isisimpan+")");
+            ps.executeUpdate();   
+            if(ps != null){
+                ps.close();
+            }  
+            SimpanTrack("insert into "+table+" values("+isisimpan+")");
+            bool=true;
+        }catch(Exception e){
+            if(e.toString().toLowerCase().contains("duplicate")){
+                try {
+                    ps=connect.prepareStatement("update "+table+" set "+isiedit+" where "+acuan_field);
+                    ps.executeUpdate();
+                    if(ps != null){
+                        ps.close();
+                    }  
+                    SimpanTrack("update "+table+" set "+isiedit+" where "+acuan_field);
+                    bool=true;
+                } catch (Exception ex) {
+                    bool=false;
+                    System.out.println("Notifikasi Edit : "+ex);
+                }
+            }else{
+               bool=false; 
+            }
+        }
+        return bool;
+    }
+    
     public void menyimpan(String table,String value,String sama,int i,String[] a){
         try {
             ps=connect.prepareStatement("insert into "+table+" values("+value+")");
@@ -1414,6 +1445,34 @@ public final class sekuel {
                 rs=ps.executeQuery();            
                 while(rs.next()){
                     dicari=rs.getString(1);
+                }   
+            }catch(Exception e){
+                dicari="";
+                System.out.println("Notifikasi : "+e);
+            }finally{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(ps != null){
+                    ps.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notifikasi : "+e);
+        }
+        
+        return dicari;
+    }
+    
+     public String cariIsiBanyak2(String sql){
+        dicari="";
+        try {
+            ps=connect.prepareStatement(sql);
+            try{            
+                rs=ps.executeQuery();            
+                while(rs.next()){
+                    dicari=rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getString(4)+rs.getString(5)+rs.getString(6)+rs.getString(7)+rs.getString(8)+rs.getString(9)+rs.getString(10)+rs.getString(11)+rs.getString(12)+rs.getString(13)+rs.getString(14)+rs.getString(15)+rs.getString(16)+rs.getString(17);
                 }   
             }catch(Exception e){
                 dicari="";

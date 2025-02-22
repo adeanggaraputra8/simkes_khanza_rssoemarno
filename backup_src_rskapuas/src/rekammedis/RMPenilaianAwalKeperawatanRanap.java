@@ -5356,7 +5356,9 @@ public final class RMPenilaianAwalKeperawatanRanap extends javax.swing.JDialog {
                     if(KdPetugas.getText().equals(tbObat.getValueAt(tbObat.getSelectedRow(),5).toString())){
                         ganti();
                     }else{
-                        JOptionPane.showMessageDialog(null,"Hanya bisa diganti oleh petugas yang bersangkutan..!!");
+                        ganti();
+                        //JOptionPane.showMessageDialog(null,"Hanya bisa diganti oleh petugas yang bersangkutan..!!");
+                        JOptionPane.showMessageDialog(null,"Data Berhasil Di update dengan petugas yang baru. . .");
                     }
                 }
             }else{

@@ -174,7 +174,7 @@ public final class DlgReg extends javax.swing.JDialog {
     private String nosisrute="",aktifkanparsial="no",BASENOREG="",finger="",
             URUTNOREG="",status="Baru",order="reg_periksa.tgl_registrasi,reg_periksa.jam_reg desc",alamatperujuk="-",aktifjadwal="",IPPRINTERTRACER="",umur="0",sttsumur="Th",
             validasiregistrasi=Sequel.cariIsi("select set_validasi_registrasi.wajib_closing_kasir from set_validasi_registrasi"),
-            validasicatatan=Sequel.cariIsi("select set_validasi_catatan.tampilkan_catatan from set_validasi_catatan"),norawatdipilih="",normdipilih="",variabel="",dxralan="";
+            validasicatatan=Sequel.cariIsi("select set_validasi_catatan.tampilkan_catatan from set_validasi_catatan"),norawatdipilih="",normdipilih="",variabel="",dxralan="",tampilindikasiht="";
     private SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
     private char ESC = 27;
     // ganti kertas
@@ -1044,6 +1044,7 @@ public final class DlgReg extends javax.swing.JDialog {
         ppRiwayat = new javax.swing.JMenuItem();
         ppDeteksiDIniCorona = new javax.swing.JMenuItem();
         MnCatatanCekGDS = new javax.swing.JMenuItem();
+        MnCariHT = new javax.swing.JMenuItem();
         MnPermintaan = new javax.swing.JMenu();
         MnJadwalOperasi = new javax.swing.JMenuItem();
         MnPermintaanLab = new javax.swing.JMenuItem();
@@ -2140,6 +2141,22 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         MnDataRM.add(MnCatatanCekGDS);
+
+        MnCariHT.setBackground(new java.awt.Color(255, 255, 254));
+        MnCariHT.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnCariHT.setForeground(new java.awt.Color(50, 50, 50));
+        MnCariHT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnCariHT.setText("Cari Indikasi HT");
+        MnCariHT.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnCariHT.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnCariHT.setName("MnCariHT"); // NOI18N
+        MnCariHT.setPreferredSize(new java.awt.Dimension(220, 26));
+        MnCariHT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCariHTBtnPrintActionPerformed(evt);
+            }
+        });
+        MnDataRM.add(MnCariHT);
 
         jPopupMenu1.add(MnDataRM);
 
@@ -6030,7 +6047,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(60, 23));
         panelGlass7.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-01-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-02-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -6043,7 +6060,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass7.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-01-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-02-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -6233,7 +6250,7 @@ public final class DlgReg extends javax.swing.JDialog {
         FormInput.add(jLabel9);
         jLabel9.setBounds(165, 72, 36, 23);
 
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-01-2025" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-02-2025" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -6893,6 +6910,7 @@ public final class DlgReg extends javax.swing.JDialog {
         CrDokter.setText("");
         nmpnj3.setText("");
         TCari.setText("");
+        tampilindikasiht="";
         if(TabRawat.getSelectedIndex()==0){
             tampil();
         }else if(TabRawat.getSelectedIndex()==1){
@@ -13062,6 +13080,11 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         
     }//GEN-LAST:event_MnCatatanCekGDSActionPerformed
 
+    private void MnCariHTBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCariHTBtnPrintActionPerformed
+        tampilindikasiht=" and pasien.no_rkm_medis IN (SELECT rp.no_rkm_medis FROM reg_periksa rp INNER JOIN pemeriksaan_ralan pr ON rp.no_rawat=pr.no_rawat WHERE SUBSTRING(pr.tensi,1,3) > 159 ) AND status_pasien.status = '-' ";
+        tampil();
+    }//GEN-LAST:event_MnCariHTBtnPrintActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -13144,6 +13167,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private javax.swing.JMenuItem MnBlangkoResep;
     private javax.swing.JMenu MnBridging;
     private javax.swing.JMenuItem MnBuktiPelayananRalan;
+    private javax.swing.JMenuItem MnCariHT;
     private javax.swing.JMenuItem MnCatatanCekGDS;
     private javax.swing.JMenuItem MnCatatanObservasiIGD;
     private javax.swing.JMenuItem MnCetakBebasNarkoba;
@@ -13492,27 +13516,27 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private void tampil() {
         Valid.tabelKosong(tabMode);   
         try {
-            if(CrPoli.getText().trim().equals("")&&CrDokter.getText().equals("")&&nmpnj3.getText().equals("")&&TCari.equals("")){
+            if(CrPoli.getText().trim().equals("")&&CrDokter.getText().equals("")&&nmpnj3.getText().equals("")&&TCari.equals("")&&tampilindikasiht.equals("")){
                 ps=koneksi.prepareStatement("select reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
                     "reg_periksa.kd_dokter,dokter.nm_dokter,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.jk,concat(reg_periksa.umurdaftar,' ',reg_periksa.sttsumur)as umur,poliklinik.nm_poli,"+
                     "reg_periksa.p_jawab,reg_periksa.almt_pj,reg_periksa.hubunganpj,reg_periksa.biaya_reg,reg_periksa.stts_daftar,penjab.png_jawab,pasien.no_tlp,reg_periksa.stts,reg_periksa.status_poli, "+
                     "reg_periksa.kd_poli,reg_periksa.kd_pj,reg_periksa.status_bayar,status_pasien.status from reg_periksa inner join dokter on reg_periksa.kd_dokter=dokter.kd_dokter inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join status_pasien on reg_periksa.no_rkm_medis=status_pasien.no_rm "+
                     "inner join poliklinik on reg_periksa.kd_poli=poliklinik.kd_poli inner join penjab on reg_periksa.kd_pj=penjab.kd_pj where  "+
-                    " poliklinik.kd_poli<>'IGDK' and reg_periksa.tgl_registrasi between ? and ? order by "+order); 
+                    " poliklinik.kd_poli<>'IGDK' and reg_periksa.tgl_registrasi between ? and ? "+tampilindikasiht+" order by "+order); 
             }else{
                 ps=koneksi.prepareStatement("select reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
                     "reg_periksa.kd_dokter,dokter.nm_dokter,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.jk,concat(reg_periksa.umurdaftar,' ',reg_periksa.sttsumur)as umur,poliklinik.nm_poli,"+
                     "reg_periksa.p_jawab,reg_periksa.almt_pj,reg_periksa.hubunganpj,reg_periksa.biaya_reg,reg_periksa.stts_daftar,penjab.png_jawab,pasien.no_tlp,reg_periksa.stts,reg_periksa.status_poli, "+
                     "reg_periksa.kd_poli,reg_periksa.kd_pj,reg_periksa.status_bayar,status_pasien.status from reg_periksa inner join dokter on reg_periksa.kd_dokter=dokter.kd_dokter inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join status_pasien on reg_periksa.no_rkm_medis=status_pasien.no_rm "+
                     "inner join poliklinik on reg_periksa.kd_poli=poliklinik.kd_poli inner join penjab on reg_periksa.kd_pj=penjab.kd_pj where  "+
-                    " poliklinik.kd_poli<>'IGDK' and poliklinik.nm_poli like ? and  dokter.nm_dokter like ? and  penjab.png_jawab like ? and reg_periksa.tgl_registrasi between ? and ? and  "+
+                    " poliklinik.kd_poli<>'IGDK' and poliklinik.nm_poli like ? and  dokter.nm_dokter like ? and  penjab.png_jawab like ? and reg_periksa.tgl_registrasi between ? and ? "+tampilindikasiht+" and  "+
                     "(reg_periksa.no_reg like ? or reg_periksa.no_rawat like ? or reg_periksa.tgl_registrasi like ? or reg_periksa.kd_dokter like ? or "+
                     " dokter.nm_dokter like ? or reg_periksa.no_rkm_medis like ? or reg_periksa.stts_daftar like ? or pasien.nm_pasien like ? or "+
                     " poliklinik.nm_poli like ? or reg_periksa.p_jawab or reg_periksa.almt_pj like ? or reg_periksa.hubunganpj like ? or status_pasien.status like ? ) order by "+order); 
             }
                 
             try{  
-                if(CrPoli.getText().trim().equals("")&&CrDokter.getText().equals("")&&nmpnj3.getText().equals("")&&TCari.equals("")){
+                if(CrPoli.getText().trim().equals("")&&CrDokter.getText().equals("")&&nmpnj3.getText().equals("")&&TCari.equals("")&&tampilindikasiht.equals("")){
                     ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                     ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
                 }else{

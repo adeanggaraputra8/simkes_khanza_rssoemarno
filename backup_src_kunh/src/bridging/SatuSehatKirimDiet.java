@@ -632,9 +632,12 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                         root = mapper.readTree(json);
                         response = root.path("id");
                         if(!response.asText().equals("")){
-                            Sequel.menyimpan("satu_sehat_diet","?,?,?","Diet/Gizi",5,new String[]{
-                                tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,10).toString(),response.asText()
-                            });
+                            if(Sequel.menyimpantf2("satu_sehat_diet","?,?,?","Diet/Gizi",3,new String[]{
+                                tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,10).toString().substring(0,19),response.asText()
+                            })==true){
+                                tbObat.setValueAt(response.asText(),i,11);
+                                tbObat.setValueAt(false,i,0);
+                            }
                         }
                     }catch(Exception e){
                         System.out.println("Notifikasi Bridging : "+e);
@@ -644,7 +647,6 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                 }
             }
         }
-        tampil();
     }//GEN-LAST:event_BtnKirimActionPerformed
 
     private void ppPilihSemuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppPilihSemuaActionPerformed
@@ -729,7 +731,7 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                                             "}," +
                                             "\"text\" : {" +
                                                 "\"status\" : \"additional\" ," +
-                                                "\"div\" : \""+tbObat.getValueAt(i,7).toString()+"\"" +
+                                                "\"div\" : \""+tbObat.getValueAt(i,7).toString().replaceAll("(\r\n|\r|\n|\n\r)","<br>").replaceAll("\t", " ")+"\"" +
                                             "}" +
                                         "}" +
                                     "]" +
@@ -739,6 +741,7 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                         requestEntity = new HttpEntity(json,headers);
                         json=api.getRest().exchange(link+"/Composition/"+tbObat.getValueAt(i,11).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                         System.out.println("Result JSON : "+json);
+                        tbObat.setValueAt(false,i,0);
                     }catch(Exception e){
                         System.out.println("Notifikasi Bridging : "+e);
                     }
@@ -747,7 +750,6 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                 }
             }
         }
-        tampil();
     }//GEN-LAST:event_BtnUpdateActionPerformed
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
@@ -824,9 +826,7 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                    "and satu_sehat_diet.tanggal=catatan_adime_gizi.tanggal "+
                    "where catatan_adime_gizi.instruksi<>'' and nota_jalan.tanggal between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
-                   "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ?) ")+
-                   "order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
-                   "reg_periksa.no_rawat,catatan_adime_gizi.tanggal");
+                   "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ?) "));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -871,9 +871,7 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                    "and satu_sehat_diet.tanggal=catatan_adime_gizi.tanggal "+
                    "where catatan_adime_gizi.instruksi<>'' and nota_inap.tanggal between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
-                   "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ?) ")+
-                   "order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
-                   "reg_periksa.no_rawat,catatan_adime_gizi.tanggal");
+                   "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ?) "));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));

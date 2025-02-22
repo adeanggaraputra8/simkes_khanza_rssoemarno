@@ -1526,15 +1526,33 @@ public final class RMPenilaianAwalMedisIGD extends javax.swing.JDialog {
                     Thoraks.getSelectedItem().toString(),Abdomen.getSelectedItem().toString(),Genital.getSelectedItem().toString(),Ekstremitas.getSelectedItem().toString(),KetFisik.getText(),KetLokalis.getText(),EKG.getText(),
                     Radiologi.getText(),Laborat.getText(),Diagnosis.getText(),Tatalaksana.getText()
                 })==true){
-                    tabMode.addRow(new String[]{
-                        TNoRw.getText(),TNoRM.getText(),TPasien.getText(),TglLahir.getText(),Jk.getText(),KdDokter.getText(),NmDokter.getText(),Valid.SetTgl(TglAsuhan.getSelectedItem()+"")+" "+TglAsuhan.getSelectedItem().toString().substring(11,19),
-                        Anamnesis.getSelectedItem().toString(),Hubungan.getText(),KeluhanUtama.getText(),RPS.getText(),RPD.getText(),RPK.getText(),RPO.getText(),Alergi.getText(),Keadaan.getSelectedItem().toString(),GCS.getText(),Kesadaran.getSelectedItem().toString(),
-                        TD.getText(),Nadi.getText(),RR.getText(),Suhu.getText(),SPO.getText(),BB.getText(),TB.getText(),Kepala.getSelectedItem().toString(),Mata.getSelectedItem().toString(),Gigi.getSelectedItem().toString(),Leher.getSelectedItem().toString(),
-                        Thoraks.getSelectedItem().toString(),Abdomen.getSelectedItem().toString(),Genital.getSelectedItem().toString(),Ekstremitas.getSelectedItem().toString(),KetFisik.getText(),KetLokalis.getText(),EKG.getText(),Radiologi.getText(),Laborat.getText(),
-                        Diagnosis.getText(),Tatalaksana.getText()
-                    });
-                    LCount.setText(""+tabMode.getRowCount());
-                    emptTeks();
+                     i=JOptionPane.showConfirmDialog(null, "Mau sekalian data ini masuk SOAP ????","Konfirmasi",JOptionPane.YES_NO_OPTION);
+                        if(i==JOptionPane.YES_OPTION){
+                            Sequel.menyimpan("pemeriksaan_ralan","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","Data",21,new String[]{
+                                    TNoRw.getText(),Valid.SetTgl(TglAsuhan.getSelectedItem()+""),TglAsuhan.getSelectedItem().toString().substring(11,19),
+                                    Suhu.getText(),TD.getText(),Nadi.getText(),RR.getText(),TB.getText(),BB.getText(),
+                                    SPO.getText(),GCS.getText(),Kesadaran.getSelectedItem().toString(),KeluhanUtama.getText(),KetFisik.getText()+ " R.Keluarga: "+RPK.getText()+ "R.Penggunaan Obat: "+RPO.getText()+ "R.Penyakit Dahulu:" +RPD.getText()+" Status Lokalis : "+KetLokalis.getText(),Alergi.getText(),
+                                    "",Tatalaksana.getText()+ " EKG: " +EKG.getText() +" Radiologi "+Radiologi.getText()+ " Lab : "+Laborat.getText(),Diagnosis.getText(),"","",KdDokter.getText()});
+                             tabMode.addRow(new String[]{
+                                    TNoRw.getText(),TNoRM.getText(),TPasien.getText(),TglLahir.getText(),Jk.getText(),KdDokter.getText(),NmDokter.getText(),Valid.SetTgl(TglAsuhan.getSelectedItem()+"")+" "+TglAsuhan.getSelectedItem().toString().substring(11,19),
+                                    Anamnesis.getSelectedItem().toString(),Hubungan.getText(),KeluhanUtama.getText(),RPS.getText(),RPD.getText(),RPK.getText(),RPO.getText(),Alergi.getText(),Keadaan.getSelectedItem().toString(),GCS.getText(),Kesadaran.getSelectedItem().toString(),
+                                    TD.getText(),Nadi.getText(),RR.getText(),Suhu.getText(),SPO.getText(),BB.getText(),TB.getText(),Kepala.getSelectedItem().toString(),Mata.getSelectedItem().toString(),Gigi.getSelectedItem().toString(),Leher.getSelectedItem().toString(),
+                                    Thoraks.getSelectedItem().toString(),Abdomen.getSelectedItem().toString(),Genital.getSelectedItem().toString(),Ekstremitas.getSelectedItem().toString(),KetFisik.getText(),KetLokalis.getText(),EKG.getText(),Radiologi.getText(),Laborat.getText(),
+                                    Diagnosis.getText(),Tatalaksana.getText()
+                                });
+                                LCount.setText(""+tabMode.getRowCount());
+                                emptTeks();
+                        }else{
+                                tabMode.addRow(new String[]{
+                                    TNoRw.getText(),TNoRM.getText(),TPasien.getText(),TglLahir.getText(),Jk.getText(),KdDokter.getText(),NmDokter.getText(),Valid.SetTgl(TglAsuhan.getSelectedItem()+"")+" "+TglAsuhan.getSelectedItem().toString().substring(11,19),
+                                    Anamnesis.getSelectedItem().toString(),Hubungan.getText(),KeluhanUtama.getText(),RPS.getText(),RPD.getText(),RPK.getText(),RPO.getText(),Alergi.getText(),Keadaan.getSelectedItem().toString(),GCS.getText(),Kesadaran.getSelectedItem().toString(),
+                                    TD.getText(),Nadi.getText(),RR.getText(),Suhu.getText(),SPO.getText(),BB.getText(),TB.getText(),Kepala.getSelectedItem().toString(),Mata.getSelectedItem().toString(),Gigi.getSelectedItem().toString(),Leher.getSelectedItem().toString(),
+                                    Thoraks.getSelectedItem().toString(),Abdomen.getSelectedItem().toString(),Genital.getSelectedItem().toString(),Ekstremitas.getSelectedItem().toString(),KetFisik.getText(),KetLokalis.getText(),EKG.getText(),Radiologi.getText(),Laborat.getText(),
+                                    Diagnosis.getText(),Tatalaksana.getText()
+                                });
+                                LCount.setText(""+tabMode.getRowCount());
+                                emptTeks();
+                        }
             }
         }
     

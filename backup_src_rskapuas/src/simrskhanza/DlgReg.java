@@ -103,6 +103,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import permintaan.DlgPermintaanKonsultasiMedik;
 import permintaan.DlgPermintaanLaboratorium;
 import permintaan.DlgPermintaanPelayananInformasiObat;
 import permintaan.DlgPermintaanRadiologi;
@@ -1048,6 +1049,7 @@ public final class DlgReg extends javax.swing.JDialog {
         MnPermintaanRadiologi = new javax.swing.JMenuItem();
         MnPermintaanRanap = new javax.swing.JMenuItem();
         MnPermintaanInformasiObat = new javax.swing.JMenuItem();
+        MnPermintaanKonsultasiMedik = new javax.swing.JMenuItem();
         MnDIrawat1 = new javax.swing.JMenuItem();
         MnTindakan = new javax.swing.JMenu();
         MnRawatJalan = new javax.swing.JMenuItem();
@@ -2315,6 +2317,22 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         MnPermintaan.add(MnPermintaanInformasiObat);
+
+        MnPermintaanKonsultasiMedik.setBackground(new java.awt.Color(255, 255, 254));
+        MnPermintaanKonsultasiMedik.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnPermintaanKonsultasiMedik.setForeground(new java.awt.Color(50, 50, 50));
+        MnPermintaanKonsultasiMedik.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnPermintaanKonsultasiMedik.setText("Permintaan Konsutasi Medik");
+        MnPermintaanKonsultasiMedik.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnPermintaanKonsultasiMedik.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnPermintaanKonsultasiMedik.setName("MnPermintaanKonsultasiMedik"); // NOI18N
+        MnPermintaanKonsultasiMedik.setPreferredSize(new java.awt.Dimension(170, 26));
+        MnPermintaanKonsultasiMedik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnPermintaanKonsultasiMedikActionPerformed(evt);
+            }
+        });
+        MnPermintaan.add(MnPermintaanKonsultasiMedik);
 
         jPopupMenu1.add(MnPermintaan);
 
@@ -6187,7 +6205,7 @@ public final class DlgReg extends javax.swing.JDialog {
         panelBiasa7.setLayout(null);
 
         DTPcari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPcari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-06-2024" }));
+        DTPcari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
         DTPcari1.setDisplayFormat("dd-MM-yyyy");
         DTPcari1.setName("DTPcari1"); // NOI18N
         DTPcari1.setOpaque(false);
@@ -6234,7 +6252,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel39.setBounds(176, 10, 20, 23);
 
         DTPcari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPcari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-06-2024" }));
+        DTPcari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
         DTPcari2.setDisplayFormat("dd-MM-yyyy");
         DTPcari2.setName("DTPcari2"); // NOI18N
         DTPcari2.setOpaque(false);
@@ -6502,7 +6520,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(60, 23));
         panelGlass7.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-06-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -6515,7 +6533,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass7.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-06-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -6686,7 +6704,7 @@ public final class DlgReg extends javax.swing.JDialog {
         FormInput.add(jLabel9);
         jLabel9.setBounds(165, 72, 36, 23);
 
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-06-2024" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -14503,6 +14521,29 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         }
     }//GEN-LAST:event_ppBuktiRegistrasiActionPerformed
 
+    private void MnPermintaanKonsultasiMedikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnPermintaanKonsultasiMedikActionPerformed
+       if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+            TNoReg.requestFocus();
+        }else if(TPasien.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+            tbPetugas.requestFocus();
+        }else{
+            if(tbPetugas.getSelectedRow()!= -1){
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                DlgPermintaanKonsultasiMedik form=new DlgPermintaanKonsultasiMedik(null,false);
+                form.isCek();
+                form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                form.setLocationRelativeTo(internalFrame1);
+                form.setVisible(true);
+                form.emptTeks();
+                form.setNoRm(TNoRw.getText(),TNoRM.getText(),TPasien.getText());
+                form.tampil();
+                this.setCursor(Cursor.getDefaultCursor());  
+            }                
+        }
+    }//GEN-LAST:event_MnPermintaanKonsultasiMedikActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -14729,6 +14770,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private javax.swing.JMenu MnPermintaan1;
     private javax.swing.JMenuItem MnPermintaanInformasiObat;
     private javax.swing.JMenuItem MnPermintaanInformasiObat1;
+    private javax.swing.JMenuItem MnPermintaanKonsultasiMedik;
     private javax.swing.JMenuItem MnPermintaanLab;
     private javax.swing.JMenuItem MnPermintaanLab1;
     private javax.swing.JMenuItem MnPermintaanRadiologi;

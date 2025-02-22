@@ -81,6 +81,7 @@ import bridging.INACBGPerawatanCorona;
 import bridging.PilihanBridgingAsuransi;
 import inventory.DlgCopyResep;
 import modifikasi.DlgRiwayatPenyakit;
+import modifikasi.DlgSuratKUNH;
 import org.jdesktop.el.impl.lang.ELSupport;
 import rekammedis.RMDataResumePasien;
 import org.jfree.chart.ChartFactory;
@@ -7784,6 +7785,26 @@ public final class DlgReg extends javax.swing.JDialog {
             }
             else if(evt.getKeyCode()==KeyEvent.VK_A){
                 MnBarcode3ActionPerformed(null);
+            }else if (evt.getKeyCode()==KeyEvent.VK_S){
+                   if(tabMode.getRowCount()==0){
+                       JOptionPane.showMessageDialog(null,"Maaf, data pasien sudah habis...!!!!");
+                       TNoRw.requestFocus();
+                   }else if(TPasien.getText().trim().equals("")){
+                       JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu data registrasi pada table...!!!");
+                       TCari.requestFocus();
+                   }else{
+                       if(tbPetugas.getSelectedRow()!= -1){
+                           this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                           DlgSuratKUNH resume=new DlgSuratKUNH(null,false);
+                           resume.emptTeks();
+                           resume.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                           resume.setLocationRelativeTo(internalFrame1);
+                           resume.setNoRm(TNoRw.getText(),DTPCari1.getDate(),DTPCari2.getDate());
+                           resume.setVisible(true);
+                           this.setCursor(Cursor.getDefaultCursor());
+                       }
+                   }
+            
             }
         }
 }//GEN-LAST:event_tbPetugasKeyPressed

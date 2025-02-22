@@ -298,7 +298,7 @@ public final class ApotekBPJSMonitoringKlaim extends javax.swing.JDialog {
         Tahun.setPreferredSize(new java.awt.Dimension(80, 23));
         panelisi1.add(Tahun);
 
-        Bulan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        Bulan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" }));
         Bulan.setName("Bulan"); // NOI18N
         Bulan.setPreferredSize(new java.awt.Dimension(62, 23));
         panelisi1.add(Bulan);
@@ -450,54 +450,54 @@ public final class ApotekBPJSMonitoringKlaim extends javax.swing.JDialog {
             LCount.setText("0");
             headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-	    headers.add("x-cons-id",koneksiDB.CONSIDAPIAPOTEKBPJS());
-	    utc=String.valueOf(api.GetUTCdatetimeAsString());
-	    headers.add("x-timestamp",utc);
-	    headers.add("x-signature",api.getHmac(utc));
-	    headers.add("user_key",koneksiDB.USERKEYAPIAPOTEKBPJS());
+            headers.add("x-cons-id", koneksiDB.CONSIDAPIAPOTEKBPJS());
+            utc = String.valueOf(api.GetUTCdatetimeAsString());
+            headers.add("x-timestamp", utc);
+            headers.add("x-signature", api.getHmac(utc));
+            headers.add("user_key", koneksiDB.USERKEYAPIAPOTEKBPJS());
             requestEntity = new HttpEntity(headers);
-            URL = link+"monitoring/klaim/"+Bulan.getSelectedItem().toString()+"/"+Tahun.getSelectedItem().toString()+"/"+Jenis.getSelectedItem().toString().substring(0,1)+"/"+Status.getSelectedItem().toString().substring(0,1);	
+            URL = link + "/monitoring/klaim/" + Bulan.getSelectedItem().toString() + "/" + Tahun.getSelectedItem().toString() + "/" + Jenis.getSelectedItem().toString().substring(0, 1) + "/" + Status.getSelectedItem().toString().substring(0, 1);
             System.out.println(URL);
             root = mapper.readTree(api.getRest().exchange(URL, HttpMethod.GET, requestEntity, String.class).getBody());
             nameNode = root.path("metaData");
-            if(nameNode.path("code").asText().equals("200")){
+            if (nameNode.path("code").asText().equals("200")) {
                 Valid.tabelKosong(tabMode);
-                response = mapper.readTree(api.Decrypt(root.path("response").asText(),utc));
-                LCountPengajuan.setText(Valid.SetAngka(response.path("rekap").path("totalbiayapengajuan").asDouble()));
-                LCountDisetujui.setText(Valid.SetAngka(response.path("rekap").path("totalbiayasetuju").asDouble()));
-                LCount.setText(response.path("rekap").path("jumlahdata").asText());
-                if(response.path("rekap").path("listsep").isArray()){
-                    if(TCari.getText().trim().equals("")){
-                        for(JsonNode list:response.path("rekap").path("listsep")){
+                response = mapper.readTree(api.Decrypt(root.path("response").asText(), utc));
+                LCountPengajuan.setText(Valid.SetAngka(response.path("totalbiayapengajuan").asDouble()));
+                LCountDisetujui.setText(Valid.SetAngka(response.path("totalbiayasetuju").asDouble()));
+                LCount.setText(response.path("jumlahdata").asText());
+                if (response.path("listsep").isArray()) {
+                    if (TCari.getText().trim().equals("")) {
+                        for (JsonNode list : response.path("listsep")) {
                             tabMode.addRow(new Object[]{
-                                list.path("nosepapotek").asText(),list.path("nosepaasal").asText(),list.path("nokartu").asText(),
-                                list.path("namapeserta").asText(),list.path("noresep").asText(),list.path("jnsobat").asText(),
-                                list.path("tglpelayanan").asText(),Valid.SetAngka(list.path("biayapengajuan").asDouble()),
-                                Valid.SetAngka(list.path("biayasetuju").asDouble())
+                                list.path("nosepapotek").asText(), list.path("nosepaasal").asText(), list.path("nokapst").asText(),
+                                list.path("nmpst").asText(), list.path("noresep").asText(), list.path("nmjnsobat").asText(),
+                                list.path("tglpelayanan").asText(), Valid.SetAngka(list.path("biayapengajuan").asDouble()),
+                                Valid.SetAngka(list.path("biayasetujui").asDouble())
                             });
                         }
-                    }else{
-                        for(JsonNode list:response.path("rekap").path("listsep")){
-                            if(list.path("nosepapotek").asText().contains(TCari.getText())||list.path("nosepaasal").asText().contains(TCari.getText())||
-                                    list.path("nokartu").asText().contains(TCari.getText())||list.path("namapeserta").asText().contains(TCari.getText())||
-                                    list.path("tglpelayanan").asText().contains(TCari.getText())){
+                    } else {
+                        for (JsonNode list : response.path("listsep")) {
+                            if (list.path("nosepapotek").asText().contains(TCari.getText()) || list.path("nosepaasal").asText().contains(TCari.getText())
+                                    || list.path("nokapst").asText().contains(TCari.getText()) || list.path("nmpst").asText().contains(TCari.getText())
+                                    || list.path("tglpelayanan").asText().contains(TCari.getText())) {
                                 tabMode.addRow(new Object[]{
-                                    list.path("nosepapotek").asText(),list.path("nosepaasal").asText(),list.path("nokartu").asText(),
-                                    list.path("namapeserta").asText(),list.path("noresep").asText(),list.path("jnsobat").asText(),
-                                    list.path("tglpelayanan").asText(),Valid.SetAngka(list.path("biayapengajuan").asDouble()),
-                                    Valid.SetAngka(list.path("biayasetuju").asDouble())
+                                    list.path("nosepapotek").asText(), list.path("nosepaasal").asText(), list.path("nokapst").asText(),
+                                    list.path("nmpst").asText(), list.path("noresep").asText(), list.path("nmjnsobat").asText(),
+                                    list.path("tglpelayanan").asText(), Valid.SetAngka(list.path("biayapengajuan").asDouble()),
+                                    Valid.SetAngka(list.path("biayasetujui").asDouble())
                                 });
                             }
                         }
                     }
                 }
-            }else {
-                JOptionPane.showMessageDialog(null,nameNode.path("message").asText());                
-            }  
+            } else {
+                JOptionPane.showMessageDialog(null, nameNode.path("message").asText());
+            }
         } catch (Exception ex) {
-            System.out.println("Notifikasi : "+ex);
-            if(ex.toString().contains("UnknownHostException")){
-                JOptionPane.showMessageDialog(rootPane,"Koneksi ke server BPJS terputus...!");
+            System.out.println("Notifikasi : " + ex);
+            if (ex.toString().contains("UnknownHostException")) {
+                JOptionPane.showMessageDialog(rootPane, "Koneksi ke server BPJS terputus...!");
             }
         }
     }    

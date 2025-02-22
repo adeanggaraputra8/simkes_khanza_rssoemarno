@@ -11808,6 +11808,10 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                                 param.put("dokter",rs.getString("nama"));
                                 param.put("catatan",rs.getString("catatan"));
                                 param.put("tandavital","Suhu (C) : "+rs.getString("suhu")+", Nyeri : "+rs.getString("nyeri")+", Tensi : "+rs.getString("tekanan_darah")+", Nadi(/menit) : "+rs.getString("nadi")+", Saturasi O²(%) : "+rs.getString("saturasi_o2")+", Respirasi(/menit) : "+rs.getString("pernapasan"));
+                                param.put("askelutama",Sequel.cariIsi("SELECT keluhan_utama FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asttv",Sequel.cariIsiBanyak2("SELECT CONCAT('gcs :',' ',gcs) as gcs,CONCAT(', kesadaran :',' ',kesadaran) as kesadaran,CONCAT(', td :',' ',td) as td,CONCAT(', nadi :',' ',nadi) nadi,CONCAT(', rr :',' ',rr) rr,CONCAT(', suhu :',' ',suhu) suhu,CONCAT(', spo :',' ',spo) spo,CONCAT(', bb :',' ',bb) bb,CONCAT(', tb:',' ',tb) tb,CONCAT(', kepala :',' ',kepala) kepala,CONCAT(', mata :',' ',mata) mata,CONCAT(', gigi :',' ',gigi) gigi,CONCAT(', leher :',' ',leher) leher,CONCAT(', thoraks :',' ',thoraks) thoraks,CONCAT(', abdomen :',' ',abdomen) abdomen,CONCAT(' ekstremitas :',' ',ekstremitas) ekstremitas,CONCAT(', genital :',' ',genital) genital,CONCAT(', ket_fisik :',' ',ket_fisik) ket_fisik FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asdiagnosa",Sequel.cariIsi("SELECT diagnosis FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("astatalaksanan",Sequel.cariIsi("SELECT REPLACE(REPLACE(tata, CHAR(13), ' '), CHAR(10), ' ') FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
                                 finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",rs.getString("nik"));
                                 param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+rs.getString("nama")+"\nID "+(finger.equals("")?rs.getString("nik"):finger)+"\n"+Valid.SetTgl3(rs.getString("tanggaltriase"))); 
                                 ps2=koneksi.prepareStatement(
@@ -11963,6 +11967,10 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                                 param.put("jamtriase",rs.getString("tanggaltriase").toString().substring(11,19));
                                 param.put("dokter",rs.getString("nama"));
                                 param.put("catatan",rs.getString("catatan"));
+                                param.put("askelutama",Sequel.cariIsi("SELECT keluhan_utama FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asttv",Sequel.cariIsiBanyak2("SELECT CONCAT('gcs :',' ',gcs) as gcs,CONCAT(', kesadaran :',' ',kesadaran) as kesadaran,CONCAT(', td :',' ',td) as td,CONCAT(', nadi :',' ',nadi) nadi,CONCAT(', rr :',' ',rr) rr,CONCAT(', suhu :',' ',suhu) suhu,CONCAT(', spo :',' ',spo) spo,CONCAT(', bb :',' ',bb) bb,CONCAT(', tb:',' ',tb) tb,CONCAT(', kepala :',' ',kepala) kepala,CONCAT(', mata :',' ',mata) mata,CONCAT(', gigi :',' ',gigi) gigi,CONCAT(', leher :',' ',leher) leher,CONCAT(', thoraks :',' ',thoraks) thoraks,CONCAT(', abdomen :',' ',abdomen) abdomen,CONCAT(' ekstremitas :',' ',ekstremitas) ekstremitas,CONCAT(', genital :',' ',genital) genital,CONCAT(', ket_fisik :',' ',ket_fisik) ket_fisik FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asdiagnosa",Sequel.cariIsi("SELECT diagnosis FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("astatalaksanan",Sequel.cariIsi("SELECT REPLACE(REPLACE(tata, CHAR(13), ' '), CHAR(10), ' ') FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
                                 finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",rs.getString("nik"));
                                 param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+rs.getString("nama")+"\nID "+(finger.equals("")?rs.getString("nik"):finger)+"\n"+Valid.SetTgl3(rs.getString("tanggaltriase"))); 
                                 ps2=koneksi.prepareStatement(
@@ -12119,6 +12127,10 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                                 param.put("jamtriase",rs.getString("tanggaltriase").toString().substring(11,19));
                                 param.put("dokter",rs.getString("nama"));
                                 param.put("catatan",rs.getString("catatan"));
+                                param.put("askelutama",Sequel.cariIsi("SELECT keluhan_utama FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asttv",Sequel.cariIsiBanyak2("SELECT CONCAT('gcs :',' ',gcs) as gcs,CONCAT(', kesadaran :',' ',kesadaran) as kesadaran,CONCAT(', td :',' ',td) as td,CONCAT(', nadi :',' ',nadi) nadi,CONCAT(', rr :',' ',rr) rr,CONCAT(', suhu :',' ',suhu) suhu,CONCAT(', spo :',' ',spo) spo,CONCAT(', bb :',' ',bb) bb,CONCAT(', tb:',' ',tb) tb,CONCAT(', kepala :',' ',kepala) kepala,CONCAT(', mata :',' ',mata) mata,CONCAT(', gigi :',' ',gigi) gigi,CONCAT(', leher :',' ',leher) leher,CONCAT(', thoraks :',' ',thoraks) thoraks,CONCAT(', abdomen :',' ',abdomen) abdomen,CONCAT(' ekstremitas :',' ',ekstremitas) ekstremitas,CONCAT(', genital :',' ',genital) genital,CONCAT(', ket_fisik :',' ',ket_fisik) ket_fisik FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asdiagnosa",Sequel.cariIsi("SELECT diagnosis FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("astatalaksanan",Sequel.cariIsi("SELECT REPLACE(REPLACE(tata, CHAR(13), ' '), CHAR(10), ' ') FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
                                 finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",rs.getString("nik"));
                                 param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+rs.getString("nama")+"\nID "+(finger.equals("")?rs.getString("nik"):finger)+"\n"+Valid.SetTgl3(rs.getString("tanggaltriase"))); 
                                 ps2=koneksi.prepareStatement(
@@ -12274,6 +12286,10 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                                 param.put("jamtriase",rs.getString("tanggaltriase").toString().substring(11,19));
                                 param.put("dokter",rs.getString("nama"));
                                 param.put("catatan",rs.getString("catatan"));
+                                param.put("askelutama",Sequel.cariIsi("SELECT keluhan_utama FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asttv",Sequel.cariIsiBanyak2("SELECT CONCAT('gcs :',' ',gcs) as gcs,CONCAT(', kesadaran :',' ',kesadaran) as kesadaran,CONCAT(', td :',' ',td) as td,CONCAT(', nadi :',' ',nadi) nadi,CONCAT(', rr :',' ',rr) rr,CONCAT(', suhu :',' ',suhu) suhu,CONCAT(', spo :',' ',spo) spo,CONCAT(', bb :',' ',bb) bb,CONCAT(', tb:',' ',tb) tb,CONCAT(', kepala :',' ',kepala) kepala,CONCAT(', mata :',' ',mata) mata,CONCAT(', gigi :',' ',gigi) gigi,CONCAT(', leher :',' ',leher) leher,CONCAT(', thoraks :',' ',thoraks) thoraks,CONCAT(', abdomen :',' ',abdomen) abdomen,CONCAT(' ekstremitas :',' ',ekstremitas) ekstremitas,CONCAT(', genital :',' ',genital) genital,CONCAT(', ket_fisik :',' ',ket_fisik) ket_fisik FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asdiagnosa",Sequel.cariIsi("SELECT diagnosis FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("astatalaksanan",Sequel.cariIsi("SELECT REPLACE(REPLACE(tata, CHAR(13), ' '), CHAR(10), ' ') FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
                                 finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",rs.getString("nik"));
                                 param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+rs.getString("nama")+"\nID "+(finger.equals("")?rs.getString("nik"):finger)+"\n"+Valid.SetTgl3(rs.getString("tanggaltriase"))); 
                                 ps2=koneksi.prepareStatement(
@@ -12430,6 +12446,10 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                                 param.put("jamtriase",rs.getString("tanggaltriase").toString().substring(11,19));
                                 param.put("dokter",rs.getString("nama"));
                                 param.put("catatan",rs.getString("catatan"));
+                                 param.put("askelutama",Sequel.cariIsi("SELECT keluhan_utama FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asttv",Sequel.cariIsiBanyak2("SELECT CONCAT('gcs :',' ',gcs) as gcs,CONCAT(', kesadaran :',' ',kesadaran) as kesadaran,CONCAT(', td :',' ',td) as td,CONCAT(', nadi :',' ',nadi) nadi,CONCAT(', rr :',' ',rr) rr,CONCAT(', suhu :',' ',suhu) suhu,CONCAT(', spo :',' ',spo) spo,CONCAT(', bb :',' ',bb) bb,CONCAT(', tb:',' ',tb) tb,CONCAT(', kepala :',' ',kepala) kepala,CONCAT(', mata :',' ',mata) mata,CONCAT(', gigi :',' ',gigi) gigi,CONCAT(', leher :',' ',leher) leher,CONCAT(', thoraks :',' ',thoraks) thoraks,CONCAT(', abdomen :',' ',abdomen) abdomen,CONCAT(' ekstremitas :',' ',ekstremitas) ekstremitas,CONCAT(', genital :',' ',genital) genital,CONCAT(', ket_fisik :',' ',ket_fisik) ket_fisik FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("asdiagnosa",Sequel.cariIsi("SELECT diagnosis FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
+                                param.put("astatalaksanan",Sequel.cariIsi("SELECT REPLACE(REPLACE(tata, CHAR(13), ' '), CHAR(10), ' ') FROM penilaian_medis_igd WHERE no_rawat='"+rs.getString("no_rawat")+"' "));
                                 finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",rs.getString("nik"));
                                 param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+rs.getString("nama")+"\nID "+(finger.equals("")?rs.getString("nik"):finger)+"\n"+Valid.SetTgl3(rs.getString("tanggaltriase"))); 
                                 ps2=koneksi.prepareStatement(
@@ -13381,6 +13401,11 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             TStatus.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),16).toString());            
             nmpnj.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),17).toString());
             kdpnj.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),19).toString());
+            if(Sequel.cariInteger("SELECT COUNT(a.no_rawat) FROM bridging_sep a,penilaian_medis_igd b,data_triase_igd c WHERE a.no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"' AND b.no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"' and c.no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"'")> 0){
+                    MnResumeRawatJalan1.setEnabled(true);        
+            }else{
+                    MnResumeRawatJalan1.setEnabled(false);  
+            }
         }
     }
     
@@ -13795,6 +13820,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         MnPeniliaianAwalMedisIGDPsikiatri.setEnabled(akses.getpenilaian_medis_ralan_gawat_darurat_psikiatri());
         MnPenilaianUlangNyeri.setEnabled(akses.getpenilaian_ulang_nyeri());
         MnPengkajianRestrain.setEnabled(akses.getpengkajian_restrain());
+    
         
         /*if((MnDataTriaseIGD.isVisible()==false)){
             MnRMIGD.setVisible(false);

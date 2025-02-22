@@ -77,8 +77,8 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
     private Connection koneksi=koneksiDB.condb();
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
-    private PreparedStatement ps,pscari;
-    private ResultSet rs,rscari;
+    private PreparedStatement ps,pscari,pscrpenyakit;
+    private ResultSet rs,rscari,rspenyakit;
     private int i=0,pilihan=1,pilihanedit=0,tacccek=0;
     private PCareCekReferensiPoli poli=new PCareCekReferensiPoli(null,false); 
     private PCareCekReferensiKesadaran kesadaran=new PCareCekReferensiKesadaran(null,false);
@@ -177,12 +177,14 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         }
         tbPendaftaran.setDefaultRenderer(Object.class, new WarnaTable());
         
-        tabMode2=new DefaultTableModel(null,new Object[]{
+         tabMode2=new DefaultTableModel(null,new Object[]{
                 "No.Rawat","No.Kunjungan","Tgl.Daftar","No.RM","Nm.Pasien","No.Kartu",
                 "Kd.Poli","Nama Poli","Keluhan","Kd.Sadar","Kesadaran","Sis","Dias","B.B.",
                 "T.B.","Respiratory Rate","Heart Rate","L.P.","Terapi","Kd.Pulang","Stts.Pulang",
                 "Tgl.Pulang","Kode Dokter","Nama Dokter","ICDX 1","Nama Diagnosa 1", 
-                "ICDX 2","Nama Diagnosa 2","ICDX 3", "Nama Diagnosa 3","Status"
+                "ICDX 2","Nama Diagnosa 2","ICDX 3", "Nama Diagnosa 3","Status","Kode Alergi Makanan",
+                "Nama Alergi Makanan","Kode Alergi Udara","Nama Alergi Udara","Kode Alergi Obat","Nama Alergi Obat",
+                "Kode Prognosa","Nama Prognosa","Terapi Non Obat","BMHP"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -190,7 +192,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         tbKunjungan.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbKunjungan.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 31; i++) {
+        for (i = 0; i < 41; i++) {
             TableColumn column = tbKunjungan.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(105);
@@ -258,18 +260,40 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
                 column.setPreferredWidth(150);
             }else if(i==30){
                 column.setPreferredWidth(50);
+            }else if(i==31){
+                column.setPreferredWidth(90);
+            }else if(i==32){
+                column.setPreferredWidth(150);
+            }else if(i==33){
+                column.setPreferredWidth(90);
+            }else if(i==34){
+                column.setPreferredWidth(150);
+            }else if(i==35){
+                column.setPreferredWidth(90);
+            }else if(i==36){
+                column.setPreferredWidth(150);
+            }else if(i==37){
+                column.setPreferredWidth(90);
+            }else if(i==38){
+                column.setPreferredWidth(150);
+            }else if(i==39){
+                column.setPreferredWidth(150);
+            }else if(i==40){
+                column.setPreferredWidth(150);
             }
         }
         tbKunjungan.setDefaultRenderer(Object.class, new WarnaTable());
         
-        tabMode3=new DefaultTableModel(null,new Object[]{
+         tabMode3=new DefaultTableModel(null,new Object[]{
                 "No.Rawat","No.Rujukan","Tgl.Daftar","No.RM","Nm.Pasien","No.Kartu",
                 "Kd.Poli","Nama Poli","Keluhan","Kd.Sadar","Kesadaran","Sis","Dias","B.B.",
                 "T.B.","Respiratory Rate","Heart Rate","L.P.","Terapi","Kd.Pulang","Stts.Pulang",
                 "Tgl.Pulang","Kode Dokter","Nama Dokter","ICDX 1","Nama Diagnosa 1", 
                 "ICDX 2","Nama Diagnosa 2","ICDX 3", "Nama Diagnosa 3","Tgl.Rujukan",
                 "Kode PPK","Nama PPK","Kode Spesialis","Nama Spesialis","Kode Sarana",
-                "Nama Sarana","Kode TACC","Nama TACC","Alasan TACC"
+                "Nama Sarana","Kode TACC","Nama TACC","Alasan TACC","Kode Alergi Makanan",
+                "Nama Alergi Makanan","Kode Alergi Udara","Nama Alergi Udara","Kode Alergi Obat","Nama Alergi Obat",
+                "Kode Prognosa","Nama Prognosa","Terapi Non Obat","BMHP"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -277,7 +301,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         tbSpesialis.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbSpesialis.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 40; i++) {
+        for (i = 0; i < 50; i++) {
             TableColumn column = tbSpesialis.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(105);
@@ -364,6 +388,26 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
             }else if(i==38){
                 column.setPreferredWidth(150);
             }else if(i==39){
+                column.setPreferredWidth(150);
+            }else if(i==40){
+                column.setPreferredWidth(90);
+            }else if(i==41){
+                column.setPreferredWidth(150);
+            }else if(i==42){
+                column.setPreferredWidth(90);
+            }else if(i==43){
+                column.setPreferredWidth(150);
+            }else if(i==44){
+                column.setPreferredWidth(90);
+            }else if(i==45){
+                column.setPreferredWidth(150);
+            }else if(i==46){
+                column.setPreferredWidth(90);
+            }else if(i==47){
+                column.setPreferredWidth(150);
+            }else if(i==48){
+                column.setPreferredWidth(150);
+            }else if(i==49){
                 column.setPreferredWidth(150);
             }
         }
@@ -1528,7 +1572,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
 
         tanggal.setEditable(false);
         tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024 03:20:28" }));
+        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025 01:38:56" }));
         tanggal.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tanggal.setName("tanggal"); // NOI18N
         tanggal.setOpaque(false);
@@ -1787,7 +1831,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         jLabel22.setBounds(0, 102, 90, 23);
 
         TanggalDaftar.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalDaftar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        TanggalDaftar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         TanggalDaftar.setDisplayFormat("dd-MM-yyyy");
         TanggalDaftar.setName("TanggalDaftar"); // NOI18N
         TanggalDaftar.setOpaque(false);
@@ -2104,7 +2148,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         jLabel26.setBounds(30, 272, 97, 23);
 
         TanggalKunjungan.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalKunjungan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        TanggalKunjungan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         TanggalKunjungan.setDisplayFormat("dd-MM-yyyy");
         TanggalKunjungan.setEnabled(false);
         TanggalKunjungan.setName("TanggalKunjungan"); // NOI18N
@@ -2209,7 +2253,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         BtnStatusPulang.setBounds(700, 392, 28, 23);
 
         TanggalPulang.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy");
         TanggalPulang.setEnabled(false);
         TanggalPulang.setName("TanggalPulang"); // NOI18N
@@ -2411,7 +2455,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         jLabel32.setBounds(90, 492, 95, 23);
 
         TanggalEstRujuk.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalEstRujuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        TanggalEstRujuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         TanggalEstRujuk.setDisplayFormat("dd-MM-yyyy");
         TanggalEstRujuk.setEnabled(false);
         TanggalEstRujuk.setName("TanggalEstRujuk"); // NOI18N
@@ -2756,7 +2800,6 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         btnAlergiMakanan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnAlergiMakanan.setMnemonic('X');
         btnAlergiMakanan.setToolTipText("Alt+X");
-        btnAlergiMakanan.setEnabled(false);
         btnAlergiMakanan.setName("btnAlergiMakanan"); // NOI18N
         btnAlergiMakanan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2793,7 +2836,6 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         BtnAlergiUdara.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         BtnAlergiUdara.setMnemonic('X');
         BtnAlergiUdara.setToolTipText("Alt+X");
-        BtnAlergiUdara.setEnabled(false);
         BtnAlergiUdara.setName("BtnAlergiUdara"); // NOI18N
         BtnAlergiUdara.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2830,7 +2872,6 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         BtnAlergiObat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         BtnAlergiObat.setMnemonic('X');
         BtnAlergiObat.setToolTipText("Alt+X");
-        BtnAlergiObat.setEnabled(false);
         BtnAlergiObat.setName("BtnAlergiObat"); // NOI18N
         BtnAlergiObat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3015,7 +3056,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -3029,7 +3070,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -3119,7 +3160,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass10.add(jLabel42);
 
         DTPCari3.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         DTPCari3.setDisplayFormat("dd-MM-yyyy");
         DTPCari3.setName("DTPCari3"); // NOI18N
         DTPCari3.setOpaque(false);
@@ -3133,7 +3174,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass10.add(jLabel43);
 
         DTPCari4.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         DTPCari4.setDisplayFormat("dd-MM-yyyy");
         DTPCari4.setName("DTPCari4"); // NOI18N
         DTPCari4.setOpaque(false);
@@ -3223,7 +3264,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass11.add(jLabel45);
 
         DTPCari5.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        DTPCari5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         DTPCari5.setDisplayFormat("dd-MM-yyyy");
         DTPCari5.setName("DTPCari5"); // NOI18N
         DTPCari5.setOpaque(false);
@@ -3237,7 +3278,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass11.add(jLabel46);
 
         DTPCari6.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-08-2024" }));
+        DTPCari6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2025" }));
         DTPCari6.setDisplayFormat("dd-MM-yyyy");
         DTPCari6.setName("DTPCari6"); // NOI18N
         DTPCari6.setOpaque(false);
@@ -6898,42 +6939,85 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
                 }
             }
             
-            ps=koneksi.prepareStatement(
-                    "select diagnosa_pasien.kd_penyakit,penyakit.nm_penyakit,diagnosa_pasien.prioritas "+
-                    "from diagnosa_pasien inner join penyakit on diagnosa_pasien.kd_penyakit=penyakit.kd_penyakit "+
-                    "where diagnosa_pasien.no_rawat=? order by diagnosa_pasien.prioritas ");
-            try {
-                ps.setString(1,norwt);
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    if(rs.getInt("prioritas")==1){
-                        KdDiagnosa1.setText(rs.getString("kd_penyakit"));
-                        NmDiagnosa1.setText(rs.getString("nm_penyakit"));
+           if (Sequel.cariInteger("select count(no_rawat) from diagnosa_pasien where no_rawat='"+norwt+"' ")>0){
+                    ps=koneksi.prepareStatement(
+                            "select diagnosa_pasien.kd_penyakit,penyakit.nm_penyakit,diagnosa_pasien.prioritas "+
+                            "from diagnosa_pasien inner join penyakit on diagnosa_pasien.kd_penyakit=penyakit.kd_penyakit "+
+                            "where diagnosa_pasien.no_rawat=? order by diagnosa_pasien.prioritas ");
+                    try {
+                        ps.setString(1,norwt);
+                        rs=ps.executeQuery();
+                        while(rs.next()){
+                            if(rs.getInt("prioritas")==1){
+                                KdDiagnosa1.setText(rs.getString("kd_penyakit"));
+                                NmDiagnosa1.setText(rs.getString("nm_penyakit"));
+                            }
+
+                            if(rs.getInt("prioritas")==2){
+                                KdDiagnosa2.setText(rs.getString("kd_penyakit"));
+                                NmDiagnosa2.setText(rs.getString("nm_penyakit"));
+                            }
+
+                            if(rs.getInt("prioritas")==3){
+                                KdDiagnosa3.setText(rs.getString("kd_penyakit"));
+                                NmDiagnosa3.setText(rs.getString("nm_penyakit"));
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Notif : "+e);
+                    } finally{
+                        if(rs!=null){
+                            rs.close();
+                        }
+                        if(ps!=null){
+                            ps.close();
+                        }
                     }
-                    
-                    if(rs.getInt("prioritas")==2){
-                        KdDiagnosa2.setText(rs.getString("kd_penyakit"));
-                        NmDiagnosa2.setText(rs.getString("nm_penyakit"));
+            } else{
+                    ps=koneksi.prepareStatement(
+                        "select pemeriksaan_ralan.penilaian from pemeriksaan_ralan where pemeriksaan_ralan.no_rawat=? "+
+                        "order by pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat desc limit 1");
+                    try {
+                        ps.setString(1,norwt);
+                        rs=ps.executeQuery();
+                        while(rs.next()){
+                         pscrpenyakit=koneksi.prepareStatement(
+                                      "select kd_penyakit,nm_penyakit,keterangan from penyakit ");
+                                       try {
+                                            // pscrpenyakit.setString(1,"%"+rs.getString("penilaian")+"%");
+                                             rspenyakit=pscrpenyakit.executeQuery();
+                                             while(rspenyakit.next()){
+                                               if(rs.getString("penilaian").toLowerCase().contains(rspenyakit.getString("keterangan"))){
+                                                 KdDiagnosa1.setText(rspenyakit.getString("kd_penyakit"));
+                                                 NmDiagnosa1.setText(rspenyakit.getString("nm_penyakit"));
+                                               }
+                                             }
+                                        } catch (Exception e) {
+                                            System.out.println("Notif : "+e);
+                                        } finally{
+                                            if(rspenyakit!=null){
+                                                rspenyakit.close();
+                                            }
+                                            if(pscrpenyakit!=null){
+                                                pscrpenyakit.close();
+                                            }
+                                        }
+                          
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Notif : "+e);
+                    } finally{
+                        if(rs!=null){
+                            rs.close();
+                        }
+                        if(ps!=null){
+                            ps.close();
+                        }
                     }
-                    
-                    if(rs.getInt("prioritas")==3){
-                        KdDiagnosa3.setText(rs.getString("kd_penyakit"));
-                        NmDiagnosa3.setText(rs.getString("nm_penyakit"));
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println("Notif : "+e);
-            } finally{
-                if(rs!=null){
-                    rs.close();
-                }
-                if(ps!=null){
-                    ps.close();
-                }
             }
             
             ps=koneksi.prepareStatement(
-                    "select databarang.nama_brng,sum(detail_pemberian_obat.jml),jenis.nama from detail_pemberian_obat "+
+                    "select databarang.nama_brng,sum(detail_pemberian_obat.jml)as jml,jenis.nama from detail_pemberian_obat "+
                     "inner join databarang on detail_pemberian_obat.kode_brng=databarang.kode_brng "+
                     "inner join jenis on jenis.kdjns=databarang.kdjns where detail_pemberian_obat.no_rawat=? "+
                     "group by databarang.nama_brng");
@@ -6941,13 +7025,14 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
                 ps.setString(1,norwt);
                 rs=ps.executeQuery();
                 terapiobat="";
-                terapinonobat="";
-                bmhp="";
+                terapinonobat="tidak ada terapi non obat";
+                bmhp="tidak ada pemakaian bmhp";
                 while(rs.next()){
-                    if(rs.getString("nama").toLowerCase().contains("obat")){
+                    if(!rs.getString("nama").toLowerCase().contains("obat")){
                         terapiobat=rs.getString("nama_brng")+" "+rs.getString("jml")+", "+terapiobat;
                     }else if(rs.getString("nama").toLowerCase().contains("bmhp")||rs.getString("nama").toLowerCase().contains("bhp")){
-                        bmhp=rs.getString("nama_brng")+" "+rs.getString("jml")+", "+bmhp;
+                        //bmhp=rs.getString("nama_brng")+" "+rs.getString("jml")+", "+bmhp;
+                         bmhp="tidak ada pemakaian bmhp";
                     }else{
                         terapinonobat=rs.getString("nama_brng")+" "+rs.getString("jml")+", "+terapinonobat;
                     }
@@ -7011,22 +7096,22 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
                             KdSadar.setText("04");
                         }
                         
-                        if(rs.getString("penilaian").toLowerCase().contains("sanam")||rs.getString("penilaian").toLowerCase().contains("sembuh")){
-                            KdPrognosa.setText("01");
-                            NmPrognosa.setText("Sanam (Sembuh)");
-                        }else if(rs.getString("penilaian").toLowerCase().contains("bonam")||rs.getString("penilaian").toLowerCase().contains("baik")){
+//                        if(rs.getString("penilaian").toLowerCase().contains("sanam")||rs.getString("penilaian").toLowerCase().contains("sembuh")){
+//                            KdPrognosa.setText("01");
+//                            NmPrognosa.setText("Sanam (Sembuh)");
+//                        }else if(rs.getString("penilaian").toLowerCase().contains("bonam")||rs.getString("penilaian").toLowerCase().contains("baik")){
                             KdPrognosa.setText("02");
                             NmPrognosa.setText("Bonam (Baik)");
-                        }else if(rs.getString("penilaian").toLowerCase().contains("malam")||rs.getString("penilaian").toLowerCase().contains("buruk")||rs.getString("penilaian").toLowerCase().contains("jelek")){
-                            KdPrognosa.setText("03");
-                            NmPrognosa.setText("Malam (Buruk/Jelek)");
-                        }else if(rs.getString("penilaian").toLowerCase().contains("dubia ad sanam")||rs.getString("penilaian").toLowerCase().contains("dubia ad bolam")||rs.getString("penilaian").toLowerCase().contains("cenderung sembuh")){
-                            KdPrognosa.setText("04");
-                            NmPrognosa.setText("Dubia Ad Sanam/Bolam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)");
-                        }else if(rs.getString("penilaian").toLowerCase().equals("dubia ad malam")||rs.getString("penilaian").toLowerCase().equals("tidak tentu")||rs.getString("penilaian").toLowerCase().equals("ragu")){
-                            KdPrognosa.setText("05");
-                            NmPrognosa.setText("Dubia Ad Malam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)");
-                        }
+//                        }else if(rs.getString("penilaian").toLowerCase().contains("malam")||rs.getString("penilaian").toLowerCase().contains("buruk")||rs.getString("penilaian").toLowerCase().contains("jelek")){
+//                            KdPrognosa.setText("03");
+//                            NmPrognosa.setText("Malam (Buruk/Jelek)");
+//                        }else if(rs.getString("penilaian").toLowerCase().contains("dubia ad sanam")||rs.getString("penilaian").toLowerCase().contains("dubia ad bolam")||rs.getString("penilaian").toLowerCase().contains("cenderung sembuh")){
+//                            KdPrognosa.setText("04");
+//                            NmPrognosa.setText("Dubia Ad Sanam/Bolam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)");
+//                        }else if(rs.getString("penilaian").toLowerCase().equals("dubia ad malam")||rs.getString("penilaian").toLowerCase().equals("tidak tentu")||rs.getString("penilaian").toLowerCase().equals("ragu")){
+//                            KdPrognosa.setText("05");
+//                            NmPrognosa.setText("Dubia Ad Malam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)");
+//                        }
                         
                         if(rs.getString("alergi").toLowerCase().contains("seafood")){
                             KdAlergiMakanan.setText("01");
@@ -7195,22 +7280,22 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
                             KdSadar.setText("04");
                         }
                         
-                        if(rs.getString("penilaian").toLowerCase().contains("sanam")||rs.getString("penilaian").toLowerCase().contains("sembuh")){
-                            KdPrognosa.setText("01");
-                            NmPrognosa.setText("Sanam (Sembuh)");
-                        }else if(rs.getString("penilaian").toLowerCase().contains("bonam")||rs.getString("penilaian").toLowerCase().contains("baik")){
+//                        if(rs.getString("penilaian").toLowerCase().contains("sanam")||rs.getString("penilaian").toLowerCase().contains("sembuh")){
+//                            KdPrognosa.setText("01");
+//                            NmPrognosa.setText("Sanam (Sembuh)");
+//                        }else if(rs.getString("penilaian").toLowerCase().contains("bonam")||rs.getString("penilaian").toLowerCase().contains("baik")){
                             KdPrognosa.setText("02");
                             NmPrognosa.setText("Bonam (Baik)");
-                        }else if(rs.getString("penilaian").toLowerCase().contains("malam")||rs.getString("penilaian").toLowerCase().contains("buruk")||rs.getString("penilaian").toLowerCase().contains("jelek")){
-                            KdPrognosa.setText("03");
-                            NmPrognosa.setText("Malam (Buruk/Jelek)");
-                        }else if(rs.getString("penilaian").toLowerCase().contains("dubia ad sanam")||rs.getString("penilaian").toLowerCase().contains("dubia ad bolam")||rs.getString("penilaian").toLowerCase().contains("cenderung sembuh")){
-                            KdPrognosa.setText("04");
-                            NmPrognosa.setText("Dubia Ad Sanam/Bolam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)");
-                        }else if(rs.getString("penilaian").toLowerCase().equals("dubia ad malam")||rs.getString("penilaian").toLowerCase().equals("tidak tentu")||rs.getString("penilaian").toLowerCase().equals("ragu")){
-                            KdPrognosa.setText("05");
-                            NmPrognosa.setText("Dubia Ad Malam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)");
-                        }
+//                        }else if(rs.getString("penilaian").toLowerCase().contains("malam")||rs.getString("penilaian").toLowerCase().contains("buruk")||rs.getString("penilaian").toLowerCase().contains("jelek")){
+//                            KdPrognosa.setText("03");
+//                            NmPrognosa.setText("Malam (Buruk/Jelek)");
+//                        }else if(rs.getString("penilaian").toLowerCase().contains("dubia ad sanam")||rs.getString("penilaian").toLowerCase().contains("dubia ad bolam")||rs.getString("penilaian").toLowerCase().contains("cenderung sembuh")){
+//                            KdPrognosa.setText("04");
+//                            NmPrognosa.setText("Dubia Ad Sanam/Bolam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)");
+//                        }else if(rs.getString("penilaian").toLowerCase().equals("dubia ad malam")||rs.getString("penilaian").toLowerCase().equals("tidak tentu")||rs.getString("penilaian").toLowerCase().equals("ragu")){
+//                            KdPrognosa.setText("05");
+//                            NmPrognosa.setText("Dubia Ad Malam (Tidak tentu/Ragu-ragu, Cenderung Sembuh/Baik)");
+//                        }
                         
                         if(rs.getString("alergi").toLowerCase().contains("seafood")){
                             KdAlergiMakanan.setText("01");
@@ -7399,38 +7484,81 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
                 }
             }
             
-            ps=koneksi.prepareStatement(
-                    "select diagnosa_pasien.kd_penyakit,penyakit.nm_penyakit,diagnosa_pasien.prioritas "+
-                    "from diagnosa_pasien inner join penyakit on diagnosa_pasien.kd_penyakit=penyakit.kd_penyakit "+
-                    "where diagnosa_pasien.no_rawat=? order by diagnosa_pasien.prioritas ");
-            try {
-                ps.setString(1,norwt);
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    if(rs.getInt("prioritas")==1){
-                        KdDiagnosa1.setText(rs.getString("kd_penyakit"));
-                        NmDiagnosa1.setText(rs.getString("nm_penyakit"));
+            if (Sequel.cariInteger("select count(no_rawat) from diagnosa_pasien where no_rawat='"+norwt+"' ")>0){
+                    ps=koneksi.prepareStatement(
+                            "select diagnosa_pasien.kd_penyakit,penyakit.nm_penyakit,diagnosa_pasien.prioritas "+
+                            "from diagnosa_pasien inner join penyakit on diagnosa_pasien.kd_penyakit=penyakit.kd_penyakit "+
+                            "where diagnosa_pasien.no_rawat=? order by diagnosa_pasien.prioritas ");
+                    try {
+                        ps.setString(1,norwt);
+                        rs=ps.executeQuery();
+                        while(rs.next()){
+                            if(rs.getInt("prioritas")==1){
+                                KdDiagnosa1.setText(rs.getString("kd_penyakit"));
+                                NmDiagnosa1.setText(rs.getString("nm_penyakit"));
+                            }
+
+                            if(rs.getInt("prioritas")==2){
+                                KdDiagnosa2.setText(rs.getString("kd_penyakit"));
+                                NmDiagnosa2.setText(rs.getString("nm_penyakit"));
+                            }
+
+                            if(rs.getInt("prioritas")==3){
+                                KdDiagnosa3.setText(rs.getString("kd_penyakit"));
+                                NmDiagnosa3.setText(rs.getString("nm_penyakit"));
+                            }
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Notif : "+e);
+                    } finally{
+                        if(rs!=null){
+                            rs.close();
+                        }
+                        if(ps!=null){
+                            ps.close();
+                        }
                     }
-                    
-                    if(rs.getInt("prioritas")==2){
-                        KdDiagnosa2.setText(rs.getString("kd_penyakit"));
-                        NmDiagnosa2.setText(rs.getString("nm_penyakit"));
+            } else{
+                    ps=koneksi.prepareStatement(
+                        "select pemeriksaan_ralan.penilaian from pemeriksaan_ralan where pemeriksaan_ralan.no_rawat=? "+
+                        "order by pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat desc limit 1");
+                    try {
+                        ps.setString(1,norwt);
+                        rs=ps.executeQuery();
+                        while(rs.next()){
+                         pscrpenyakit=koneksi.prepareStatement(
+                                      "select kd_penyakit,nm_penyakit,keterangan from penyakit ");
+                                       try {
+                                            // pscrpenyakit.setString(1,"%"+rs.getString("penilaian")+"%");
+                                             rspenyakit=pscrpenyakit.executeQuery();
+                                             while(rspenyakit.next()){
+                                               if(rs.getString("penilaian").toLowerCase().contains(rspenyakit.getString("keterangan"))){
+                                                 KdDiagnosa1.setText(rspenyakit.getString("kd_penyakit"));
+                                                 NmDiagnosa1.setText(rspenyakit.getString("nm_penyakit"));
+                                               }
+                                             }
+                                        } catch (Exception e) {
+                                            System.out.println("Notif : "+e);
+                                        } finally{
+                                            if(rspenyakit!=null){
+                                                rspenyakit.close();
+                                            }
+                                            if(pscrpenyakit!=null){
+                                                pscrpenyakit.close();
+                                            }
+                                        }
+                          
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Notif : "+e);
+                    } finally{
+                        if(rs!=null){
+                            rs.close();
+                        }
+                        if(ps!=null){
+                            ps.close();
+                        }
                     }
-                    
-                    if(rs.getInt("prioritas")==3){
-                        KdDiagnosa3.setText(rs.getString("kd_penyakit"));
-                        NmDiagnosa3.setText(rs.getString("nm_penyakit"));
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println("Notif : "+e);
-            } finally{
-                if(rs!=null){
-                    rs.close();
-                }
-                if(ps!=null){
-                    ps.close();
-                }
             }
             
             ps=koneksi.prepareStatement(
@@ -7890,16 +8018,16 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
             NmDiagnosa2.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),27).toString());
             KdDiagnosa3.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),28).toString());
             NmDiagnosa3.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),29).toString());
-            KdAlergiMakanan.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),30).toString());
-            NmAlergiMakanan.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),31).toString());
-            KdAlergiUdara.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),32).toString());
-            NmAlergiUdara.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),33).toString());
-            KdAlergiObat.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),34).toString());
-            NmAlergiObat.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),35).toString());
-            KdPrognosa.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),36).toString());
-            NmPrognosa.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),37).toString());
-            TerapiNonObat.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),38).toString());
-            BMHP.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),39).toString());
+            KdAlergiMakanan.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),31).toString());
+            NmAlergiMakanan.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),32).toString());
+            KdAlergiUdara.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),33).toString());
+            NmAlergiUdara.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),34).toString());
+            KdAlergiObat.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),35).toString());
+            NmAlergiObat.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),36).toString());
+            KdPrognosa.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),37).toString());
+            NmPrognosa.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),38).toString());
+            TerapiNonObat.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),39).toString());
+            BMHP.setText(tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),40).toString());
             Valid.SetTgl(TanggalPulang,tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),21).toString());
             TglLahir.setText(Sequel.cariIsi("select pasien.tgl_lahir from pasien where pasien.no_rkm_medis=?",TNoRM.getText()));
         }

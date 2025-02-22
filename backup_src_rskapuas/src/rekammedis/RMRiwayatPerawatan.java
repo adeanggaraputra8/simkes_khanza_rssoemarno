@@ -306,6 +306,7 @@ public final class RMRiwayatPerawatan extends javax.swing.JDialog {
         chkAsuhanMedisRanap = new widget.CekBox();
         chkAsuhanMedisRanapKandungan = new widget.CekBox();
         chkAsuhanMedisHemodialisa = new widget.CekBox();
+        chkKonsultasiMedik = new widget.CekBox();
         chkEdukasiPasienTerintegrasiRawatJalan = new widget.CekBox();
         chkPemeriksaanRalan = new widget.CekBox();
         chkPemeriksaanObstetriRalan = new widget.CekBox();
@@ -950,6 +951,14 @@ public final class RMRiwayatPerawatan extends javax.swing.JDialog {
         chkAsuhanMedisHemodialisa.setOpaque(false);
         chkAsuhanMedisHemodialisa.setPreferredSize(new java.awt.Dimension(245, 22));
         FormMenu.add(chkAsuhanMedisHemodialisa);
+
+        chkKonsultasiMedik.setSelected(true);
+        chkKonsultasiMedik.setText("Konsultasi Medik");
+        chkKonsultasiMedik.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        chkKonsultasiMedik.setName("chkKonsultasiMedik"); // NOI18N
+        chkKonsultasiMedik.setOpaque(false);
+        chkKonsultasiMedik.setPreferredSize(new java.awt.Dimension(245, 22));
+        FormMenu.add(chkKonsultasiMedik);
 
         chkEdukasiPasienTerintegrasiRawatJalan.setSelected(true);
         chkEdukasiPasienTerintegrasiRawatJalan.setText("Edukasi Pasien & Keluarga Rawat Jalan");
@@ -2121,6 +2130,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
             chkAsuhanTerapiWicara.setSelected(true);
             chkPengkajianRestrain.setSelected(true);
             chkAsuhanMedisRalanParu.setSelected(true);
+            chkKonsultasiMedik.setSelected(true);
         }else{
             chkTriase.setSelected(false);
             chkAsuhanKeperawatanRalan.setSelected(false);
@@ -2240,6 +2250,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
             chkAsuhanTerapiWicara.setSelected(false);
             chkPengkajianRestrain.setSelected(false);
             chkAsuhanMedisRalanParu.setSelected(false);
+            chkKonsultasiMedik.setSelected(false);
         }
     }//GEN-LAST:event_chkSemuaItemStateChanged
 
@@ -2400,6 +2411,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
     private widget.CekBox chkHasilPemeriksaanUSG;
     private widget.CekBox chkHemodialisa;
     private widget.CekBox chkKonselingFarmasi;
+    private widget.CekBox chkKonsultasiMedik;
     private widget.CekBox chkMonitoringGizi;
     private widget.CekBox chkMonitoringReaksiTranfusi;
     private widget.CekBox chkOperasiVK;
@@ -2934,6 +2946,8 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     menampilkanCatatanObservasi(rs.getString("no_rawat"));
                     //menampilkan pemeriksaan rawat inap
                     menampilkanPemeriksaanRanap(rs.getString("no_rawat"));
+                    //menampilkan konsultasi medik
+                    menampilkanKonsultasiMedik(rs.getString("no_rawat"));
                     //menampilkan follow up DBD
                     menampilkanFollowUpDBD(rs.getString("no_rawat"));
                     //menampilkan reaksi tranfusi
@@ -12311,6 +12325,85 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
             }
         } catch (Exception e) {
             System.out.println("Notif Pelayanan Informasi Obat : "+e);
+        }
+    }
+    
+    private void menampilkanKonsultasiMedik(String norawat) {
+        try {
+            if(chkKonsultasiMedik.isSelected()==true){
+                try {
+                    rs2=koneksi.prepareStatement(
+                        "select konsultasi_medik.no_permintaan,konsultasi_medik.tanggal as tanggalkonsultasi,konsultasi_medik.jenis_permintaan,"+
+                        "konsultasi_medik.kd_dokter,dokterkonsul.nm_dokter as dokterkonsul,konsultasi_medik.kd_dokter_dikonsuli,dokterdikonsuli.nm_dokter as dokterdikonsuli,"+
+                        "konsultasi_medik.diagnosa_kerja as diagnosakerjakonsul,konsultasi_medik.uraian_konsultasi,ifnull(jawaban_konsultasi_medik.tanggal,'') as tanggaljawaban,"+
+                        "ifnull(jawaban_konsultasi_medik.diagnosa_kerja,'') as diagnosakerjajawaban,ifnull(jawaban_konsultasi_medik.uraian_jawaban,'') as uraian_jawaban  from konsultasi_medik "+
+                        "inner join dokter as dokterkonsul on konsultasi_medik.kd_dokter=dokterkonsul.kd_dokter "+
+                        "inner join dokter as dokterdikonsuli on konsultasi_medik.kd_dokter_dikonsuli=dokterdikonsuli.kd_dokter "+
+                        "left join jawaban_konsultasi_medik on jawaban_konsultasi_medik.no_permintaan=konsultasi_medik.no_permintaan "+
+                        "where konsultasi_medik.no_rawat='"+norawat+"' order by konsultasi_medik.tanggal").executeQuery();
+                    if(rs2.next()){
+                        htmlContent.append(
+                          "<tr class='isi'>"+ 
+                            "<td valign='top' width='2%'></td>"+        
+                            "<td valign='top' width='18%'>Konsultasi Medik</td>"+
+                            "<td valign='top' width='1%' align='center'>:</td>"+
+                            "<td valign='top' width='79%'>"+
+                              "<table width='100%' border='0' align='center' cellpadding='3px' cellspacing='0' class='tbl_form'>"
+                        );
+                        rs2.beforeFirst();
+                        while(rs2.next()){
+                            htmlContent.append(
+                                 "<tr>"+
+                                    "<td valign='top'>"+
+                                       "PERMINTAAN KONSULTASI MEDIK"+  
+                                       "<table width='100%' border='0' align='center' cellpadding='3px' cellspacing='0px' class='tbl_form'>"+
+                                          "<tr>"+
+                                              "<td width='33%'>Tanggal : "+rs2.getString("tanggalkonsultasi")+"</td>"+
+                                              "<td width='33%'>Permintaan : "+rs2.getString("jenis_permintaan")+"</td>"+
+                                              "<td width='33%'>No. Permintaan : "+rs2.getString("no_permintaan")+"</td>"+
+                                          "</tr>"+
+                                          "<tr>"+
+                                              "<td width='33%'>Diagnosa Kerja : "+rs2.getString("diagnosakerjakonsul")+"</td>"+
+                                              "<td width='33%'>Dokter Konsul : "+rs2.getString("kd_dokter")+" "+rs2.getString("dokterkonsul")+"</td>"+
+                                              "<td width='33%'>Dokter Dikonsuli : "+rs2.getString("kd_dokter_dikonsuli")+" "+rs2.getString("dokterdikonsuli")+"</td>"+
+                                          "</tr>"+
+                                          "<tr>"+
+                                              "<td width='100%' colspan='3'>Uraian Konsultasi : "+rs2.getString("uraian_konsultasi")+"</td>"+
+                                          "</tr>"+
+                                       "</table>"+
+                                    "</td>"+
+                                 "</tr>"+
+                                 "<tr>"+
+                                    "<td valign='top'>"+
+                                       "JAWABAN KONSULTASI"+ 
+                                       "<table width='100%' border='0' align='center' cellpadding='3px' cellspacing='0px' class='tbl_form'>"+
+                                          "<tr>"+
+                                              "<td width='33%'>Tanggal : "+rs2.getString("tanggaljawaban")+" </td>"+
+                                              "<td width='67%'>Diagnosa Kerja : "+rs2.getString("diagnosakerjajawaban")+" </td>"+
+                                          "</tr>"+
+                                          "<tr>"+
+                                              "<td width='100%' colspan='2'>Jawaban : "+rs2.getString("uraian_jawaban")+"</td>"+
+                                          "</tr>"+
+                                       "</table>"+
+                                    "</td>"+
+                                 "</tr>"
+                            ); 
+                        }
+                        htmlContent.append(
+                              "</table>"+
+                            "</td>"+
+                          "</tr>");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Notifikasi : "+e);
+                } finally{
+                    if(rs2!=null){
+                        rs2.close();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notif Konsultasi Medik : "+e);
         }
     }
     

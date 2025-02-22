@@ -1440,4 +1440,14 @@ public class koneksiDB {
         }
         return var;
     }
+    
+     public static String KODEPPKAPOTEKBPJS() {
+        try {
+            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+            var = prop.getProperty("KODEPPKAPOTEKBPJS");
+        } catch (Exception e) {
+            var = "";
+        }
+        return var;
+    }
 }

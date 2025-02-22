@@ -74,6 +74,7 @@ import modifikasi.DlgLaporanRL312;
 import modifikasi.DlgSurveilens;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
+import permintaan.DlgPermintaanKonsultasiMedik;
 import rekammedis.RMDataResumePasien;
 import permintaan.DlgPermintaanLaboratorium;
 import permintaan.DlgPermintaanPelayananInformasiObat;
@@ -650,6 +651,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         MnPermintaanRadiologi = new javax.swing.JMenuItem();
         MnPermintaanRanap = new javax.swing.JMenuItem();
         MnPermintaanInformasiObat = new javax.swing.JMenuItem();
+        MnPermintaanKonsultasiMedik = new javax.swing.JMenuItem();
         ppMasukPoli = new javax.swing.JMenuItem();
         MnKamarInap = new javax.swing.JMenuItem();
         MnTindakanRalan = new javax.swing.JMenu();
@@ -2099,6 +2101,22 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
             }
         });
         MnPermintaan.add(MnPermintaanInformasiObat);
+
+        MnPermintaanKonsultasiMedik.setBackground(new java.awt.Color(255, 255, 254));
+        MnPermintaanKonsultasiMedik.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnPermintaanKonsultasiMedik.setForeground(new java.awt.Color(50, 50, 50));
+        MnPermintaanKonsultasiMedik.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnPermintaanKonsultasiMedik.setText("Permintaan Konsultasi Medik");
+        MnPermintaanKonsultasiMedik.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnPermintaanKonsultasiMedik.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnPermintaanKonsultasiMedik.setName("MnPermintaanKonsultasiMedik"); // NOI18N
+        MnPermintaanKonsultasiMedik.setPreferredSize(new java.awt.Dimension(170, 26));
+        MnPermintaanKonsultasiMedik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnPermintaanKonsultasiMedikActionPerformed(evt);
+            }
+        });
+        MnPermintaan.add(MnPermintaanKonsultasiMedik);
 
         jPopupMenu1.add(MnPermintaan);
 
@@ -5857,7 +5875,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         panelBiasa2.setLayout(null);
 
         TglSakit1.setForeground(new java.awt.Color(50, 70, 50));
-        TglSakit1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-11-2024" }));
+        TglSakit1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-11-2024" }));
         TglSakit1.setDisplayFormat("dd-MM-yyyy");
         TglSakit1.setName("TglSakit1"); // NOI18N
         TglSakit1.setOpaque(false);
@@ -5904,7 +5922,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         jLabel32.setBounds(176, 10, 20, 23);
 
         TglSakit2.setForeground(new java.awt.Color(50, 70, 50));
-        TglSakit2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-11-2024" }));
+        TglSakit2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-11-2024" }));
         TglSakit2.setDisplayFormat("dd-MM-yyyy");
         TglSakit2.setName("TglSakit2"); // NOI18N
         TglSakit2.setOpaque(false);
@@ -6199,7 +6217,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(70, 23));
         panelGlass8.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-11-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-11-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -6212,7 +6230,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(23, 23));
         panelGlass8.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-11-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-11-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -10460,7 +10478,7 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
 
     private void MnResumeRawatJalan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnResumeRawatJalan2ActionPerformed
         try {
-               pilihancetak = (String)JOptionPane.showInputDialog(null,"Silahkan pilih resume yang mau dicetak!","Laporan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Resume Fisio Terapi", "Resume Petugas Fisio","Resume Lengkap Fisio"},"Resume Fisio Terapi");
+               pilihancetak = (String)JOptionPane.showInputDialog(null,"Silahkan pilih resume yang mau dicetak!","Laporan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Resume Fisio Terapi", "Resume Petugas Fisio","Resume Fisio & KFR"},"Resume Fisio Terapi");
                     switch (pilihancetak) {
                         case "Resume Fisio Terapi":
                                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -10527,7 +10545,7 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
                                  Valid.MyReport("rptBridgingFisioPetugas.jasper","report","::[ Cetak Resume ]::",param1);
                                  this.setCursor(Cursor.getDefaultCursor());
                         break;
-                        case "Resume Lengkap Fisio":
+                        case "Resume Fisio & KFR":
                             MnTampilDiagnosaActionPerformed(null);
                              nosep=Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE no_rawat='"+TNoRwCari.getText()+"' ");
                              tanggalfisterakhr=Sequel.cariIsi("SELECT rp.tgl_registrasi from reg_periksa rp INNER JOIN pemeriksaan_ralan pr on pr.no_rawat=rp.no_rawat WHERE rp.kd_poli='IRM' and pr.nip in (SELECT d.kd_dokter  FROM dokter d) and rp.no_rkm_medis='"+TNoRMCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1");
@@ -10553,15 +10571,17 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
                                  param2.put("tarifrs",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+TNoRwCari.getText()+"' and status in ('Ralan Dokter','Ralan Paramedis','Ralan Dokter Paramedis')"));
                                  param2.put("carapulang",Sequel.cariIsiBanyak("SELECT IF(stts='Sudah','Atas Persetujuan Dokter',IF(stts='Dirujuk','Rujuk',IF(stts='Dirawat','MRS',''))) FROM reg_periksa WHERE no_rawat='"+TNoRwCari.getText()+"' "));
                                  param2.put("kontrol",Sequel.cariIsiBanyak("SELECT tgl_rencana FROM bridging_surat_kontrol_bpjs WHERE no_sep='"+nosep+"'"));
-                                 param2.put("anamnesa",Sequel.cariIsiBanyak("SELECT pr.diagnosis_fisio from penilaian_fisioterapi  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
-                                 param2.put("ujifungsi",Sequel.cariIsiBanyak("SELECT CONCAT(pr.palpasi,' , ',pr.luas_gerak_sendi) from penilaian_fisioterapi  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
+                                 param2.put("anamnesa",Sequel.cariIsiBanyak("SELECT pr.keluhan  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                                 param2.put("ujifungsi",Sequel.cariIsiBanyak("SELECT pr.pemeriksaan  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
                                  param2.put("dxmedis",tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),7).toString());
                                  param2.put("penunjang",Sequel.cariIsiBanyak("SELECT pr.penunjang from penilaian_fisioterapi  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
                                  param2.put("jumlahkunjungan",Sequel.cariIsiBanyak("SELECT COUNT(pr.no_rawat) from reg_periksa rp INNER JOIN pemeriksaan_ralan pr on pr.no_rawat=rp.no_rawat WHERE rp.kd_poli='IRM' and pr.nip in (SELECT p.nip FROM petugas p) and rp.no_rkm_medis='"+TNoRMCari.getText()+"'  AND pr.tgl_perawatan BETWEEN '"+tanggalfisterakhr+"' and '"+tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),12).toString()+"'  ORDER BY pr.no_rawat"));
-                                 param2.put("tatalaksana",Sequel.cariIsiBanyak("SELECT pr.rencana_terapi from penilaian_fisioterapi  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
-                                 param2.put("anjuran",Sequel.cariIsiBanyak("SELECT pr.rekomedasi from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
+                                 param2.put("tatalaksana",Sequel.cariIsiBanyak("SELECT pr.rtl  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                                 param2.put("anjuran",Sequel.cariIsiBanyak("SELECT pr.instruksi  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                                 param2.put("evaluasi",Sequel.cariIsiBanyak("SELECT pr.evaluasi  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
                                  param2.put("kesimpulan",Sequel.cariIsiBanyak("SELECT pr.kesimpulan from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
                                  param2.put("rekomendasi",Sequel.cariIsiBanyak("SELECT pr.rekomedasi from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
+                                 param2.put("hasilkfr",Sequel.cariIsiBanyak("SELECT pr.hasil_didapat from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
                                  param2.put("tglkunjungandr",tanggalfisterakhr); 
                                  Valid.MyReport("rptBridgingResumeFISLONG.jasper","report","::[ Cetak Resume ]::",param2);
                                  this.setCursor(Cursor.getDefaultCursor());
@@ -12418,6 +12438,29 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
         }
     }//GEN-LAST:event_ppSkriningManagerPelayananPasienBtnPrintActionPerformed
 
+    private void MnPermintaanKonsultasiMedikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnPermintaanKonsultasiMedikActionPerformed
+        if(tabModekasir.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+            TCari.requestFocus();
+        }else if(TNoRw.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+            tbKasirRalan.requestFocus();
+        }else{
+            if(tbKasirRalan.getSelectedRow()!= -1){
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                DlgPermintaanKonsultasiMedik form=new DlgPermintaanKonsultasiMedik(null,false);
+                form.isCek();
+                form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                form.setLocationRelativeTo(internalFrame1);
+                form.setVisible(true);
+                form.emptTeks();
+                form.setNoRm(TNoRw.getText(),TNoRMCari.getText(),TPasienCari.getText());
+                form.tampil();
+                this.setCursor(Cursor.getDefaultCursor());  
+            }                
+        }
+    }//GEN-LAST:event_MnPermintaanKonsultasiMedikActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -12638,6 +12681,7 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
     private javax.swing.JMenu MnPermintaan;
     private javax.swing.JMenu MnPermintaan1;
     private javax.swing.JMenuItem MnPermintaanInformasiObat;
+    private javax.swing.JMenuItem MnPermintaanKonsultasiMedik;
     private javax.swing.JMenuItem MnPermintaanLab;
     private javax.swing.JMenuItem MnPermintaanLab1;
     private javax.swing.JMenuItem MnPermintaanRadiologi;

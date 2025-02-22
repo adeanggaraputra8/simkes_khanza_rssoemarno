@@ -759,7 +759,7 @@ public final class RMSkriningMPPFormA extends javax.swing.JDialog {
         scrollPane4.setBounds(444, 350, 410, 93);
 
         TglEvaluasi.setForeground(new java.awt.Color(50, 70, 50));
-        TglEvaluasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-03-2023 07:08:09" }));
+        TglEvaluasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-02-2025 05:24:40" }));
         TglEvaluasi.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglEvaluasi.setName("TglEvaluasi"); // NOI18N
         TglEvaluasi.setOpaque(false);
@@ -919,11 +919,13 @@ public final class RMSkriningMPPFormA extends javax.swing.JDialog {
         jLabel20.setBounds(401, 100, 103, 23);
 
         TDokter2.setEditable(false);
+        TDokter2.setText("-");
         TDokter2.setName("TDokter2"); // NOI18N
         FormInput.add(TDokter2);
         TDokter2.setBounds(610, 100, 213, 23);
 
         KdDok2.setEditable(false);
+        KdDok2.setText("-");
         KdDok2.setHighlighter(null);
         KdDok2.setName("KdDok2"); // NOI18N
         KdDok2.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1060,7 +1062,7 @@ public final class RMSkriningMPPFormA extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-03-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-02-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1074,7 +1076,7 @@ public final class RMSkriningMPPFormA extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-03-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-02-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -1130,7 +1132,7 @@ public final class RMSkriningMPPFormA extends javax.swing.JDialog {
         PanelAccor.setPreferredSize(new java.awt.Dimension(470, 43));
         PanelAccor.setLayout(new java.awt.BorderLayout(1, 1));
 
-        ChkAccor.setBackground(new java.awt.Color(255,250,250));
+        ChkAccor.setBackground(new java.awt.Color(255, 250, 250));
         ChkAccor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/kiri.png"))); // NOI18N
         ChkAccor.setSelected(true);
         ChkAccor.setFocusable(false);
@@ -2087,7 +2089,8 @@ public final class RMSkriningMPPFormA extends javax.swing.JDialog {
     public void emptTeks() {
         TglEvaluasi.setDate(new Date());
         KdDok1.setText("");
-        KdDok2.setText("");
+        KdDok2.setText("-");
+        TDokter2.setText("-");
         TDiagnosis.setText("");
         TKelompok.setText("");
         Assemen.setText("");
