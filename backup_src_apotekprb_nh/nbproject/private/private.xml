@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="4">
+        <file>
+            <url>src/simrskhanza/DlgCariPeriksaRadiologi.java</url>
+            <bookmark id="2">
+                <name/>
+                <line>1793</line>
+                <key/>
+            </bookmark>
+        </file>
+        <file>
+            <url>src/keuangan/DlgPendapatanPerCaraBayar.java</url>
+            <bookmark id="4">
+                <name/>
+                <line>552</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/ade/Documents/simrs_klnik_prb/SIMRS-Khanza-PRB/src/bridging/ApotekBPJSKirimObat.java</file>
+            <file>file:/home/ade/Documents/simrs_klnik_prb/SIMRS-Khanza-PRB/src/inventory/DlgResepObat.java</file>
+            <file>file:/home/ade/Documents/simrs_klnik_prb/SIMRS-Khanza-PRB/src/simrskhanza/frmUtama.java</file>
+            <file>file:/home/ade/Documents/simrs_klnik_prb/SIMRS-Khanza-PRB/src/inventory/DlgCariObat.java</file>
+            <file>file:/home/ade/Documents/simrs_klnik_prb/SIMRS-Khanza-PRB/src/modifikasi/DlgRiwayatResep.java</file>
+            <file>file:/home/ade/Documents/simrs_klnik_prb/SIMRS-Khanza-PRB/src/modifikasi/BPJSCekSEPKUNJUNGAN.java</file>
+        </group>
+    </open-files>
+</project-private>
