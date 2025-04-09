@@ -72,7 +72,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             diagnosaKlaimINADRG = "", hasilVerifDiag2 = "", hasilVerifDiag3 = "", hasilVerifDiag4 = "", caramasuk = "", nilaiPembiayaan = "",
             nilaiVenti = "", tglIntu = "", tglEkstu = "", dializer = "", onset = "", caraLhr = "", wktlahir = "", ltkjnn = "", kndisi = "",
             dgBantuanManual = "", forcep = "", vacum = "", cekDeliveri = "", mnt1APP = "", mnt1PUL = "", mnt1GRI = "", mnt1ACT = "", mnt1RES = "",
-            mnt5APP = "", mnt5PUL = "", mnt5GRI = "", mnt5ACT = "", mnt5RES = "", requestJson = "";
+            mnt5APP = "", mnt5PUL = "", mnt5GRI = "", mnt5ACT = "", mnt5RES = "", requestJson = "",norawatbayi="";
     private PreparedStatement ps, ps1, ps2, ps3, ps4, ps5, ps6, ps7, ps8, ps9, ps10, ps11, ps12, ps13, ps14, ps15, ps16, ps17, ps18;
     private ResultSet rs, rs1, rs2, rs3, rs4, rs5, rs6, rs7, rs8, rs9, rs10, rs11, rs12, rs13, rs14, rs15, rs16, rs17, rs18;
     private ApiEKLAIM_inacbg mbak_eka = new ApiEKLAIM_inacbg();
@@ -7972,27 +7972,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
             pnb1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
             
 
@@ -8001,27 +8001,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         } else {
             pnb8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                    + "AND (kp.kd_kategori='PNB01')");
 
             pnb10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                    + "AND (kp.kd_kategori='PNB01')");
 
             nilaiPNB = pnb8 + pnb9 + pnb10 + pnb11 + pnb12 + pnb13;
@@ -8032,11 +8032,11 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
     private void hitungRI() {
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
-            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%' OR kd_kamar LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
+            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%'  OR kd_kamar LIKE '%NIC%' OR kd_kamar LIKE '%HCA%' OR kd_kamar LIKE '%HCD%') AND no_rawat='" + NrawatTARIF + "'");
             ri.setText(Valid.SetAngka2(nilaiRI));
 
         } else {
-            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%' OR kd_kamar LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
+            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%'  OR kd_kamar LIKE '%NIC%' OR kd_kamar LIKE '%HCA%' OR kd_kamar LIKE '%HCD%') AND no_rawat='" + NrawatTARIF + "'");
             ri1.setText(Valid.SetAngka2(nilaiRI));
         }
     }
@@ -8062,22 +8062,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         if (kodePayor.equals("3")) {
             kmr1 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
             kmr2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                    + "AND (kp.kd_kategori='KMA11')");
             kmr4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                    + "AND (kp.kd_kategori='KMA11')");
             kmr5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                    + "AND (kp.kd_kategori='KMA11')");
 
             nilaiKAM = kmr1 + kmr2 + kmr3 + kmr4 + kmr5 + kmr6 + kmr7;
@@ -8086,22 +8086,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         } else {
             kmr8 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
             kmr9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                    + "AND (kp.kd_kategori='KMA11')");
             kmr10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                   + "AND (kp.kd_kategori='KMA11')");
             kmr14 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                    + "AND (kp.kd_kategori='KMA11')");
 
             nilaiKAM = kmr8 + kmr9 + kmr10 + kmr11 + kmr12 + kmr13 + kmr14;
@@ -8141,22 +8141,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
             kon1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
 
             nilaiKON = kon1 + kon2 + kon3 + kon4 + kon5 + kon6;
@@ -8164,22 +8164,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         } else {
             kon8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                    + "(kp.kd_kategori='KST03')");
 
             nilaiKON = kon8 + kon9 + kon10 + kon11 + kon12 + kon13;
@@ -8205,22 +8205,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
             kep1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
 
             nilaiKEP = kep1 + kep2 + kep3 + kep4 + kep5 + kep6;
@@ -8228,22 +8228,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         } else {
             kep8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
 
             nilaiKEP = kep8 + kep9 + kep10 + kep11 + kep12 + kep13;
@@ -8272,27 +8272,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             reh1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
             reh5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
             reh6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
 
             nilaiREH = reh1 + reh2 + reh3 + reh4 + reh5 + reh6;
             reh.setText(Valid.SetAngka2(nilaiREH));
@@ -8301,27 +8301,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             reh8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
             reh12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
             reh13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
 
             nilaiREH = reh8 + reh9 + reh10 + reh11 + reh12 + reh13;
             reh7.setText(Valid.SetAngka2(nilaiREH));
@@ -8337,27 +8337,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             rad01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             rad5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             rad6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             nilaiRAD = rad01 + rad2 + rad3 + rad4 + rad5 + rad6 + rad7;
             rad.setText(Valid.SetAngka2(nilaiRAD));
 
@@ -8366,27 +8366,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             rad9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             rad13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             rad14 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             nilaiRAD = rad8 + rad9 + rad10 + rad11 + rad12 + rad13 + rad14;
             rad1.setText(Valid.SetAngka2(nilaiRAD));
         }
@@ -8399,27 +8399,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             lab01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             lab5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             lab6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             nilaiLAB = lab01 + lab2 + lab3 + lab4 + lab5 + lab6 + lab7;
             lab.setText(Valid.SetAngka2(nilaiLAB));
 
@@ -8428,27 +8428,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             lab9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             lab13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             lab14 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             nilaiLAB = lab8 + lab9 + lab10 + lab11 + lab12 + lab13 + lab14;
             lab1.setText(Valid.SetAngka2(nilaiLAB));
         }
@@ -8464,17 +8464,17 @@ private void hitungOBAT() {
 
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
-            obt1 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Obat'");
-            obt2 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Retur Obat'");
-            obt3 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Resep Pulang'");
+            obt1 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Obat'");
+            obt2 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Retur Obat'");
+            obt3 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Resep Pulang'");
 
             nilaiOBAT = obt1 - obt2 + obt3;
             obat.setText(Valid.SetAngka2(nilaiOBAT));
 
         } else {
-            obt4 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Obat'");
-            obt5 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Retur Obat'");
-            obt6 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Resep Pulang'");
+            obt4 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Obat'");
+            obt5 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Retur Obat'");
+            obt6 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Resep Pulang'");
 
             nilaiOBAT = obt4 - obt5 + obt6;
             obat1.setText(Valid.SetAngka2(nilaiOBAT));
@@ -8502,31 +8502,31 @@ private void hitungOBAT() {
             pb01 = Sequel.cariIsiAngka("SELECT SUM(biayaoperator1+biayaoperator2+biayaoperator3+biayaasisten_operator1+biayaasisten_operator2+biayaasisten_operator3+ "
                     + "biayainstrumen+biayadokter_anak+biayaperawaat_resusitas+biayadokter_anestesi+biayaasisten_anestesi+biayaasisten_anestesi2+biayabidan+ "
                     + "biayabidan2+biayabidan3+biayaperawat_luar+biayaalat+biayasewaok+akomodasi+bagian_rs+biaya_omloop+biaya_omloop2+biaya_omloop3+biaya_omloop4+ "
-                    + "biaya_omloop5+biayasarpras+biaya_dokter_pjanak+biaya_dokter_umum) biaya FROM operasi WHERE no_rawat='" + NrawatTARIF + "'");
+                    + "biaya_omloop5+biayasarpras+biaya_dokter_pjanak+biaya_dokter_umum) biaya FROM operasi WHERE no_rawat  in ('" + NrawatTARIF + "', '" + norawatbayi + "') ");
             pb2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             pb6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             pb7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             nilaiPB = pb01+pb2+pb3+pb4+pb5+pb6+pb7;
             pb.setText(Valid.SetAngka2(nilaiPB));
 
@@ -8534,31 +8534,31 @@ private void hitungOBAT() {
             pb8 = Sequel.cariIsiAngka("SELECT SUM(biayaoperator1+biayaoperator2+biayaoperator3+biayaasisten_operator1+biayaasisten_operator2+biayaasisten_operator3+ "
                     + "biayainstrumen+biayadokter_anak+biayaperawaat_resusitas+biayadokter_anestesi+biayaasisten_anestesi+biayaasisten_anestesi2+biayabidan+ "
                     + "biayabidan2+biayabidan3+biayaperawat_luar+biayaalat+biayasewaok+akomodasi+bagian_rs+biaya_omloop+biaya_omloop2+biaya_omloop3+biaya_omloop4+ "
-                    + "biaya_omloop5+biayasarpras+biaya_dokter_pjanak+biaya_dokter_umum) biaya FROM operasi WHERE no_rawat='" + NrawatTARIF + "'");
+                    + "biaya_omloop5+biayasarpras+biaya_dokter_pjanak+biaya_dokter_umum) biaya FROM operasi WHERE no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') ");
              pb9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawa in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             pb13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             pb14 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             nilaiPB = pb8+pb9+pb10+pb11+pb12+pb13+pb14;
             pb1.setText(Valid.SetAngka2(nilaiPB));
         }
@@ -8585,27 +8585,27 @@ private void hitungOBAT() {
             pd01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             pd5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             pd6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             nilaiPd = pd01+pd2+pd3+pd4+pd5+pd6;
             pd.setText(Valid.SetAngka2(nilaiPd));
 
@@ -8613,27 +8613,27 @@ private void hitungOBAT() {
            pd7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             pd11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             pd12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             nilaiPd = pd7+pd8+pd9+pd10+pd11+pd12;
             pd1.setText(Valid.SetAngka2(nilaiPd));
         }
@@ -8660,27 +8660,27 @@ private void hitungOBAT() {
             ta01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             ta5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             ta6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             nilaiTa = ta01+ta2+ta3+ta4+ta5+ta6;
             ta.setText(Valid.SetAngka2(nilaiTa));
 
@@ -8688,27 +8688,27 @@ private void hitungOBAT() {
             ta7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat= in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             ta11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             ta12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             nilaiTa = ta7+ta8+ta9+ta10+ta11+ta12;
             ta1.setText(Valid.SetAngka2(nilaiTa));
         }
@@ -8735,27 +8735,27 @@ private void hitungOBAT() {
             al01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             al5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             al6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             NilaiAl = al01+al2+al3+al4+al5+al6;
             bmhp.setText(Valid.SetAngka2(NilaiAl));
 
@@ -8763,27 +8763,27 @@ private void hitungOBAT() {
              al7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             al11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             al12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             NilaiAl = al7+al8+al9+al10+al11+al12;
             bmhp1.setText(Valid.SetAngka2(NilaiAl));
         }
@@ -8811,27 +8811,27 @@ private void hitungOBAT() {
             sa01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             sa5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             sa6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             NilaiSa = sa01+sa2+sa3+sa4+sa5+sa6;
             sa.setText(Valid.SetAngka2(NilaiSa));
 
@@ -8839,27 +8839,27 @@ private void hitungOBAT() {
             sa7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             sa11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             sa12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             NilaiSa = sa7+sa8+sa9+sa10+sa11+sa12;
             sa1.setText(Valid.SetAngka2(NilaiSa));
         }
@@ -8886,27 +8886,27 @@ private void hitungOBAT() {
             pen01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PNJ06')");
             pen2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PNJ06')");
             pen3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PNJ06')");
             pen4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PNJ06')");
             pen5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PNJ06')");
             pen6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PNJ06')");
             NilaiPen = pen01+pen2+pen3+pen4+pen5+pen6;
             pen.setText(Valid.SetAngka2(NilaiPen));
 
@@ -8914,27 +8914,27 @@ private void hitungOBAT() {
             pen7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "')' AND (kp.kd_kategori='KP042')");
             pen8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             pen9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             pen10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             pen11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             pen12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             NilaiSa = pen7+pen8+pen9+pen10+pen11+pen12;
             pen1.setText(Valid.SetAngka2(NilaiPen));
         }
@@ -10913,6 +10913,7 @@ private void hitungOBAT() {
     
     public void tarifRS(String NORW) {
         NrawatTARIF = NORW;
+        norawatbayi=Sequel.cariIsi("SELECT no_rawat2 FROM ranap_gabung WHERE no_rawat='"+NORW+"' ");
         hitungPNB();
         hitungRI();
         hitungKAMAR();

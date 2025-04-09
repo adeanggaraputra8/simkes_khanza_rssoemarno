@@ -6,18 +6,25 @@
 package fungsi;
 
 
+import com.itextpdf.html2pdf.HtmlConverter;
+import com.itextpdf.kernel.pdf.PdfWriter;
 import java.awt.Desktop;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,18 +81,19 @@ import widget.TextArea;
 import widget.TextBox;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
+import org.apache.pdfbox.io.MemoryUsageSetting;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
+
+
 /**
  *
  * @author Owner
@@ -1376,6 +1384,15 @@ public final class validasi {
             kiri.requestFocus();
         }
     }
+      
+        
+    public void pindah2(KeyEvent evt, Button kiri, Button kanan) {
+        if(evt.getKeyCode()==KeyEvent.VK_TAB){
+            kanan.requestFocus();
+        }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
+            kiri.requestFocus();
+        }
+    }
 
     public void pindah(java.awt.event.KeyEvent evt,JTextField kiri,JTextArea kanan) {
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
@@ -2193,9 +2210,9 @@ public final class validasi {
                     String namafile = "./" + reportDirName + "/" + reportName;
                     JasperPrint jasperPrint = JasperFillManager.fillReport(namafile, parameters, connect);
 //                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + reportName.replaceAll("jasper", "pdf"));
-                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + judul.replaceAll("/", "") + ".pdf");
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + judul.replaceAll("/", "") + "-rsum.pdf");
                     
-                    a = saveDir + "/" + judul.replaceAll("/", "") + ".pdf";
+                    a = saveDir + "/" + judul.replaceAll("/", "") + "-rsum.pdf";
 //                    Desktop.getDesktop().open(f);
                     //JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data . . .");
                 } catch (Exception rptexcpt) {
@@ -2210,6 +2227,118 @@ public final class validasi {
         return a;
     }
         
-       
+     
+  
+     
+    public void convert2pdf( String URL,String namafile) throws IOException {
+        String a="";  
+        Properties prop = new Properties();
+        prop.loadFromXML(new FileInputStream("setting/database.xml"));
+        String phpUrl = "http://"+koneksiDB.HOST()+":"+prop.getProperty("PORTWEB")+"/"+prop.getProperty("HYBRIDWEB")+"/"+URL; // URL file PHP
+        String outputPdfPath = prop.getProperty("FOLDERPDF");
 
+      
+        File d = new File(outputPdfPath);
+            boolean cek = d.isDirectory();
+
+            if (cek == false) {
+                Files.createDirectories(Paths.get(outputPdfPath));
+            }   
+            try {
+                a = outputPdfPath+namafile.replaceAll("/", "")+"-bill.pdf";
+                // Baca konten dari PHP
+                String htmlContent = getHtmlFromPhp(phpUrl);
+                //System.out.println("HTML dari PHP: \n" + htmlContent); // Debugging
+
+                // Konversi ke PDF
+                HtmlConvertoPDF(htmlContent,a);
+            }  catch (Exception e) {
+               System.out.println(e);
+            }
+      
+    }
+
+    // Fungsi untuk membaca output dari file PHP
+    public static String getHtmlFromPhp(String phpUrl) throws IOException {
+        StringBuilder result = new StringBuilder();
+        HttpURLConnection conn = null;
+        BufferedReader rd = null;
+
+        try {
+            URL url = new URL(phpUrl);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+        } finally {
+            if (rd != null) rd.close();
+            if (conn != null) conn.disconnect();
+        }
+        return result.toString();
+    }
+
+    public void HtmlConvertoPDF(String htmlContent,String namefile){        
+        try {
+            PdfWriter pdf = new PdfWriter(namefile);
+                HtmlConverter.convertToPdf(
+                   htmlContent,pdf);
+                  System.out.println("Berhasil Membuat fil PDF billing. . .!");
+                File f = new File(namefile);   
+        }  catch (Exception e) {
+               System.out.println(e);
+        }
+        
+    }
+    
+   
+      public void gabungfile(String NameFile) {
+ 
+        try {
+              Properties prop = new Properties();
+              prop.loadFromXML(new FileInputStream("setting/database.xml"));
+              String PdfPath = prop.getProperty("FOLDERPDF");
+                File folder = new File(PdfPath+"/");
+            
+            if (folder.isDirectory()) {
+                 File[] files = folder.listFiles((dir, name) -> name.startsWith(NameFile) && name.endsWith(".pdf"));
+
+                 // Membuat array untuk file yang akan digabungkan
+                    if (files != null && files.length >= 2) {
+                        String[] filesToMerge = new String[files.length];
+                        for (int i = 0; i < files.length; i++) {
+                            filesToMerge[i] = files[i].getAbsolutePath();
+                        }
+
+                        // Membuat objek PDFMergerUtility untuk menggabungkan file
+                        String outputPDF = PdfPath + "/" + NameFile + "-marge.pdf";
+                        PDFMergerUtility ut = new PDFMergerUtility();
+
+                        // Menambahkan file-file ke dalam PDFMergerUtility
+                        for (String file : filesToMerge) {
+                            ut.addSource(file);
+                        }
+
+                        // Menetapkan file tujuan untuk hasil gabungan
+                        ut.setDestinationFileName(outputPDF);
+
+                        // Menggabungkan dokumen PDF
+                        ut.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
+
+                        // Menampilkan pesan sukses
+                        JOptionPane.showMessageDialog(null, "Proses gabung file selesai..!");
+                    } else {
+                    JOptionPane.showMessageDialog(null, "File tidak ditemukan. Pastikan file ada di folder yang benar.");
+                }
+            }
+        } catch (IOException e) {
+                System.out.println("Notif : "+e);
+                JOptionPane.showMessageDialog(null,"Gagal menggabungkan file, cek kembali file apakah sudah dalam bentuk PDF.\nAtau cek kembali hak akses file di server dokumen..!!");
+        }
+    }
+      
 }
+

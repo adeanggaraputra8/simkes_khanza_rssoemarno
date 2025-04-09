@@ -1531,13 +1531,13 @@ public class PanelDiagnosa extends widget.panelisi {
         }
         
         if(status.equals("Ralan") && !nosep.equals("") && sepvedikaralan.equals("")){
-                    Sequel.menyimpan("vedika_ralan","?,?,?,now(),?","Vedika",4,new String[]{
-                                      norawat,akses.getkode(),"Coding",nosep
+                    Sequel.menyimpan("vedika_ralan","?,?,?,now(),?,?","Vedika",5,new String[]{
+                                      norawat,akses.getkode(),"Coding",nosep,""
                     });
         
         }else if (status.equals("Ranap") && !nosep.equals("") && sepvedikaranap.equals("")){
-                    Sequel.menyimpan("vedika_ranap","?,?,?,now(),?","Vedika",4,new String[]{
-                                      norawat,akses.getkode(),"Coding",nosep
+                    Sequel.menyimpan("vedika_ranap","?,?,?,now(),?,?","Vedika",5,new String[]{
+                                      norawat,akses.getkode(),"Coding",nosep,""
                     });
         
         }

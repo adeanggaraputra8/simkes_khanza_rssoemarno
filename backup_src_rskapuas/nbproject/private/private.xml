@@ -20,10 +20,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/ade/Documents/simrs%20rs%20kapuas/SIMRS-Khanza-master/src/simrskhanza/DlgReg.java</file>
-            <file>file:/home/ade/Documents/simrs%20rs%20kapuas/SIMRS-Khanza-master/src/bridging/BPJSSuratKontrol.java</file>
-            <file>file:/home/ade/Documents/simrs%20rs%20kapuas/SIMRS-Khanza-master/src/bridging/BPJSDataSEP.java</file>
-            <file>file:/home/ade/Documents/simrs%20rs%20kapuas/SIMRS-Khanza-master/src/simrskhanza/DlgKasirRalan.java</file>
+            <file>file:/home/ade/Documents/simrs%20rs%20kapuas/SIMRS-Khanza-master/src/keuangan/DlgBilingRanap.java</file>
+            <file>file:/home/ade/Documents/simrs%20rs%20kapuas/SIMRS-Khanza-master/src/modifikasi/DlgVedikaKlaim.java</file>
+            <file>file:/home/ade/Documents/simrs%20rs%20kapuas/SIMRS-Khanza-master/src/laporan/DlgBerkasRawat.java</file>
+            <file>file:/home/ade/Documents/simrs%20rs%20kapuas/SIMRS-Khanza-master/src/fungsi/validasi.java</file>
         </group>
     </open-files>
 </project-private>

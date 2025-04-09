@@ -12,12 +12,17 @@
 
 package simrskhanza;
 
+import fungsi.validasi;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author perpustakaan
  */
 public class DlgAbout extends javax.swing.JDialog {
-
+     private validasi Valid = new validasi();
     
     public DlgAbout(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -308,7 +313,7 @@ public class DlgAbout extends javax.swing.JDialog {
             }
         });
         panelGlass4.add(BtnKeluar);
-        BtnKeluar.setBounds(340, 310, 100, 30);
+        BtnKeluar.setBounds(330, 310, 100, 30);
 
         jLabel27.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(50, 50, 50));

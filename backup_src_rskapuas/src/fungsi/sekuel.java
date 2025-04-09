@@ -61,6 +61,9 @@ public final class sekuel {
     private Date tanggal=new Date();
     private boolean bool=false;
     private DecimalFormat df2 = new DecimalFormat("####");
+    private SimpleDateFormat formattanggal = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private Date waktumulai,kegiatan;
+    private long bedawaktu=0;
     public sekuel(){
         super();
     }
@@ -792,6 +795,38 @@ public final class sekuel {
         }
     }
     
+     public boolean mengedittf2(String table,String acuan_field,String update,int i,String[] a){
+        bool=true;
+        try {
+            ps=connect.prepareStatement("update "+table+" set "+update+" where "+acuan_field);
+            try{
+                for(angka=1;angka<=i;angka++){
+                    ps.setString(angka,a[angka-1]);
+                } 
+                ps.executeUpdate();       
+                bool=true;
+             }catch(Exception e){
+                bool=false;
+                System.out.println("Notifikasi : "+e);
+             }finally{
+                if(ps != null){
+                    ps.close();
+                }
+            }
+            if(AKTIFKANTRACKSQL.equals("yes")){
+                dicari="";
+                for(angka=1;angka<=i;angka++){
+                    dicari=dicari+"|"+a[angka-1];
+                }
+            }
+            SimpanTrack("update "+table+" set "+update+" "+dicari+" where "+acuan_field);
+        } catch (Exception e) {
+            bool=false;
+            System.out.println("Notifikasi : "+e);
+        }   
+        return bool;
+    }
+    
     public void mengedit(String table,String acuan_field,String update){
         try {
             ps=connect.prepareStatement("update "+table+" set "+update+" where "+acuan_field);
@@ -872,7 +907,7 @@ public final class sekuel {
                     ps.setString(angka,a[angka-1]);
                 } 
                 ps.executeUpdate();   
-                JOptionPane.showMessageDialog(null,"Proses edit berhasil...!!!!");
+                JOptionPane.showMessageDialog(null," berhasil...!!!!");
              }catch(Exception e){
                 System.out.println("Notifikasi : "+e);
                 JOptionPane.showMessageDialog(null,"Maaf, Gagal mengedit. Periksa kembali data...!!!!");
@@ -1324,6 +1359,75 @@ public final class sekuel {
             System.out.println(e);
         }
         return angka;
+    }
+    
+     public int cariRanapStatusPulang(String norawat){
+        angka=0;
+        try {
+            ps=connect.prepareStatement(
+                    "select count(kamar.no_rawat) from kamar_inap where kamar_inap.no_rawat=? and kamar_inap.tgl_keluar <> '0000-00-00' and kamar_inap.jam_keluar <> '00:00:00' ");
+            try {
+                ps.setString(1,norawat);
+                rs=ps.executeQuery();
+                if(rs.next()){
+                    angka=rs.getInt(1);
+                }
+            } catch (Exception e) {
+                System.out.println("Notifikasi : "+e);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return angka;
+    }
+    
+       public boolean cekTanggalRegistrasi(String tanggalregistrasi,String tanggalinputdata){
+        bool=false;
+        try {
+            waktumulai = formattanggal.parse(tanggalregistrasi);
+            kegiatan = formattanggal.parse(tanggalinputdata);
+            bedawaktu = (kegiatan.getTime()-waktumulai.getTime())/1000;
+            if(bedawaktu<0){
+                bool=false;
+                JOptionPane.showMessageDialog(null,"Maaf, jam input data / perubahan data minimal di jam "+tanggalregistrasi+" !");
+            }else{
+                bool=true;
+            }
+        } catch (Exception ex) {
+            bool=false;
+            System.out.println("Notif : "+ex);
+        }
+        return bool;
+    }
+    
+//    public boolean cekTanggal48jam(String tanggalmulai,String tanggalinputdata){
+//        bool=false;
+//        try {
+//            waktumulai = formattanggal.parse(tanggalmulai);
+//            kegiatan = formattanggal.parse(tanggalinputdata);
+//            bedawaktu = (kegiatan.getTime()-waktumulai.getTime())/1000;
+//            if(bedawaktu>172800){
+//                bool=false;
+//                JOptionPane.showMessageDialog(null,"Maaf, perubahan data / penghapusan data tidak boleh lebih dari 2 x 24 jam !");
+//            }else{
+//                bool=true;
+//            }
+//        } catch (Exception ex) {
+//            bool=false;
+//            System.out.println("Notif : "+ex);
+//        }
+//        return bool;
+//    }
+    
+    public String ambiltanggalsekarang(){
+        return formattanggal.format(new Date());
     }
     
     public void cariIsi(String sql,JTextField txt,String kunci){

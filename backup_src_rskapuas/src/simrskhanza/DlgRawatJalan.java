@@ -67,6 +67,7 @@ import rekammedis.RMDataResumePasien;
 import permintaan.DlgPermintaanLaboratorium;
 import permintaan.DlgPermintaanPelayananInformasiObat;
 import permintaan.DlgPermintaanRadiologi;
+import permintaan.DlgPermintaanRanap;
 import rekammedis.MasterCariTemplatePemeriksaan;
 import rekammedis.RMCari5SOAPTerakhir;
 import rekammedis.RMCatatanADIMEGizi;
@@ -1611,6 +1612,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         BtnBerkasDigital = new widget.Button();
         BtnPermintaanLab = new widget.Button();
         BtnPermintaanRad = new widget.Button();
+        BtnPermintaanRanap = new widget.Button();
         BtnJadwalOperasi = new widget.Button();
         BtnSKDP = new widget.Button();
         BtnKamar = new widget.Button();
@@ -1868,7 +1870,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-07-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-03-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1882,7 +1884,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-07-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-03-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -3629,7 +3631,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         jLabel23.setBounds(554, 10, 60, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-07-2024" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-03-2025" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -3878,6 +3880,23 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
             }
         });
         FormMenu.add(BtnPermintaanRad);
+
+        BtnPermintaanRanap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnPermintaanRanap.setText("Permintaan Rad");
+        BtnPermintaanRanap.setFocusPainted(false);
+        BtnPermintaanRanap.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnPermintaanRanap.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnPermintaanRanap.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnPermintaanRanap.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnPermintaanRanap.setName("BtnPermintaanRanap"); // NOI18N
+        BtnPermintaanRanap.setPreferredSize(new java.awt.Dimension(190, 23));
+        BtnPermintaanRanap.setRoundRect(false);
+        BtnPermintaanRanap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnPermintaanRanapActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnPermintaanRanap);
 
         BtnJadwalOperasi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
         BtnJadwalOperasi.setText("Jadwal Operasi");
@@ -9311,6 +9330,26 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
 //        }
     }//GEN-LAST:event_tbriwayatKeyPressed
 
+    private void BtnPermintaanRanapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPermintaanRanapActionPerformed
+          if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+            TCari.requestFocus();
+        }else{      
+            if(Sequel.cariInteger("select count(kamar_inap.no_rawat) from kamar_inap where kamar_inap.no_rawat=?",TNoRw.getText())>0){
+                JOptionPane.showMessageDialog(null,"Maaf, Pasien sudah masuk Kamar Inap. Gunakan billing Ranap..!!!");
+            }else {
+               this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                DlgPermintaanRanap form=new DlgPermintaanRanap(null,false);
+                form.isCek();
+                form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                form.setLocationRelativeTo(internalFrame1);
+                form.setNoRm(TNoRw.getText(),TNoRM.getText(),TPasien.getText(),TDokter.getText(),Sequel.cariIsi("SELECT png_jawab FROM penjab inner join reg_periksa on reg_periksa.kd_pj=penjab.kd_pj WHERE reg_periksa.no_rawat='"+TNoRw.getText()+"'"),Sequel.cariIsi("SELECT nm_poli FROM poliklinik inner join reg_periksa on reg_periksa.kd_poli=poliklnik.kd_poli WHERE reg_periksa.no_rawat='"+TNoRw.getText()+"'"),Sequel.cariIsi("SELECT no_tlp FROM pasien WHERE no_rkm_medis='"+TNoRM.getText()+"' "));
+                form.setVisible(true);
+                this.setCursor(Cursor.getDefaultCursor());
+            }          
+        }
+    }//GEN-LAST:event_BtnPermintaanRanapActionPerformed
+
     private void BtnSkorBromagePascaAnestesiActionPerformed(java.awt.event.ActionEvent evt) {                                                            
         if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
@@ -9556,6 +9595,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Button BtnPenilaianUlangNyeri;
     private widget.Button BtnPermintaanLab;
     private widget.Button BtnPermintaanRad;
+    private widget.Button BtnPermintaanRanap;
     private widget.Button BtnPrint;
     private widget.Button BtnRekonsiliasiObat;
     private widget.Button BtnResepLuar;
@@ -12066,11 +12106,10 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                         "select pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.keluhan,pemeriksaan_ralan.pemeriksaan,"+
                         "pemeriksaan_ralan.penilaian,pemeriksaan_ralan.rtl,pemeriksaan_ralan.instruksi,pemeriksaan_ralan.evaluasi "+
                         "from pemeriksaan_ralan inner join reg_periksa on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat where "+
-                        "reg_periksa.no_rkm_medis=? and reg_periksa.kd_poli=? and pemeriksaan_ralan.nip in (select kd_dokter from dokter) "+
+                        "reg_periksa.no_rkm_medis=? and pemeriksaan_ralan.nip in (select kd_dokter from dokter) "+
                         "order by pemeriksaan_ralan.tgl_perawatan desc,pemeriksaan_ralan.jam_rawat desc limit 5");
                 try{
                     ps.setString(1,TNoRM.getText());
-                    ps.setString(2,poli);
                     rs=ps.executeQuery();
                     while(rs.next()){
                         tabModeRiwayat.addRow(new String[] {

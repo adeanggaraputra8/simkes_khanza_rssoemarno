@@ -11188,7 +11188,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         }else if(TPasien.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu data pasien dengan menklik data pada table...!!!");
             tbPetugas.requestFocus();
-        }else if (kdpoli.getText().equals("THT")||kdpoli.getText().equals("BED")||kdpoli.getText().trim().equals("GND")||kdpoli.getText().trim().equals("GIG")||kdpoli.getText().trim().equals("OBG")||kdpoli.getText().trim().equals("IRM")||kdpoli.getText().trim().equals("KLT")||kdpoli.getText().trim().equals("PAR")||kdpoli.getText().trim().equals("SAR")){
+        }else if (kdpoli.getText().equals("THT")||kdpoli.getText().equals("BED")||kdpoli.getText().trim().equals("GND")||kdpoli.getText().trim().equals("GIG")||kdpoli.getText().trim().equals("OBG")||kdpoli.getText().trim().equals("IRM")||kdpoli.getText().trim().equals("KLT")||kdpoli.getText().trim().equals("PAR")||kdpoli.getText().trim().equals("SAR")||kdpoli.getText().trim().equals("MAT")){
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             Map<String, Object> param = new HashMap<>();
             param.put("namars",akses.getnamars());
@@ -11240,7 +11240,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private void MnSPBK1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSPBK1ActionPerformed
         if(TPasien.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
-        }else if (kdpoli.getText().equals("BED")||kdpoli.getText().trim().equals("GND")||kdpoli.getText().trim().equals("GIG")||kdpoli.getText().trim().equals("OBG")||kdpoli.getText().trim().equals("IRM")||kdpoli.getText().trim().equals("KLT")||kdpoli.getText().trim().equals("PAR")||kdpoli.getText().trim().equals("SAR")){
+        }else if (kdpoli.getText().equals("BED")||kdpoli.getText().trim().equals("GND")||kdpoli.getText().trim().equals("GIG")||kdpoli.getText().trim().equals("OBG")||kdpoli.getText().trim().equals("IRM")||kdpoli.getText().trim().equals("KLT")||kdpoli.getText().trim().equals("PAR")||kdpoli.getText().trim().equals("SAR")||kdpoli.getText().trim().equals("MAT")){
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             Map<String, Object> param = new HashMap<>();
             param.put("namars",akses.getnamars());
@@ -14402,7 +14402,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     }//GEN-LAST:event_ppLembarResepActionPerformed
 
     private void ppSEPBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppSEPBtnPrintActionPerformed
-        if ((kdpoli.getText().trim().equals("INT"))||(kdpoli.getText().trim().equals("SAR"))||(kdpoli.getText().trim().equals("ANA"))||(kdpoli.getText().trim().equals("BED"))||(kdpoli.getText().trim().equals("GIG"))||(kdpoli.getText().trim().equals("OBG"))||(kdpoli.getText().trim().equals("IGDK"))||(kdpoli.getText().trim().equals("JIW"))||(kdpoli.getText().trim().equals("MAT"))||(kdpoli.getText().trim().equals("KLT"))||(kdpoli.getText().trim().equals("HDL"))||(kdpoli.getText().trim().equals("THT"))||(kdpoliinternal.getText().trim().equals("INT"))||(kdpoliinternal.getText().trim().equals("SAR"))||(kdpoliinternal.getText().trim().equals("ANA"))||(kdpoliinternal.getText().trim().equals("BED"))||(kdpoliinternal.getText().trim().equals("GIG"))||(kdpoliinternal.getText().trim().equals("OBG"))||(kdpoliinternal.getText().trim().equals("IGDK"))||(kdpoliinternal.getText().trim().equals("JIW"))||(kdpoliinternal.getText().trim().equals("MAT"))||(kdpoliinternal.getText().trim().equals("KLT"))||(kdpoliinternal.getText().trim().equals("HDL"))||(kdpoliinternal.getText().trim().equals("THT"))) {
+        if ((kdpoli.getText().trim().equals("INT"))||(kdpoli.getText().trim().equals("SAR"))||(kdpoli.getText().trim().equals("ANA"))||(kdpoli.getText().trim().equals("BED"))||(kdpoli.getText().trim().equals("GIG"))||(kdpoli.getText().trim().equals("OBG"))||(kdpoli.getText().trim().equals("MAT"))||(kdpoli.getText().trim().equals("IGDK"))||(kdpoli.getText().trim().equals("JIW"))||(kdpoli.getText().trim().equals("MAT"))||(kdpoli.getText().trim().equals("KLT"))||(kdpoli.getText().trim().equals("HDL"))||(kdpoli.getText().trim().equals("THT"))||(kdpoliinternal.getText().trim().equals("INT"))||(kdpoliinternal.getText().trim().equals("SAR"))||(kdpoliinternal.getText().trim().equals("ANA"))||(kdpoliinternal.getText().trim().equals("BED"))||(kdpoliinternal.getText().trim().equals("GIG"))||(kdpoliinternal.getText().trim().equals("OBG"))||(kdpoliinternal.getText().trim().equals("IGDK"))||(kdpoliinternal.getText().trim().equals("JIW"))||(kdpoliinternal.getText().trim().equals("MAT"))||(kdpoliinternal.getText().trim().equals("KLT"))||(kdpoliinternal.getText().trim().equals("HDL"))||(kdpoliinternal.getText().trim().equals("THT"))||(kdpoliinternal.getText().trim().equals("MAT"))) {
             Map<String, Object> param = new HashMap<>();
             param.put("namars",akses.getnamars());
             param.put("alamatrs",akses.getalamatrs());

@@ -40,8 +40,14 @@ public class WarnaTableVedika extends DefaultTableCellRenderer {
         }else if(table.getValueAt(row,8).toString().trim().equals("Final Klaim")){
            component.setBackground(Color.MAGENTA);
            component.setForeground(Color.BLACK);
-        }else if(table.getValueAt(row,8).toString().trim().equals("Dikembalikan")){
+        }else if(table.getValueAt(row,8).toString().trim().equals("Revisi")){
            component.setBackground(Color.RED);
+           component.setForeground(Color.BLACK);
+        }else if(table.getValueAt(row,8).toString().trim().equals("Validasi")){
+           component.setBackground(Color.gray);
+           component.setForeground(Color.BLACK);
+        }else if(table.getValueAt(row,8).toString().trim().equals("Sudah Revisi")){
+           component.setBackground(Color.CYAN);
            component.setForeground(Color.BLACK);
         }else{
            component.setBackground(new Color(255,255,255));

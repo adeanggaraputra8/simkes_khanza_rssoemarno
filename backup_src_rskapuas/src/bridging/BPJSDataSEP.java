@@ -3926,7 +3926,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                 if(Sequel.cariInteger("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"' ")==0){
                         insertSEP();
   
-                } else if(Sequel.cariInteger("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"' ")>=1){
+                } else if(Sequel.cariInteger("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"' ")>=1 && (!KdPenyakit.getText().startsWith("D56") || !KdPenyakit.getText().startsWith("D17") || !KdPenyakit.getText().startsWith("D18") || !KdPenyakit.getText().startsWith("D19") || !KdPenyakit.getText().startsWith("D20") || !KdPenyakit.getText().startsWith("D21"))){
                    JOptionPane.showMessageDialog(null, " No.SEP "+Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"'")+" Rawat Jalan/IGD pasien ini telah terbit, mohon untuk di hapus terlebih dahulu..!!");
                     if(u==JOptionPane.YES_OPTION) 
                     {
@@ -3937,6 +3937,8 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                                 System.out.println("Notifikasi Bridging : "+ex);
                             }
                     }                
+                }else if (Sequel.cariInteger("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"' ")>=1 && (KdPenyakit.getText().startsWith("D56") || KdPenyakit.getText().startsWith("D17") || KdPenyakit.getText().startsWith("D18") || KdPenyakit.getText().startsWith("D19") || KdPenyakit.getText().startsWith("D20") || KdPenyakit.getText().startsWith("D21"))){
+                     insertSEP();
                 }
             }else if(JenisPelayanan.getSelectedIndex()==1){
                if(KdPoli.getText().equals("HDL")||KdPoli.getText().equals("IRM")&&Sequel.cariInteger("SELECT  if(DAYNAME(NOW())='Saturday','1','0') as a")==0){
@@ -4494,7 +4496,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                     "LEFT JOIN rawat_jl_dr ON reg_periksa.no_rawat = rawat_jl_dr.no_rawat " +
                     "LEFT JOIN jns_perawatan ON jns_perawatan.kd_jenis_prw=rawat_jl_dr.kd_jenis_prw " +
                     "where reg_periksa.kd_dokter NOT IN ( '-' )  and bridging_sep.no_sep='"+tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString()+"'",param);                    
-         }else if (KdPoli.getText().trim().equals("THT")||KdPoli.getText().trim().equals("BED")||KdPoli.getText().trim().equals("GND")||KdPoli.getText().trim().equals("GIG")||KdPoli.getText().trim().equals("OBG")||KdPoli.getText().trim().equals("IRM")||KdPoli.getText().trim().equals("KLT")||KdPoli.getText().trim().equals("SAR")||KdPoli.getText().trim().equals("PAR")||KdPoli.getText().trim().equals("JIW")||KdPoli.getText().trim().equals("INT")||KdPoli.getText().trim().equals("ANA")||KdPoli.getText().trim().equals("HDL")) {
+         }else if (KdPoli.getText().trim().equals("THT")||KdPoli.getText().trim().equals("BED")||KdPoli.getText().trim().equals("GND")||KdPoli.getText().trim().equals("GIG")||KdPoli.getText().trim().equals("OBG")||KdPoli.getText().trim().equals("IRM")||KdPoli.getText().trim().equals("KLT")||KdPoli.getText().trim().equals("SAR")||KdPoli.getText().trim().equals("PAR")||KdPoli.getText().trim().equals("JIW")||KdPoli.getText().trim().equals("INT")||KdPoli.getText().trim().equals("ANA")||KdPoli.getText().trim().equals("HDL")||KdPoli.getText().trim().equals("MAT")) {
             param.put("namars",akses.getnamars());
             param.put("alamatrs",akses.getalamatrs());
             param.put("kotars",akses.getkabupatenrs());
@@ -4581,7 +4583,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                     "LEFT JOIN rawat_jl_dr ON reg_periksa.no_rawat = rawat_jl_dr.no_rawat " +
                     "LEFT JOIN jns_perawatan ON jns_perawatan.kd_jenis_prw=rawat_jl_dr.kd_jenis_prw " +
                     "where reg_periksa.kd_dokter NOT IN ( '-' )  and bridging_sep_internal.no_sep='"+tbDataSEPInternal.getValueAt(tbDataSEPInternal.getSelectedRow(),0).toString()+"'",param);                    
-         }else if (KdPoli.getText().trim().equals("THT")||KdPoli.getText().trim().equals("BED")||KdPoli.getText().trim().equals("GND")||KdPoli.getText().trim().equals("GIG")||KdPoli.getText().trim().equals("OBG")||KdPoli.getText().trim().equals("IRM")||KdPoli.getText().trim().equals("KLT")||KdPoli.getText().trim().equals("SAR")||KdPoli.getText().trim().equals("PAR")||KdPoli.getText().trim().equals("JIW")||KdPoli.getText().trim().equals("INT")||KdPoli.getText().trim().equals("ANA")||KdPoli.getText().trim().equals("HDL")) {
+         }else if (KdPoli.getText().trim().equals("THT")||KdPoli.getText().trim().equals("BED")||KdPoli.getText().trim().equals("GND")||KdPoli.getText().trim().equals("GIG")||KdPoli.getText().trim().equals("OBG")||KdPoli.getText().trim().equals("IRM")||KdPoli.getText().trim().equals("KLT")||KdPoli.getText().trim().equals("SAR")||KdPoli.getText().trim().equals("PAR")||KdPoli.getText().trim().equals("JIW")||KdPoli.getText().trim().equals("INT")||KdPoli.getText().trim().equals("ANA")||KdPoli.getText().trim().equals("HDL")||KdPoli.getText().trim().equals("MAT")) {
             param.put("namars",akses.getnamars());
             param.put("alamatrs",akses.getalamatrs());
             param.put("kotars",akses.getkabupatenrs());
@@ -6589,7 +6591,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
     private void ppSEP8BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppSEP8BtnPrintActionPerformed
         if(TabRawat.getSelectedIndex()==1){    
         if(tbDataSEP.getSelectedRow()!= -1){
-            if (KdPoli.getText().trim().equals("THT")||KdPoli.getText().trim().equals("BED")||KdPoli.getText().trim().equals("GND")||KdPoli.getText().trim().equals("GIG")||KdPoli.getText().trim().equals("OBG")||KdPoli.getText().trim().equals("IRM")||KdPoli.getText().trim().equals("KLT")||KdPoli.getText().trim().equals("SAR")||KdPoli.getText().trim().equals("PAR")||KdPoli.getText().trim().equals("JIW")||KdPoli.getText().trim().equals("INT")||KdPoli.getText().trim().equals("ANA")||KdPoli.getText().trim().equals("HDL")) {
+            if (KdPoli.getText().trim().equals("THT")||KdPoli.getText().trim().equals("BED")||KdPoli.getText().trim().equals("GND")||KdPoli.getText().trim().equals("GIG")||KdPoli.getText().trim().equals("OBG")||KdPoli.getText().trim().equals("IRM")||KdPoli.getText().trim().equals("KLT")||KdPoli.getText().trim().equals("SAR")||KdPoli.getText().trim().equals("PAR")||KdPoli.getText().trim().equals("JIW")||KdPoli.getText().trim().equals("INT")||KdPoli.getText().trim().equals("ANA")||KdPoli.getText().trim().equals("HDL")||KdPoli.getText().trim().equals("MAT")) {
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             Map<String, Object> param = new HashMap<>();
             param.put("namars",akses.getnamars());
@@ -6613,7 +6615,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
             if(tbDataSEPInternal.getSelectedRow()!= -1){
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             Map<String, Object> param = new HashMap<>();
-            if (KdPoli.getText().trim().equals("THT")||KdPoli.getText().trim().equals("BED")||KdPoli.getText().trim().equals("GND")||KdPoli.getText().trim().equals("GIG")||KdPoli.getText().trim().equals("OBG")||KdPoli.getText().trim().equals("IRM")||KdPoli.getText().trim().equals("KLT")||KdPoli.getText().trim().equals("SAR")||KdPoli.getText().trim().equals("PAR")||KdPoli.getText().trim().equals("JIW")||KdPoli.getText().trim().equals("INT")||KdPoli.getText().trim().equals("ANA")||KdPoli.getText().trim().equals("HDL")) {
+            if (KdPoli.getText().trim().equals("THT")||KdPoli.getText().trim().equals("BED")||KdPoli.getText().trim().equals("GND")||KdPoli.getText().trim().equals("GIG")||KdPoli.getText().trim().equals("OBG")||KdPoli.getText().trim().equals("IRM")||KdPoli.getText().trim().equals("KLT")||KdPoli.getText().trim().equals("SAR")||KdPoli.getText().trim().equals("PAR")||KdPoli.getText().trim().equals("JIW")||KdPoli.getText().trim().equals("INT")||KdPoli.getText().trim().equals("ANA")||KdPoli.getText().trim().equals("HDL")||KdPoli.getText().trim().equals("MAT")) {
             param.put("namars",akses.getnamars());
             param.put("alamatrs",akses.getalamatrs());
             param.put("kotars",akses.getkabupatenrs());
