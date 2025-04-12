@@ -53,11 +53,11 @@ if(bridging_sep.tujuankunjungan='0',' Konsul Dokter (Pertama)',if(bridging_sep.t
 pemeriksaan_ralan.suhu_tubuh,pemeriksaan_ralan.tensi,pemeriksaan_ralan.respirasi,pemeriksaan_ralan.nadi,pemeriksaan_ralan.gcs,pemeriksaan_ralan.keluhan,pemeriksaan_ralan.pemeriksaan,pemeriksaan_ralan.alergi,pemeriksaan_ralan.kesadaran,pemeriksaan_ralan.berat,pemeriksaan_ralan.tinggi, CONCAT(diagnosa_pasien.kd_penyakit,' ',penyakit.nm_penyakit) as icd10,pemeriksaan_ralan.penilaian
 from bridging_sep
 INNER JOIN reg_periksa ON bridging_sep.no_rawat = reg_periksa.no_rawat
-INNER JOIN dokter  ON dokter.kd_dokter = reg_periksa.kd_dokter 
 LEFT JOIN pemeriksaan_ralan ON pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat
-						INNER JOIN diagnosa_pasien ON diagnosa_pasien.no_rawat=reg_periksa.no_rawat
-						INNER JOIN penyakit ON penyakit.kd_penyakit=diagnosa_pasien.kd_penyakit
-WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN ('IRM') and bridging_sep.no_rawat=$P{norawat}  GROUP BY penyakit.kd_penyakit ORDER BY diagnosa_pasien.prioritas ASC,pemeriksaan_ralan.jam_rawat DESC;]]>
+INNER JOIN dokter  ON dokter.kd_dokter = pemeriksaan_ralan.nip
+INNER JOIN diagnosa_pasien ON diagnosa_pasien.no_rawat=reg_periksa.no_rawat
+INNER JOIN penyakit ON penyakit.kd_penyakit=diagnosa_pasien.kd_penyakit 
+WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN ('IRM') and bridging_sep.no_rawat=$P{norawat}  GROUP BY penyakit.kd_penyakit ORDER BY diagnosa_pasien.prioritas ASC,pemeriksaan_ralan.jam_rawat DESC;;]]>
 	</queryString>
 	<field name="no_reg" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="no_reg"/>

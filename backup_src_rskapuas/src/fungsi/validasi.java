@@ -81,6 +81,8 @@ import widget.TextArea;
 import widget.TextBox;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Comparator;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.attribute.HashPrintRequestAttributeSet;
@@ -92,6 +94,8 @@ import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 
 /**
@@ -2210,9 +2214,30 @@ public final class validasi {
                     String namafile = "./" + reportDirName + "/" + reportName;
                     JasperPrint jasperPrint = JasperFillManager.fillReport(namafile, parameters, connect);
 //                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + reportName.replaceAll("jasper", "pdf"));
-                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + judul.replaceAll("/", "") + "-rsum.pdf");
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + judul.replaceAll("/", "") + ".pdf");
                     
-                    a = saveDir + "/" + judul.replaceAll("/", "") + "-rsum.pdf";
+                    a = saveDir + "/" + judul.replaceAll("/", "") + ".pdf";
+                    File pdfFile = new File(a);
+                    if (pdfFile.exists()) {
+                    // Membuka file PDF untuk memeriksa teks
+                        PDDocument document = PDDocument.load(pdfFile);
+                        PDFTextStripper stripper = new PDFTextStripper();
+
+                        // Menyaring teks dari halaman PDF
+                        String pdfText = stripper.getText(document);
+
+                        // Jika teks kosong, berarti file tidak mengandung data
+                        if (pdfText.trim().isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Gagal menyimpan PDF, file kosong, cek data diagnosa/soap/asesmen/kfr/triase apakah sudah ada");
+
+                            // Menghapus file PDF yang kosong
+                            pdfFile.delete();
+                            document.close();
+                            return ""; // Mengembalikan string kosong jika gagal
+                        }
+
+                    document.close();
+                }
 //                    Desktop.getDesktop().open(f);
                     //JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Data . . .");
                 } catch (Exception rptexcpt) {
@@ -2224,6 +2249,69 @@ public final class validasi {
         } catch (Exception e) {
             System.out.println(e);
         }
+        return a;
+    }
+        
+       public String saveToPDFqry(String reportName, String reportDirName, String judul, String qry, Map parameters) {
+        String a = "";
+    
+             try {
+                    prop.loadFromXML(new FileInputStream("setting/database.xml"));
+                    String saveDir = prop.getProperty("FOLDERPDF");
+
+                    File d = new File(saveDir);
+                    boolean cek = d.isDirectory();
+
+                    if (cek == false) {
+                        Files.createDirectories(Paths.get(saveDir));
+                    }
+                     ps=connect.prepareStatement(qry);
+                    try {
+                        rs=ps.executeQuery();
+                        JRResultSetDataSource rsdt = new JRResultSetDataSource(rs);
+                        
+                         File f = new File("./" + reportDirName + "/" + reportName.replaceAll("jasper", "pdf"));
+                         String namafile = "./" + reportDirName + "/" + reportName;
+
+                        JasperPrint jasperPrint = JasperFillManager.fillReport(namafile, parameters, rsdt);
+                         JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + judul.replaceAll("/", "") + ".pdf");
+                       a = saveDir + "/" + judul.replaceAll("/", "") + ".pdf";
+                       File pdfFile = new File(a);
+                        if (pdfFile.exists()) {
+                        // Membuka file PDF untuk memeriksa teks
+                            PDDocument document = PDDocument.load(pdfFile);
+                            PDFTextStripper stripper = new PDFTextStripper();
+
+                            // Menyaring teks dari halaman PDF
+                            String pdfText = stripper.getText(document);
+
+                            // Jika teks kosong, berarti file tidak mengandung data
+                            if (pdfText.trim().isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Gagal menyimpan PDF, file kosong, cek data diagnosa/soap/asesmen/kfr/triase apakah sudah ada");
+
+                                // Menghapus file PDF yang kosong
+                                pdfFile.delete();
+                                document.close();
+                                return ""; // Mengembalikan string kosong jika gagal
+                            }
+
+                            document.close();
+                        }
+                    } catch (Exception rptexcpt) {
+                        System.out.println("Report Can't view because : " + rptexcpt);
+                        JOptionPane.showMessageDialog(null,"Report Can't view because : "+ rptexcpt);
+                    } finally{
+                        if(rs!=null){
+                            rs.close();
+                        }
+                        if(ps!=null){
+                            ps.close();
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
         return a;
     }
         
@@ -2245,7 +2333,7 @@ public final class validasi {
                 Files.createDirectories(Paths.get(outputPdfPath));
             }   
             try {
-                a = outputPdfPath+namafile.replaceAll("/", "")+"-bill.pdf";
+                a = outputPdfPath + "/" + namafile.replaceAll("/", "")+"-3bill.pdf";
                 // Baca konten dari PHP
                 String htmlContent = getHtmlFromPhp(phpUrl);
                 //System.out.println("HTML dari PHP: \n" + htmlContent); // Debugging
@@ -2286,7 +2374,7 @@ public final class validasi {
             PdfWriter pdf = new PdfWriter(namefile);
                 HtmlConverter.convertToPdf(
                    htmlContent,pdf);
-                  System.out.println("Berhasil Membuat fil PDF billing. . .!");
+                  System.out.println("Berhasil Membuat file PDF billing. . .!");
                 File f = new File(namefile);   
         }  catch (Exception e) {
                System.out.println(e);
@@ -2301,6 +2389,7 @@ public final class validasi {
               Properties prop = new Properties();
               prop.loadFromXML(new FileInputStream("setting/database.xml"));
               String PdfPath = prop.getProperty("FOLDERPDF");
+              String MargePath = prop.getProperty("FOLDERGABUNGPDF");
                 File folder = new File(PdfPath+"/");
             
             if (folder.isDirectory()) {
@@ -2308,13 +2397,16 @@ public final class validasi {
 
                  // Membuat array untuk file yang akan digabungkan
                     if (files != null && files.length >= 2) {
+                        
+                        Arrays.sort(files, Comparator.comparing(File::getName));
+                        
                         String[] filesToMerge = new String[files.length];
                         for (int i = 0; i < files.length; i++) {
                             filesToMerge[i] = files[i].getAbsolutePath();
                         }
 
                         // Membuat objek PDFMergerUtility untuk menggabungkan file
-                        String outputPDF = PdfPath + "/" + NameFile + "-marge.pdf";
+                        String outputPDF = MargePath + "/" + NameFile + "-marge.pdf";
                         PDFMergerUtility ut = new PDFMergerUtility();
 
                         // Menambahkan file-file ke dalam PDFMergerUtility
@@ -2329,7 +2421,7 @@ public final class validasi {
                         ut.mergeDocuments(MemoryUsageSetting.setupMainMemoryOnly());
 
                         // Menampilkan pesan sukses
-                        JOptionPane.showMessageDialog(null, "Proses gabung file selesai..!");
+                         System.out.println("Proses gabung file selesai..!");
                     } else {
                     JOptionPane.showMessageDialog(null, "File tidak ditemukan. Pastikan file ada di folder yang benar.");
                 }

@@ -39,6 +39,12 @@
 	<parameter name="tarifrs" class="java.lang.String"/>
 	<parameter name="carapulang" class="java.lang.String"/>
 	<parameter name="kontrol" class="java.lang.String"/>
+	<parameter name="subjekdr" class="java.lang.String"/>
+	<parameter name="objekdr" class="java.lang.String"/>
+	<parameter name="pemeriksaandr" class="java.lang.String"/>
+	<parameter name="plandr" class="java.lang.String"/>
+	<parameter name="objekpr" class="java.lang.String"/>
+	<parameter name="asttv" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select reg_periksa.no_reg,bridging_sep.no_sep, bridging_sep.no_rawat,bridging_sep.nomr,bridging_sep.nama_pasien,bridging_sep.tglsep,
 bridging_sep.tglrujukan,bridging_sep.no_rujukan,bridging_sep.kdppkrujukan,
@@ -50,14 +56,13 @@ if(bridging_sep.lakalantas='0','Kasus Kecelakaan','Bukan Kasus Kecelakaan'),brid
 bridging_sep.tanggal_lahir,bridging_sep.peserta,bridging_sep.jkel,bridging_sep.no_kartu,
 bridging_sep.asal_rujukan,bridging_sep.eksekutif,bridging_sep.cob,bridging_sep.notelep,dokter.nm_dokter,
 if(bridging_sep.tujuankunjungan='0',' Konsul Dokter (Pertama)',if(bridging_sep.tujuankunjungan='1','Prosedur','Konsul')) as tujkunj,if(bridging_sep.asesmenpelayanan='1',' Poli spesialis tidak tersedia',if(bridging_sep.asesmenpelayanan='2','jam Poli telah berakhir',if(bridging_sep.asesmenpelayanan='3','Spesialis yang dimaksud tidak praktek',if(bridging_sep.asesmenpelayanan='4','Atas Instruksi RS',if(bridging_sep.asesmenpelayanan='5','Tujuan Kontrol',' '))))) as asesmen,
-pemeriksaan_ralan.penilaian,pemeriksaan_ralan.rtl,pemeriksaan_ralan.suhu_tubuh,pemeriksaan_ralan.tensi,pemeriksaan_ralan.respirasi,pemeriksaan_ralan.nadi,pemeriksaan_ralan.gcs,pemeriksaan_ralan.keluhan,pemeriksaan_ralan.pemeriksaan,pemeriksaan_ralan.alergi,pemeriksaan_ralan.kesadaran,pemeriksaan_ralan.berat,pemeriksaan_ralan.tinggi, CONCAT(diagnosa_pasien.kd_penyakit,' ',penyakit.nm_penyakit) as icd10
+ CONCAT(diagnosa_pasien.kd_penyakit,' ',penyakit.nm_penyakit) as icd10
 from bridging_sep
 INNER JOIN reg_periksa ON bridging_sep.no_rawat = reg_periksa.no_rawat
 INNER JOIN dokter  ON dokter.kd_dokter = reg_periksa.kd_dokter 
-LEFT JOIN pemeriksaan_ralan ON pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat
 						INNER JOIN diagnosa_pasien ON diagnosa_pasien.no_rawat=reg_periksa.no_rawat
 						INNER JOIN penyakit ON penyakit.kd_penyakit=diagnosa_pasien.kd_penyakit
-WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN ('IRM') and bridging_sep.no_rawat=$P{norawat}  GROUP BY penyakit.kd_penyakit ORDER BY diagnosa_pasien.prioritas ASC,pemeriksaan_ralan.jam_rawat DESC;]]>
+WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN ('IRM') and bridging_sep.no_rawat=$P{norawat}  GROUP BY penyakit.kd_penyakit ORDER BY diagnosa_pasien.prioritas ASC;]]>
 	</queryString>
 	<field name="no_reg" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="no_reg"/>
@@ -215,58 +220,6 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 	<field name="asesmen" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="asesmen"/>
 	</field>
-	<field name="penilaian" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="penilaian"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="rtl" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="rtl"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="suhu_tubuh" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="suhu_tubuh"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="tensi" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="tensi"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="respirasi" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="respirasi"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="nadi" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="nadi"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="gcs" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="gcs"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="keluhan" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="keluhan"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="pemeriksaan" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="pemeriksaan"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="alergi" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="alergi"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="kesadaran" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="kesadaran"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="berat" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="berat"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
-	<field name="tinggi" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="tinggi"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="pemeriksaan_ralan"/>
-	</field>
 	<field name="icd10" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="icd10"/>
 	</field>
@@ -274,7 +227,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 		<band/>
 	</background>
 	<title>
-		<band height="435">
+		<band height="391">
 			<staticText>
 				<reportElement x="0" y="100" width="67" height="11" uuid="07857064-9ecf-4f74-a0a8-192be5826b57"/>
 				<textElement verticalAlignment="Middle">
@@ -686,7 +639,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="380" width="96" height="14" uuid="f304aa23-2f2d-4093-8f90-b3a68fd461ae"/>
+				<reportElement x="1" y="325" width="96" height="14" uuid="f304aa23-2f2d-4093-8f90-b3a68fd461ae"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -694,7 +647,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<text><![CDATA[Diagnosa Pemeriksaan]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="99" y="360" width="7" height="14" uuid="c6b48c9e-a922-49a9-a63a-d5ca5931a1c6"/>
+				<reportElement x="99" y="305" width="7" height="14" uuid="c6b48c9e-a922-49a9-a63a-d5ca5931a1c6"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -722,28 +675,6 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<textFieldExpression><![CDATA[$F{tglsep}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="107" y="322" width="56" height="12" uuid="5b3e3eb4-82aa-4b61-9699-6abbada23093"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[GCS (E,V,M)]]></text>
-			</staticText>
-			<line>
-				<reportElement x="170" y="308" width="71" height="1" uuid="defec03c-44ba-4f9c-ae95-027abb03c367"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement x="82" y="296" width="81" height="12" uuid="7cad6fe3-d650-42e0-a780-f299ea557ed8"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Respirasi (/menit)]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="0" y="240" width="49" height="12" uuid="83588a84-a2d2-48ae-b91c-b8f909579f56"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9"/>
@@ -752,56 +683,6 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<text><![CDATA[Anamnesa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="107" y="270" width="56" height="12" uuid="af455d2c-9626-4065-8947-ba145fcd0eb4"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Suhu (C) ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="82" y="309" width="81" height="12" uuid="a8027491-ce42-4bc2-8047-969264597a01"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Nadi]]></text>
-			</staticText>
-			<line>
-				<reportElement x="170" y="295" width="71" height="1" uuid="6702ed05-dfb4-4b50-aa95-e3dbf8f41dc8"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement x="82" y="283" width="81" height="12" uuid="d2048a81-986c-45b9-adda-8480252418dd"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Tekanan Darah]]></text>
-			</staticText>
-			<line>
-				<reportElement x="170" y="334" width="345" height="1" uuid="ab7afe73-ecab-4e72-b9a9-81ca2053e4c5"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
-			<staticText>
-				<reportElement x="107" y="335" width="56" height="12" uuid="d6f7e9ca-31e1-4732-a1eb-9eea9d827fd7"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[Lain-lain]]></text>
-			</staticText>
-			<line>
-				<reportElement x="170" y="282" width="71" height="1" uuid="411b5c0c-7e15-4940-85d7-361345fb738d"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
-			<staticText>
 				<reportElement x="0" y="271" width="85" height="12" uuid="481f8464-802b-4d90-9fc4-791647e334f2"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9"/>
@@ -809,12 +690,6 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				</textElement>
 				<text><![CDATA[Pemeriksaan Fisik]]></text>
 			</staticText>
-			<line>
-				<reportElement x="170" y="321" width="71" height="1" uuid="1ee31b69-12ea-4c61-aa51-88b53f5722d4"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineStyle="Solid"/>
-				</graphicElement>
-			</line>
 			<staticText>
 				<reportElement x="341" y="126" width="50" height="11" uuid="c1724ac0-d9f6-44ad-b76a-e0b208ae0032"/>
 				<textElement verticalAlignment="Middle">
@@ -866,49 +741,14 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<textElement verticalAlignment="Top">
 					<font fontName="Tahoma" size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{keluhan}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{subjekdr}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="170" y="270" width="72" height="12" uuid="f4c47c97-f1d0-4e47-aaf2-97535f2f0050"/>
+				<reportElement x="107" y="325" width="426" height="14" uuid="55476a66-6745-4ac1-9a9e-56a0d19d0786"/>
 				<textElement>
 					<font fontName="Tahoma" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{suhu_tubuh}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="170" y="283" width="72" height="12" uuid="063e128e-5bc9-4b75-8913-51fb8d4c081d"/>
-				<textElement>
-					<font fontName="Tahoma" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tensi}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="170" y="296" width="72" height="12" uuid="cf2fc7d2-a909-4d45-8e57-3cdb9076f72e"/>
-				<textElement>
-					<font fontName="Tahoma" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{respirasi}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="170" y="309" width="72" height="12" uuid="1e894871-325c-46f7-b9a1-53c4968742c6"/>
-				<textElement>
-					<font fontName="Tahoma" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nadi}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="170" y="322" width="72" height="12" uuid="03082eb4-1ca2-4b5f-a190-2bfb59e17a72"/>
-				<textElement>
-					<font fontName="Tahoma" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{gcs}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="107" y="380" width="426" height="14" uuid="55476a66-6745-4ac1-9a9e-56a0d19d0786"/>
-				<textElement>
-					<font fontName="Tahoma" size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pemeriksaan}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{pemeriksaandr}]]></textFieldExpression>
 			</textField>
 			<componentElement>
 				<reportElement x="399" y="178" width="84" height="35" isRemoveLineWhenBlank="true" uuid="d33d3579-24d7-4e20-9b29-eee92784dee0">
@@ -918,13 +758,6 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 					<jr:codeExpression><![CDATA[$F{nama_pasien}]]></jr:codeExpression>
 				</jr:QRCode>
 			</componentElement>
-			<textField>
-				<reportElement x="170" y="336" width="344" height="11" uuid="9bd40bff-0773-4f03-907d-3bc4d731d612"/>
-				<textElement textAlignment="Left">
-					<font fontName="Tahoma" size="9" isItalic="false" isUnderline="true" isStrikeThrough="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Berat : "+$F{berat}+", Alergi : "+$F{alergi}+", Kesadaran : "+$F{kesadaran}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="99" y="240" width="7" height="12" uuid="d3415414-d391-4707-bba5-abbad8655c98"/>
 				<textElement verticalAlignment="Middle">
@@ -942,55 +775,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="163" y="270" width="7" height="12" uuid="0914c787-4e21-4431-8c1d-c91c714f130c"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9" isBold="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="163" y="283" width="7" height="12" uuid="5508dac2-82a3-489c-9266-c26a1b072c4f"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9" isBold="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="163" y="296" width="7" height="12" uuid="ece0818c-b319-4100-8d85-a223477e50b5"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9" isBold="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="163" y="309" width="7" height="12" uuid="eba588e9-d1b5-41c3-9845-f7fc068b264a"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9" isBold="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="163" y="322" width="7" height="12" uuid="3c55226e-baf9-4fbb-95c7-b0f2b998b538"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9" isBold="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="163" y="335" width="7" height="12" uuid="083ed26f-ad72-4ea4-b440-bedf4a1629ac"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="9" isBold="false"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="1" y="360" width="96" height="14" uuid="8c384147-b429-45f2-b6d8-06f4a8c87fcd"/>
+				<reportElement x="1" y="305" width="96" height="14" uuid="8c384147-b429-45f2-b6d8-06f4a8c87fcd"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -998,7 +783,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<text><![CDATA[Pemeriksaan Dokter]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="400" width="96" height="14" uuid="cc5e7424-b310-4fac-898c-1cfa04633826"/>
+				<reportElement x="1" y="345" width="96" height="14" uuid="cc5e7424-b310-4fac-898c-1cfa04633826"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -1006,7 +791,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<text><![CDATA[Plan]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="99" y="380" width="7" height="14" uuid="85186472-f29a-4d80-941a-86374c401a05"/>
+				<reportElement x="99" y="325" width="7" height="14" uuid="85186472-f29a-4d80-941a-86374c401a05"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -1014,7 +799,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="99" y="400" width="7" height="14" uuid="987cc80f-cbdd-4ac6-8f72-ae2d4f48397a"/>
+				<reportElement x="99" y="345" width="7" height="14" uuid="987cc80f-cbdd-4ac6-8f72-ae2d4f48397a"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -1022,18 +807,32 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and bridging_sep.kdpolitujuan NOT IN 
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="107" y="360" width="426" height="14" uuid="b3de8ef1-4027-4c11-bd3b-71d13b644405"/>
+				<reportElement x="107" y="305" width="426" height="14" uuid="b3de8ef1-4027-4c11-bd3b-71d13b644405"/>
 				<textElement>
 					<font fontName="Tahoma" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{penilaian}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{objekdr}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="107" y="400" width="426" height="30" uuid="5efb72d6-66ae-426f-b343-0dc05be16262"/>
+				<reportElement x="107" y="345" width="426" height="30" uuid="5efb72d6-66ae-426f-b343-0dc05be16262"/>
 				<textElement>
 					<font fontName="Tahoma" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{rtl}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{plandr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="106" y="271" width="437" height="11" uuid="4e310cf7-4c5e-4cb7-902c-4ee47291d21f"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{objekpr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="106" y="282" width="437" height="23" uuid="9abf8dd3-dcac-4fb5-8f5a-757c73426054"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TTV : "+$P{asttv}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

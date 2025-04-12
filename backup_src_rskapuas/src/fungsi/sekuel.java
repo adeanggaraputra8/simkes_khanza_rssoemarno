@@ -1596,6 +1596,34 @@ public final class sekuel {
         
         return dicari;
     }
+     
+      public String cariIsiTTV(String sql){
+        dicari="";
+        try {
+            ps=connect.prepareStatement(sql);
+            try{            
+                rs=ps.executeQuery();            
+                while(rs.next()){
+                    dicari=rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getString(4)+rs.getString(5)+rs.getString(6)+rs.getString(7)+rs.getString(8)+rs.getString(9);
+                }   
+            }catch(Exception e){
+                dicari="";
+                System.out.println("Notifikasi : "+e);
+            }finally{
+                if(rs != null){
+                    rs.close();
+                }
+                
+                if(ps != null){
+                    ps.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notifikasi : "+e);
+        }
+        
+        return dicari;
+    }
     
     public ByteArrayInputStream cariGambar(String sql){
         ByteArrayInputStream inputStream=null;

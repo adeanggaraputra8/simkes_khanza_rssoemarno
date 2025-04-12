@@ -59,7 +59,7 @@ INNER JOIN dokter  ON dokter.kd_dokter = reg_periksa.kd_dokter
 LEFT JOIN pemeriksaan_ralan ON pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat
 						INNER JOIN diagnosa_pasien ON diagnosa_pasien.no_rawat=reg_periksa.no_rawat
 						INNER JOIN penyakit ON penyakit.kd_penyakit=diagnosa_pasien.kd_penyakit
-WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  and bridging_sep.no_rawat=$P{norawat} AND  pemeriksaan_ralan.nip in (SELECT p.nip  FROM petugas p) GROUP BY penyakit.kd_penyakit  ORDER BY diagnosa_pasien.prioritas ASC,pemeriksaan_ralan.tgl_perawatan DESC,pemeriksaan_ralan.jam_rawat DESC;]]>
+WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  and bridging_sep.no_rawat=$P{norawat} AND  pemeriksaan_ralan.nip in (SELECT kd_dokter  FROM dokter) GROUP BY penyakit.kd_penyakit  ORDER BY diagnosa_pasien.prioritas ASC,pemeriksaan_ralan.tgl_perawatan DESC,pemeriksaan_ralan.jam_rawat DESC;]]>
 	</queryString>
 	<field name="no_reg" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="no_reg"/>
