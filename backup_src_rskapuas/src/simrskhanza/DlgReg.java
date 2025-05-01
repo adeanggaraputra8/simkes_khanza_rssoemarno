@@ -1427,6 +1427,8 @@ public final class DlgReg extends javax.swing.JDialog {
         Chkkirkes = new widget.CekBox();
         jLabel45 = new widget.Label();
         jLabel28 = new widget.Label();
+        CmbJnsPasien = new widget.ComboBox();
+        jLabel32 = new widget.Label();
         ChkInput = new widget.CekBox();
         TabRawat = new javax.swing.JTabbedPane();
         Scroll = new widget.ScrollPane();
@@ -6205,7 +6207,7 @@ public final class DlgReg extends javax.swing.JDialog {
         panelBiasa7.setLayout(null);
 
         DTPcari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPcari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
+        DTPcari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-04-2025" }));
         DTPcari1.setDisplayFormat("dd-MM-yyyy");
         DTPcari1.setName("DTPcari1"); // NOI18N
         DTPcari1.setOpaque(false);
@@ -6252,7 +6254,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel39.setBounds(176, 10, 20, 23);
 
         DTPcari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPcari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
+        DTPcari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-04-2025" }));
         DTPcari2.setDisplayFormat("dd-MM-yyyy");
         DTPcari2.setName("DTPcari2"); // NOI18N
         DTPcari2.setOpaque(false);
@@ -6520,7 +6522,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(60, 23));
         panelGlass7.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-04-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -6533,7 +6535,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass7.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-04-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -6704,7 +6706,7 @@ public final class DlgReg extends javax.swing.JDialog {
         FormInput.add(jLabel9);
         jLabel9.setBounds(165, 72, 36, 23);
 
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-07-2024" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-04-2025" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -7050,10 +7052,10 @@ public final class DlgReg extends javax.swing.JDialog {
 
         jLabel29.setForeground(new java.awt.Color(0, 0, 0));
         jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel29.setText("Info Pasien BPJS : ");
+        jLabel29.setText("Jns Pasien : ");
         jLabel29.setName("jLabel29"); // NOI18N
         FormInput.add(jLabel29);
-        jLabel29.setBounds(920, 10, 90, 23);
+        jLabel29.setBounds(1100, 80, 60, 23);
 
         label_pesan.setEditable(false);
         label_pesan.setBorder(null);
@@ -7140,6 +7142,39 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel28.setName("jLabel28"); // NOI18N
         FormInput.add(jLabel28);
         jLabel28.setBounds(1150, 30, 70, 23);
+
+        CmbJnsPasien.setForeground(new java.awt.Color(0, 0, 0));
+        CmbJnsPasien.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Dalam Kota", "Luar Kota" }));
+        CmbJnsPasien.setName("CmbJnsPasien"); // NOI18N
+        CmbJnsPasien.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CmbJnsPasienItemStateChanged(evt);
+            }
+        });
+        CmbJnsPasien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CmbJnsPasienMouseClicked(evt);
+            }
+        });
+        CmbJnsPasien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CmbJnsPasienActionPerformed(evt);
+            }
+        });
+        CmbJnsPasien.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbJnsPasienKeyPressed(evt);
+            }
+        });
+        FormInput.add(CmbJnsPasien);
+        CmbJnsPasien.setBounds(1160, 80, 80, 23);
+
+        jLabel32.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel32.setText("Info Pasien BPJS : ");
+        jLabel32.setName("jLabel32"); // NOI18N
+        FormInput.add(jLabel32);
+        jLabel32.setBounds(920, 10, 90, 23);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -7331,6 +7366,8 @@ public final class DlgReg extends javax.swing.JDialog {
             Valid.textKosong(TBiaya,"biaya regristrasi");
         }else if(kdpnj.getText().trim().equals("")||nmpnj.getText().trim().equals("")){
             Valid.textKosong(kdpnj,"Jenis Bayar");
+        }else if(CmbJnsPasien.getSelectedIndex()==0){
+             JOptionPane.showMessageDialog(null, "Jenis Pasien tidak boleh '-'");
         }else if(kdpnj.getText().trim().equals("-")||nmpnj.getText().trim().equals("-")||kdpnj.getText().trim().equals("")||nmpnj.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null, "Maaf Cara Bayar Tidak Boleh '-'");
         }else if(Sequel.cariInteger("select count(pasien.no_rkm_medis) from pasien inner join reg_periksa inner join kamar_inap "+
@@ -10575,6 +10612,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             try {
                     TNoRWinternal.setText(tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),1).toString());
                     kdpoliinternal.setText(Sequel.cariIsi("SELECT kd_poli FROM rujukan_internal_poli WHERE no_rawat=?",TNoRWinternal.getText()));
+                    CmbJnsPasien.setSelectedItem(Sequel.cariIsi("select jenis_pasien from jns_pasien where no_rkm_medis='"+tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),6).toString()+"' "));
                 } catch (java.lang.NullPointerException e) {
              }
             if(evt.getClickCount()==1){
@@ -14544,6 +14582,22 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         }
     }//GEN-LAST:event_MnPermintaanKonsultasiMedikActionPerformed
 
+    private void CmbJnsPasienItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CmbJnsPasienItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbJnsPasienItemStateChanged
+
+    private void CmbJnsPasienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CmbJnsPasienMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbJnsPasienMouseClicked
+
+    private void CmbJnsPasienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbJnsPasienActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbJnsPasienActionPerformed
+
+    private void CmbJnsPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbJnsPasienKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbJnsPasienKeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -14599,6 +14653,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private widget.CekBox Chkkirkes;
     private widget.ComboBox CmbDetik;
     private widget.ComboBox CmbJam;
+    private widget.ComboBox CmbJnsPasien;
     private widget.ComboBox CmbMenit;
     private widget.TextBox CrDokter;
     private widget.TextBox CrDokter3;
@@ -14914,6 +14969,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private widget.Label jLabel3;
     private widget.Label jLabel30;
     private widget.Label jLabel31;
+    private widget.Label jLabel32;
     private widget.Label jLabel34;
     private widget.Label jLabel35;
     private widget.Label jLabel36;
@@ -15600,6 +15656,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         nmpnj.setText("");
         JnsnoID.setSelectedIndex(0);
         label_pesan.setText("-");
+        CmbJnsPasien.setSelectedIndex(0);
       
 
     }
@@ -15631,6 +15688,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             kdpoli.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),23).toString()); 
             kdpnj.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),24).toString()); 
             Sequel.cariIsi("select perujuk from rujuk_masuk where no_rawat=?", AsalRujukan,tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString());
+            CmbJnsPasien.setSelectedItem(Sequel.cariIsi("select jenis_pasien from jns_pasien where no_rkm_medis='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),7).toString()+"' "));
             JnsnoID.setSelectedIndex(0);
         
             
@@ -15844,6 +15902,8 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                             Sequel.cariIsi("select registrasi from poliklinik where kd_poli=?",TBiaya,kdpoli.getText());
                             break;
                     }
+                    
+                    CmbJnsPasien.setSelectedItem(Sequel.cariIsi("select jenis_pasien from jns_pasien where no_rkm_medis='"+rs.getString("no_rkm_medis")+"' "));
                 }
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -15896,6 +15956,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                     
                     TPasien.setText(rs.getString("nm_pasien")+" ("+umur+" "+sttsumur+")");
                     NoKa.setText(rs.getString("no_peserta"));
+                    //CmbJnsPasien.setSelectedItem(Sequel.cariIsi("select jenis_pasien from jns_pasien where no_rkm_medis='"+rs.getString("no_rkm_medis")+"' "));
                 }
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -15964,6 +16025,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                             Sequel.cariIsi("select registrasi from poliklinik where kd_poli=?",TBiaya,kdpoli.getText());
                             break;
                     }
+                    CmbJnsPasien.setSelectedItem(Sequel.cariIsi("select jenis_pasien from jns_pasien where no_rkm_medis='"+rs.getString("no_rkm_medis")+"' "));
                 }
             } catch (Exception ex) {
                 System.out.println(ex);
@@ -16385,6 +16447,10 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                 } else
                  if(Chkkirkes.isSelected()==true){
                 Sequel.menyimpan("ket_pasien1","'"+TNoRw.getText()+"','Kirkes'","jenis_kunjungan");
+                }
+                
+                if(Sequel.Cekjenispasien(TNoRM.getText())==0){
+                     Sequel.menyimpan("jns_pasien","'"+TNoRM.getText()+"','"+CmbJnsPasien.getSelectedItem().toString()+"'","jenis_pasien");
                 }
           
         }else{

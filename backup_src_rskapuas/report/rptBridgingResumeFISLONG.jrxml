@@ -44,6 +44,7 @@
 	<parameter name="rekomendasi" class="java.lang.String"/>
 	<parameter name="hasilkfr" class="java.lang.String"/>
 	<parameter name="evaluasi" class="java.lang.String"/>
+	<parameter name="dxfungsi" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select reg_periksa.no_reg,bridging_sep.no_sep, bridging_sep.no_rawat,bridging_sep.nomr,bridging_sep.nama_pasien,bridging_sep.tglsep,
 bridging_sep.tglrujukan,bridging_sep.no_rujukan,bridging_sep.kdppkrujukan,
@@ -705,7 +706,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Dx Medis (ICD-10)]]></text>
+				<text><![CDATA[Diagnosis Medis]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="3" y="370" width="91" height="11" uuid="39b03833-cd97-4333-bf0f-5cd7da66d624"/>
@@ -713,7 +714,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Dx Fungsi (ICD-10)]]></text>
+				<text><![CDATA[Diagnosis Fungsi]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="3" y="388" width="103" height="11" uuid="2a24e387-833f-440c-bafb-a0f13a41da3e"/>
@@ -802,7 +803,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 					<font fontName="Tahoma" size="9" isBold="false" isUnderline="true"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[:                                     (             )]]></text>
+				<text><![CDATA[:                                                   ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="125" y="408" width="152" height="11" uuid="3146a7db-815b-489e-ae0a-86bcdffda233"/>
@@ -936,7 +937,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<text><![CDATA[TTD DPJP]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2" y="586" width="92" height="15" uuid="01b9cfdc-f980-4efa-aa95-52f70edb2cc5"/>
+				<reportElement x="1" y="591" width="65" height="22" uuid="01b9cfdc-f980-4efa-aa95-52f70edb2cc5"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="9"/>
 					<paragraph lineSpacing="Single"/>
@@ -955,7 +956,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<text><![CDATA[Tanggal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="95" y="587" width="90" height="21" uuid="7ad6080f-7a15-47a8-bc0b-5885b685f2fb"/>
+				<reportElement x="81" y="587" width="90" height="21" uuid="7ad6080f-7a15-47a8-bc0b-5885b685f2fb"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="9"/>
 					<paragraph lineSpacing="Single"/>
@@ -963,7 +964,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<text><![CDATA[Program]]></text>
 			</staticText>
 			<line>
-				<reportElement x="94" y="586" width="1" height="120" uuid="42d1b96d-bf41-4c9d-8cdf-e30a15e3e3d2"/>
+				<reportElement x="56" y="586" width="1" height="120" uuid="42d1b96d-bf41-4c9d-8cdf-e30a15e3e3d2"/>
 			</line>
 			<line>
 				<reportElement x="328" y="586" width="1" height="119" uuid="f4235828-6972-4a65-ad51-6ed7dff73a86"/>
@@ -1016,7 +1017,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<reportElement x="326" y="586" width="1" height="119" uuid="735313ee-8bec-4861-8295-dd530bc0e2eb"/>
 			</line>
 			<line>
-				<reportElement x="95" y="607" width="444" height="1" uuid="7ec5d717-3442-432a-a2a9-f508b8255cf7"/>
+				<reportElement x="56" y="608" width="483" height="1" uuid="7ec5d717-3442-432a-a2a9-f508b8255cf7"/>
 			</line>
 			<line>
 				<reportElement x="-1" y="585" width="1" height="120" uuid="f693eb88-810b-4328-84cd-71c4ad3a7767"/>
@@ -1076,16 +1077,16 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<reportElement x="460" y="595" width="79" height="1" uuid="5f1abf0c-462b-4885-971c-8c69d1c07ebf"/>
 			</line>
 			<line>
-				<reportElement x="95" y="627" width="444" height="1" uuid="627f10d5-5612-46ce-b424-861d8aa09614"/>
+				<reportElement x="56" y="628" width="483" height="1" uuid="627f10d5-5612-46ce-b424-861d8aa09614"/>
 			</line>
 			<line>
-				<reportElement x="95" y="646" width="444" height="1" uuid="b5d4f9b9-0c4b-4895-b204-80a0d8466b78"/>
+				<reportElement x="56" y="647" width="483" height="1" uuid="b5d4f9b9-0c4b-4895-b204-80a0d8466b78"/>
 			</line>
 			<line>
-				<reportElement x="95" y="664" width="444" height="1" uuid="32771bab-3a6d-4083-b6d1-d618f753d7e8"/>
+				<reportElement x="56" y="665" width="483" height="1" uuid="32771bab-3a6d-4083-b6d1-d618f753d7e8"/>
 			</line>
 			<line>
-				<reportElement x="95" y="685" width="444" height="1" uuid="338e21cd-a52a-4395-b171-650808c1a869"/>
+				<reportElement x="56" y="686" width="483" height="1" uuid="338e21cd-a52a-4395-b171-650808c1a869"/>
 			</line>
 			<line>
 				<reportElement x="539" y="586" width="1" height="119" uuid="af2c05ce-faf5-4fb5-93c1-efaded19ceb9"/>
@@ -1106,7 +1107,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<reportElement x="516" y="596" width="1" height="109" uuid="ec691f8b-7eae-4cae-aba3-ccca36d3a477"/>
 			</line>
 			<staticText>
-				<reportElement x="95" y="617" width="43" height="11" uuid="8be0db48-ded5-4b8f-a384-5478564f6468"/>
+				<reportElement x="57" y="612" width="11" height="11" uuid="8be0db48-ded5-4b8f-a384-5478564f6468"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -1114,7 +1115,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<text><![CDATA[1.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="95" y="636" width="43" height="11" uuid="2adc0b38-2228-4c37-96bc-c613e709100c"/>
+				<reportElement x="57" y="636" width="43" height="11" uuid="2adc0b38-2228-4c37-96bc-c613e709100c"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -1122,7 +1123,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<text><![CDATA[2.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="95" y="654" width="43" height="11" uuid="580678d3-b986-4085-8128-7c5a98230508"/>
+				<reportElement x="57" y="654" width="43" height="11" uuid="580678d3-b986-4085-8128-7c5a98230508"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -1130,7 +1131,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<text><![CDATA[3.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="95" y="675" width="43" height="11" uuid="e7944838-fc77-461d-acd2-3de98022fabd"/>
+				<reportElement x="57" y="675" width="43" height="11" uuid="e7944838-fc77-461d-acd2-3de98022fabd"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -1138,7 +1139,7 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 				<text><![CDATA[4.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="95" y="695" width="43" height="11" uuid="59638d3e-3dd3-4ed8-bada-c0b0d7756d29"/>
+				<reportElement x="57" y="695" width="43" height="11" uuid="59638d3e-3dd3-4ed8-bada-c0b0d7756d29"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="9" isBold="false"/>
 					<paragraph lineSpacing="Single"/>
@@ -1467,6 +1468,54 @@ WHERE reg_periksa.kd_dokter NOT IN ( '-' ) and reg_periksa.kd_poli in ('IRM')  a
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{evaluasi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="66" y="610" width="124" height="18" uuid="413f4029-6a8c-4870-b4a7-82c5d3655880"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Tahoma" size="7" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tatalaksana}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="192" y="615" width="52" height="11" uuid="4fde4693-ac56-47ac-9630-8b96a4fc7547"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tglsep}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="245" y="610" width="27" height="18" isRemoveLineWhenBlank="true" uuid="edbe850c-44ab-466b-a8e1-9d5c8275255a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" errorCorrectionLevel="H">
+					<jr:codeExpression><![CDATA[$F{nama_pasien}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<componentElement>
+				<reportElement x="273" y="610" width="27" height="18" isRemoveLineWhenBlank="true" uuid="ccafd580-6991-444a-9cfb-e63753f7de81">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" errorCorrectionLevel="H">
+					<jr:codeExpression><![CDATA[$F{nm_dokter}]]></jr:codeExpression>
+				</jr:QRCode>
+			</componentElement>
+			<staticText>
+				<reportElement x="302" y="612" width="24" height="12" uuid="51c9a43b-ae9f-4910-8370-ee338c77d9a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="6" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[V]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="128" y="369" width="145" height="11" uuid="21100519-aa74-4837-81c1-98e6afdc0e53"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Tahoma" size="9" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dxfungsi}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

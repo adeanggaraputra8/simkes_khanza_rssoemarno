@@ -2316,4 +2316,31 @@ public final class sekuel {
         }
         return bool;
     }
+   
+   public int Cekjenispasien(String norawat){
+        angka=0;
+        try {
+            ps=connect.prepareStatement(
+                    "select count(jns_pasien.no_rkm_medis) from jns_pasien where jns_pasien.no_rkm_medis=?");
+            try {
+                ps.setString(1,norawat);
+                rs=ps.executeQuery();
+                if(rs.next()){
+                    angka=rs.getInt(1);
+                }
+            } catch (Exception e) {
+                System.out.println("Notifikasi : "+e);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return angka;
+    }
 }

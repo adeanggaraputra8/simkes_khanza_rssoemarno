@@ -40,6 +40,7 @@ import bridging.ApotekBPJSCekReferensiPoli;
 import bridging.ApotekBPJSCekReferensiSettingPPK;
 import bridging.ApotekBPJSCekReferensiSpesialistik;
 import bridging.ApotekBPJSDaftarPelayananObat;
+import bridging.ApotekBPJSDaftarPelayananObat2;
 import bridging.ApotekBPJSKunjunganSEP;
 import bridging.ApotekBPJSMapingObat;
 import bridging.ApotekBPJSMonitoringKlaim;
@@ -11188,11 +11189,13 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
         FlayMenu.add(btnDataPenyerahanDarah);
         FlayMenu.add(btnDaftarPermintaanResep);
         FlayMenu.add(btnResepObatDepan);
+        FlayMenu.add(btnDataObatApotekBPJS);
         btnInputPenjualan.setEnabled(akses.getpenjualan_obat());
         btnDataPenjualan.setEnabled(akses.getpenjualan_obat());
         btnDataPenyerahanDarah.setEnabled(akses.getutd_penyerahan_darah());
         btnDaftarPermintaanResep.setEnabled(akses.getresep_dokter());
         btnResepObatDepan.setEnabled(akses.getresep_obat());
+        btnDataObatApotekBPJS.setEnabled(akses.getresep_obat());
         FlayMenu.setVisible(true);       
     }//GEN-LAST:event_BtnToolJualObatActionPerformed
 
@@ -22393,6 +22396,19 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
         DlgHome.dispose();
         this.setCursor(Cursor.getDefaultCursor());
     }
+    
+     private void btnDataObatApotekBPJSActionPerformed(java.awt.event.ActionEvent evt){
+        isTutup();
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        ApotekBPJSDaftarPelayananObat2 vedika = new ApotekBPJSDaftarPelayananObat2(this, false);
+//        vedika.emptText();
+//        vedika.tampil();
+        vedika.setSize(PanelUtama.getWidth(), PanelUtama.getHeight());
+        vedika.setLocationRelativeTo(PanelUtama);
+        vedika.setVisible(true);
+        DlgHome.dispose();
+        this.setCursor(Cursor.getDefaultCursor());
+    }
             
     /**
     * @param args the command line arguments
@@ -23097,7 +23113,7 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
             btnRingkasanPengajuanDapur,btnRingkasanPemesananDapur,btnRingkasanReturBeliDapur,btnRingkasanStokKeluarDapur,btnStokKeluarDapurPerTanggal,btnSirkulasiDapur,btnSirkulasiDapur2,
             btnVerifikasiPenerimaanDapur,btnNilaiPenerimaanVendorDapurPerBulan,btnRingkasanHutangVendorBarangDapur,btnPenilaianPsikologiKlinis,btnPenilaianAwalMedisRanapNeonatus,
             btnPenilaianDerajatDehidrasi,btnBridgingEklaimINACBG,btnINACBGjknBelumDiklaim,btnKendaliMutudanBiaya,btnPengajuanKlaimINACBGrz,
-            btnVedikaKlaim;;
+            btnVedikaKlaim,btnDataObatApotekBPJS;
     
     public void isWall(){
         try{            
@@ -46680,5 +46696,14 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
         btnVedikaKlaim.setName("btnVedikaKlaim"); 
         btnVedikaKlaim.setPreferredSize(new java.awt.Dimension(200, 90));
         btnVedikaKlaim.addActionListener(this::btnVedikaKlaimActionPerformed);
+        
+        
+        btnDataObatApotekBPJS = new widget.ButtonBig();
+        btnDataObatApotekBPJS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/48x48/bpjs_apotek.png")));
+        btnDataObatApotekBPJS.setText("Data Apotek BPJS");
+        btnDataObatApotekBPJS.setIconTextGap(0);
+        btnDataObatApotekBPJS.setName("btnDataObatApotekBPJS"); 
+        btnDataObatApotekBPJS.setPreferredSize(new java.awt.Dimension(200, 90));
+        btnDataObatApotekBPJS.addActionListener(this::btnDataObatApotekBPJSActionPerformed);
     }
 }

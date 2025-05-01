@@ -189,7 +189,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
             Beban_Jasa_Medik_Paramedis_Tindakan_Ralan="",Utang_Jasa_Medik_Paramedis_Tindakan_Ralan="",Beban_KSO_Tindakan_Ralan="",Utang_KSO_Tindakan_Ralan="",
             Beban_Jasa_Sarana_Tindakan_Ralan="",Utang_Jasa_Sarana_Tindakan_Ralan="",HPP_BHP_Tindakan_Ralan="",Persediaan_BHP_Tindakan_Ralan="",
             Beban_Jasa_Menejemen_Tindakan_Ralan="",Utang_Jasa_Menejemen_Tindakan_Ralan="",tampildiagnosa="",nosep="",dxralan="",pdralan="",variabel="",norawatdipilih="",normdipilih="",finger="",
-            tanggalfisterakhr="",pilihancetak="";
+            tanggalfisterakhr="",pilihancetak="",kriteriagadar="";
    
     public DlgBilingRalan billing=new DlgBilingRalan(null,false);
     private int i=0,pilihan=0,sudah=0,jmlparsial=0,row=0;
@@ -8592,7 +8592,11 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
             DlgBerkasRawat berkas=new DlgBerkasRawat(null,true);
             berkas.setJudul("::[ Berkas Digital Perawatan ]::","berkasrawat/pages");
             try {
-                berkas.loadURL("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+prop.getProperty("PORTWEB")+"/"+prop.getProperty("HYBRIDWEB")+"/"+"berkasrawat/login2.php?act=login&usere=admin&passwordte=akusayangsamakamu&no_rawat="+TNoRw.getText());
+                if(akses.gethapus_berkas_digital_perawatan()==true){
+                    berkas.loadURL("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+koneksiDB.PORTWEB()+"/"+koneksiDB.HYBRIDWEB()+"/"+"berkasrawat/login2.php?act=login&usere="+koneksiDB.USERHYBRIDWEB()+"&passwordte="+koneksiDB.PASHYBRIDWEB()+"&no_rawat="+TNoRw.getText());
+                }else{
+                    berkas.loadURL("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+koneksiDB.PORTWEB()+"/"+koneksiDB.HYBRIDWEB()+"/"+"berkasrawat/login2nonhapus.php?act=login&usere="+koneksiDB.USERHYBRIDWEB()+"&passwordte="+koneksiDB.PASHYBRIDWEB()+"&no_rawat="+TNoRw.getText());
+                }   
             } catch (Exception ex) {
                 System.out.println("Notifikasi : "+ex);
             }
@@ -10448,7 +10452,7 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
 
     private void MnResumeRawatJalan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnResumeRawatJalan1ActionPerformed
        if(tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),18).toString().equals("MAT")){
-             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             nosep=Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE no_rawat='"+TNoRwCari.getText()+"' ");
             Map<String, Object> param = new HashMap<>(); 
                 param.put("namars",akses.getnamars());
@@ -10478,6 +10482,52 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
                 param.put("objekpr",Sequel.cariIsiBanyak("SELECT pr.pemeriksaan  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT p.nip FROM petugas p) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1")); 
                 param.put("asttv",Sequel.cariIsiTTV("SELECT CONCAT('suhu :',' ',suhu_tubuh) suhu,CONCAT(' tensi :',' ',tensi) tensi,CONCAT(', respirasi :',' ',respirasi) respirasi,CONCAT(', nadi :',' ',nadi) nadi,CONCAT(', gcs :',' ',gcs) as gcs,CONCAT(', kesadaran :',' ',kesadaran) as kesadaran,CONCAT(', bb :',' ',berat) bb,CONCAT(', spo2 :',' ',spo2) spo,CONCAT(', alergi :',' ',alergi) alergi FROM pemeriksaan_ralan WHERE pemeriksaan_ralan.nip in (SELECT p.nip FROM petugas p) AND pemeriksaan_ralan.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pemeriksaan_ralan.tgl_perawatan DESC, pemeriksaan_ralan.jam_rawat desc limit 1 "));
                 Valid.MyReport("rptBridgingResumeMata.jasper","report","::[ Cetak Resume ]::",param);
+       }else if (tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),18).toString().equals("IGDK")||tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),18).toString().equals("PPN")) {
+                  this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            nosep=Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE no_rawat='"+TNoRwCari.getText()+"' ");
+            Map<String, Object> param = new HashMap<>(); 
+                param.put("namars",akses.getnamars());
+                param.put("alamatrs",akses.getalamatrs());
+                param.put("kotars",akses.getkabupatenrs());
+                param.put("propinsirs",akses.getpropinsirs());
+                param.put("kontakrs",akses.getkontakrs());
+                param.put("logo",Sequel.cariGambar("select bpjs from gambar"));
+                param.put("logo2",Sequel.cariGambar("select logo from setting"));
+                param.put("norawat",TNoRwCari.getText());
+                param.put("pro1",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='1'"));
+                param.put("pro2",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='2'"));    
+                param.put("pro3",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='3'")); 
+                param.put("pro4",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='4'")); 
+                param.put("pro5",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='5'")); 
+                param.put("pro6",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='6'")); 
+                param.put("pro7",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='7'")); 
+                param.put("pro8",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='8'"));
+                param.put("ttlobat",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+TNoRwCari.getText()+"' and status='Obat'"));
+                param.put("tarifrs",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+TNoRwCari.getText()+"' and status in ('Ralan Dokter','Ralan Paramedis','Ralan Dokter Paramedis')"));
+                param.put("carapulang",Sequel.cariIsiBanyak("SELECT IF(stts='Sudah','Atas Persetujuan Dokter',IF(stts='Dirujuk','Rujuk',IF(stts='Dirawat','MRS',''))) FROM reg_periksa WHERE no_rawat='"+TNoRwCari.getText()+"' "));
+                param.put("kontrol",Sequel.cariIsiBanyak("SELECT tgl_rencana FROM bridging_surat_kontrol_bpjs WHERE no_sep='"+nosep+"'"));
+                param.put("subjekdr",Sequel.cariIsiBanyak("SELECT pr.keluhan from pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                param.put("objekdr",Sequel.cariIsiBanyak("SELECT pr.pemeriksaan from pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                param.put("pemeriksaandr",Sequel.cariIsiBanyak("SELECT pr.penilaian from pemeriksaan_ralan pr WHERE  pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                param.put("plandr",Sequel.cariIsiBanyak("SELECT pr.rtl from pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                param.put("objekpr",Sequel.cariIsiBanyak("SELECT pr.pemeriksaan  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT p.nip FROM petugas p) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1")); 
+                param.put("asttv",Sequel.cariIsiTTV("SELECT CONCAT('suhu :',' ',suhu_tubuh) suhu,CONCAT(' tensi :',' ',tensi) tensi,CONCAT(', respirasi :',' ',respirasi) respirasi,CONCAT(', nadi :',' ',nadi) nadi,CONCAT(', gcs :',' ',gcs) as gcs,CONCAT(', kesadaran :',' ',kesadaran) as kesadaran,CONCAT(', bb :',' ',berat) bb,CONCAT(', spo2 :',' ',spo2) spo,CONCAT(', alergi :',' ',alergi) alergi FROM pemeriksaan_ralan WHERE pemeriksaan_ralan.nip in (SELECT p.nip FROM petugas p) AND pemeriksaan_ralan.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pemeriksaan_ralan.tgl_perawatan DESC, pemeriksaan_ralan.jam_rawat desc limit 1 "));
+                param.put("penunjang",Sequel.cariIsiBanyak("SELECT CONCAT('Hasil EKG :',' ',ekg) ekg,CONCAT(' Hasil Rad :',' ',rad) rad,CONCAT(', Hasil Lab :',' ',lab) lab  FROM  penilaian_medis_igd WHERE no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  tanggal DESC limit 1"));
+                if (Sequel.cariInteger("SELECT COUNT(dti.no_rawat) FROM data_triase_igd dti INNER JOIN data_triase_igddetail_skala1 dti_s1 ON dti.no_rawat=dti_s1.no_rawat INNER JOIN master_triase_skala1 mts1 ON mts1.kode_skala1=dti_s1.kode_skala1 INNER JOIN master_triase_pemeriksaan mtp on mtp.kode_pemeriksaan=mts1.kode_pemeriksaan WHERE dti.no_rawat='"+TNoRwCari.getText()+"' ")>0){
+                      kriteriagadar="IMMEDIATE/SEGERA" ; 
+                } else if (Sequel.cariInteger("SELECT COUNT(dti.no_rawat) FROM data_triase_igd dti INNER JOIN data_triase_igddetail_skala2 dti_s1 ON dti.no_rawat=dti_s1.no_rawat INNER JOIN master_triase_skala2 mts1 ON mts1.kode_skala2=dti_s1.kode_skala2 INNER JOIN master_triase_pemeriksaan mtp on mtp.kode_pemeriksaan=mts1.kode_pemeriksaan WHERE dti.no_rawat='"+TNoRwCari.getText()+"' ")>0){
+                      kriteriagadar="EMERGENSI" ; 
+                } else if (Sequel.cariInteger("SELECT COUNT(dti.no_rawat) FROM data_triase_igd dti INNER JOIN data_triase_igddetail_skala3 dti_s1 ON dti.no_rawat=dti_s1.no_rawat INNER JOIN master_triase_skala3 mts1 ON mts1.kode_skala3=dti_s1.kode_skala3 INNER JOIN master_triase_pemeriksaan mtp on mtp.kode_pemeriksaan=mts1.kode_pemeriksaan WHERE dti.no_rawat='"+TNoRwCari.getText()+"' ")>0){
+                      kriteriagadar="URGENSI" ; 
+                } else if (Sequel.cariInteger("SELECT COUNT(dti.no_rawat) FROM data_triase_igd dti INNER JOIN data_triase_igddetail_skala4 dti_s1 ON dti.no_rawat=dti_s1.no_rawat INNER JOIN master_triase_skala4 mts1 ON mts1.kode_skala4=dti_s1.kode_skala4 INNER JOIN master_triase_pemeriksaan mtp on mtp.kode_pemeriksaan=mts1.kode_pemeriksaan WHERE dti.no_rawat='"+TNoRwCari.getText()+"' ")>0){
+                      kriteriagadar="SEMI URGENSI/URGENSI RENDAH" ; 
+                } else if (Sequel.cariInteger("SELECT COUNT(dti.no_rawat) FROM data_triase_igd dti INNER JOIN data_triase_igddetail_skala5 dti_s1 ON dti.no_rawat=dti_s1.no_rawat INNER JOIN master_triase_skala5 mts1 ON mts1.kode_skala5=dti_s1.kode_skala5 INNER JOIN master_triase_pemeriksaan mtp on mtp.kode_pemeriksaan=mts1.kode_pemeriksaan WHERE dti.no_rawat='"+TNoRwCari.getText()+"' ")>0){
+                      kriteriagadar="NON URGENSI" ; 
+                } else {
+                    kriteriagadar="-";
+                }
+                param.put("gadar", kriteriagadar);
+                Valid.MyReport("rptBridgingResumeIGD.jasper","report","::[ Cetak Resume ]::",param);
        }
        else{
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -10511,7 +10561,7 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
 
     private void MnResumeRawatJalan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnResumeRawatJalan2ActionPerformed
         try {
-               pilihancetak = (String)JOptionPane.showInputDialog(null,"Silahkan pilih resume yang mau dicetak!","Laporan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Resume Fisio Terapi"},"Resume Fisio Terapi");
+               pilihancetak = (String)JOptionPane.showInputDialog(null,"Silahkan pilih resume yang mau dicetak!","Laporan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Resume Fisio Terapi","Resume Fisio & KFR"},"Resume Fisio Terapi");
                     switch (pilihancetak) {
                         case "Resume Fisio Terapi":
                                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -10578,47 +10628,49 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
 //                                 Valid.MyReport("rptBridgingFisioPetugas.jasper","report","::[ Cetak Resume ]::",param1);
 //                                 this.setCursor(Cursor.getDefaultCursor());
 //                        break;
-//                        case "Resume Fisio & KFR":
-//                            MnTampilDiagnosaActionPerformed(null);
-//                             nosep=Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE no_rawat='"+TNoRwCari.getText()+"' ");
-//                             tanggalfisterakhr=Sequel.cariIsi("SELECT rp.tgl_registrasi from reg_periksa rp INNER JOIN pemeriksaan_ralan pr on pr.no_rawat=rp.no_rawat WHERE rp.kd_poli='IRM' and pr.nip in (SELECT d.kd_dokter  FROM dokter d) and rp.no_rkm_medis='"+TNoRMCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1");
-//                             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-//                             Map<String, Object> param2 = new HashMap<>(); 
-//                                 param2.put("namars",akses.getnamars());
-//                                 param2.put("alamatrs",akses.getalamatrs());
-//                                 param2.put("kotars",akses.getkabupatenrs());
-//                                 param2.put("propinsirs",akses.getpropinsirs());
-//                                 param2.put("kontakrs",akses.getkontakrs());
-//                                 param2.put("logo",Sequel.cariGambar("select bpjs from gambar"));
-//                                 param2.put("logo2",Sequel.cariGambar("select logo from setting"));
-//                                 param2.put("norawat",TNoRwCari.getText());
-//                                 param2.put("pro1",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='1'"));
-//                                 param2.put("pro2",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='2'"));    
-//                                 param2.put("pro3",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='3'")); 
-//                                 param2.put("pro4",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='4'")); 
-//                                 param2.put("pro5",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='5'")); 
-//                                 param2.put("pro6",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='6'")); 
-//                                 param2.put("pro7",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='7'")); 
-//                                 param2.put("pro8",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='8'"));
-//                                 param2.put("ttlobat",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+TNoRwCari.getText()+"' and status='Obat'"));
-//                                 param2.put("tarifrs",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+TNoRwCari.getText()+"' and status in ('Ralan Dokter','Ralan Paramedis','Ralan Dokter Paramedis')"));
-//                                 param2.put("carapulang",Sequel.cariIsiBanyak("SELECT IF(stts='Sudah','Atas Persetujuan Dokter',IF(stts='Dirujuk','Rujuk',IF(stts='Dirawat','MRS',''))) FROM reg_periksa WHERE no_rawat='"+TNoRwCari.getText()+"' "));
-//                                 param2.put("kontrol",Sequel.cariIsiBanyak("SELECT tgl_rencana FROM bridging_surat_kontrol_bpjs WHERE no_sep='"+nosep+"'"));
-//                                 param2.put("anamnesa",Sequel.cariIsiBanyak("SELECT pr.keluhan  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
-//                                 param2.put("ujifungsi",Sequel.cariIsiBanyak("SELECT pr.pemeriksaan  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
-//                                 param2.put("dxmedis",tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),7).toString());
-//                                 param2.put("penunjang",Sequel.cariIsiBanyak("SELECT pr.penunjang from penilaian_fisioterapi  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
-//                                 param2.put("jumlahkunjungan",Sequel.cariIsiBanyak("SELECT COUNT(pr.no_rawat) from reg_periksa rp INNER JOIN pemeriksaan_ralan pr on pr.no_rawat=rp.no_rawat WHERE rp.kd_poli='IRM' and pr.nip in (SELECT p.nip FROM petugas p) and rp.no_rkm_medis='"+TNoRMCari.getText()+"'  AND pr.tgl_perawatan BETWEEN '"+tanggalfisterakhr+"' and '"+tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),12).toString()+"'  ORDER BY pr.no_rawat"));
-//                                 param2.put("tatalaksana",Sequel.cariIsiBanyak("SELECT pr.rtl  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
-//                                 param2.put("anjuran",Sequel.cariIsiBanyak("SELECT pr.instruksi  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
-//                                 param2.put("evaluasi",Sequel.cariIsiBanyak("SELECT pr.evaluasi  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
-//                                 param2.put("kesimpulan",Sequel.cariIsiBanyak("SELECT pr.kesimpulan from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
-//                                 param2.put("rekomendasi",Sequel.cariIsiBanyak("SELECT pr.rekomedasi from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
-//                                 param2.put("hasilkfr",Sequel.cariIsiBanyak("SELECT pr.hasil_didapat from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
-//                                 param2.put("tglkunjungandr",tanggalfisterakhr); 
-//                                 Valid.MyReport("rptBridgingResumeFISLONG.jasper","report","::[ Cetak Resume ]::",param2);
-//                                 this.setCursor(Cursor.getDefaultCursor());
-//                       break;
+                        case "Resume Fisio & KFR":
+                            MnTampilDiagnosaActionPerformed(null);
+                             nosep=Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE no_rawat='"+TNoRwCari.getText()+"' ");
+                             tanggalfisterakhr=Sequel.cariIsi("SELECT rp.tgl_registrasi from reg_periksa rp INNER JOIN pemeriksaan_ralan pr on pr.no_rawat=rp.no_rawat WHERE rp.kd_poli='IRM' and pr.nip in (SELECT d.kd_dokter  FROM dokter d) and rp.no_rkm_medis='"+TNoRMCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1");
+                             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                             Map<String, Object> param2 = new HashMap<>(); 
+                                 param2.put("namars",akses.getnamars());
+                                 param2.put("alamatrs",akses.getalamatrs());
+                                 param2.put("kotars",akses.getkabupatenrs());
+                                 param2.put("propinsirs",akses.getpropinsirs());
+                                 param2.put("kontakrs",akses.getkontakrs());
+                                 param2.put("logo",Sequel.cariGambar("select bpjs from gambar"));
+                                 param2.put("logo2",Sequel.cariGambar("select logo from setting"));
+                                 param2.put("norawat",TNoRwCari.getText());
+                                 param2.put("pro1",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='1'"));
+                                 param2.put("pro2",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='2'"));    
+                                 param2.put("pro3",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='3'")); 
+                                 param2.put("pro4",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='4'")); 
+                                 param2.put("pro5",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='5'")); 
+                                 param2.put("pro6",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='6'")); 
+                                 param2.put("pro7",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='7'")); 
+                                 param2.put("pro8",Sequel.cariIsiBanyak("SELECT b.kode FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+TNoRwCari.getText()+"' and b.prioritas='8'"));
+                                 param2.put("ttlobat",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+TNoRwCari.getText()+"' and status='Obat'"));
+                                 param2.put("tarifrs",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+TNoRwCari.getText()+"' and status in ('Ralan Dokter','Ralan Paramedis','Ralan Dokter Paramedis')"));
+                                 param2.put("carapulang",Sequel.cariIsiBanyak("SELECT IF(stts='Sudah','Atas Persetujuan Dokter',IF(stts='Dirujuk','Rujuk',IF(stts='Dirawat','MRS',''))) FROM reg_periksa WHERE no_rawat='"+TNoRwCari.getText()+"' "));
+                                 param2.put("kontrol",Sequel.cariIsiBanyak("SELECT tgl_rencana FROM bridging_surat_kontrol_bpjs WHERE no_sep='"+nosep+"'"));
+                                 param2.put("anamnesa",Sequel.cariIsiBanyak("SELECT pr.keluhan  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                                 param2.put("ujifungsi",Sequel.cariIsiBanyak("SELECT pr.pemeriksaan  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                                 param2.put("dxmedis",tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),7).toString());
+                                 param2.put("penunjang",Sequel.cariIsiBanyak("SELECT pr.penunjang from penilaian_fisioterapi  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
+                                 param2.put("jumlahkunjungan",Sequel.cariIsiBanyak("SELECT COUNT(pr.no_rawat) from reg_periksa rp INNER JOIN pemeriksaan_ralan pr on pr.no_rawat=rp.no_rawat WHERE rp.kd_poli='IRM' and pr.nip in (SELECT p.nip FROM petugas p) and rp.no_rkm_medis='"+TNoRMCari.getText()+"'  AND pr.tgl_perawatan BETWEEN '"+tanggalfisterakhr+"' and '"+tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),12).toString()+"'  ORDER BY pr.no_rawat"));
+                                 param2.put("tatalaksana",Sequel.cariIsiBanyak("SELECT pr.rtl  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                                 param2.put("anjuran",Sequel.cariIsiBanyak("SELECT pr.instruksi  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                                 param2.put("evaluasi",Sequel.cariIsiBanyak("SELECT pr.evaluasi  FROM  pemeriksaan_ralan pr WHERE pr.nip in (SELECT d.kd_dokter  FROM dokter d) and pr.no_rawat ='"+TNoRwCari.getText()+"' ORDER  BY  pr.tgl_perawatan DESC, pr.jam_rawat desc limit 1"));
+                                 param2.put("kesimpulan",Sequel.cariIsiBanyak("SELECT pr.kesimpulan from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
+                                 param2.put("rekomendasi",Sequel.cariIsiBanyak("SELECT pr.rekomedasi from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
+                                 param2.put("hasilkfr",Sequel.cariIsiBanyak("SELECT pr.hasil_didapat from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
+                                 param2.put("tglkunjungandr",tanggalfisterakhr);
+                                 param2.put("dxmedis",Sequel.cariIsiBanyak("SELECT pr.diagnosis_medis from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
+                                 param2.put("dxfungsi",Sequel.cariIsiBanyak("SELECT pr.diagnosis_fungsional from uji_fungsi_kfr  pr WHERE pr.no_rawat='"+TNoRwCari.getText()+"' ORDER  BY  pr.tanggal DESC limit 1"));
+                                 Valid.MyReport("rptBridgingResumeFISLONG.jasper","report","::[ Cetak Resume ]::",param2);
+                                 this.setCursor(Cursor.getDefaultCursor());
+                       break;
                     }   
         } catch(Exception e){
                  System.out.println("Notifikasi : "+e); {
