@@ -10007,7 +10007,13 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         }else if(TPasien.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
             tbPetugas.requestFocus();
-        }else{           
+        }else{     
+//            if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM referensi_mobilejkn_bpjs WHERE no_rawat='"+TNoRw.getText()+"'")>0){
+//                Sequel.menyimpan("antrian_bantu","'"+Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='"+TNoRw.getText()+"'")+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','"+TNoRw.getText()+"' ");
+//            }else{
+//               // SimpanAntrianOnSite();
+//                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','"+TNoRw.getText()+"' ");
+//            }
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             akses.setform("DlgReg");
             BPJSDataSEP dlgki=new BPJSDataSEP(null,false);
@@ -16429,9 +16435,12 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                 Sequel.menyimpan("history_user","Now(),'"+TNoRw.getText()+"','"+akses.getkode()+"','Registrasi Pasien','Simpan',''");
               }
         //simpan task id1
-//        if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM antrian_bantu WHERE no_rawat='"+TNoRw.getText()+"'")==0){
-//               Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
-//              }
+//         if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM referensi_mobilejkn_bpjs WHERE no_rawat='"+TNoRw.getText()+"'")>0){
+//                Sequel.menyimpan("antrian_bantu","'"+Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='"+TNoRw.getText()+"'")+"','',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','"+TNoRw.getText()+"' ");
+//           }else{
+//               // SimpanAntrianOnSite();
+//                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','"+TNoRw.getText()+"' ");
+//           }
             
         isNumber();
         if(Sequel.menyimpantf2("reg_periksa","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat",19,
@@ -16448,11 +16457,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                  if(Chkkirkes.isSelected()==true){
                 Sequel.menyimpan("ket_pasien1","'"+TNoRw.getText()+"','Kirkes'","jenis_kunjungan");
                 }
-                
-                if(Sequel.Cekjenispasien(TNoRM.getText())==0){
-                     Sequel.menyimpan("jns_pasien","'"+TNoRM.getText()+"','"+CmbJnsPasien.getSelectedItem().toString()+"'","jenis_pasien");
-                }
-          
+
         }else{
             
             isNumber();
@@ -16510,6 +16515,9 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             if(ChkTracker.isSelected()==true){
                 ctk();
             }
+            if(Sequel.Cekjenispasien(TNoRM.getText())==0){
+                     Sequel.menyimpan("jns_pasien","'"+TNoRM.getText()+"','"+CmbJnsPasien.getSelectedItem().toString()+"'","jenis_pasien");
+                }
             tampil();
            if ((kdpoli.getText().trim().equals("PPN"))||kdpoli.getText().trim().equals("IGDK")||kdpnj.getText().trim().equals("002")||kdpnj.getText().trim().equals("009")||kdpnj.getText().trim().equals("INH")||kdpnj.getText().trim().equals("013")||kdpnj.getText().trim().equals("014")||kdpnj.getText().trim().equals("015") ||kdpnj.getText().trim().equals("012") ||kdpnj.getText().trim().equals("016")){
                     emptTeks();

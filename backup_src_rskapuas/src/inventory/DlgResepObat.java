@@ -2570,7 +2570,11 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                                         pskandungan.close();
                                     }
                                         }
-                               rincianobat=rs2.getString("nama_brng")+" ,---jumlah--- "+rs2.getString("jml")+"  ,---kandungan--- "+kandunganobat+","+rincianobat;
+                                Sequel.menyimpan("temporary_resep","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
+                                    ""+i,"","","","","","",rsracikan.getString("nama_racik"),rsracikan.getString("aturan_pakai"),rsracikan.getString("jml_dr"),rsracikan.getString("nm_racik"),rs2.getString("nama_brng"),rs2.getString("jml"),kandunganobat,"","","","","","","","","","","","","","","","","","","","","","","",akses.getalamatip()
+                                });
+                                i++;
+                               rincianobat=rs2.getString("nama_brng")+" "+rs2.getString("jml")+" "+kandunganobat+","+rincianobat;
                             }                                
                         } catch (Exception e) {
                             System.out.println("Notifikasi Detail Racikan : "+e);
@@ -2584,10 +2588,14 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                         }
                         rincianobat = rincianobat.substring(0,rincianobat.length() - 1);
                         
-                        Sequel.menyimpan("temporary_resep","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
-                            ""+i,rsracikan.getString("nama_racik")+" ("+rincianobat+")",rsracikan.getString("aturan_pakai"),rsracikan.getString("jml_dr"),rsracikan.getString("nm_racik"),"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",akses.getalamatip()
-                        });
-                        i++;
+//                        Sequel.menyimpan("temporary_resep","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
+//                            ""+i,rsracikan.getString("nama_racik")+" ("+rincianobat+")",rsracikan.getString("aturan_pakai"),rsracikan.getString("jml_dr"),rsracikan.getString("nm_racik"),"","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",akses.getalamatip()
+//                        });
+//                        i++;
+//                        Sequel.menyimpan("temporary_resep","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?",38,new String[]{
+//                            ""+i,"","","","","","",rsracikan.getString("nama_racik"),rsracikan.getString("aturan_pakai"),rsracikan.getString("jml_dr"),rsracikan.getString("nm_racik"),rs2.getString("nama_brng"),rs2.getString("jml"),kandunganobat,"","","","","","","","","","","","","","","","","","","","","","","",akses.getalamatip()
+//                        });
+//                        i++;
                     }
                 } catch (Exception e) {
                     System.out.println("Notif Racikan : "+e);

@@ -658,6 +658,8 @@ import dapur.DapurRHPembelian;
 //import dapur.DapurVerifikasiPenerimaan;
 import grafikanalisa.GrafikKeslingLimbahB3CairBulan;
 import grafikanalisa.GrafikKeslingLimbahB3CairPertanggal;
+import indikatorrs.DlgLaporanDataMutu;
+import indikatorrs.IndikatorMutuMaster;
 import inventaris.KeslingLimbahB3MedisCair;
 import ipsrs.IPSRSPengajuanBarangNonMedis;
 import ipsrs.DlgSirkulasiNonMedis2;
@@ -1873,6 +1875,8 @@ public class frmUtama extends javax.swing.JFrame {
         MnKoleksiPenelitian = new javax.swing.JMenuItem();
         MnCariEbook = new javax.swing.JMenuItem();
         MnCariInventarisPerpustakaan = new javax.swing.JMenuItem();
+        MnInputIndikatorMutuRS = new javax.swing.JMenuItem();
+        MasterIndikatorMutuRS = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
         MnAnjungan = new javax.swing.JMenuItem();
         jSeparator12 = new javax.swing.JPopupMenu.Separator();
@@ -2116,7 +2120,7 @@ public class frmUtama extends javax.swing.JFrame {
 
         tanggal.setEditable(false);
         tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03/03/2025" }));
+        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23/05/2025" }));
         tanggal.setDisplayFormat("dd/MM/yyyy");
         tanggal.setName("tanggal"); // NOI18N
         tanggal.setOpaque(false);
@@ -8102,6 +8106,34 @@ public class frmUtama extends javax.swing.JFrame {
             }
         });
         jMenu6.add(MnCariInventarisPerpustakaan);
+
+        MnInputIndikatorMutuRS.setBackground(new java.awt.Color(255, 255, 254));
+        MnInputIndikatorMutuRS.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        MnInputIndikatorMutuRS.setForeground(new java.awt.Color(50, 90, 40));
+        MnInputIndikatorMutuRS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Preview.png"))); // NOI18N
+        MnInputIndikatorMutuRS.setText("Input IMUT RS");
+        MnInputIndikatorMutuRS.setName("MnInputIndikatorMutuRS"); // NOI18N
+        MnInputIndikatorMutuRS.setPreferredSize(new java.awt.Dimension(220, 30));
+        MnInputIndikatorMutuRS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnInputIndikatorMutuRSActionPerformed(evt);
+            }
+        });
+        jMenu6.add(MnInputIndikatorMutuRS);
+
+        MasterIndikatorMutuRS.setBackground(new java.awt.Color(255, 255, 254));
+        MasterIndikatorMutuRS.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        MasterIndikatorMutuRS.setForeground(new java.awt.Color(50, 90, 40));
+        MasterIndikatorMutuRS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Preview.png"))); // NOI18N
+        MasterIndikatorMutuRS.setText("Master IMUT RS");
+        MasterIndikatorMutuRS.setName("MasterIndikatorMutuRS"); // NOI18N
+        MasterIndikatorMutuRS.setPreferredSize(new java.awt.Dimension(220, 30));
+        MasterIndikatorMutuRS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MasterIndikatorMutuRSActionPerformed(evt);
+            }
+        });
+        jMenu6.add(MasterIndikatorMutuRS);
 
         MenuBar.add(jMenu6);
 
@@ -14784,6 +14816,14 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
     private void BtnLihatpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnLihatpassActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnLihatpassActionPerformed
+
+    private void MnInputIndikatorMutuRSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnInputIndikatorMutuRSActionPerformed
+        btnInputImutRSctionPerformed(null);
+    }//GEN-LAST:event_MnInputIndikatorMutuRSActionPerformed
+
+    private void MasterIndikatorMutuRSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MasterIndikatorMutuRSActionPerformed
+        btnMasterImutRSctionPerformed(null);
+    }//GEN-LAST:event_MasterIndikatorMutuRSActionPerformed
 
     private void btnKategoriPerpustakaanActionPerformed(java.awt.event.ActionEvent evt) {
         isTutup();
@@ -22409,6 +22449,30 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
         DlgHome.dispose();
         this.setCursor(Cursor.getDefaultCursor());
     }
+     
+      private void btnInputImutRSctionPerformed(java.awt.event.ActionEvent evt){
+        isTutup();
+        DlgLaporanDataMutu mutu=new DlgLaporanDataMutu(this,false);
+        //produsen.emptTeks();
+        mutu.isCek();
+        mutu.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
+        mutu.setLocationRelativeTo(PanelUtama);
+        mutu.setVisible(true);
+        DlgHome.dispose();
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+      
+    private void btnMasterImutRSctionPerformed(java.awt.event.ActionEvent evt){
+        isTutup();
+        IndikatorMutuMaster mutu=new IndikatorMutuMaster(this,false);
+        //produsen.emptTeks();
+        mutu.isCek();
+        mutu.setSize(PanelUtama.getWidth(),PanelUtama.getHeight());
+        mutu.setLocationRelativeTo(PanelUtama);
+        mutu.setVisible(true);
+        DlgHome.dispose();
+        this.setCursor(Cursor.getDefaultCursor());
+    }
             
     /**
     * @param args the command line arguments
@@ -22437,6 +22501,7 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JDialog DlgLogin;
     private usu.widget.glass.PanelGlass FlayMenu;
     private javax.swing.JLabel LblIP;
+    private javax.swing.JMenuItem MasterIndikatorMutuRS;
     private widget.MenuBar MenuBar;
     private javax.swing.JMenuItem MenuKeluar;
     private javax.swing.JMenuItem MnAnjungan;
@@ -22458,6 +22523,7 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
     private javax.swing.JMenuItem MnInfoLaborat2;
     private javax.swing.JMenuItem MnInfoLaborat3;
     private javax.swing.JMenuItem MnInfoMobileJKN;
+    private javax.swing.JMenuItem MnInputIndikatorMutuRS;
     private javax.swing.JMenuItem MnKoleksiPenelitian;
     private javax.swing.JMenuItem MnLogin;
     private javax.swing.JMenuItem MnPengajuanCutiPegawai;
@@ -23113,7 +23179,7 @@ private void MnGantiPasswordBtnLogActionPerformed(java.awt.event.ActionEvent evt
             btnRingkasanPengajuanDapur,btnRingkasanPemesananDapur,btnRingkasanReturBeliDapur,btnRingkasanStokKeluarDapur,btnStokKeluarDapurPerTanggal,btnSirkulasiDapur,btnSirkulasiDapur2,
             btnVerifikasiPenerimaanDapur,btnNilaiPenerimaanVendorDapurPerBulan,btnRingkasanHutangVendorBarangDapur,btnPenilaianPsikologiKlinis,btnPenilaianAwalMedisRanapNeonatus,
             btnPenilaianDerajatDehidrasi,btnBridgingEklaimINACBG,btnINACBGjknBelumDiklaim,btnKendaliMutudanBiaya,btnPengajuanKlaimINACBGrz,
-            btnVedikaKlaim,btnDataObatApotekBPJS;
+            btnVedikaKlaim,btnDataObatApotekBPJS,btnInputImutRS,btnMasterImutRS;
     
     public void isWall(){
         try{            

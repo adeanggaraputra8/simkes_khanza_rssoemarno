@@ -1,5 +1,16 @@
-package kepegawaian;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
+ /*
+ * DlgPenyakit.java
+ *
+ * Created on May 23, 2010, 12:57:16 AM
+ */
+package indikatorrs;
+
+import kepegawaian.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fungsi.WarnaTable;
@@ -7,7 +18,6 @@ import fungsi.batasInput;
 import fungsi.koneksiDB;
 import fungsi.validasi;
 import fungsi.akses;
-import fungsi.sekuel;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
@@ -26,11 +36,11 @@ import javax.swing.table.TableColumn;
  *
  * @author dosen
  */
-public final class DlgCariPetugas extends javax.swing.JDialog {
+public final class DlgCariAreaMutu extends javax.swing.JDialog {
+
     private final DefaultTableModel tabMode;
-    private validasi Valid=new validasi();
-    private Connection koneksi=koneksiDB.condb();
-    private sekuel Sequel=new sekuel();
+    private validasi Valid = new validasi();
+    private Connection koneksi = koneksiDB.condb();
     private PreparedStatement ps;
     private ResultSet rs;
     private File file;
@@ -40,83 +50,72 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
     private JsonNode root;
     private JsonNode response;
     private FileReader myObj;
-    /** Creates new form DlgPenyakit
+
+    /**
+     * Creates new form DlgPenyakit
+     *
      * @param parent
-     * @param modal */
-    public DlgCariPetugas(java.awt.Frame parent, boolean modal) {
+     * @param modal
+     */
+    public DlgCariAreaMutu(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setLocation(10,2);
-        setSize(656,250);
-
-        Object[] row={"NIP","Nama Petugas","J.K.","Tmp.Lahir","Tgl.Lahir","G.D.","Agama","Stts.Nikah","Alamat","Jabatan","No.Telp"};
-        tabMode=new DefaultTableModel(null,row){
-              @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
+        this.setLocation(10, 2);
+        setSize(656, 250);
+        tabMode = new DefaultTableModel(null, new String[]{"ID Ruang", "Nama Ruang", "Penanggung Jawab"}) {
+            @Override
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false;
+            }
         };
         tbKamar.setModel(tabMode);
         //tbPenyakit.setDefaultRenderer(Object.class, new WarnaTable(panelJudul.getBackground(),tbPenyakit.getBackground()));
-        tbKamar.setPreferredScrollableViewportSize(new Dimension(500,500));
+        tbKamar.setPreferredScrollableViewportSize(new Dimension(500, 500));
         tbKamar.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (int i = 0; i < 11; i++) {
+        for (int i = 0; i < 3; i++) {
             TableColumn column = tbKamar.getColumnModel().getColumn(i);
-            if(i==0){
-                column.setPreferredWidth(100);
-            }else if(i==1){
-                column.setPreferredWidth(200);
-            }else if(i==2){
-                column.setPreferredWidth(30);
-            }else if(i==3){
-                column.setPreferredWidth(120);
-            }else if(i==4){
-                column.setPreferredWidth(70);
-            }else if(i==5){
-                column.setPreferredWidth(30);
-            }else if(i==6){
-                column.setPreferredWidth(70);
-            }else if(i==7){
-                column.setPreferredWidth(90);
-            }else if(i==8){
-                column.setPreferredWidth(200);
-            }else if(i==9){
+            if (i == 0) {
                 column.setPreferredWidth(150);
-            }else if(i==10){
-                column.setPreferredWidth(90);
+            } else if (i == 1) {
+                column.setPreferredWidth(500);
+            } else if (i == 2) {
+                column.setPreferredWidth(500);
             }
         }
         tbKamar.setDefaultRenderer(Object.class, new WarnaTable());
-        TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+        TCari.setDocument(new batasInput((byte) 100).getKata(TCari));
+
+        if (koneksiDB.CARICEPAT().equals("aktif")) {
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
+                    if (TCari.getText().length() > 2) {
                         tampil2();
                     }
                 }
+
                 @Override
                 public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
+                    if (TCari.getText().length() > 2) {
                         tampil2();
                     }
                 }
+
                 @Override
                 public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
+                    if (TCari.getText().length() > 2) {
                         tampil2();
                     }
                 }
             });
-        } 
-        
-        
+        }
     }
-    
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -147,14 +146,13 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Data Petugas ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 51, 51), 2, true), "::[ Cari Area Mutu ]::", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
 
-        tbKamar.setAutoCreateRowSorter(true);
         tbKamar.setName("tbKamar"); // NOI18N
         tbKamar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -180,7 +178,7 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
         panelisi3.add(label9);
 
         TCari.setName("TCari"); // NOI18N
-        TCari.setPreferredSize(new java.awt.Dimension(312, 23));
+        TCari.setPreferredSize(new java.awt.Dimension(212, 23));
         TCari.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 TCariKeyPressed(evt);
@@ -260,19 +258,19 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
         internalFrame1.add(panelisi3, java.awt.BorderLayout.PAGE_END);
 
         getContentPane().add(internalFrame1, java.awt.BorderLayout.CENTER);
+        internalFrame1.getAccessibleContext().setAccessibleName("::[ Cari Area Mutu ]::");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
     private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             BtnCariActionPerformed(null);
-        }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
+        } else if (evt.getKeyCode() == KeyEvent.VK_PAGE_DOWN) {
             BtnCari.requestFocus();
-        }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
+        } else if (evt.getKeyCode() == KeyEvent.VK_PAGE_UP) {
             BtnKeluar.requestFocus();
-        }else if(evt.getKeyCode()==KeyEvent.VK_UP){
+        } else if (evt.getKeyCode() == KeyEvent.VK_UP) {
             tbKamar.requestFocus();
         }
 }//GEN-LAST:event_TCariKeyPressed
@@ -282,9 +280,9 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
 }//GEN-LAST:event_BtnCariActionPerformed
 
     private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCariKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_SPACE){
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
             BtnCariActionPerformed(null);
-        }else{
+        } else {
             Valid.pindah(evt, TCari, BtnAll);
         }
 }//GEN-LAST:event_BtnCariKeyPressed
@@ -295,26 +293,26 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
 }//GEN-LAST:event_BtnAllActionPerformed
 
     private void BtnAllKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnAllKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_SPACE){
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
             BtnAllActionPerformed(null);
-        }else{
+        } else {
             Valid.pindah(evt, BtnCari, TCari);
         }
 }//GEN-LAST:event_BtnAllKeyPressed
 
     private void tbKamarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbKamarMouseClicked
-        if(tabMode.getRowCount()!=0){
-            if(evt.getClickCount()==2){
+        if (tabMode.getRowCount() != 0) {
+            if (evt.getClickCount() == 2) {
                 dispose();
             }
         }
 }//GEN-LAST:event_tbKamarMouseClicked
 
     private void tbKamarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbKamarKeyPressed
-        if(tabMode.getRowCount()!=0){
-            if(evt.getKeyCode()==KeyEvent.VK_SPACE){
+        if (tabMode.getRowCount() != 0) {
+            if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
                 dispose();
-            }else if(evt.getKeyCode()==KeyEvent.VK_SHIFT){
+            } else if (evt.getKeyCode() == KeyEvent.VK_SHIFT) {
                 TCari.setText("");
                 TCari.requestFocus();
             }
@@ -327,15 +325,16 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
 
     private void BtnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTambahActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        DlgPetugas petugas=new DlgPetugas(null,false);
-        petugas.emptTeks();
-        petugas.isCek();
-        petugas.setSize(internalFrame1.getWidth(),internalFrame1.getHeight());
-        petugas.setLocationRelativeTo(internalFrame1);
-        petugas.setAlwaysOnTop(false);
-        petugas.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());   
-        
+        //ruang_audit_kepatuhan.setModal(true);
+        DlgAreaIndikatorMutu areamutu = new DlgAreaIndikatorMutu(null, true);
+        areamutu.emptTeks();
+        areamutu.isCek();
+        areamutu.setSize(internalFrame1.getWidth() - 30, internalFrame1.getHeight() - 30);
+        areamutu.setLocationRelativeTo(internalFrame1);
+        areamutu.setAlwaysOnTop(false);
+        areamutu.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+
     }//GEN-LAST:event_BtnTambahActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -344,9 +343,9 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         try {
-            if(Valid.daysOld("./cache/petugas.iyem")<30){
+            if (Valid.daysOld("./cache/indikatormutuareamutu.iyem") < 8) {
                 tampil2();
-            }else{
+            } else {
                 tampil();
             }
         } catch (Exception e) {
@@ -354,11 +353,11 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowOpened
 
     /**
-    * @param args the command line arguments
-    */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            DlgCariPetugas dialog = new DlgCariPetugas(new javax.swing.JFrame(), true);
+            DlgCariAreaMutu dialog = new DlgCariAreaMutu(new javax.swing.JFrame(), true);
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent e) {
@@ -384,118 +383,71 @@ public final class DlgCariPetugas extends javax.swing.JDialog {
     private widget.Table tbKamar;
     // End of variables declaration//GEN-END:variables
 
-    private void tampil() {  
+    private void tampil() {
         Valid.tabelKosong(tabMode);
-        try{
-            file=new File("./cache/petugas.iyem");
+        try {
+            file = new File("./cache/indikatormutuareamutu.iyem");
             file.createNewFile();
             fileWriter = new FileWriter(file);
-            iyem="";
-            ps=koneksi.prepareStatement("select petugas.nip,petugas.nama,petugas.jk,petugas.tmp_lahir,petugas.tgl_lahir, "+
-                    "petugas.gol_darah,petugas.agama,petugas.stts_nikah,petugas.alamat,jabatan.nm_jbtn,petugas.no_telp "+
-                    "from petugas inner join jabatan on jabatan.kd_jbtn=petugas.kd_jbtn "+
-                    "where petugas.status='1' order by petugas.nip");
+            iyem = "";
+            ps = koneksi.prepareStatement("select indikatormutu_areamutu.id_ruang, indikatormutu_areamutu.nama_ruang, pegawai.nama from indikatormutu_areamutu join pegawai on indikatormutu_areamutu.kd_petugas=pegawai.nik order by indikatormutu_areamutu.nama_ruang");
             try {
-                rs=ps.executeQuery();
-                while(rs.next()){
-                    tabMode.addRow(new Object[]{
-                        rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getString(11)
-                    });
-                    iyem=iyem+"{\"NIP\":\""+rs.getString(1)+"\",\"NamaPetugas\":\""+rs.getString(2).replaceAll("\"","")+"\",\"JK\":\""+rs.getString(3)+"\",\"TmpLahir\":\""+rs.getString(4).replaceAll("\"","")+"\",\"TglLahir\":\""+rs.getString(5)+"\",\"GD\":\""+rs.getString(6)+"\",\"Agama\":\""+rs.getString(7)+"\",\"SttsNikah\":\""+rs.getString(8)+"\",\"Alamat\":\""+rs.getString(9).replaceAll("\"","")+"\",\"Jabatan\":\""+rs.getString(10)+"\",\"NoTelp\":\""+rs.getString(11)+"\"},";
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    tabMode.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3)});
+                    iyem = iyem + "{\"KodeRuang\":\"" + rs.getString(1) + "\",\"NamaRuang\":\"" + rs.getString(2).replaceAll("\"", "") + "\",\"Petugas\":\"" + rs.getString(3) + "\"},";
                 }
             } catch (Exception e) {
                 System.out.println(e);
-            } finally{
-                if(rs!=null){
+            } finally {
+                if (rs != null) {
                     rs.close();
                 }
-                if(ps!=null){
+                if (ps != null) {
                     ps.close();
                 }
             }
-            fileWriter.write("{\"petugas\":["+iyem.substring(0,iyem.length()-1)+"]}");
+            fileWriter.write("{\"indikatormutuareamutu\":[" + iyem.substring(0, iyem.length() - 1) + "]}");
             fileWriter.flush();
             fileWriter.close();
-            iyem=null;   
-        }catch(Exception e){
-            System.out.println("Notifikasi : "+e);
+            iyem = null;
+        } catch (Exception e) {
+            System.out.println("Notifikasi : " + e);
         }
-        LCount.setText(""+tabMode.getRowCount());
+        LCount.setText("" + tabMode.getRowCount());
     }
 
     public void emptTeks() {
         TCari.requestFocus();
     }
 
-    public JTable getTable(){
+    public JTable getTable() {
         return tbKamar;
     }
-    
-    public void isCek(){        
-        BtnTambah.setEnabled(akses.getpetugas());
+
+    public void isCek() {
+        BtnTambah.setEnabled(true);
     }
-    
+
     private void tampil2() {
         try {
-            myObj = new FileReader("./cache/petugas.iyem");
+            myObj = new FileReader("./cache/indikatormutuareamutu.iyem");
             root = mapper.readTree(myObj);
             Valid.tabelKosong(tabMode);
-            response = root.path("petugas");
-            if(response.isArray()){
-                if(TCari.getText().trim().equals("")){
-                    for(JsonNode list:response){
+            response = root.path("indikatormutuareamutu");
+            if (response.isArray()) {
+                for (JsonNode list : response) {
+                    if (list.path("NamaRuang").asText().toLowerCase().contains(TCari.getText().toLowerCase())) {
                         tabMode.addRow(new Object[]{
-                            list.path("NIP").asText(),list.path("NamaPetugas").asText(),list.path("JK").asText(),list.path("TmpLahir").asText(),list.path("TglLahir").asText(),list.path("GD").asText(),list.path("Agama").asText(),list.path("SttsNikah").asText(),list.path("Alamat").asText(),list.path("Jabatan").asText(),list.path("NoTelp").asText()
+                            list.path("KodeRuang").asText(), list.path("NamaRuang").asText(), list.path("Petugas").asText()
                         });
                     }
-                }else{
-                    for(JsonNode list:response){
-                        if(list.path("NIP").asText().toLowerCase().contains(TCari.getText().toLowerCase())||list.path("NamaPetugas").asText().toLowerCase().contains(TCari.getText().toLowerCase())||list.path("Jabatan").asText().toLowerCase().contains(TCari.getText().toLowerCase())){
-                            tabMode.addRow(new Object[]{
-                                list.path("NIP").asText(),list.path("NamaPetugas").asText(),list.path("JK").asText(),list.path("TmpLahir").asText(),list.path("TglLahir").asText(),list.path("GD").asText(),list.path("Agama").asText(),list.path("SttsNikah").asText(),list.path("Alamat").asText(),list.path("Jabatan").asText(),list.path("NoTelp").asText()
-                            });
-                        }
-                    }
                 }
             }
             myObj.close();
         } catch (Exception ex) {
-            System.out.println("Notifikasi : "+ex);
+            System.out.println("Notifikasi : " + ex);
         }
-    } 
-    
-    public String tampil3(String kode) {
-        try {
-            if(Valid.daysOld("./cache/petugas.iyem")>7){
-                tampil();
-            }
-        } catch (Exception e) {
-            if(e.toString().contains("No such file or directory")){
-                tampil();
-            }
-        }
-        
-        iyem="";
-        try {
-            myObj = new FileReader("./cache/petugas.iyem");
-            root = mapper.readTree(myObj);
-            Valid.tabelKosong(tabMode);
-            response = root.path("petugas");
-            if(response.isArray()){
-                for(JsonNode list:response){
-                    if(list.path("NIP").asText().toLowerCase().equals(kode)){
-                        iyem=list.path("NamaPetugas").asText();
-                    }
-                }
-            }
-            myObj.close();
-        } catch (Exception ex) {
-            System.out.println("Notifikasi : "+ex);
-        }
-        if(iyem.equals("")){
-            iyem=Sequel.cariIsi("select petugas.nama from petugas where petugas.nip=?",kode);
-        }
-        return iyem;
+        LCount.setText("" + tabMode.getRowCount());
     }
-    
 }

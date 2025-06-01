@@ -792,17 +792,17 @@ public final class ApotekBPJSKirimObat extends javax.swing.JDialog {
         JnsObat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1. Obat PRB", "2. Obat Kronis Belum Stabil", "3. Obat Kemoterapi" }));
         JnsObat.setName("JnsObat"); // NOI18N
         FormInput.add(JnsObat);
-        JnsObat.setBounds(365, 70, 175, 24);
+        JnsObat.setBounds(450, 70, 175, 24);
 
         jLabel17.setText("Jns Obat :");
         jLabel17.setName("jLabel17"); // NOI18N
         FormInput.add(jLabel17);
-        jLabel17.setBounds(310, 70, 50, 23);
+        jLabel17.setBounds(390, 70, 50, 23);
 
         jLabel4.setText("No.Kartu :");
         jLabel4.setName("jLabel4"); // NOI18N
         FormInput.add(jLabel4);
-        jLabel4.setBounds(535, 70, 70, 23);
+        jLabel4.setBounds(620, 70, 70, 23);
 
         NoKartu.setEditable(false);
         NoKartu.setHighlighter(null);
@@ -813,7 +813,7 @@ public final class ApotekBPJSKirimObat extends javax.swing.JDialog {
             }
         });
         FormInput.add(NoKartu);
-        NoKartu.setBounds(610, 70, 110, 23);
+        NoKartu.setBounds(690, 70, 110, 23);
 
         NoSEP.setBackground(new java.awt.Color(204, 153, 255));
         NoSEP.setHighlighter(null);
@@ -860,7 +860,7 @@ public final class ApotekBPJSKirimObat extends javax.swing.JDialog {
             }
         });
         FormInput.add(BtnCekKunjungan);
-        BtnCekKunjungan.setBounds(270, 70, 40, 23);
+        BtnCekKunjungan.setBounds(270, 70, 120, 23);
 
         internalFrame1.add(FormInput, java.awt.BorderLayout.PAGE_START);
 

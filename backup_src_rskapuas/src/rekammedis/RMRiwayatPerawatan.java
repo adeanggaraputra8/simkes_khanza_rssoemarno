@@ -9886,7 +9886,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     rs2=koneksi.prepareStatement(
                             "select catatan_observasi_igd.tgl_perawatan,catatan_observasi_igd.jam_rawat,catatan_observasi_igd.gcs,"+
                             "catatan_observasi_igd.td,catatan_observasi_igd.hr,catatan_observasi_igd.rr,catatan_observasi_igd.suhu,catatan_observasi_igd.spo2,"+
-                            "catatan_observasi_igd.nip,petugas.nama from catatan_observasi_igd inner join petugas on catatan_observasi_igd.nip=petugas.nip "+
+                            "catatan_observasi_igd.nip,petugas.nama,catatan_observasi_igd.tindakan from catatan_observasi_igd inner join petugas on catatan_observasi_igd.nip=petugas.nip "+
                             "where catatan_observasi_igd.no_rawat='"+norawat+"'").executeQuery();
                     if(rs2.next()){
                         htmlContent.append(
@@ -9899,7 +9899,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                  "<tr align='center'>"+
                                     "<td valign='middle' width='4%' bgcolor='#FFFAF8' rowspan='2'>No.</td>"+
                                     "<td valign='middle' width='15%' bgcolor='#FFFAF8' rowspan='2'>Tanggal</td>"+
-                                    "<td valign='top' width='58%' bgcolor='#FFFAF8' colspan='6'>Monitoring</td>"+
+                                    "<td valign='top' width='58%' bgcolor='#FFFAF8' colspan='7'>Monitoring</td>"+
                                     "<td valign='middle' width='23%' bgcolor='#FFFAF8' rowspan='2'>Perawat/Paramedis</td>"+
                                  "</tr>"+
                                  "<tr align='center'>"+
@@ -9909,6 +9909,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                     "<td valign='top' width='9%' bgcolor='#FFFAF8'>RR (/menit)</td>"+
                                     "<td valign='top' width='9%' bgcolor='#FFFAF8'>Suhu(C)</td>"+
                                     "<td valign='top' width='9%' bgcolor='#FFFAF8'>SpO2(%)</td>"+
+                                    "<td valign='top' width='15%' bgcolor='#FFFAF8'>Tindakan Yang Dilakukan</td>"+
                                  "</tr>"
                         );
                         rs2.beforeFirst();
@@ -9924,6 +9925,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                     "<td valign='top' align='center'>"+rs2.getString("rr")+"</td>"+
                                     "<td valign='top' align='center'>"+rs2.getString("suhu")+"</td>"+
                                     "<td valign='top' align='center'>"+rs2.getString("spo2")+"</td>"+
+                                    "<td valign='top' align='center'>"+rs2.getString("tindakan")+"</td>"+
                                     "<td valign='top'>"+rs2.getString("nip")+" "+rs2.getString("nama")+"</td>"+
                                  "</tr>");                                        
                             w++;
