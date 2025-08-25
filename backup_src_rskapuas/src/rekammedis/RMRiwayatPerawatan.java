@@ -27,6 +27,7 @@ import java.awt.event.WindowListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,6 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -41,6 +43,8 @@ import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 import modifikasi.RMRiwayatPerawatanLama;
+//import modifikasi.grafikttv2;
+import modifikasi.grafikttv3;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import simrskhanza.DlgCariPasien;
@@ -62,6 +66,7 @@ public final class RMRiwayatPerawatan extends javax.swing.JDialog {
     private StringBuilder htmlContent;
     private HttpClient http = new HttpClient();
     private GetMethod get;
+    private boolean ceksukses=false;
     private DlgCariPasien pasien=new DlgCariPasien(null,true);
 
     /** Creates new form DlgLhtBiaya
@@ -1972,6 +1977,35 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
     }//GEN-LAST:event_Tgl2KeyPressed
 
     private void BtnCari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCari1ActionPerformed
+//        if(NoRM.getText().trim().equals("")||NmPasien.getText().equals("")){
+//            JOptionPane.showMessageDialog(null,"Pasien masih kosong...!!!");
+//        }else{
+//            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//            switch (TabRawat.getSelectedIndex()) {
+//                case 0:
+//                    tampilKunjungan();
+//                    break;
+//                case 1:
+//                    tampilSoapi();
+//                    break;
+//                case 2:
+//                    tampilPerawatan();
+//                    break;
+//                case 3:
+//                    tampilPembelian();
+//                    break;
+//                case 4:
+//                    tampilPiutang();
+//                    break;
+//                case 5:
+//                    tampilRetensi();
+//                    break;
+//                default:
+//                    break;
+//            }
+//            this.setCursor(Cursor.getDefaultCursor());
+//        }
+        
         if(NoRM.getText().trim().equals("")||NmPasien.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Pasien masih kosong...!!!");
         }else{
@@ -1981,19 +2015,91 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     tampilKunjungan();
                     break;
                 case 1:
-                    tampilSoapi();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilSoapi();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 2:
-                    tampilPerawatan();
+//                    esign=false;
+//                    sertisign=false;
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilPerawatan();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 3:
-                    tampilPembelian();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilPembelian();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 4:
-                    tampilPiutang();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilPiutang();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 case 5:
-                    tampilRetensi();
+                    if(ceksukses==false){
+                        ceksukses=true;
+                        new SwingWorker<Void, Void>() {
+                            @Override
+                            protected Void doInBackground() throws Exception {
+                                tampilRetensi();
+                                return null;
+                            }
+
+                            @Override
+                            protected void done() {
+                                ceksukses = false;
+                            }
+                        }.execute();
+                    }
                     break;
                 default:
                     break;
@@ -3237,6 +3343,8 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             }
                         }
                     }
+                    
+                     
                     
                     //menampilkan tindakan rawat inap dokter
                     if(chkTindakanRanapDokter.isSelected()==true){
@@ -9886,7 +9994,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     rs2=koneksi.prepareStatement(
                             "select catatan_observasi_igd.tgl_perawatan,catatan_observasi_igd.jam_rawat,catatan_observasi_igd.gcs,"+
                             "catatan_observasi_igd.td,catatan_observasi_igd.hr,catatan_observasi_igd.rr,catatan_observasi_igd.suhu,catatan_observasi_igd.spo2,"+
-                            "catatan_observasi_igd.nip,petugas.nama from catatan_observasi_igd inner join petugas on catatan_observasi_igd.nip=petugas.nip "+
+                            "catatan_observasi_igd.nip,petugas.nama,catatan_observasi_igd.tindakan from catatan_observasi_igd inner join petugas on catatan_observasi_igd.nip=petugas.nip "+
                             "where catatan_observasi_igd.no_rawat='"+norawat+"'").executeQuery();
                     if(rs2.next()){
                         htmlContent.append(
@@ -9899,7 +10007,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                  "<tr align='center'>"+
                                     "<td valign='middle' width='4%' bgcolor='#FFFAF8' rowspan='2'>No.</td>"+
                                     "<td valign='middle' width='15%' bgcolor='#FFFAF8' rowspan='2'>Tanggal</td>"+
-                                    "<td valign='top' width='58%' bgcolor='#FFFAF8' colspan='6'>Monitoring</td>"+
+                                    "<td valign='top' width='58%' bgcolor='#FFFAF8' colspan='7'>Monitoring</td>"+
                                     "<td valign='middle' width='23%' bgcolor='#FFFAF8' rowspan='2'>Perawat/Paramedis</td>"+
                                  "</tr>"+
                                  "<tr align='center'>"+
@@ -9909,6 +10017,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                     "<td valign='top' width='9%' bgcolor='#FFFAF8'>RR (/menit)</td>"+
                                     "<td valign='top' width='9%' bgcolor='#FFFAF8'>Suhu(C)</td>"+
                                     "<td valign='top' width='9%' bgcolor='#FFFAF8'>SpO2(%)</td>"+
+                                    "<td valign='top' width='15%' bgcolor='#FFFAF8'>Tindakan Yang Dilakukan</td>"+
                                  "</tr>"
                         );
                         rs2.beforeFirst();
@@ -9924,6 +10033,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                     "<td valign='top' align='center'>"+rs2.getString("rr")+"</td>"+
                                     "<td valign='top' align='center'>"+rs2.getString("suhu")+"</td>"+
                                     "<td valign='top' align='center'>"+rs2.getString("spo2")+"</td>"+
+                                    "<td valign='top' align='center'>"+rs2.getString("tindakan")+"</td>"+
                                     "<td valign='top'>"+rs2.getString("nip")+" "+rs2.getString("nama")+"</td>"+
                                  "</tr>");                                        
                             w++;
@@ -11871,6 +11981,29 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
         }
     }
     
+     private StringBuilder tampilkanGambarTTV(String norawat) throws MalformedURLException {
+        if (Sequel.cariInteger("select count(no_rawat) from pemeriksaan_ranap where no_rawat='" + norawat + "'") > 0) {
+            grafikttv3 ttv = new grafikttv3("Grafik Tanda dan Objek Vital " + NmPasien.getText() + "", "where pemeriksaan_ranap.no_rawat= '"+norawat+"' ", norawat.replaceAll("/", ""));
+            File imageFile = new File("./gambargrafik/" + norawat.replaceAll("/", "") + ".jpg");
+
+            // Check if the file exists
+            if (!imageFile.exists()) {
+                System.out.println("Image file does not exist: " + imageFile.getAbsolutePath());
+                return htmlContent.append("Image not found.");
+            }
+
+            String imageUrl = imageFile.toURI().toURL().toString();
+
+            // Create a table row with a styled cell
+            return htmlContent.append("<tr><td colspan='9' style='text-align: center; padding: 10px; background-color: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>")
+                    .append("<img src='").append(imageUrl).append("' style='max-width: 100%; height: auto; border-radius: 5px; object-fit: contain; max-height: 600px;' alt='Gambar TTV'/>")
+                    .append("<p style='margin-top: 10px; color: #666; font-size: 12px;'>Vital Sign Chart</p>")
+                    .append("</td></tr>");
+        } else {
+            return htmlContent.append("");
+        }
+    }
+    
     private void menampilkanAsuhanPreAnestesi(String norawat) {
         try {
             if(chkAsuhanPreAnestesi.isSelected()==true){
@@ -12984,6 +13117,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         rs2.close();
                     }
                 }
+                 tampilkanGambarTTV(rs.getString("no_rawat"));
             }
 
             //menampilkan pemeriksaan obstetri rawat inap
@@ -13270,6 +13404,9 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             "</td>"+
                           "</tr>");
                     }
+                    //menampikan gambarttv
+                   
+                    
                 } catch (Exception e) {
                     System.out.println("Notifikasi : "+e);
                 } finally{
@@ -13277,7 +13414,11 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         rs2.close();
                     }
                 }
+                
             }
+           
+
+
 
             //menampilkan catatan observasi rawat inap kebidanan
             if(chkCatatanObservasiRanapKebidanan.isSelected()==true){

@@ -3926,7 +3926,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                 if(Sequel.cariInteger("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"' ")==0){
                         insertSEP();
   
-                } else if(Sequel.cariInteger("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"' ")>=1 && (!KdPenyakit.getText().startsWith("D56") || !KdPenyakit.getText().startsWith("D17") || !KdPenyakit.getText().startsWith("D18") || !KdPenyakit.getText().startsWith("D19") || !KdPenyakit.getText().startsWith("D20") || !KdPenyakit.getText().startsWith("D21"))){
+                }else if(Sequel.cariInteger("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"' ")>=1){
                    JOptionPane.showMessageDialog(null, " No.SEP "+Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"'")+" Rawat Jalan/IGD pasien ini telah terbit, mohon untuk di hapus terlebih dahulu..!!");
                     if(u==JOptionPane.YES_OPTION) 
                     {
@@ -3937,9 +3937,11 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                                 System.out.println("Notifikasi Bridging : "+ex);
                             }
                     }                
-                }else if (Sequel.cariInteger("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"' ")>=1 && (KdPenyakit.getText().startsWith("D56") || KdPenyakit.getText().startsWith("D17") || KdPenyakit.getText().startsWith("D18") || KdPenyakit.getText().startsWith("D19") || KdPenyakit.getText().startsWith("D20") || KdPenyakit.getText().startsWith("D21"))){
-                     insertSEP();
+                
                 }
+//                else if (Sequel.cariInteger("SELECT no_sep FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+TNoRw.getText()+"' ")>=1 && (KdPenyakit.getText().startsWith("D56") || KdPenyakit.getText().startsWith("D17") || KdPenyakit.getText().startsWith("D18") || KdPenyakit.getText().startsWith("D19") || KdPenyakit.getText().startsWith("D20") || KdPenyakit.getText().startsWith("D21"))){
+//                     insertSEP();
+//                }
             }else if(JenisPelayanan.getSelectedIndex()==1){
                if(KdPoli.getText().equals("HDL")||KdPoli.getText().equals("IRM")&&Sequel.cariInteger("SELECT  if(DAYNAME(NOW())='Saturday','1','0') as a")==0){
                   insertSEP();
@@ -3982,8 +3984,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                     }
                 } 
             }  
-           } 
-        }   
+        }
+    }
+    
+        
+    
+        
 }//GEN-LAST:event_BtnSimpanActionPerformed
 
     private void BtnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnSimpanKeyPressed
@@ -7775,10 +7781,10 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                      });
                      //Sequel.mengedit("antrian_bantu","no_rawat='"+TNoRw.getText()+"'","no_sep='"+response.asText()+"',status='Sudah Valid',tanggal2=Now()");
                      if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM referensi_mobilejkn_bpjs WHERE no_rawat='"+TNoRw.getText()+"'")>0){
-                            Sequel.menyimpan("antrian_bantu","'"+Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='"+TNoRw.getText()+"'")+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
+                            Sequel.menyimpan("antrian_bantu","'"+Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='"+TNoRw.getText()+"'")+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','"+TNoRw.getText()+"' ");
                            }else{
                                // SimpanAntrianOnSite();
-                                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
+                                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','"+TNoRw.getText()+"' ");
                            }
                      if(JenisPelayanan.getSelectedIndex()==1){
                             Sequel.mengedit("bridging_sep","no_sep=?","tglpulang=?",2,new String[]{                             
@@ -7812,11 +7818,12 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                             TNoRw.getText(),NmPpkRujukan.getText(),"-",NoRujukan.getText(),"0",NmPpkRujukan.getText(),KdPenyakit.getText(),"-",
                             "-",NoBalasan.getText()
                         });
-                         //Sequel.mengedit("antrian_bantu","no_rawat='"+TNoRw.getText()+"'","no_sep='"+response.asText()+"',status='Sudah Valid',tanggal2='Now()'");
-                         if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM referensi_mobilejkn_bpjs WHERE no_rawat='"+TNoRw.getText()+"'")>0){
-                            Sequel.menyimpan("antrian_bantu","'"+Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='"+TNoRw.getText()+"'")+"','"+ response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
+ //                        Sequel.mengedit("antrian_bantu","no_rawat='"+TNoRw.getText()+"'","no_sep='"+response.asText()+"',status='Sudah Valid',tanggal2='Now()'");
+                       if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM referensi_mobilejkn_bpjs WHERE no_rawat='"+TNoRw.getText()+"'")>0){
+                            Sequel.menyimpan("antrian_bantu","'"+Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='"+TNoRw.getText()+"'")+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','"+TNoRw.getText()+"' ");
                            }else{
-                                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
+                               // SimpanAntrianOnSite();
+                                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','"+TNoRw.getText()+"' ");
                            }
                          
                          if(JenisPelayanan.getSelectedIndex()==1){

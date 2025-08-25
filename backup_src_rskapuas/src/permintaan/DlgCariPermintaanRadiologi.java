@@ -1,5 +1,6 @@
 package permintaan;
 import bridging.ApiCareStream;
+import bridging.ApiKonica;
 import fungsi.BackgroundMusic;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
@@ -52,7 +53,8 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
     private ResultSet rs,rs2;
     private Date now;
     private ApiCareStream carestream=new ApiCareStream();
-    private boolean aktif=false,semua;
+     private ApiKonica konica=new ApiKonica();
+    private boolean aktif=false,semua; 
     private String alarm="",formalarm="",nol_detik,detik,tglsampel="",tglhasil="",norm="",kamar="",namakamar="",
             NoPermintaan="",NoRawat="",Pasien="",Permintaan="",JamPermintaan="",Sampel="",JamSampel="",Hasil="",JamHasil="",KodeDokter="",DokterPerujuk="",Ruang="",
             InformasiTambahan="",Klinis="",finger="";
@@ -456,6 +458,8 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
         BtnKirimDataCareStream = new widget.Button();
         BtnAmbilDataFUJI1 = new widget.Button();
         BtnPenjadwalanUlang = new widget.Button();
+        BtnKirimDataPACS = new widget.Button();
+        BtnAmbilDataPACS = new widget.Button();
 
         WindowAmbilSampel.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         WindowAmbilSampel.setName("WindowAmbilSampel"); // NOI18N
@@ -497,7 +501,7 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
         internalFrame5.add(jLabel26);
         jLabel26.setBounds(6, 32, 100, 23);
 
-        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-04-2024 13:51:10" }));
+        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-07-2024 04:24:10" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPulang.setName("TanggalPulang"); // NOI18N
         TanggalPulang.setOpaque(false);
@@ -1173,6 +1177,40 @@ public class DlgCariPermintaanRadiologi extends javax.swing.JDialog {
             }
         });
         FormMenu.add(BtnPenjadwalanUlang);
+
+        BtnKirimDataPACS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnKirimDataPACS.setText("Kirim Permintaan ke PACS");
+        BtnKirimDataPACS.setFocusPainted(false);
+        BtnKirimDataPACS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnKirimDataPACS.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnKirimDataPACS.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnKirimDataPACS.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnKirimDataPACS.setName("BtnKirimDataPACS"); // NOI18N
+        BtnKirimDataPACS.setPreferredSize(new java.awt.Dimension(215, 23));
+        BtnKirimDataPACS.setRoundRect(false);
+        BtnKirimDataPACS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnKirimDataPACSActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnKirimDataPACS);
+
+        BtnAmbilDataPACS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnAmbilDataPACS.setText("Ambil Hasil dari PACS");
+        BtnAmbilDataPACS.setFocusPainted(false);
+        BtnAmbilDataPACS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnAmbilDataPACS.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnAmbilDataPACS.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnAmbilDataPACS.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnAmbilDataPACS.setName("BtnAmbilDataPACS"); // NOI18N
+        BtnAmbilDataPACS.setPreferredSize(new java.awt.Dimension(215, 23));
+        BtnAmbilDataPACS.setRoundRect(false);
+        BtnAmbilDataPACS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnAmbilDataPACSActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnAmbilDataPACS);
 
         ScrollMenu.setViewportView(FormMenu);
 
@@ -2332,6 +2370,42 @@ private void tbRadiologiRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRS
         }
     }//GEN-LAST:event_BtnPenjadwalanUlangActionPerformed
 
+    private void BtnKirimDataPACSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKirimDataPACSActionPerformed
+        if(TabPilihRawat.getSelectedIndex()==0){
+            if(!NoRawat.equals("")){
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                if(NoPermintaan.trim().equals("")){
+                    Valid.textKosong(TCari,"No.Permintaan");
+                }else{   
+                    konica.kirimRalan(NoPermintaan);
+                }
+                TeksKosong();
+                this.setCursor(Cursor.getDefaultCursor());
+            }else{            
+                JOptionPane.showMessageDialog(null,"Maaf, silahkan pilih data permintaan...!!!!");
+                TCari.requestFocus();
+            } 
+        }else if(TabPilihRawat.getSelectedIndex()==1){
+            if(!NoRawat.equals("")){
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                if(NoPermintaan.trim().equals("")){
+                    Valid.textKosong(TCari,"No.Permintaan");
+                }else{   
+                    //carestream.kirimRanap(NoPermintaan);
+                }
+                TeksKosong();
+                this.setCursor(Cursor.getDefaultCursor());
+            }else{            
+                JOptionPane.showMessageDialog(null,"Maaf, silahkan pilih data permintaan...!!!!");
+                TCari.requestFocus();
+            } 
+        }
+    }//GEN-LAST:event_BtnKirimDataPACSActionPerformed
+
+    private void BtnAmbilDataPACSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAmbilDataPACSActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnAmbilDataPACSActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -2352,6 +2426,7 @@ private void tbRadiologiRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRS
     private widget.Button BtnAll;
     private widget.Button BtnAmbilDataFUJI;
     private widget.Button BtnAmbilDataFUJI1;
+    private widget.Button BtnAmbilDataPACS;
     private widget.Button BtnBarcodePermintaan;
     private widget.Button BtnBarcodePermintaan2;
     private widget.Button BtnCari;
@@ -2362,6 +2437,7 @@ private void tbRadiologiRalanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRS
     private widget.Button BtnKeluar;
     private widget.Button BtnKirimDataCareStream;
     private widget.Button BtnKirimDataFuji;
+    private widget.Button BtnKirimDataPACS;
     private widget.Button BtnPenjadwalanUlang;
     private widget.Button BtnPrint;
     private widget.Button BtnSampel;

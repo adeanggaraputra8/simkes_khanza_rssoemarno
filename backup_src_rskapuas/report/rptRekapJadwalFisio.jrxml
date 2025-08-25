@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="efeff783-7e1c-425f-b89d-8c67990ed111">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="503"/>
@@ -23,7 +23,7 @@
 	<parameter name="emailrs" class="java.lang.String"/>
 	<parameter name="logo" class="java.io.InputStream"/>
 	<queryString>
-		<![CDATA[ SELECT jadwalfisioterapi.no_reg,jadwalfisioterapi.tanggal_booking,jadwalfisioterapi.no_rkm_medis,pasien.nm_pasien,jadwalfisioterapi.tanggal_periksa,jadwalfisioterapi.jam_periksa,jadwalfisioterapi.kd_dokter,dokter.nm_dokter,jadwalfisioterapi.kd_poli,poliklinik.nm_poli,pasien.no_tlp  
+		<![CDATA[SELECT jadwalfisioterapi.no_reg,jadwalfisioterapi.tanggal_booking,jadwalfisioterapi.no_rkm_medis,pasien.nm_pasien,jadwalfisioterapi.tanggal_periksa,jadwalfisioterapi.jam_periksa,jadwalfisioterapi.kd_dokter,dokter.nm_dokter,jadwalfisioterapi.kd_poli,poliklinik.nm_poli,pasien.no_tlp  
 FROM jadwalfisioterapi INNER JOIN pasien ON pasien.no_rkm_medis=jadwalfisioterapi.no_rkm_medis  
 INNER JOIN dokter ON dokter.kd_dokter=jadwalfisioterapi.kd_dokter  
 INNER JOIN poliklinik ON poliklinik.kd_poli=jadwalfisioterapi.kd_poli]]>
@@ -202,7 +202,7 @@ INNER JOIN poliklinik ON poliklinik.kd_poli=jadwalfisioterapi.kd_poli]]>
 	</columnHeader>
 	<detail>
 		<band height="13" splitType="Stretch">
-			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+			<textField textAdjust="StretchHeight" pattern="" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="20" height="12" uuid="c4b9b99a-fe07-4a1f-8b1c-0e841f16a5c4"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Tahoma" size="8"/>

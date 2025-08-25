@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import kepegawaian.DlgCariDokter;
@@ -49,6 +51,7 @@ public class DlgUser extends javax.swing.JDialog {
     private String user="",jabatan="",copyhakakses="",userdicopy="";
     private int i=0,barisdicopy=-1;
     private DlgUpdateUser personal=new DlgUpdateUser(null,false);
+    private boolean ceksukses=false;
 
     /** Creates new form DlgUser
      * @param parent
@@ -6384,10 +6387,15 @@ private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
     private widget.Table tbUser;
     // End of variables declaration//GEN-END:variables
 
-    private void tampil() {        
-        try{    
+     private synchronized void tampil() {  
+        if(ceksukses==false){
+            ceksukses=true;
+            try{    
             Valid.tabelKosong(tabMode);
-            ps=koneksi.prepareStatement(
+            new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                 ps=koneksi.prepareStatement(
                 "select AES_DECRYPT(user.id_user,'nur'),AES_DECRYPT(user.password,'windi'),user.penyakit,user.obat_penyakit,user.dokter,"+
                 "user.jadwal_praktek,user.petugas,user.pasien,user.registrasi,user.tindakan_ralan,user.kamar_inap,user.tindakan_ranap,user.operasi,"+
                 "user.rujukan_keluar,user.rujukan_masuk,user.beri_obat,user.resep_pulang,user.pasien_meninggal,user.diet_pasien,user.kelahiran_bayi,"+
@@ -6612,7 +6620,7 @@ private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                         if(rs.getString(1).toLowerCase().contains(TCari.getText().toLowerCase())||
                                 user.toLowerCase().contains(TCari.getText().toLowerCase())||
                                 jabatan.toLowerCase().contains(TCari.getText().toLowerCase())){
-                            tabMode.addRow(new Object[]{rs.getString(1),
+                            Object[] row = new Object[]{rs.getString(1),
                                user,jabatan,rs.getString(2),
                                rs.getBoolean("penyakit"),
                                rs.getBoolean("obat_penyakit"),
@@ -7708,10 +7716,12 @@ private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                                rs.getBoolean("penilaian_psikologi_klinis"),
                                rs.getBoolean("penilaian_awal_medis_ranap_neonatus"),
                                rs.getBoolean("penilaian_derajat_dehidrasi")
-                            });
+                           };
+                            i++;
+                            SwingUtilities.invokeLater(() -> tabMode.addRow(row));
                         }   
                     } catch (Exception e) {
-                        tabMode.addRow(new Object[]{rs.getString(1),
+                       Object[] row = new Object[]{rs.getString(1),
                            "Turn Out","Jabatan",rs.getString(2),
                            rs.getBoolean("penyakit"),
                            rs.getBoolean("obat_penyakit"),
@@ -8807,23 +8817,33 @@ private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                            rs.getBoolean("penilaian_psikologi_klinis"),
                            rs.getBoolean("penilaian_awal_medis_ranap_neonatus"),
                            rs.getBoolean("penilaian_derajat_dehidrasi")
-                        });
-                    }                                             
-                 }
-                LCount.setText(""+tabMode.getRowCount());
-            } catch (Exception e) {
-                System.out.println(e);
-            } finally{
-                if(rs!=null){
-                    rs.close();
-                }
-                if(ps!=null){
-                    ps.close();
-                }
+                    };
+                    i++;
+                    SwingUtilities.invokeLater(() -> tabMode.addRow(row));
+                                }                                             
+                             }
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        } finally{
+                            if(rs!=null){
+                                rs.close();
+                            }
+                            if(ps!=null){
+                                ps.close();
+                            }
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void done() {
+                        LCount.setText(""+i);
+                        ceksukses = false;
+                    }
+                }.execute();
+            }catch(Exception e){
+                System.out.println("Notifikasi : "+e);
             }
-                        
-        }catch(Exception e){
-            System.out.println("Notifikasi : "+e);
         }
     }
 

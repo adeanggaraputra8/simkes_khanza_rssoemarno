@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 public class SirsApi {        
     private static final Properties prop = new Properties();
     private String Key,pass;
+    private long millis;
     public SirsApi(){
         try {            
             prop.loadFromXML(new FileInputStream("setting/database.xml"));   
@@ -43,6 +44,11 @@ public class SirsApi {
 	return Key;
     }
 
+    
+    public long GetUTCdatetimeAsString(){    
+        millis = System.currentTimeMillis();   
+        return millis/1000;
+    }
     
     public RestTemplate getRest() throws NoSuchAlgorithmException, KeyManagementException {
         SSLContext sslContext = SSLContext.getInstance("SSL");

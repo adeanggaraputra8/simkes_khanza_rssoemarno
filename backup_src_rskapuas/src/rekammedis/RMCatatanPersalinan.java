@@ -178,10 +178,10 @@ public final class RMCatatanPersalinan extends javax.swing.JDialog {
         WaktuPersalinanKala2.setDocument(new batasInput((int)5).getKata(WaktuPersalinanKala2));
         WaktuPersalinanKala3.setDocument(new batasInput((int)5).getKata(WaktuPersalinanKala3));
         WaktuPersalinanJumlah.setDocument(new batasInput((int)5).getKata(WaktuPersalinanJumlah));
-        JahitanLuar1.setDocument(new batasInput((int)5).getKata(JahitanLuar1));
-        JahitanLuar2.setDocument(new batasInput((int)5).getKata(JahitanLuar2));
-        JahitanDalam1.setDocument(new batasInput((int)5).getKata(JahitanDalam1));
-        JahitanDalam2.setDocument(new batasInput((int)5).getKata(JahitanDalam2));
+        JahitanLuar1.setDocument(new batasInput((int)20).getKata(JahitanLuar1));
+        JahitanLuar2.setDocument(new batasInput((int)20).getKata(JahitanLuar2));
+        JahitanDalam1.setDocument(new batasInput((int)20).getKata(JahitanDalam1));
+        JahitanDalam2.setDocument(new batasInput((int)20).getKata(JahitanDalam2));
         ApgarScore.setDocument(new batasInput((int)20).getKata(ApgarScore));
         BB.setDocument(new batasInput((int)5).getKata(BB));
         PB.setDocument(new batasInput((int)5).getKata(PB));

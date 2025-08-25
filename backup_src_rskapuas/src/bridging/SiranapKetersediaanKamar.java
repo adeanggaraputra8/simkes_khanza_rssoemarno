@@ -35,6 +35,7 @@ import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import modifikasi.SiranapKetersediaanKamarV3;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -53,6 +54,7 @@ public final class SiranapKetersediaanKamar extends javax.swing.JDialog {
     private ResultSet rs;    
     private int i=0;
     private DlgCariBangsal bangsal=new DlgCariBangsal(null,false);
+ //   private SiranapKetersediaanKamarV3 apotek=new SiranapKetersediaanKamarV3(null,true);
     private final Properties prop = new Properties();
     private String requestXML,URL="",respon="",idrs="",pasword="";
     private SirsApi api=new SirsApi();
@@ -205,6 +207,8 @@ public final class SiranapKetersediaanKamar extends javax.swing.JDialog {
     private void initComponents() {
 
         Tanggal = new widget.Tanggal();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        ppSiranapV3 = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbJnsPerawatan = new widget.Table();
@@ -248,11 +252,30 @@ public final class SiranapKetersediaanKamar extends javax.swing.JDialog {
         ChkInput = new widget.CekBox();
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2019-04-01 23:37:14" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2021-03-16 00:13:04" }));
         Tanggal.setDisplayFormat("yyyy-MM-dd HH:mm:ss");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
         Tanggal.setPreferredSize(new java.awt.Dimension(95, 23));
+
+        jPopupMenu1.setName("jPopupMenu1"); // NOI18N
+        jPopupMenu1.setPreferredSize(new java.awt.Dimension(192, 24));
+
+        ppSiranapV3.setBackground(new java.awt.Color(255, 255, 254));
+        ppSiranapV3.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppSiranapV3.setForeground(new java.awt.Color(50, 50, 50));
+        ppSiranapV3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppSiranapV3.setText("Siranap V.3");
+        ppSiranapV3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppSiranapV3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppSiranapV3.setName("ppSiranapV3"); // NOI18N
+        ppSiranapV3.setPreferredSize(new java.awt.Dimension(150, 26));
+        ppSiranapV3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppSiranapV3ActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(ppSiranapV3);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -267,6 +290,7 @@ public final class SiranapKetersediaanKamar extends javax.swing.JDialog {
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
+        Scroll.setComponentPopupMenu(jPopupMenu1);
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
 
@@ -1076,6 +1100,15 @@ private void btnKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
          Valid.pindah(evt,RuangSiranap,KdKamar);
     }//GEN-LAST:event_KelasSiranapKeyPressed
 
+    private void ppSiranapV3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppSiranapV3ActionPerformed
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        SiranapKetersediaanKamarV3 siranap=new SiranapKetersediaanKamarV3(null,true);
+        siranap.setSize(internalFrame1.getWidth(),internalFrame1.getHeight());
+        siranap.setLocationRelativeTo(internalFrame1);
+        siranap.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor()); 
+    }//GEN-LAST:event_ppSiranapV3ActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1132,8 +1165,10 @@ private void btnKamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.Label jLabel8;
     private widget.Label jLabel9;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
+    private javax.swing.JMenuItem ppSiranapV3;
     private widget.Table tbJnsPerawatan;
     // End of variables declaration//GEN-END:variables
 

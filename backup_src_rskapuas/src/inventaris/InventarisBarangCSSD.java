@@ -154,6 +154,8 @@ public class InventarisBarangCSSD extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu = new javax.swing.JPopupMenu();
+        MnSirkulasiBarangCSSD = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbSpesialis = new widget.Table();
@@ -180,6 +182,23 @@ public class InventarisBarangCSSD extends javax.swing.JDialog {
         KategoriBarang = new widget.ComboBox();
         label2 = new widget.Label();
 
+        jPopupMenu.setName("jPopupMenu"); // NOI18N
+
+        MnSirkulasiBarangCSSD.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnSirkulasiBarangCSSD.setForeground(new java.awt.Color(70, 70, 70));
+        MnSirkulasiBarangCSSD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnSirkulasiBarangCSSD.setText("Input Sirkulasi CSSD");
+        MnSirkulasiBarangCSSD.setToolTipText("");
+        MnSirkulasiBarangCSSD.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnSirkulasiBarangCSSD.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnSirkulasiBarangCSSD.setName("MnSirkulasiBarangCSSD"); // NOI18N
+        MnSirkulasiBarangCSSD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnSirkulasiBarangCSSDActionPerformed(evt);
+            }
+        });
+        jPopupMenu.add(MnSirkulasiBarangCSSD);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
@@ -192,15 +211,17 @@ public class InventarisBarangCSSD extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Barang CSSD ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50,50,50))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Barang CSSD ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
+        Scroll.setComponentPopupMenu(jPopupMenu);
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
 
         tbSpesialis.setAutoCreateRowSorter(true);
         tbSpesialis.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
+        tbSpesialis.setComponentPopupMenu(jPopupMenu);
         tbSpesialis.setName("tbSpesialis"); // NOI18N
         tbSpesialis.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -661,6 +682,18 @@ public class InventarisBarangCSSD extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tbSpesialisKeyReleased
 
+    private void MnSirkulasiBarangCSSDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSirkulasiBarangCSSDActionPerformed
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            InventarisSirkulasiCSSD form=new InventarisSirkulasiCSSD(null, false);
+            form.isCek();
+            form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            form.setLocationRelativeTo(internalFrame1);
+            form.setVisible(true);
+            form.emptTeks();
+            form.tampil();
+            this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_MnSirkulasiBarangCSSDActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -688,6 +721,7 @@ public class InventarisBarangCSSD extends javax.swing.JDialog {
     private widget.Button BtnSimpan;
     private widget.ComboBox KategoriBarang;
     private widget.Label LCount;
+    private javax.swing.JMenuItem MnSirkulasiBarangCSSD;
     private widget.ScrollPane Scroll;
     private widget.TextBox TCari;
     private widget.Button btnInv;
@@ -695,6 +729,7 @@ public class InventarisBarangCSSD extends javax.swing.JDialog {
     private widget.Label jLabel6;
     private widget.Label jLabel7;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPopupMenu jPopupMenu;
     private widget.Label label1;
     private widget.Label label2;
     private widget.TextBox nama_barang;

@@ -2,6 +2,7 @@ package simrskhanza;
 import bridging.ApiOrthanc;
 import bridging.OrthancDICOM;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kepegawaian.DlgCariPetugas;
 import keuangan.Jurnal;
 import fungsi.WarnaTable;
@@ -17,11 +18,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
@@ -34,6 +46,22 @@ import javax.swing.text.html.StyleSheet;
 import kepegawaian.DlgCariDokter;
 import laporan.DlgBerkasRawat;
 import modifikasi.DlgwhatsappHasilRad;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 import rekammedis.MasterCariTemplateHasilRadiologi;
 import rekammedis.RMRiwayatPerawatan;
 
@@ -66,6 +94,17 @@ public class DlgCariPeriksaRadiologi extends javax.swing.JDialog {
             HPP_Persediaan_Radiologi_Rawat_Jalan="",Persediaan_BHP_Radiologi_Rawat_Jalan="",Beban_Jasa_Sarana_Radiologi_Ralan="",Utang_Jasa_Sarana_Radiologi_Ralan="",
             Beban_Jasa_Perujuk_Radiologi_Ralan="",Utang_Jasa_Perujuk_Radiologi_Ralan="",Beban_Jasa_Menejemen_Radiologi_Ralan="",Utang_Jasa_Menejemen_Radiologi_Ralan="";
 
+    
+    private HttpHeaders headers ;
+    private HttpEntity requestEntity;
+    private ObjectMapper mapper = new ObjectMapper();
+    private SSLContext sslContext;
+    private SSLSocketFactory sslFactory;
+    private Scheme scheme;
+    private HttpComponentsClientHttpRequestFactory factory;
+    private String auth,authEncrypt,requestJson;
+    private byte[] encodedBytes;
+    private int a=1;
     /** Creates new form DlgProgramStudi
      * @param parent
      * @param modal */
@@ -524,6 +563,13 @@ public class DlgCariPeriksaRadiologi extends javax.swing.JDialog {
         tbListDicom = new widget.Table();
         panelGlass7 = new widget.panelisi();
         btnDicom = new widget.Button();
+        SimpanGambar = new widget.Button();
+        FormKonica = new widget.PanelBiasa();
+        Scroll7 = new widget.ScrollPane();
+        tbListDicom1 = new widget.Table();
+        panelGlass9 = new widget.panelisi();
+        btnDicom1 = new widget.Button();
+        SimpanGambar1 = new widget.Button();
 
         Kd2.setName("Kd2"); // NOI18N
         Kd2.setPreferredSize(new java.awt.Dimension(207, 23));
@@ -1394,9 +1440,89 @@ public class DlgCariPeriksaRadiologi extends javax.swing.JDialog {
         });
         panelGlass7.add(btnDicom);
 
+        SimpanGambar.setMnemonic('3');
+        SimpanGambar.setText("Simpan");
+        SimpanGambar.setToolTipText("Alt+3");
+        SimpanGambar.setName("SimpanGambar"); // NOI18N
+        SimpanGambar.setPreferredSize(new java.awt.Dimension(100, 23));
+        SimpanGambar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SimpanGambarActionPerformed(evt);
+            }
+        });
+        SimpanGambar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                SimpanGambarKeyPressed(evt);
+            }
+        });
+        panelGlass7.add(SimpanGambar);
+
         FormOrthan.add(panelGlass7, java.awt.BorderLayout.PAGE_END);
 
         TabData.addTab("Integrasi Orthanc", FormOrthan);
+
+        FormKonica.setBackground(new java.awt.Color(255, 255, 255));
+        FormKonica.setBorder(null);
+        FormKonica.setName("FormKonica"); // NOI18N
+        FormKonica.setPreferredSize(new java.awt.Dimension(115, 73));
+        FormKonica.setLayout(new java.awt.BorderLayout(1, 1));
+
+        Scroll7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        Scroll7.setName("Scroll7"); // NOI18N
+        Scroll7.setOpaque(true);
+
+        tbListDicom1.setName("tbListDicom1"); // NOI18N
+        tbListDicom1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbListDicom1MouseClicked(evt);
+            }
+        });
+        tbListDicom1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbListDicom1KeyPressed(evt);
+            }
+        });
+        Scroll7.setViewportView(tbListDicom1);
+
+        FormKonica.add(Scroll7, java.awt.BorderLayout.CENTER);
+
+        panelGlass9.setBorder(null);
+        panelGlass9.setName("panelGlass9"); // NOI18N
+        panelGlass9.setPreferredSize(new java.awt.Dimension(115, 40));
+
+        btnDicom1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        btnDicom1.setMnemonic('T');
+        btnDicom1.setText("Tampilkan DICOM");
+        btnDicom1.setToolTipText("Alt+T");
+        btnDicom1.setName("btnDicom1"); // NOI18N
+        btnDicom1.setPreferredSize(new java.awt.Dimension(150, 30));
+        btnDicom1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDicom1ActionPerformed(evt);
+            }
+        });
+        panelGlass9.add(btnDicom1);
+
+        SimpanGambar1.setMnemonic('3');
+        SimpanGambar1.setText("Simpan");
+        SimpanGambar1.setToolTipText("Alt+3");
+        SimpanGambar1.setName("SimpanGambar1"); // NOI18N
+        SimpanGambar1.setPreferredSize(new java.awt.Dimension(100, 23));
+        SimpanGambar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SimpanGambar1ActionPerformed(evt);
+            }
+        });
+        SimpanGambar1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                SimpanGambar1KeyPressed(evt);
+            }
+        });
+        panelGlass9.add(SimpanGambar1);
+
+        FormKonica.add(panelGlass9, java.awt.BorderLayout.PAGE_END);
+
+        TabData.addTab("Integrasi Konica", FormKonica);
 
         PanelAccor.add(TabData, java.awt.BorderLayout.CENTER);
 
@@ -2490,6 +2616,106 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_MnLihatHasilActionPerformed
 
+    private void SimpanGambarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimpanGambarActionPerformed
+        // TODO add your handling code here:
+        //modif yahya
+        // TODO add your handling code here:
+        if (tabModeDicom.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Maaf, data sudah habis...!!!!");
+            TCari.requestFocus();
+            return;
+        }
+
+        if (tbListDicom.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Maaf, Silahkan pilih data..!!");
+            return;
+        }
+
+        try {
+            String auth = koneksiDB.USERORTHANC() + ":" + koneksiDB.PASSORTHANC();
+            byte[] encodedBytes = Base64.encodeBase64(auth.getBytes());
+            String authEncrypt = new String(encodedBytes);
+
+            String Series = tbListDicom.getValueAt(tbListDicom.getSelectedRow(), 2).toString();
+            String series8 = Series.substring(Series.length() - 8);
+            String NoRawat = tbDokter.getValueAt(tbDokter.getSelectedRow(), 0).toString().replaceAll("/", "");
+            String NoReg = tbDokter.getValueAt(tbDokter.getSelectedRow(), 0).toString();
+            String NoRM = tbDokter.getValueAt(tbDokter.getSelectedRow(), 1).toString();
+            String NmPasien = tbDokter.getValueAt(tbDokter.getSelectedRow(), 2).toString();
+            String Tanggal = tbDokter.getValueAt(tbDokter.getSelectedRow(), 3).toString();
+            String Jam = tbDokter.getValueAt(tbDokter.getSelectedRow(), 4).toString();
+
+            Sequel.queryu2("delete from gambar_radiologi where no_rawat=? and tgl_periksa=? and jam=?",3,new String[]{
+                tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString(),tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString(),tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString()
+            });
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Authorization", "Basic " + authEncrypt);
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+            String requestJson = getRest().exchange(koneksiDB.URLORTHANC() + ":" + koneksiDB.PORTORTHANC() + "/series/" + Series, HttpMethod.GET, requestEntity, String.class).getBody();
+
+            JsonNode root = new ObjectMapper().readTree(requestJson);
+            int i = 1;
+            for (JsonNode list : root.path("Instances")) {
+                headers = new HttpHeaders();
+                headers.add("Authorization", "Basic " + authEncrypt);
+                headers.add("Accept", "image/jpeg");
+
+                HttpEntity<String> entity = new HttpEntity<>(headers);
+                ResponseEntity<byte[]> response = getRest().exchange(koneksiDB.URLORTHANC() + ":" + koneksiDB.PORTORTHANC() + "/instances/" + list.asText() + "/preview", HttpMethod.GET, entity, byte[].class);
+
+                String filePath = "./gambarradiologi/" + NoRawat + i + series8 + ".jpg";
+                Files.write(Paths.get(filePath), response.getBody());
+
+                String imagePath = "pages/upload/" + NoRawat.replaceAll("/", "") + i + series8 + ".jpg";
+                //            if (Sequel.cariInteger("select count(no_rawat) as jumlah from gambar_radiologi where no_rawat='" + NoReg + "' and lokasi_gambar='" + imagePath + "'") > 0) {
+                    ////            Sequel.mengedittf("gambar_radiologi","no_rawat=?", "lokasi_gambar=?, tgl_periksa=?, jam=?", 4, new String[]{NoReg,imagePath, Tanggal, Jam});
+                    //            Sequel.queryu2("delete from gambar_radiologi where no_rawat=? and tgl_periksa=? and jam=?",3,new String[]{
+                        //                tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString(),tbDokter.getValueAt(tbDokter.getSelectedRow(),3).toString(),tbDokter.getValueAt(tbDokter.getSelectedRow(),4).toString()
+                        //                });
+                //            Sequel.menyimpantf("gambar_radiologi", "?,?,?,?", "No.Rawat", 4, new String[]{NoReg,Tanggal, Jam,imagePath});
+                //
+                //            } else {
+                Sequel.menyimpantf("gambar_radiologi", "?,?,?,?", "No.Rawat", 4, new String[]{NoReg,Tanggal, Jam,imagePath});
+                //            }
+            uploadImage(NoRawat + i + series8 + ".jpg", "radiologi/pages/upload");
+            i++;
+        }
+
+        System.out.println("Menyimpan Gambar: " + NoRawat + i + series8 + ".jpg");
+        JOptionPane.showMessageDialog(null, "Berhasil Menyimpan Gambar Pasien: " + NmPasien + " (" + NoRM + "), Silahkan Refresh data Gambar..!!");
+
+        } catch (Exception e) {
+            System.out.println("Notifikasi: " + e);
+            JOptionPane.showMessageDialog(null, "Gagal menyimpan Gambar JPG dari Orthanc, silahkan hubungi administrator ..!!");
+        }
+    }//GEN-LAST:event_SimpanGambarActionPerformed
+
+    private void SimpanGambarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SimpanGambarKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SimpanGambarKeyPressed
+
+    private void tbListDicom1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbListDicom1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbListDicom1MouseClicked
+
+    private void tbListDicom1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbListDicom1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbListDicom1KeyPressed
+
+    private void btnDicom1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDicom1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDicom1ActionPerformed
+
+    private void SimpanGambar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimpanGambar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SimpanGambar1ActionPerformed
+
+    private void SimpanGambar1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SimpanGambar1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SimpanGambar1KeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -2524,6 +2750,7 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
     private widget.CekBox ChkAccor;
     private widget.PanelBiasa FormHasilRadiologi;
     private widget.panelisi FormInput;
+    private widget.PanelBiasa FormKonica;
     private widget.PanelBiasa FormOrthan;
     private widget.PanelBiasa FormPass2;
     private widget.PanelBiasa FormPhoto;
@@ -2551,6 +2778,9 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
     private widget.ScrollPane Scroll4;
     private widget.ScrollPane Scroll5;
     private widget.ScrollPane Scroll6;
+    private widget.ScrollPane Scroll7;
+    private widget.Button SimpanGambar;
+    private widget.Button SimpanGambar1;
     private widget.TextBox TCari;
     private javax.swing.JTabbedPane TabData;
     private widget.Tanggal Tgl1;
@@ -2561,6 +2791,7 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
     private widget.Button btnAmbilPhoto;
     private widget.Button btnAmbilPhoto1;
     private widget.Button btnDicom;
+    private widget.Button btnDicom1;
     private widget.Button btnDokter;
     private widget.Button btnDokterPj;
     private widget.Button btnPasien;
@@ -2590,6 +2821,7 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
     private widget.panelisi panelGlass6;
     private widget.panelisi panelGlass7;
     private widget.panelisi panelGlass8;
+    private widget.panelisi panelGlass9;
     private widget.panelisi panelisi1;
     private widget.panelisi panelisi3;
     private javax.swing.JMenuItem ppBerkasDigital;
@@ -2599,6 +2831,7 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
     private widget.ScrollPane scrollPane1;
     private widget.Table tbDokter;
     private widget.Table tbListDicom;
+    private widget.Table tbListDicom1;
     // End of variables declaration//GEN-END:variables
 
     private void tampil() {
@@ -2919,4 +3152,84 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
             }
         }
     }
+    
+    public JsonNode AmbilSeries(String Norm,String Tanggal1,String Tanggal2){
+//        System.out.println("Percobaan Mengambil Photo Pasien : "+Norm);
+        try{
+            headers = new HttpHeaders();
+//            System.out.println("Auth : "+authEncrypt);
+            headers.add("Authorization", "Basic "+authEncrypt);
+            requestJson = "{"+
+                              "\"Level\": \"Study\","+
+                              "\"Expand\": true,"+
+                              "\"Query\": {"+
+                                   "\"StudyDate\": \""+Tanggal1+"-"+Tanggal2+"\","+
+                                   "\"PatientID\": \""+Norm+"\""+
+                              "}"+
+                          "}";
+//            System.out.println("Request JSON : "+requestJson);
+            requestEntity = new HttpEntity(requestJson,headers);
+//            System.out.println("URL : "+koneksiDB.URLORTHANC()+":"+koneksiDB.PORTORTHANC()+"/tools/find");
+            requestJson=getRest().exchange(koneksiDB.URLORTHANC()+":"+koneksiDB.PORTORTHANC()+"/tools/find", HttpMethod.POST, requestEntity, String.class).getBody();
+//            System.out.println("Result JSON : "+requestJson);
+            root = mapper.readTree(requestJson);
+        }catch(Exception e){
+            System.out.println("Notifikasi : "+e);
+            JOptionPane.showMessageDialog(null,"Gagal mengambil data dari Orthanc, silahkan hubungi administrator ..!!");
+        }
+        return root;
+    }
+
+    public RestTemplate getRest() throws NoSuchAlgorithmException, KeyManagementException {
+        sslContext = SSLContext.getInstance("SSL");
+        TrustManager[] trustManagers= {
+            new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() {return null;}
+                public void checkServerTrusted(X509Certificate[] arg0, String arg1)throws CertificateException {}
+                public void checkClientTrusted(X509Certificate[] arg0, String arg1)throws CertificateException {}
+            }
+        };
+        sslContext.init(null,trustManagers , new SecureRandom());
+        sslFactory=new SSLSocketFactory(sslContext,SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        scheme=new Scheme("https",443,sslFactory);
+        factory=new HttpComponentsClientHttpRequestFactory();
+        factory.getHttpClient().getConnectionManager().getSchemeRegistry().register(scheme);
+        return new RestTemplate(factory);
+    }
+    
+    
+//modif yahya    
+void uploadImage(String FileName,String docpath){
+    try{
+        File file =new File("gambarradiologi/"+FileName);
+        byte[] data = new byte[(int) file.length()];
+        data = FileUtils.readFileToByteArray(file);
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpPost postRequest = new HttpPost("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+koneksiDB.PORTWEB()+"/"+koneksiDB.HYBRIDWEB()+"/orthanc.php?doc="+docpath);
+        ByteArrayBody fileData = new ByteArrayBody(data, FileName);
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+        reqEntity.addPart("file", fileData); 
+        postRequest.setEntity(reqEntity);
+        httpClient.execute(postRequest); 
+//        HttpResponse response = (HttpResponse) httpClient.execute(postRequest); 
+//        deleteFile();
+        
+        }catch (Exception e){
+            System.out.println("Upload error"+e);
+        }
+    }
+void deleteFile(){
+       File file = new File("gambarradiologi");      
+        String[] myFiles;    
+        if (file.isDirectory()) {
+            myFiles = file.list();
+            for (int i = 0; i < myFiles.length; i++) {
+                File myFile = new File(file, myFiles[i]); 
+                myFile.delete();
+            }
+        }
+     }
 }
+    
+
+

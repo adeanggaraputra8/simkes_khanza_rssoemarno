@@ -6452,10 +6452,7 @@ public final class DlgIGD extends javax.swing.JDialog {
             if(Sequel.cariInteger("select count(no_rkm_medis) from reg_periksa where no_rkm_medis=? and kd_poli='"+kdpoli.getText()+"'",TNoRM.getText())>0){
                 status="Lama";
             }
-            
-            if(Sequel.Cekjenispasien(TNoRM.getText())==0){
-                     Sequel.menyimpan("jns_pasien","'"+TNoRM.getText()+"','"+CmbJnsPasien.getSelectedItem().toString()+"'","jenis_pasien");
-             }
+
             isNumber();
             if(Sequel.menyimpantf2("reg_periksa","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat",19,
                     new String[]{TNoReg.getText(),TNoRw.getText(),Valid.SetTgl(DTPReg.getSelectedItem()+""),CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(),
@@ -6521,7 +6518,10 @@ public final class DlgIGD extends javax.swing.JDialog {
                         nosisrute="";
                     }                    
                 }
-               
+                            
+                if(Sequel.Cekjenispasien(TNoRM.getText())==0){
+                         Sequel.menyimpan("jns_pasien","'"+TNoRM.getText()+"','"+CmbJnsPasien.getSelectedItem().toString()+"'","jenis_pasien");
+                 }
                  if(kdpoli.getText().equals("IGDC")){
                     MnStatusPasienVovidActionPerformed(null);
                 }

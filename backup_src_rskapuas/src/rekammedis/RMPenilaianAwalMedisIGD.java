@@ -1532,7 +1532,7 @@ public final class RMPenilaianAwalMedisIGD extends javax.swing.JDialog {
                                     TNoRw.getText(),Valid.SetTgl(TglAsuhan.getSelectedItem()+""),TglAsuhan.getSelectedItem().toString().substring(11,19),
 //                                    Suhu.getText(),TD.getText(),Nadi.getText(),RR.getText(),TB.getText(),BB.getText(),SPO.getText(),GCS.getText(),
                                     "","","","","","","","",
-                                    Kesadaran.getSelectedItem().toString(),KeluhanUtama.getText(),KetFisik.getText()+ "R.Keluarga: "+RPK.getText()+ " R.Penggunaan Obat: "+RPO.getText()+ " R.Penyakit Dahulu:" +RPD.getText()+" Status Lokalis : "+KetLokalis.getText(),Alergi.getText(),
+                                    Kesadaran.getSelectedItem().toString(),KeluhanUtama.getText()+" ,R.Sekarang: "+RPS.getText(),KetFisik.getText()+ "R.Keluarga: "+RPK.getText()+ " R.Penggunaan Obat: "+RPO.getText()+ " R.Penyakit Dahulu:" +RPD.getText()+" Status Lokalis : "+KetLokalis.getText(),Alergi.getText(),
                                     "",Tatalaksana.getText()+ " EKG: " +EKG.getText() +" Radiologi "+Radiologi.getText()+ " Lab : "+Laborat.getText(),Diagnosis.getText(),"","",KdDokter.getText()});
                              tabMode.addRow(new String[]{
                                     TNoRw.getText(),TNoRM.getText(),TPasien.getText(),TglLahir.getText(),Jk.getText(),KdDokter.getText(),NmDokter.getText(),Valid.SetTgl(TglAsuhan.getSelectedItem()+"")+" "+TglAsuhan.getSelectedItem().toString().substring(11,19),

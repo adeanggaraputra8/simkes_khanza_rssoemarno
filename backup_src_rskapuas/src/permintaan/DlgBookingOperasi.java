@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import kepegawaian.DlgCariDokter;
 import keuangan.DlgCariDaftarOperasi;
+import modifikasi.RMStatusAnestesi;
 import rekammedis.RMChecklistPostOperasi;
 import rekammedis.RMChecklistPreOperasi;
 import rekammedis.RMMonitoringAldrettePascaAnestesi;
@@ -324,6 +325,7 @@ public class DlgBookingOperasi extends javax.swing.JDialog {
         BtnSkorAldrettePascaAnestesi = new widget.Button();
         BtnSkorStewardPascaAnestesi = new widget.Button();
         BtnSkorBromagePascaAnestesi = new widget.Button();
+        BtnStatusAnestesi = new widget.Button();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -562,7 +564,7 @@ public class DlgBookingOperasi extends javax.swing.JDialog {
         R2.setPreferredSize(new java.awt.Dimension(90, 23));
         panelCari.add(R2);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-12-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-02-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -585,7 +587,7 @@ public class DlgBookingOperasi extends javax.swing.JDialog {
         jLabel22.setPreferredSize(new java.awt.Dimension(30, 23));
         panelCari.add(jLabel22);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-12-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-02-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -613,7 +615,7 @@ public class DlgBookingOperasi extends javax.swing.JDialog {
         R3.setPreferredSize(new java.awt.Dimension(75, 23));
         panelCari.add(R3);
 
-        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-12-2023" }));
+        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-02-2024" }));
         DTPCari3.setDisplayFormat("dd-MM-yyyy");
         DTPCari3.setName("DTPCari3"); // NOI18N
         DTPCari3.setOpaque(false);
@@ -636,7 +638,7 @@ public class DlgBookingOperasi extends javax.swing.JDialog {
         jLabel25.setPreferredSize(new java.awt.Dimension(30, 23));
         panelCari.add(jLabel25);
 
-        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-12-2023" }));
+        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-02-2024" }));
         DTPCari4.setDisplayFormat("dd-MM-yyyy");
         DTPCari4.setName("DTPCari4"); // NOI18N
         DTPCari4.setOpaque(false);
@@ -719,7 +721,7 @@ public class DlgBookingOperasi extends javax.swing.JDialog {
         TPasien.setBounds(195, 10, 208, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-12-2023" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-02-2024" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -1244,6 +1246,23 @@ public class DlgBookingOperasi extends javax.swing.JDialog {
             }
         });
         FormMenu.add(BtnSkorBromagePascaAnestesi);
+
+        BtnStatusAnestesi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/item.png"))); // NOI18N
+        BtnStatusAnestesi.setText("Status Anestesi");
+        BtnStatusAnestesi.setFocusPainted(false);
+        BtnStatusAnestesi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        BtnStatusAnestesi.setGlassColor(new java.awt.Color(255, 255, 255));
+        BtnStatusAnestesi.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        BtnStatusAnestesi.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        BtnStatusAnestesi.setName("BtnStatusAnestesi"); // NOI18N
+        BtnStatusAnestesi.setPreferredSize(new java.awt.Dimension(190, 23));
+        BtnStatusAnestesi.setRoundRect(false);
+        BtnStatusAnestesi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnStatusAnestesiActionPerformed(evt);
+            }
+        });
+        FormMenu.add(BtnStatusAnestesi);
 
         ScrollMenu.setViewportView(FormMenu);
 
@@ -2032,6 +2051,27 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
     }//GEN-LAST:event_BtnPenilaianPreInduksiActionPerformed
 
+    private void BtnStatusAnestesiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnStatusAnestesiActionPerformed
+            if(tabMode.getRowCount()==0){
+                        JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+                        TCari.requestFocus();
+                    }else{            
+                        if(tbObat.getSelectedRow()!= -1){
+                            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                            RMStatusAnestesi form=new RMStatusAnestesi(null,false);
+                            form.isCek();
+                            form.emptTeks();
+                            form.setNoRm(tbObat.getValueAt(tbObat.getSelectedRow(),1).toString(),DTPCari2.getDate());
+                            form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                            form.setLocationRelativeTo(internalFrame1);
+                            form.setVisible(true);
+                            this.setCursor(Cursor.getDefaultCursor());
+                        }else{
+                            JOptionPane.showMessageDialog(null,"Maaf, silahkan pilih data...!!!!");
+                        }  
+            }
+    }//GEN-LAST:event_BtnStatusAnestesiActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -2074,6 +2114,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.Button BtnSkorAldrettePascaAnestesi;
     private widget.Button BtnSkorBromagePascaAnestesi;
     private widget.Button BtnSkorStewardPascaAnestesi;
+    private widget.Button BtnStatusAnestesi;
     private widget.Button BtnTagihanOperasi;
     private widget.Button BtnTimeOutSebelumInsisi;
     private widget.Button BtnTransferAntarRuang;
@@ -2293,6 +2334,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         BtnSkorAldrettePascaAnestesi.setVisible(akses.getskor_aldrette_pasca_anestesi());
         BtnSkorStewardPascaAnestesi.setVisible(akses.getskor_steward_pasca_anestesi());
         BtnSkorBromagePascaAnestesi.setVisible(akses.getskor_bromage_pasca_anestesi());
+        BtnStatusAnestesi.setVisible(akses.getpenilaian_pre_anestesi());
     }
 
     private void isMenu(){
