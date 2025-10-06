@@ -31,7 +31,7 @@ public class WarnaTablePEWSD extends DefaultTableCellRenderer {
                 component.setForeground(new Color(50,50,50));
             }else if(Integer.parseInt(table.getValueAt(row,7).toString())==1){
                 component.setBackground(Color.YELLOW);
-                component.setForeground(Color.GREEN);
+                component.setForeground(Color.BLACK);
             }else if(Integer.parseInt(table.getValueAt(row,7).toString())==2){
                 component.setBackground(Color.ORANGE);
                 component.setForeground(Color.WHITE);
@@ -50,7 +50,7 @@ public class WarnaTablePEWSD extends DefaultTableCellRenderer {
                 component.setForeground(new Color(50,50,50));
             }else if(Integer.parseInt(table.getValueAt(row,9).toString())==1){
                 component.setBackground(Color.YELLOW);
-                component.setForeground(Color.GREEN);
+                component.setForeground(Color.BLACK);
             }else if(Integer.parseInt(table.getValueAt(row,9).toString())==2){
                 component.setBackground(Color.ORANGE);
                 component.setForeground(Color.WHITE);
@@ -76,7 +76,7 @@ public class WarnaTablePEWSD extends DefaultTableCellRenderer {
                 component.setForeground(new Color(50,50,50));
             }else if(Integer.parseInt(table.getValueAt(row,13).toString())==1){
                 component.setBackground(Color.YELLOW);
-                component.setForeground(Color.GREEN);
+                component.setForeground(Color.BLACK);
             }else if(Integer.parseInt(table.getValueAt(row,13).toString())==2){
                 component.setBackground(Color.ORANGE);
                 component.setForeground(Color.WHITE);
@@ -95,7 +95,7 @@ public class WarnaTablePEWSD extends DefaultTableCellRenderer {
                 component.setForeground(new Color(50,50,50));
             }else if(Integer.parseInt(table.getValueAt(row,15).toString())==1){
                 component.setBackground(Color.YELLOW);
-                component.setForeground(Color.GREEN);
+                component.setForeground(Color.BLACK);
             }else if(Integer.parseInt(table.getValueAt(row,15).toString())==2){
                 component.setBackground(Color.ORANGE);
                 component.setForeground(Color.WHITE);
@@ -127,7 +127,7 @@ public class WarnaTablePEWSD extends DefaultTableCellRenderer {
                 component.setForeground(new Color(50,50,50));
             }else if(Integer.parseInt(table.getValueAt(row,19).toString())==1){
                 component.setBackground(Color.YELLOW);
-                component.setForeground(Color.GREEN);
+                component.setForeground(Color.BLACK);
             }else if(Integer.parseInt(table.getValueAt(row,19).toString())==2){
                 component.setBackground(Color.ORANGE);
                 component.setForeground(Color.WHITE);
@@ -151,7 +151,7 @@ public class WarnaTablePEWSD extends DefaultTableCellRenderer {
                 component.setForeground(Color.WHITE);
             }else if(Integer.parseInt(table.getValueAt(row,20).toString())>0){
                 component.setBackground(Color.YELLOW);
-                component.setForeground(Color.GREEN);
+                component.setForeground(Color.BLACK);
             }else if(Integer.parseInt(table.getValueAt(row,20).toString())==0){
                 component.setBackground(Color.WHITE);
                 component.setForeground(new Color(50,50,50));

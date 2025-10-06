@@ -282,7 +282,7 @@ public final class sekuel {
                     ps.close();
                 }                
             }
-			if(AKTIFKANTRACKSQL.equals("yes")){
+            if(AKTIFKANTRACKSQL.equals("yes")){
                 dicari="";
                 for(angka=1;angka<=i;angka++){
                     dicari=dicari+"|"+a[angka-1];
@@ -713,6 +713,33 @@ public final class sekuel {
         }
     }
     
+     public void menyimpandxpseklaim(String table, String value, String sama, int i, String[] a) throws Exception {
+            PreparedStatement ps = null;
+            try {
+                ps = connect.prepareStatement("insert into " + table + " values(" + value + ")");
+                for (angka = 1; angka <= i; angka++) {
+                    ps.setString(angka, a[angka - 1]);
+                }
+                ps.executeUpdate();
+
+                if (AKTIFKANTRACKSQL.equals("yes")) {
+                    dicari = "";
+                    for (angka = 1; angka <= i; angka++) {
+                        dicari = dicari + "|" + a[angka - 1];
+                    }
+                    SimpanTrack("insert into " + table + " values(" + dicari + ")");
+                }
+
+            } catch (Exception e) {
+                // biar ketahuan
+                System.out.println("menyimpandxpseklaim ERROR : " + e.getMessage());
+                throw e;  // ← penting, lempar lagi ke caller
+            } finally {
+                if (ps != null) {
+                    ps.close();
+                }
+            }
+        }
 
     public void meghapus(String table,String field,String nilai_field) {
         try {

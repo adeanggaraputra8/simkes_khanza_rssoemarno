@@ -518,7 +518,7 @@ public final class RMPenilaianAwalKeperawatanKebidananRanap extends javax.swing.
         RPK.setDocument(new batasInput((int)100).getKata(RPK));
         PSK.setDocument(new batasInput((int)100).getKata(PSK));
         RBedah.setDocument(new batasInput((int)100).getKata(RBedah));
-        Alergi.setDocument(new batasInput((int)25).getKata(Alergi));
+        Alergi.setDocument(new batasInput((int)100).getKata(Alergi));
         KeteranganKomplikasiKehamilan.setDocument(new batasInput((int)30).getKata(KeteranganKomplikasiKehamilan));
         UmurMinarche.setDocument(new batasInput((int)10).getKata(UmurMinarche));
         LamaMenstruasi.setDocument(new batasInput((int)10).getKata(LamaMenstruasi));

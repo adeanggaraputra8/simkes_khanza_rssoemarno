@@ -17,14 +17,19 @@ import fungsi.sekuel;
 import fungsi.validasi;
 import fungsi.akses;
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import kepegawaian.DlgCariPetugas;
 
@@ -55,7 +60,8 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(dlgpetugas.getTable().getSelectedRow()!= -1){                   
+                if(dlgpetugas.getTable().getSelectedRow()!= -1){
+                    NipPetugas.setText(dlgpetugas.getTable().getValueAt(dlgpetugas.getTable().getSelectedRow(),0).toString());
                     Tnmptg.setText(dlgpetugas.getTable().getValueAt(dlgpetugas.getTable().getSelectedRow(),1).toString());
                 }            
                 BtnPetugas.requestFocus();
@@ -77,7 +83,8 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(dlgkordinator.getTable().getSelectedRow()!= -1){                   
+                if(dlgkordinator.getTable().getSelectedRow()!= -1){     
+                    NipKordinator.setText(dlgkordinator.getTable().getValueAt(dlgkordinator.getTable().getSelectedRow(),0).toString());
                     Tnmkordinator.setText(dlgkordinator.getTable().getValueAt(dlgkordinator.getTable().getSelectedRow(),1).toString());
                 }            
                 Btnkordinator.requestFocus();
@@ -91,7 +98,8 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
-        
+         
+         jam();
  
     }
     
@@ -105,20 +113,39 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
     private void initComponents() {
 
         NoMr = new widget.TextBox();
+        NipPetugas = new widget.TextBox();
+        NipKordinator = new widget.TextBox();
         internalFrame5 = new widget.InternalFrame();
         panelBiasa4 = new widget.PanelBiasa();
         jLabel37 = new widget.Label();
-        BtnPrint5 = new widget.Button();
         BtnKeluar4 = new widget.Button();
         BtnPetugas = new widget.Button();
         jLabel24 = new widget.Label();
         Tnmptg = new widget.TextBox();
         Tnmkordinator = new widget.TextBox();
         Btnkordinator = new widget.Button();
+        jLabel25 = new widget.Label();
+        TNoSHK = new widget.TextBox();
+        BtnSimpan = new widget.Button();
+        DTPReg = new widget.Tanggal();
+        jLabel8 = new widget.Label();
+        CmbJam = new widget.ComboBox();
+        jLabel9 = new widget.Label();
+        CmbMenit = new widget.ComboBox();
+        CmbDetik = new widget.ComboBox();
+        ChkJln = new widget.CekBox();
 
         NoMr.setEditable(false);
         NoMr.setHighlighter(null);
         NoMr.setName("NoMr"); // NOI18N
+
+        NipPetugas.setEditable(false);
+        NipPetugas.setHighlighter(null);
+        NipPetugas.setName("NipPetugas"); // NOI18N
+
+        NipKordinator.setEditable(false);
+        NipKordinator.setHighlighter(null);
+        NipKordinator.setName("NipKordinator"); // NOI18N
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -129,7 +156,7 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
             }
         });
 
-        internalFrame5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Cetak Surat Keterangan Rawat Inap ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 70, 50))); // NOI18N
+        internalFrame5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Cetak SHK Bayi ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 70, 50))); // NOI18N
         internalFrame5.setName("internalFrame5"); // NOI18N
         internalFrame5.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -140,20 +167,6 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
         jLabel37.setName("jLabel37"); // NOI18N
         panelBiasa4.add(jLabel37);
         jLabel37.setBounds(7, 10, 140, 23);
-
-        BtnPrint5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/b_print.png"))); // NOI18N
-        BtnPrint5.setMnemonic('T');
-        BtnPrint5.setText("Cetak");
-        BtnPrint5.setToolTipText("Alt+T");
-        BtnPrint5.setName("BtnPrint5"); // NOI18N
-        BtnPrint5.setPreferredSize(new java.awt.Dimension(100, 30));
-        BtnPrint5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnPrint5ActionPerformed(evt);
-            }
-        });
-        panelBiasa4.add(BtnPrint5);
-        BtnPrint5.setBounds(10, 80, 100, 30);
 
         BtnKeluar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
         BtnKeluar4.setMnemonic('U');
@@ -167,7 +180,7 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
             }
         });
         panelBiasa4.add(BtnKeluar4);
-        BtnKeluar4.setBounds(430, 80, 100, 30);
+        BtnKeluar4.setBounds(430, 130, 100, 30);
 
         BtnPetugas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         BtnPetugas.setMnemonic('6');
@@ -213,6 +226,97 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
         panelBiasa4.add(Btnkordinator);
         Btnkordinator.setBounds(470, 40, 28, 23);
 
+        jLabel25.setText("No. SHK :");
+        jLabel25.setName("jLabel25"); // NOI18N
+        jLabel25.setPreferredSize(new java.awt.Dimension(60, 23));
+        panelBiasa4.add(jLabel25);
+        jLabel25.setBounds(7, 70, 140, 23);
+
+        TNoSHK.setName("TNoSHK"); // NOI18N
+        TNoSHK.setPreferredSize(new java.awt.Dimension(300, 23));
+        panelBiasa4.add(TNoSHK);
+        TNoSHK.setBounds(160, 70, 310, 23);
+
+        BtnSimpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Save.png"))); // NOI18N
+        BtnSimpan.setMnemonic('T');
+        BtnSimpan.setText("SImpan");
+        BtnSimpan.setToolTipText("Alt+T");
+        BtnSimpan.setName("BtnSimpan"); // NOI18N
+        BtnSimpan.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSimpanActionPerformed(evt);
+            }
+        });
+        panelBiasa4.add(BtnSimpan);
+        BtnSimpan.setBounds(110, 130, 100, 30);
+
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-08-2025" }));
+        DTPReg.setDisplayFormat("dd-MM-yyyy");
+        DTPReg.setName("DTPReg"); // NOI18N
+        DTPReg.setOpaque(false);
+        DTPReg.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                DTPRegItemStateChanged(evt);
+            }
+        });
+        DTPReg.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                DTPRegKeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(DTPReg);
+        DTPReg.setBounds(160, 100, 90, 23);
+
+        jLabel8.setText("Tgl. Surat :");
+        jLabel8.setName("jLabel8"); // NOI18N
+        panelBiasa4.add(jLabel8);
+        jLabel8.setBounds(10, 100, 140, 23);
+
+        CmbJam.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        CmbJam.setName("CmbJam"); // NOI18N
+        CmbJam.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbJamKeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(CmbJam);
+        CmbJam.setBounds(290, 100, 62, 23);
+
+        jLabel9.setText("Jam :");
+        jLabel9.setName("jLabel9"); // NOI18N
+        panelBiasa4.add(jLabel9);
+        jLabel9.setBounds(250, 100, 36, 23);
+
+        CmbMenit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        CmbMenit.setName("CmbMenit"); // NOI18N
+        CmbMenit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbMenitKeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(CmbMenit);
+        CmbMenit.setBounds(360, 100, 62, 23);
+
+        CmbDetik.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        CmbDetik.setName("CmbDetik"); // NOI18N
+        CmbDetik.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbDetikKeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(CmbDetik);
+        CmbDetik.setBounds(420, 100, 62, 23);
+
+        ChkJln.setBorder(null);
+        ChkJln.setSelected(true);
+        ChkJln.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ChkJln.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkJln.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ChkJln.setName("ChkJln"); // NOI18N
+        panelBiasa4.add(ChkJln);
+        ChkJln.setBounds(490, 100, 23, 23);
+
         internalFrame5.add(panelBiasa4, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(internalFrame5, java.awt.BorderLayout.CENTER);
@@ -223,21 +327,6 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         emptTeks();
     }//GEN-LAST:event_formWindowOpened
-
-    private void BtnPrint5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrint5ActionPerformed
-        if(Tnmptg.getText().trim().equals("")||Tnmkordinator.getText().trim().equals("")){
-            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu petugas dan kordinator...!!!");
-        }else{
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            Map<String, Object> param = new HashMap<>();
-            param.put("kotars",akses.getkabupatenrs());
-            param.put("norm",NoMr.getText());
-            param.put("petugas",Tnmptg.getText());
-            param.put("kordinator",Tnmkordinator.getText());
-            Valid.MyReport("rptBuktiPelayananSHK.jasper","report","::[ Surat Pelayanan SHK ]::",param);
-            this.setCursor(Cursor.getDefaultCursor());
-        }
-    }//GEN-LAST:event_BtnPrint5ActionPerformed
 
     private void BtnKeluar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluar4ActionPerformed
         dispose();
@@ -261,6 +350,40 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
         dlgkordinator.setVisible(true);
     }//GEN-LAST:event_BtnkordinatorActionPerformed
 
+    private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
+        if(TNoSHK.getText().trim().equals("")){
+           Valid.textKosong(TNoSHK,"Bo. SHK");
+       }else if(Tnmptg.getText().trim().equals("")){
+           Valid.textKosong(Tnmptg,"Nama");
+       }else if(Tnmkordinator.getText().trim().equals("")){
+           Valid.textKosong(Tnmkordinator,"Nama Kordinator");
+       }else{
+           Sequel.menyimpan("data_shk","'"+NoMr.getText()+"','"+NipPetugas.getText()+"','"+NipKordinator.getText()+"','"+TNoSHK.getText()+"','"+Valid.SetTgl(DTPReg.getSelectedItem()+"")+" "+CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem()+"'","Data SHK");
+           emptTeks();
+           dispose();
+       }
+    }//GEN-LAST:event_BtnSimpanActionPerformed
+
+    private void DTPRegItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_DTPRegItemStateChanged
+    
+    }//GEN-LAST:event_DTPRegItemStateChanged
+
+    private void DTPRegKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DTPRegKeyPressed
+
+    }//GEN-LAST:event_DTPRegKeyPressed
+
+    private void CmbJamKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbJamKeyPressed
+  
+    }//GEN-LAST:event_CmbJamKeyPressed
+
+    private void CmbMenitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbMenitKeyPressed
+        Valid.pindah(evt,CmbJam,CmbDetik);
+    }//GEN-LAST:event_CmbMenitKeyPressed
+
+    private void CmbDetikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbDetikKeyPressed
+
+    }//GEN-LAST:event_CmbDetikKeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -280,23 +403,90 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.Button BtnKeluar4;
     private widget.Button BtnPetugas;
-    private widget.Button BtnPrint5;
+    private widget.Button BtnSimpan;
     private widget.Button Btnkordinator;
+    private widget.CekBox ChkJln;
+    private widget.ComboBox CmbDetik;
+    private widget.ComboBox CmbJam;
+    private widget.ComboBox CmbMenit;
+    private widget.Tanggal DTPReg;
+    private widget.TextBox NipKordinator;
+    private widget.TextBox NipPetugas;
     private widget.TextBox NoMr;
+    private widget.TextBox TNoSHK;
     private widget.TextBox Tnmkordinator;
     private widget.TextBox Tnmptg;
     private widget.InternalFrame internalFrame5;
     private widget.Label jLabel24;
+    private widget.Label jLabel25;
     private widget.Label jLabel37;
+    private widget.Label jLabel8;
+    private widget.Label jLabel9;
     private widget.PanelBiasa panelBiasa4;
     // End of variables declaration//GEN-END:variables
 
     public void emptTeks() {
         Tnmptg.setText("");        
         Tnmkordinator.setText("");
+        TNoSHK.setText("");
+        NipPetugas.setText("");
+        NipKordinator.setText("");
     }    
     
     public void SetNoRM(String norm) {
         NoMr.setText(norm);   
+    }
+    
+     private void jam(){
+        ActionListener taskPerformer = new ActionListener(){
+            private int nilai_jam;
+            private int nilai_menit;
+            private int nilai_detik;
+            public void actionPerformed(ActionEvent e) {
+                String nol_jam = "";
+                String nol_menit = "";
+                String nol_detik = "";
+                
+                Date now = Calendar.getInstance().getTime();
+
+                // Mengambil nilaj JAM, MENIT, dan DETIK Sekarang
+                if(ChkJln.isSelected()==true){
+                    nilai_jam = now.getHours();
+                    nilai_menit = now.getMinutes();
+                    nilai_detik = now.getSeconds();
+                }else if(ChkJln.isSelected()==false){
+                    nilai_jam =CmbJam.getSelectedIndex();
+                    nilai_menit =CmbMenit.getSelectedIndex();
+                    nilai_detik =CmbDetik.getSelectedIndex();
+                }
+
+                // Jika nilai JAM lebih kecil dari 10 (hanya 1 digit)
+                if (nilai_jam <= 9) {
+                    // Tambahkan "0" didepannya
+                    nol_jam = "0";
+                }
+                // Jika nilai MENIT lebih kecil dari 10 (hanya 1 digit)
+                if (nilai_menit <= 9) {
+                    // Tambahkan "0" didepannya
+                    nol_menit = "0";
+                }
+                // Jika nilai DETIK lebih kecil dari 10 (hanya 1 digit)
+                if (nilai_detik <= 9) {
+                    // Tambahkan "0" didepannya
+                    nol_detik = "0";
+                }
+                // Membuat String JAM, MENIT, DETIK
+                String jam = nol_jam + Integer.toString(nilai_jam);
+                String menit = nol_menit + Integer.toString(nilai_menit);
+                String detik = nol_detik + Integer.toString(nilai_detik);
+                // Menampilkan pada Layar
+                //tampil_jam.setText("  " + jam + " : " + menit + " : " + detik + "  ");
+                CmbJam.setSelectedItem(jam);
+                CmbMenit.setSelectedItem(menit);
+                CmbDetik.setSelectedItem(detik);
+            }
+        };
+        // Timer
+        new Timer(1000, taskPerformer).start();
     }
 }

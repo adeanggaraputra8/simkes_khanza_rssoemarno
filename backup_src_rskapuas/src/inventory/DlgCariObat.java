@@ -4863,6 +4863,22 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
         kenaikan=Sequel.cariIsiAngka("select (hargajual/100) from set_harga_obat_ralan where kd_pj=?",KdPj.getText());
         TCari.requestFocus();
     }
+   
+    public void setNoRm2(String norwt,String norm,String nama,String tanggal, String jam, String Kodedpjp) {        
+        aktifpcare="no";
+        TNoRw.setText(norwt);
+        LblNoRawat.setText(norwt);
+        LblNoRM.setText(norm);
+        LblNamaPasien.setText(nama);
+        NoResep.setText(Sequel.cariIsi("SELECT no_resep FROM resep_obat WHERE no_rawat='"+norwt+"' AND tgl_peresepan='"+tanggal+"' AND jam_peresepan='"+jam+"'"));
+        Tanggal.setText(tanggal);
+        Jam.setText(jam);
+        KdPj.setText(Sequel.cariIsi("select kd_pj from reg_periksa where no_rawat=?",norwt));
+        kenaikan=Sequel.cariIsiAngka("select (hargajual/100) from set_harga_obat_ralan where kd_pj=?",KdPj.getText());
+        KdDokter.setText(Kodedpjp);
+        NmDokter.setText(Sequel.cariIsi("select nm_dokter from dokter where kd_dokter ='"+Kodedpjp+"' "));
+        TCari.requestFocus();
+    }
     
     private void jam(){
         ActionListener taskPerformer = new ActionListener(){

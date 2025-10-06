@@ -480,6 +480,8 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         retriksi = new widget.TextArea();
         jLabel12 = new widget.Label();
         ChkTampilObat = new widget.CekBox();
+        ChkIter = new widget.CekBox();
+        Iterasi = new javax.swing.JComboBox<>();
         TabRawat = new javax.swing.JTabbedPane();
         Scroll = new widget.ScrollPane();
         tbResep = new widget.Table();
@@ -788,7 +790,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         jLabel8.setBounds(0, 42, 72, 23);
 
         DTPBeri.setForeground(new java.awt.Color(50, 70, 50));
-        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-05-2025" }));
+        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-09-2025" }));
         DTPBeri.setDisplayFormat("dd-MM-yyyy");
         DTPBeri.setName("DTPBeri"); // NOI18N
         DTPBeri.setOpaque(false);
@@ -909,12 +911,12 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         scrollPane2.setViewportView(retriksi);
 
         FormInput.add(scrollPane2);
-        scrollPane2.setBounds(730, 40, 210, 50);
+        scrollPane2.setBounds(760, 70, 200, 30);
 
         jLabel12.setText("Retriksi :");
         jLabel12.setName("jLabel12"); // NOI18N
         FormInput.add(jLabel12);
-        jLabel12.setBounds(650, 40, 70, 23);
+        jLabel12.setBounds(680, 70, 70, 23);
 
         ChkTampilObat.setBorder(null);
         ChkTampilObat.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -928,6 +930,30 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         });
         FormInput.add(ChkTampilObat);
         ChkTampilObat.setBounds(690, 12, 23, 23);
+
+        ChkIter.setBorder(null);
+        ChkIter.setText("Ceklist Obat Iterasi");
+        ChkIter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkIter.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ChkIter.setName("ChkIter"); // NOI18N
+        ChkIter.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ChkIterItemStateChanged(evt);
+            }
+        });
+        ChkIter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkIterActionPerformed(evt);
+            }
+        });
+        FormInput.add(ChkIter);
+        ChkIter.setBounds(680, 40, 140, 23);
+
+        Iterasi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        Iterasi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "1. Dengan Iterasi", "2. Dengan Iterasi" }));
+        Iterasi.setName("Iterasi"); // NOI18N
+        FormInput.add(Iterasi);
+        Iterasi.setBounds(820, 40, 110, 24);
 
         internalFrame1.add(FormInput, java.awt.BorderLayout.PAGE_START);
 
@@ -1173,8 +1199,13 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             if(Sequel.menyimpantf2("resep_obat","?,?,?,?,?,?,?,?,?,?","Nomer Resep",10,new String[]{
                                                 NoResep.getText(),"0000-00-00","00:00:00",TNoRw.getText(),KdDokter.getText(),Valid.SetTgl(DTPBeri.getSelectedItem()+""),
                                                 cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),status,"0000-00-00","00:00:00"
-                                                })==true){
+                                                })==true){                                                   
                                                     simpandata();
+                                                    if(ChkIter.isSelected()==true){
+                                                       Sequel.menyimpan2("flagging_iterasi","?,?", "Nomor Resep",2,new String[]{
+                                                       NoResep.getText(),Iterasi.getSelectedItem().toString().substring(0, 1)
+                                                       });
+                                                    }
                                             }else{
                                                 emptTeksobat();
                                                 if(Sequel.menyimpantf2("resep_obat","?,?,?,?,?,?,?,?,?,?","Nomer Resep",10,new String[]{
@@ -1182,6 +1213,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                                     cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),status,"0000-00-00","00:00:00"
                                                     })==true){
                                                         simpandata();
+                                                       if(ChkIter.isSelected()==true){
+                                                            Sequel.menyimpan2("flagging_iterasi","?,?", "Nomor Resep",2,new String[]{
+                                                            NoResep.getText(),Iterasi.getSelectedItem().toString().substring(0, 1)
+                                                            });
+                                                       }
                                                 }else{
                                                     emptTeksobat();
                                                     if(Sequel.menyimpantf2("resep_obat","?,?,?,?,?,?,?,?,?,?","Nomer Resep",10,new String[]{
@@ -1189,6 +1225,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                                         cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),status,"0000-00-00","00:00:00"
                                                         })==true){
                                                             simpandata();
+                                                            if(ChkIter.isSelected()==true){
+                                                                Sequel.menyimpan2("flagging_iterasi","?,?", "Nomor Resep",2,new String[]{
+                                                                NoResep.getText(),Iterasi.getSelectedItem().toString().substring(0, 1)
+                                                                });
+                                                            }
                                                     }else{
                                                         emptTeksobat();
                                                         sukses=false;
@@ -1201,6 +1242,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             Sequel.meghapus("resep_dokter_racikan_detail","no_resep",NoResep.getText());
                                             ubah=false;
                                             simpandata();
+                                            if(ChkIter.isSelected()==true){
+                                                Sequel.menyimpan2("flagging_iterasi","?,?", "Nomor Resep",2,new String[]{
+                                                NoResep.getText(),Iterasi.getSelectedItem().toString().substring(0, 1)
+                                                });
+                                            }
                                         }                                                      
 
                                         if(sukses==true){
@@ -1589,6 +1635,18 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
        }
     }//GEN-LAST:event_ChkTampilObatItemStateChanged
 
+    private void ChkIterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkIterItemStateChanged
+      if(ChkIter.isSelected()==true){
+             Iterasi.setVisible(true);
+         }else{
+              Iterasi.setVisible(false);
+         }
+    }//GEN-LAST:event_ChkIterItemStateChanged
+
+    private void ChkIterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkIterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChkIterActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1614,11 +1672,13 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private widget.Button BtnSimpan;
     private widget.Button BtnTambah;
     private widget.Button BtnTambah1;
+    private widget.CekBox ChkIter;
     private widget.CekBox ChkJln;
     private widget.CekBox ChkRM;
     private widget.CekBox ChkTampilObat;
     private widget.Tanggal DTPBeri;
     private widget.PanelBiasa FormInput;
+    private javax.swing.JComboBox<String> Iterasi;
     private widget.ComboBox Jeniskelas;
     private widget.TextBox KdDokter;
     private widget.TextBox KdPj;
@@ -2498,7 +2558,8 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             }else if(status.equals("ranap")){
                 bangsal=akses.getkdbangsal();
             } 
-        } 
+        }
+        Iterasi.setVisible(false);
     }
     
     public void setNoRm(String norwt,Date tanggal, String jam,String menit,String detik,String KodeDokter,String NamaDokter,String status) {        

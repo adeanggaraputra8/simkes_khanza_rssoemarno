@@ -4146,6 +4146,37 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
         TCari.requestFocus();
     } 
     
+    public void setNoRm1(String norwt,String norm,String pasien,Date tanggal,String Kodedpjp) {       
+        aktifpcare="no";
+        TNoRw.setText(norwt);
+        LblNoRawat.setText(norwt);
+        LblNoRM.setText(norm);
+        LblNamaPasien.setText(pasien);
+        DTPTgl.setDate(tanggal);
+        ChkJln.setSelected(true);
+        KdPj.setText(Sequel.cariIsi("select reg_periksa.kd_pj from reg_periksa where reg_periksa.no_rawat=?",norwt));
+        KdDokter.setText(Kodedpjp);
+        NmDokter.setText(Sequel.cariIsi("select nm_dokter from dokter where kd_dokter ='"+Kodedpjp+"' "));
+        kelas.setText(Sequel.cariIsi(
+                "select kamar.kelas from kamar inner join kamar_inap on kamar.kd_kamar=kamar_inap.kd_kamar "+
+                "where kamar_inap.no_rawat=? and kamar_inap.stts_pulang='-' order by STR_TO_DATE(concat(kamar_inap.tgl_masuk,' ',kamar_inap.jam_masuk),'%Y-%m-%d %H:%i:%s') desc limit 1",norwt));
+        if(kelas.getText().equals("Kelas 1")){
+            Jeniskelas.setSelectedItem("Kelas 1");
+        }else if(kelas.getText().equals("Kelas 2")){
+            Jeniskelas.setSelectedItem("Kelas 2");
+        }else if(kelas.getText().equals("Kelas 3")){
+            Jeniskelas.setSelectedItem("Kelas 3");
+        }else if(kelas.getText().equals("Kelas Utama")){
+            Jeniskelas.setSelectedItem("Utama/BPJS");
+        }else if(kelas.getText().equals("Kelas VIP")){
+            Jeniskelas.setSelectedItem("VIP");
+        }else if(kelas.getText().equals("Kelas VVIP")){
+            Jeniskelas.setSelectedItem("VVIP");
+        }        
+        kenaikan=Sequel.cariIsiAngka("select (set_harga_obat_ranap.hargajual/100) from set_harga_obat_ranap where set_harga_obat_ranap.kd_pj='"+KdPj.getText()+"' and set_harga_obat_ranap.kelas='"+kelas.getText()+"'");
+        TCari.requestFocus();
+    }
+    
     private void jam(){
         ActionListener taskPerformer = new ActionListener(){
             private int nilai_jam;

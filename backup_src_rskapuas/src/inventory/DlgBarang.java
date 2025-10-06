@@ -77,7 +77,7 @@ public class DlgBarang extends javax.swing.JDialog {
             "Kps", "Kandungan","Hrg.Dasar(Rp)","Hrg.Beli(Rp)", "Ralan(Rp)", "Ranap K1(Rp)", "Ranap K2(Rp)", "Ranap K3(Rp)",
             "Kelas Utama/BPJS(Rp)", "Ranap VIP(Rp)", "Ranap VVIP(Rp)", "Beli Luar(Rp)","Jual Bebas(Rp)", "Karyawan(Rp)", 
             "Stok Min", "Kode Jenis", "Nama Jenis","Kadaluwarsa","Kode I.F.","Industri Farmasi","Kode Kategori","Kategori",
-            "Kode Golongan","Golongan","Kode Sediaan","Sediaan","Kode Status","Status","Keterangan Obat","Lasa","Life Saving",
+            "Kode Golongan","Golongan","Kode Sediaan","Sediaan","Kode Status","Status","Keterangan Obat","Status Kronis","Life Saving",
             "High Alert","Paket Obat/BHP","Suhu (Derajat)","Pengadaan","Retriksi"
         }) {
             @Override
@@ -1566,7 +1566,7 @@ public class DlgBarang extends javax.swing.JDialog {
         karyawan.setBounds(630, 222, 110, 23);
 
         DTPExpired.setForeground(new java.awt.Color(50, 70, 50));
-        DTPExpired.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-09-2023" }));
+        DTPExpired.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-03-2024" }));
         DTPExpired.setDisplayFormat("dd-MM-yyyy");
         DTPExpired.setName("DTPExpired"); // NOI18N
         DTPExpired.setOpaque(false);
@@ -1878,7 +1878,7 @@ public class DlgBarang extends javax.swing.JDialog {
         BtnStatus.setBounds(1085, 40, 25, 23);
 
         lasal.setForeground(new java.awt.Color(50, 70, 50));
-        lasal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Lasa" }));
+        lasal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Kronis", "Non Kronis" }));
         lasal.setName("lasal"); // NOI18N
         lasal.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1903,7 +1903,7 @@ public class DlgBarang extends javax.swing.JDialog {
         FormInput.add(lasal);
         lasal.setBounds(850, 100, 90, 23);
 
-        label45.setText(" Lasa : ");
+        label45.setText(" Status Kronis : ");
         label45.setName("label45"); // NOI18N
         label45.setPreferredSize(new java.awt.Dimension(65, 23));
         FormInput.add(label45);

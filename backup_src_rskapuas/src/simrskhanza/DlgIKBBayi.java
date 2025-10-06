@@ -42,7 +42,7 @@ import javax.swing.table.TableColumn;
 import modifikasi.DlgCetakSHK;
 
 public class DlgIKBBayi extends javax.swing.JDialog {
-    private final DefaultTableModel tabMode,tabModeAPGAR;
+    private final DefaultTableModel tabMode,tabModeAPGAR,tabModeSHK;
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
     private Connection koneksi=koneksiDB.condb();
@@ -244,6 +244,37 @@ public class DlgIKBBayi extends javax.swing.JDialog {
         tabModeAPGAR.addRow(new Object[]{"Refleks","Tidak Ada Respon","Pergerakan Sedikit","Menangis","","",""});
         tabModeAPGAR.addRow(new Object[]{"Warna","Biru Pucat","Tubuh Kemerahan, Tangan & Kaki Biru","Kemerahan","","",""});
 
+        tabModeSHK=new DefaultTableModel(null,new Object[]{
+                "No.RM","Nama Pasien","Tgl.Surat","NIP Petugas","Nama Petugas","NIP Kordinator","Nama Kordinator'","No. SHK"
+            }){
+             @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
+        };
+        tbSHK.setModel(tabModeSHK);
+        tbAPGAR.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        
+         for (int i = 0; i < 8; i++) {
+            TableColumn column = tbSHK.getColumnModel().getColumn(i);
+            if(i==0){
+                column.setPreferredWidth(80);
+            }else if(i==1){
+                column.setPreferredWidth(130);
+            }else if(i==2){
+                column.setPreferredWidth(100);
+            }else if(i==3){
+                column.setPreferredWidth(40);
+            }else if(i==4){
+                column.setPreferredWidth(120);
+            }else if(i==5){
+                column.setPreferredWidth(40);
+            }else if(i==6){
+                column.setPreferredWidth(120);
+            }else if(i==7){
+                column.setPreferredWidth(140);
+            }
+        }
+        tbSHK.setDefaultRenderer(Object.class, new WarnaTable());
+        
+        
         NoRm.setDocument(new batasInput((byte)15).getKata(NoRm));
         NmBayi.setDocument(new batasInput((byte)40).getKata(NmBayi));
         AlamatIbu.setDocument(new batasInput((int)200).getKata(AlamatIbu));
@@ -542,6 +573,8 @@ public class DlgIKBBayi extends javax.swing.JDialog {
         N1 = new widget.TextBox2();
         scrollPane1 = new widget.ScrollPane();
         tbDokter = new widget.Table();
+        scrollPane5 = new widget.ScrollPane();
+        tbSHK = new widget.Table();
 
         Popup.setName("Popup"); // NOI18N
 
@@ -2474,6 +2507,38 @@ public class DlgIKBBayi extends javax.swing.JDialog {
 
         TabRawat.addTab("Data Kelahiran Bayi", scrollPane1);
 
+        scrollPane5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        scrollPane5.setName("scrollPane5"); // NOI18N
+        scrollPane5.setOpaque(true);
+
+        tbSHK.setAutoCreateRowSorter(true);
+        tbSHK.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tbSHK.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
+        tbSHK.setName("tbSHK"); // NOI18N
+        tbSHK.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbSHKMouseClicked(evt);
+            }
+        });
+        tbSHK.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbSHKKeyPressed(evt);
+            }
+        });
+        scrollPane5.setViewportView(tbSHK);
+
+        TabRawat.addTab("Data SHK", scrollPane5);
+
         internalFrame1.add(TabRawat, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(internalFrame1, java.awt.BorderLayout.CENTER);
@@ -2492,7 +2557,11 @@ public class DlgIKBBayi extends javax.swing.JDialog {
 }//GEN-LAST:event_TCariKeyPressed
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
-        tampil();
+        if(TabRawat.getSelectedIndex()==1){
+            tampil();
+        }else if (TabRawat.getSelectedIndex()==2){
+            tampilshk();
+        }
 }//GEN-LAST:event_BtnCariActionPerformed
 
     private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCariKeyPressed
@@ -2541,6 +2610,7 @@ public class DlgIKBBayi extends javax.swing.JDialog {
 
 
     private void BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrintActionPerformed
+     if(TabRawat.getSelectedIndex()==1){
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         tampil();
         if(tabMode.getRowCount()==0){
@@ -2591,8 +2661,20 @@ public class DlgIKBBayi extends javax.swing.JDialog {
                    "or "+jkelcari+tglcari+" pasien_bayi.penyulit_kehamilan like '%"+TCari.getText().trim()+"%' "+
                    "or "+jkelcari+tglcari+" pasien_bayi.ketuban like '%"+TCari.getText().trim()+"%'  order by pasien.no_rkm_medis desc";               
                 Valid.MyReportqry("rptPasienbayi.jasper","report","::[ Data Bayi ]::",sql,param);            
+        }  
+     }else if (TabRawat.getSelectedIndex()==2){
+            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            Map<String, Object> param = new HashMap<>();
+            param.put("kotars",akses.getkabupatenrs());
+            param.put("nomorshk",tbSHK.getValueAt(tbSHK.getSelectedRow(),7).toString());
+            param.put("norm",tbSHK.getValueAt(tbSHK.getSelectedRow(),0).toString());
+            param.put("waktu",tbSHK.getValueAt(tbSHK.getSelectedRow(),2).toString());
+            param.put("petugas",tbSHK.getValueAt(tbSHK.getSelectedRow(),4).toString());
+            param.put("kordinator",tbSHK.getValueAt(tbSHK.getSelectedRow(),6).toString());
+            Valid.MyReport("rptBuktiPelayananSHK.jasper","report","::[ Surat Pelayanan SHK ]::",param);
+            this.setCursor(Cursor.getDefaultCursor());
         }
-        this.setCursor(Cursor.getDefaultCursor());
+      this.setCursor(Cursor.getDefaultCursor());
 }//GEN-LAST:event_BtnPrintActionPerformed
 
     private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnPrintKeyPressed
@@ -2605,7 +2687,11 @@ public class DlgIKBBayi extends javax.swing.JDialog {
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
         TCari.setText("");
-        tampil();
+        if(TabRawat.getSelectedIndex()==1){
+            tampil();
+        }else if (TabRawat.getSelectedIndex()==2){
+            tampilshk();
+        }
 }//GEN-LAST:event_BtnAllActionPerformed
 
     private void BtnAllKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnAllKeyPressed
@@ -3119,9 +3205,15 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
 }//GEN-LAST:event_BtnEditKeyPressed
 
 private void BtnHapusActionPerformed1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHapusActionPerformed1
-   Valid.hapusTable(tabMode,NoRm,"pasien_bayi","no_rkm_medis");
-   Valid.hapusTable(tabMode,NoRm,"bridging_dukcapil","no_rkm_medis");
-   tampil();
+   
+   if(TabRawat.getSelectedIndex()==1){
+        Valid.hapusTable(tabMode,NoRm,"pasien_bayi","no_rkm_medis");
+        Valid.hapusTable(tabMode,NoRm,"bridging_dukcapil","no_rkm_medis");
+        tampil();
+    }else if (TabRawat.getSelectedIndex()==2){
+        Valid.hapusTable(tabModeSHK,NoRm,"data_shk","no_rkm_medis");
+        tampilshk();
+    }
 }//GEN-LAST:event_BtnHapusActionPerformed1
 
 private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnHapusKeyPressed
@@ -3756,7 +3848,7 @@ private void MnKartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     }//GEN-LAST:event_UmurSaksi2KeyPressed
 
     private void MnSKL1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSKL1ActionPerformed
-         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         tampil();
         if(tabMode.getRowCount()==0){
             JOptionPane.showMessageDialog(null,"Maaf, data sudah habis. Tidak ada data yang bisa anda print...!!!!");
@@ -3830,9 +3922,11 @@ private void MnKartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     }//GEN-LAST:event_MnSKL2ActionPerformed
 
     private void TabRawatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabRawatMouseClicked
-        if(TabRawat.getSelectedIndex()==1){
-            tampil();
-        }
+//        if(TabRawat.getSelectedIndex()==1){
+//            tampil();
+//        }else if (TabRawat.getSelectedIndex()==2){
+//            tampilshk();
+//        }
     }//GEN-LAST:event_TabRawatMouseClicked
 
     private void GKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_GKeyPressed
@@ -3879,7 +3973,7 @@ private void MnKartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             BtnBatal.requestFocus();
         }else if(tabMode.getRowCount()!=0){
                 shk.SetNoRM(tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString());
-                shk.setSize(647,152);
+                shk.setSize(647,210);
                 shk.setLocationRelativeTo(internalFrame1);
                 shk.setAlwaysOnTop(false);
                 shk.setVisible(true);
@@ -3890,6 +3984,19 @@ private void MnKartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
         bblr=" pasien_bayi.berat_badan < '2500' and";
         tampil();
     }//GEN-LAST:event_ppBBLRActionPerformed
+
+    private void tbSHKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSHKMouseClicked
+        if(tabModeSHK.getRowCount()!=0){
+            try {
+                getDataSHK();
+            } catch (java.lang.NullPointerException e) {
+            }
+        }
+    }//GEN-LAST:event_tbSHKMouseClicked
+
+    private void tbSHKKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbSHKKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbSHKKeyPressed
 
     /**
     * @param args the command line arguments
@@ -4104,8 +4211,10 @@ private void MnKartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     private widget.ScrollPane scrollPane2;
     private widget.ScrollPane scrollPane3;
     private widget.ScrollPane scrollPane4;
+    private widget.ScrollPane scrollPane5;
     private widget.Table tbAPGAR;
     private widget.Table tbDokter;
+    private widget.Table tbSHK;
     // End of variables declaration//GEN-END:variables
 
     public void tampil() {
@@ -4182,6 +4291,43 @@ private void MnKartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             System.out.println("Notifikasi : "+e);
         }
         int b=tabMode.getRowCount();
+        LCount.setText(""+b);
+    }
+    
+    public void tampilshk() {
+
+        tglcari=" ds.tgl_surat between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+" 00:00:00' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+" 23:59:59' and ";
+       
+        
+        Valid.tabelKosong(tabModeSHK);
+        try{
+            ps=koneksi.prepareStatement("SELECT ps.no_rkm_medis,ps.nm_pasien,ds.tgl_surat,ds.nip_petugas,p1.nama,ds.nip_kordinator,p2.nama,ds.no_shk FROM data_shk ds LEFT JOIN petugas p1 ON p1.nip=ds.nip_petugas " +
+                   "LEFT JOIN petugas p2 ON p2.nip=ds.nip_kordinator INNER JOIN pasien ps ON ps.no_rkm_medis=ds.no_rkm_medis "+
+                   "where "+tglcari+" ds.no_rkm_medis like '%"+TCari.getText().trim()+"%' "+
+                   "or "+tglcari+" ps.nm_pasien like '%"+TCari.getText().trim()+"%' "+
+                   "or "+tglcari+" ds.no_shk like '%"+TCari.getText().trim()+"%' order by ds.no_rkm_medis desc");
+            try {
+                rs=ps.executeQuery();
+                while(rs.next()){
+                    tabModeSHK.addRow(new Object[]{
+                        rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),
+                        rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8)
+                    });
+                }
+            } catch (Exception e) {
+                System.out.println("Notif : "+e);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        }catch(Exception e){
+            System.out.println("Notifikasi : "+e);
+        }
+        int b=tabModeSHK.getRowCount();
         LCount.setText(""+b);
     }
 
@@ -4306,6 +4452,11 @@ private void MnKartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
         }
     }
 
+    private void getDataSHK() {
+        if(tbSHK.getSelectedRow()!= -1){
+            NoRm.setText(tbSHK.getValueAt(tbSHK.getSelectedRow(),0).toString());
+        }
+    }
 
     public JTextField getTextField(){
         return NoRm;

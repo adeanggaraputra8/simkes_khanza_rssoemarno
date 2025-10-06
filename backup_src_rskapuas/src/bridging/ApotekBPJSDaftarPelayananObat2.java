@@ -86,7 +86,7 @@ public final class ApotekBPJSDaftarPelayananObat2 extends javax.swing.JDialog {
 
         tabMode=new DefaultTableModel(null,new String[]{
                 "No.SEP Apotek","No.SEP Asal","Iterasi","No.Resep","No.Kartu","Nama Peserta","Kode Jenis","Jenis Obat","Tgl.Pelayanan",
-                "Kode Obat","Nama Obat","Tipe Obat","Signa 1","Signa 2","Racikan"
+                "Kode Obat","Nama Obat","Tipe Obat","Signa 1","Signa 2","Racikan","Kode Poli","PoliKlinik","Kode Dokter","Nama Dokter"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -96,7 +96,7 @@ public final class ApotekBPJSDaftarPelayananObat2 extends javax.swing.JDialog {
         tbKamar.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbKamar.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 15; i++) {
+        for (i = 0; i < 19; i++) {
             TableColumn column = tbKamar.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(200);
@@ -128,6 +128,14 @@ public final class ApotekBPJSDaftarPelayananObat2 extends javax.swing.JDialog {
                 column.setPreferredWidth(70);
             }else if(i==14){
                 column.setPreferredWidth(70);
+            }else if(i==15){
+                column.setPreferredWidth(70);
+            }else if(i==16){
+                column.setPreferredWidth(120);
+            }else if(i==17){
+                column.setPreferredWidth(70);
+            }else if(i==18){
+                column.setPreferredWidth(120);
             }
         }
         tbKamar.setDefaultRenderer(Object.class, new WarnaTable());
@@ -579,7 +587,7 @@ public final class ApotekBPJSDaftarPelayananObat2 extends javax.swing.JDialog {
         try{
             ps=koneksi.prepareStatement(
                     "SELECT bridging_apotek_bpjs.no_apotek, bridging_apotek_bpjs.no_sep, bridging_apotek_bpjs.no_resep, bridging_sep.no_kartu,bridging_sep.nama_pasien, "+
-                    "bridging_apotek_bpjs.jenis_obat,bridging_apotek_bpjs.tgl_pelayanan, bridging_apotek_bpjs.tgl_resep,bridging_apotek_bpjs.keterangan  FROM bridging_apotek_bpjs JOIN bridging_sep ON "+
+                    "bridging_apotek_bpjs.jenis_obat,bridging_apotek_bpjs.tgl_pelayanan, bridging_apotek_bpjs.tgl_resep,bridging_apotek_bpjs.keterangan,bridging_sep.kdpolitujuan,bridging_sep.nmpolitujuan,bridging_sep.kddpjp,bridging_sep.nmdpdjp FROM bridging_apotek_bpjs JOIN bridging_sep ON "+
                     "bridging_apotek_bpjs.no_sep=bridging_sep.no_sep WHERE bridging_apotek_bpjs.tgl_pelayanan BETWEEN ? and ? "+(TCari.getText().trim().equals("")? "": "and bridging_apotek_bpjs.no_apotek like ? or bridging_sep.no_sep like ? or bridging_sep.nama_pasien like ? or bridging_sep.no_kartu like ? or bridging_apotek_bpjs.no_resep like ? "));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
@@ -595,7 +603,7 @@ public final class ApotekBPJSDaftarPelayananObat2 extends javax.swing.JDialog {
                 while(rs.next()){
                     tabMode.addRow(new String[]{
                         rs.getString("no_apotek"),rs.getString("no_sep"),rs.getString("keterangan"),rs.getString("no_resep"),rs.getString("no_kartu"),rs.getString("nama_pasien"),
-                        rs.getString("jenis_obat"),(rs.getString("jenis_obat").equals("1") ? "Obat PRB" : (rs.getString("jenis_obat").equals("2") ? "Obat Kronis Belum Stabil" : "Obat Kemoterapi")),rs.getString("tgl_pelayanan"),"","","","","","","","",""
+                        rs.getString("jenis_obat"),(rs.getString("jenis_obat").equals("1") ? "Obat PRB" : (rs.getString("jenis_obat").equals("2") ? "Obat Kronis Belum Stabil" : "Obat Kemoterapi")),rs.getString("tgl_pelayanan"),"","","","","","",rs.getString("kdpolitujuan"),rs.getString("nmpolitujuan"),rs.getString("kddpjp"),rs.getString("nmdpdjp")
                     });
                     
 //                    tampil obat
@@ -828,5 +836,56 @@ public final class ApotekBPJSDaftarPelayananObat2 extends javax.swing.JDialog {
     public void setNoRm(String nosep) {        
         TCari.setText(nosep);
         tampil();
+    }
+    
+    public void isCek(String nokartu) {        
+        TCari.setText(nokartu);
+        Valid.tabelKosong(tabMode);
+        try{
+            ps=koneksi.prepareStatement(
+                    "SELECT bridging_apotek_bpjs.no_apotek, bridging_apotek_bpjs.no_sep, bridging_apotek_bpjs.no_resep, bridging_sep.no_kartu,bridging_sep.nama_pasien, "+
+                    "bridging_apotek_bpjs.jenis_obat,bridging_apotek_bpjs.tgl_pelayanan, bridging_apotek_bpjs.tgl_resep,bridging_apotek_bpjs.keterangan,bridging_sep.kdpolitujuan,bridging_sep.nmpolitujuan,bridging_sep.kddpjp,bridging_sep.nmdpdjp FROM bridging_apotek_bpjs JOIN bridging_sep ON "+
+                    "bridging_apotek_bpjs.no_sep=bridging_sep.no_sep WHERE bridging_apotek_bpjs.tgl_pelayanan BETWEEN date_sub(?, INTERVAL 90 DAY) and ? "+(TCari.getText().trim().equals("")? "": "and bridging_apotek_bpjs.no_apotek like ? or bridging_sep.no_sep like ? or bridging_sep.nama_pasien like ? or bridging_sep.no_kartu like ? or bridging_apotek_bpjs.no_resep like ? order by bridging_apotek_bpjs.tgl_pelayanan DESC limit 5  "));
+            try {
+                ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
+                ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
+                if (!TCari.getText().trim().equals("")) {
+                    ps.setString(3,"%"+TCari.getText().trim()+"%");
+                    ps.setString(4,"%"+TCari.getText().trim()+"%");
+                    ps.setString(5,"%"+TCari.getText().trim()+"%");
+                    ps.setString(6,"%"+TCari.getText().trim()+"%");
+                    ps.setString(7,"%"+TCari.getText().trim()+"%");
+                }
+                rs=ps.executeQuery();
+                while(rs.next()){
+                    tabMode.addRow(new String[]{
+                        rs.getString("no_apotek"),rs.getString("no_sep"),rs.getString("keterangan"),rs.getString("no_resep"),rs.getString("no_kartu"),rs.getString("nama_pasien"),
+                        rs.getString("jenis_obat"),(rs.getString("jenis_obat").equals("1") ? "Obat PRB" : (rs.getString("jenis_obat").equals("2") ? "Obat Kronis Belum Stabil" : "Obat Kemoterapi")),rs.getString("tgl_pelayanan"),"","","","","","",rs.getString("kdpolitujuan"),rs.getString("nmpolitujuan"),rs.getString("kddpjp"),rs.getString("nmdpdjp")
+                    });
+                    
+//                    tampil obat
+                    ps2 = koneksi.prepareStatement("select bridging_apotek_bpjs_obat.kd_obat,bridging_apotek_bpjs_obat.nm_obat,bridging_apotek_bpjs_obat.jumlah,bridging_apotek_bpjs_obat.signa1,bridging_apotek_bpjs_obat.signa2,bridging_apotek_bpjs_obat.racikan "+
+                            "from bridging_apotek_bpjs_obat where bridging_apotek_bpjs_obat.no_sjp='"+rs.getString("no_apotek")+"'");
+                    rs2 = ps2.executeQuery();
+                    while(rs2.next()){
+                        tabMode.addRow(new Object[]{
+                        rs.getString("no_apotek"),rs.getString("no_sep"),rs.getString("keterangan"),rs.getString("no_resep"),"","","","","",rs2.getString("kd_obat"),rs2.getString("nm_obat"),rs2.getString("jumlah"),rs2.getString("signa1"),rs2.getString("signa2"),(rs2.getString("racikan").equals("1") ? "ya" : "tidak")
+                        });
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Notif : "+e);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        }catch(Exception e){
+            System.out.println("Notifikasi : "+e);
+        }
+        LCount.setText(""+tabMode.getRowCount());
     }
 }
