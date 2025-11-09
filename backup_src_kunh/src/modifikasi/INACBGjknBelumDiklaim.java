@@ -1,4 +1,5 @@
 package modifikasi;
+import bridging.ApiEKLAIM_inacbg;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -31,6 +32,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
     private ResultSet rs;
     private String norawat = "", noSEPnya = "";
     private Date tgl = new Date();
+     private ApiEKLAIM_inacbg mbak_eka = new ApiEKLAIM_inacbg();
 
     /**
      * Creates new form DlgSpesialis
@@ -120,6 +122,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
 
         Popup1 = new javax.swing.JPopupMenu();
         MnPengajuanKlaim = new javax.swing.JMenuItem();
+        ppAmbilDataPsDx = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbData = new widget.Table();
@@ -157,6 +160,22 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
         });
         Popup1.add(MnPengajuanKlaim);
 
+        ppAmbilDataPsDx.setBackground(new java.awt.Color(242, 242, 242));
+        ppAmbilDataPsDx.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppAmbilDataPsDx.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppAmbilDataPsDx.setText("Ambil Diagnosa dan Prosedur Klaim");
+        ppAmbilDataPsDx.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppAmbilDataPsDx.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppAmbilDataPsDx.setIconTextGap(8);
+        ppAmbilDataPsDx.setName("ppAmbilDataPsDx"); // NOI18N
+        ppAmbilDataPsDx.setPreferredSize(new java.awt.Dimension(240, 25));
+        ppAmbilDataPsDx.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppAmbilDataPsDxBtnPrintActionPerformed(evt);
+            }
+        });
+        Popup1.add(ppAmbilDataPsDx);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
@@ -166,7 +185,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Daftar Pasien JKN Yang Belum Selesai Proses Klaim INACBG ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12), new java.awt.Color(0, 0, 0))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Daftar Pasien JKN Yang Belum Selesai Proses Klaim INACBG ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -291,8 +310,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
         jLabel8.setPreferredSize(new java.awt.Dimension(110, 23));
         panelGlass10.add(jLabel8);
 
-        tgl1.setEditable(false);
-        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-11-2022" }));
+        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
         tgl1.setDisplayFormat("dd-MM-yyyy");
         tgl1.setName("tgl1"); // NOI18N
         tgl1.setOpaque(false);
@@ -306,8 +324,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
         jLabel21.setPreferredSize(new java.awt.Dimension(23, 23));
         panelGlass10.add(jLabel21);
 
-        tgl2.setEditable(false);
-        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-11-2022" }));
+        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
         tgl2.setDisplayFormat("dd-MM-yyyy");
         tgl2.setName("tgl2"); // NOI18N
         tgl2.setOpaque(false);
@@ -401,6 +418,13 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
             diklaim.verifData();
             diklaim.KlaimRAZA(norawat, noSEPnya, "JKN", "3");
             diklaim.setVisible(true);
+            
+//            if(tbData.getValueAt(tbData.getSelectedRow(),7).toString().equals("Ralan")){
+//                 Sequel.mengedit("vedika_ralan","no_rawat=? and no_sep=?","status='Verif',tgl=now(),kd_petugas='"+akses.getkode()+"' ",2,new String[]{norawat,noSEPnya});
+//            }else if (tbData.getValueAt(tbData.getSelectedRow(),7).toString().equals("Ranap")){
+//                 Sequel.mengedit("vedika_ranap","no_rawat=? and no_sep=?","status='Verif',tgl=now(),kd_petugas='"+akses.getkode()+"' ",2,new String[]{norawat,noSEPnya});
+//            }
+            
         }
     }//GEN-LAST:event_MnPengajuanKlaimBtnPrintActionPerformed
 
@@ -423,6 +447,24 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
             }
         }
     }//GEN-LAST:event_tbDataKeyPressed
+
+    private void ppAmbilDataPsDxBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppAmbilDataPsDxBtnPrintActionPerformed
+       if (tabMode.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Maaf, tabel masih kosong...!!!!");
+            TCari.requestFocus();
+        } else if (norawat.equals("")) {
+            JOptionPane.showMessageDialog(null, "Centang dulu data pada tabel...!!!!");
+            tbData.requestFocus();
+        }  else {
+            if (cmbJnsRawat.getSelectedIndex() == 0) {
+                mbak_eka.ambilDataDiagnosaDanProsedur(tbData.getValueAt(tbData.getSelectedRow(),0).toString(),tbData.getValueAt(tbData.getSelectedRow(),1).toString(),tbData.getValueAt(tbData.getSelectedRow(),2).toString());          
+            } else if (cmbJnsRawat.getSelectedIndex() == 1){
+                mbak_eka.ambilDataDiagnosaDanProsedur(tbData.getValueAt(tbData.getSelectedRow(),0).toString(),tbData.getValueAt(tbData.getSelectedRow(),1).toString(),tbData.getValueAt(tbData.getSelectedRow(),2).toString());
+            } else if (cmbJnsRawat.getSelectedIndex() == 2){
+                mbak_eka.ambilDataDiagnosaDanProsedur(tbData.getValueAt(tbData.getSelectedRow(),0).toString(),tbData.getValueAt(tbData.getSelectedRow(),1).toString(),tbData.getValueAt(tbData.getSelectedRow(),2).toString());
+            }
+        }
+    }//GEN-LAST:event_ppAmbilDataPsDxBtnPrintActionPerformed
 
     /**
      * @param args the command line arguments
@@ -459,6 +501,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
     private widget.Label jLabel8;
     private widget.panelisi panelGlass10;
     private widget.panelisi panelGlass9;
+    private javax.swing.JMenuItem ppAmbilDataPsDx;
     private widget.Table tbData;
     private widget.Tanggal tgl1;
     private widget.Tanggal tgl2;

@@ -485,6 +485,7 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                   "</table>"+
                 "</html>"
             );
+            htmlContent=null;
 
             File g = new File("file2.css");            
             BufferedWriter bg = new BufferedWriter(new FileWriter(g));
@@ -818,13 +819,12 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,catatan_adime_gizi.tanggal,"+
                    "ifnull(satu_sehat_diet.id_diet,'') as satu_sehat_diet "+
                    "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
-                   "inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat "+
                    "inner join catatan_adime_gizi on catatan_adime_gizi.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on catatan_adime_gizi.nip=pegawai.nik "+
                    "left join satu_sehat_diet on satu_sehat_diet.no_rawat=catatan_adime_gizi.no_rawat "+
                    "and satu_sehat_diet.tanggal=catatan_adime_gizi.tanggal "+
-                   "where catatan_adime_gizi.instruksi<>'' and nota_jalan.tanggal between ? and ? "+
+                   "where catatan_adime_gizi.instruksi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ?) "));
             try {
@@ -863,13 +863,12 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,catatan_adime_gizi.tanggal,"+
                    "ifnull(satu_sehat_diet.id_diet,'') as satu_sehat_diet "+
                    "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
-                   "inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat "+
                    "inner join catatan_adime_gizi on catatan_adime_gizi.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on catatan_adime_gizi.nip=pegawai.nik "+
                    "left join satu_sehat_diet on satu_sehat_diet.no_rawat=catatan_adime_gizi.no_rawat "+
                    "and satu_sehat_diet.tanggal=catatan_adime_gizi.tanggal "+
-                   "where catatan_adime_gizi.instruksi<>'' and nota_inap.tanggal between ? and ? "+
+                   "where catatan_adime_gizi.instruksi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ?) "));
             try {
@@ -909,6 +908,7 @@ public final class SatuSehatKirimDiet extends javax.swing.JDialog {
 
     public void isCek(){
         BtnKirim.setEnabled(akses.getsatu_sehat_kirim_diet());
+        BtnUpdate.setEnabled(akses.getsatu_sehat_kirim_diet());
         BtnPrint.setEnabled(akses.getsatu_sehat_kirim_diet());
     }
     

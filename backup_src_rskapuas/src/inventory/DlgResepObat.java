@@ -2674,7 +2674,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             dlgobtApotekBPJS.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dlgobtApotekBPJS.setLocationRelativeTo(internalFrame1);
             dlgobtApotekBPJS.setVisible(true);
-
+            dlgobtApotekBPJS.OpenNotif();
             this.setCursor(Cursor.getDefaultCursor());
         }
     }//GEN-LAST:event_BridgingApotekBPJSActionPerformed

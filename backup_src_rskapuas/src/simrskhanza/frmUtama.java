@@ -7281,7 +7281,7 @@ public class frmUtama extends javax.swing.JFrame {
 
         btnBridgingEklaim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/barralan.png"))); // NOI18N
         btnBridgingEklaim.setMnemonic('B');
-        btnBridgingEklaim.setText("Eclaim");
+        btnBridgingEklaim.setText("RS-Klaim-JKN");
         btnBridgingEklaim.setToolTipText("Alt+B");
         btnBridgingEklaim.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btnBridgingEklaim.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -7289,7 +7289,7 @@ public class frmUtama extends javax.swing.JFrame {
         btnBridgingEklaim.setIconTextGap(2);
         btnBridgingEklaim.setMargin(new java.awt.Insets(0, 0, 0, 0));
         btnBridgingEklaim.setName("btnBridgingEklaim"); // NOI18N
-        btnBridgingEklaim.setPreferredSize(new java.awt.Dimension(74, 38));
+        btnBridgingEklaim.setPreferredSize(new java.awt.Dimension(120, 38));
         btnBridgingEklaim.setVerticalTextPosition(javax.swing.SwingConstants.CENTER);
         btnBridgingEklaim.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

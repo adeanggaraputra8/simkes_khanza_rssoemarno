@@ -2617,9 +2617,7 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
     }//GEN-LAST:event_MnLihatHasilActionPerformed
 
     private void SimpanGambarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimpanGambarActionPerformed
-        // TODO add your handling code here:
-        //modif yahya
-        // TODO add your handling code here:
+      //modif yahya
         if (tabModeDicom.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Maaf, data sudah habis...!!!!");
             TCari.requestFocus();

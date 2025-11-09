@@ -602,7 +602,7 @@ public final class SatuSehatMapingLaborat extends javax.swing.JDialog {
             if(Sequel.menyimpantf("satu_sehat_mapping_lab","?,?,?,?,?,?,?","Mapping Tindakan Radiologi",7,new String[]{
                 KodePemeriksaan.getText(),Code.getText(),RadiologiSystem.getText(),Display.getText(),SampelCode.getText(),SampelRadiologiSystem.getText(),SampelDisplay.getText()
             })==true){
-                tabMode.addRow(new String[]{
+                tabMode.addRow(new Object[]{
                     Code.getText(),RadiologiSystem.getText(),KodePemeriksaan.getText(),NamaPemeriksaan.getText(),Display.getText(),SampelCode.getText(),SampelRadiologiSystem.getText(),SampelDisplay.getText()
                 });
                 emptTeks();
@@ -929,10 +929,10 @@ public final class SatuSehatMapingLaborat extends javax.swing.JDialog {
     }
     
     public void isCek(){
-//        BtnSimpan.setEnabled(akses.getsatu_sehat_mapping_lab());
-//        BtnHapus.setEnabled(akses.getsatu_sehat_mapping_lab());
-//        BtnEdit.setEnabled(akses.getsatu_sehat_mapping_lab());
-//        BtnPrint.setEnabled(akses.getsatu_sehat_mapping_lab());
+        BtnSimpan.setEnabled(akses.getsatu_sehat_mapping_lab());
+        BtnHapus.setEnabled(akses.getsatu_sehat_mapping_lab());
+        BtnEdit.setEnabled(akses.getsatu_sehat_mapping_lab());
+        BtnPrint.setEnabled(akses.getsatu_sehat_mapping_lab());
     }
     
     public JTable getTable(){

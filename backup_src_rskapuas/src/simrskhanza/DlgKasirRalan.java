@@ -1,4 +1,5 @@
 package simrskhanza;
+import bridging.ApiEKLAIM_inacbg;
 import bridging.BPJSCekDataIndukKecelakaan;
 import bridging.BPJSCekSuplesiJasaRaharja;
 import rekammedis.RMRiwayatPerawatan;
@@ -196,6 +197,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
     private int i=0,pilihan=0,sudah=0,jmlparsial=0,row=0;
     public DlgKamarInap kamarinap=new DlgKamarInap(null,false);
     private DlgRawatJalan dlgrwjl2=new DlgRawatJalan(null,false);
+    private ApiEKLAIM_inacbg mbak_eka = new ApiEKLAIM_inacbg();
     private boolean semua;
     private boolean sukses=false;
     private Jurnal jur=new Jurnal();
@@ -10576,6 +10578,7 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
        if(tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),18).toString().equals("MAT")){
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             nosep=Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE no_rawat='"+TNoRwCari.getText()+"' ");
+            mbak_eka.ambilDataDiagnosaDanProsedur(nosep,TNoRwCari.getText(),TNoRMCari.getText());
             Map<String, Object> param = new HashMap<>(); 
                 param.put("namars",akses.getnamars());
                 param.put("alamatrs",akses.getalamatrs());
@@ -10607,6 +10610,7 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
        }else if (tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),18).toString().equals("IGDK")||tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),18).toString().equals("PPN")) {
                   this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             nosep=Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE no_rawat='"+TNoRwCari.getText()+"' ");
+            mbak_eka.ambilDataDiagnosaDanProsedur(nosep,TNoRwCari.getText(),TNoRMCari.getText());
             Map<String, Object> param = new HashMap<>(); 
                 param.put("namars",akses.getnamars());
                 param.put("alamatrs",akses.getalamatrs());
@@ -10654,6 +10658,7 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
        else{
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             nosep=Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE no_rawat='"+TNoRwCari.getText()+"' ");
+            mbak_eka.ambilDataDiagnosaDanProsedur(nosep,TNoRwCari.getText(),TNoRMCari.getText());
             Map<String, Object> param = new HashMap<>(); 
                 param.put("namars",akses.getnamars());
                 param.put("alamatrs",akses.getalamatrs());

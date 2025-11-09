@@ -167,20 +167,6 @@ public final class SatuSehatMapingRadiologi extends javax.swing.JDialog {
     private void initComponents() {
 
         NamaPemeriksaan = new widget.TextBox();
-        jPopupMenu1 = new javax.swing.JPopupMenu();
-        MnSatusehatMapingLaborat = new javax.swing.JMenuItem();
-        MnSatuSehatKirimSpecimenRadiologi = new javax.swing.JMenuItem();
-        MnSatuSehatKirimObservationRadiologi = new javax.swing.JMenuItem();
-        MnSatuSehatKirimDiagnosticRadiologi = new javax.swing.JMenuItem();
-        MnSatuSehatKirimServiceRequestRadiologi = new javax.swing.JMenuItem();
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat = new javax.swing.JMenuItem();
-        MnSatuSehatKirimSpecimenLabPK = new javax.swing.JMenuItem();
-        MnSatuSehatKirimObservationLabPK = new javax.swing.JMenuItem();
-        MnSatuSehatKirimDiagnosticLabPK = new javax.swing.JMenuItem();
-        MnSatuSehatKirimDiagnosticLabMB = new javax.swing.JMenuItem();
-        MnSatuSehatKirimObservationLabMB = new javax.swing.JMenuItem();
-        MnSatuSehatKirimSpecimenLabMB = new javax.swing.JMenuItem();
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbJnsPerawatan = new widget.Table();
@@ -221,228 +207,6 @@ public final class SatuSehatMapingRadiologi extends javax.swing.JDialog {
         NamaPemeriksaan.setHighlighter(null);
         NamaPemeriksaan.setName("NamaPemeriksaan"); // NOI18N
 
-        jPopupMenu1.setName("jPopupMenu1"); // NOI18N
-
-        MnSatusehatMapingLaborat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatusehatMapingLaborat.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatusehatMapingLaborat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatusehatMapingLaborat.setText("Maping Tindakan Lab PK & MB Sattu Sehat");
-        MnSatusehatMapingLaborat.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatusehatMapingLaborat.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatusehatMapingLaborat.setIconTextGap(5);
-        MnSatusehatMapingLaborat.setName("MnSatusehatMapingLaborat"); // NOI18N
-        MnSatusehatMapingLaborat.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatusehatMapingLaborat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatusehatMapingLaboratActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatusehatMapingLaborat);
-
-        MnSatuSehatKirimSpecimenRadiologi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimSpecimenRadiologi.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimSpecimenRadiologi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimSpecimenRadiologi.setText("Kirim Specimen Radiologi Satu Sehat");
-        MnSatuSehatKirimSpecimenRadiologi.setToolTipText("");
-        MnSatuSehatKirimSpecimenRadiologi.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimSpecimenRadiologi.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimSpecimenRadiologi.setIconTextGap(5);
-        MnSatuSehatKirimSpecimenRadiologi.setName("MnSatuSehatKirimSpecimenRadiologi"); // NOI18N
-        MnSatuSehatKirimSpecimenRadiologi.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimSpecimenRadiologi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimSpecimenRadiologiActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimSpecimenRadiologi);
-
-        MnSatuSehatKirimObservationRadiologi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimObservationRadiologi.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimObservationRadiologi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimObservationRadiologi.setText("Kirim Observasi Radiologi Satu Sehat");
-        MnSatuSehatKirimObservationRadiologi.setToolTipText("");
-        MnSatuSehatKirimObservationRadiologi.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimObservationRadiologi.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimObservationRadiologi.setIconTextGap(5);
-        MnSatuSehatKirimObservationRadiologi.setName("MnSatuSehatKirimObservationRadiologi"); // NOI18N
-        MnSatuSehatKirimObservationRadiologi.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimObservationRadiologi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimObservationRadiologiActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimObservationRadiologi);
-
-        MnSatuSehatKirimDiagnosticRadiologi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimDiagnosticRadiologi.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimDiagnosticRadiologi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimDiagnosticRadiologi.setText("Kirim Diagnostic Report Radiologi Satu Sehat");
-        MnSatuSehatKirimDiagnosticRadiologi.setToolTipText("");
-        MnSatuSehatKirimDiagnosticRadiologi.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimDiagnosticRadiologi.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimDiagnosticRadiologi.setIconTextGap(5);
-        MnSatuSehatKirimDiagnosticRadiologi.setName("MnSatuSehatKirimDiagnosticRadiologi"); // NOI18N
-        MnSatuSehatKirimDiagnosticRadiologi.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimDiagnosticRadiologi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimDiagnosticRadiologiActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimDiagnosticRadiologi);
-
-        MnSatuSehatKirimServiceRequestRadiologi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimServiceRequestRadiologi.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimServiceRequestRadiologi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimServiceRequestRadiologi.setText("Kirim Service Request Radiologi Satu Sehat");
-        MnSatuSehatKirimServiceRequestRadiologi.setToolTipText("");
-        MnSatuSehatKirimServiceRequestRadiologi.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimServiceRequestRadiologi.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimServiceRequestRadiologi.setIconTextGap(5);
-        MnSatuSehatKirimServiceRequestRadiologi.setName("MnSatuSehatKirimServiceRequestRadiologi"); // NOI18N
-        MnSatuSehatKirimServiceRequestRadiologi.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimServiceRequestRadiologi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimServiceRequestRadiologiActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimServiceRequestRadiologi);
-
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setText("Kirim Service Resquest Lab PK Satu Sehat");
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setToolTipText("");
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setIconTextGap(5);
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setName("MnSatuSehatKirimServiceRequestLabPKSatuSehat"); // NOI18N
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimServiceRequestLabPKSatuSehat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimServiceRequestLabPKSatuSehatActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimServiceRequestLabPKSatuSehat);
-
-        MnSatuSehatKirimSpecimenLabPK.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimSpecimenLabPK.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimSpecimenLabPK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimSpecimenLabPK.setText("Kirim Specimen Lab PK Satu Sehat");
-        MnSatuSehatKirimSpecimenLabPK.setToolTipText("");
-        MnSatuSehatKirimSpecimenLabPK.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimSpecimenLabPK.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimSpecimenLabPK.setIconTextGap(5);
-        MnSatuSehatKirimSpecimenLabPK.setName("MnSatuSehatKirimSpecimenLabPK"); // NOI18N
-        MnSatuSehatKirimSpecimenLabPK.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimSpecimenLabPK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimSpecimenLabPKActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimSpecimenLabPK);
-
-        MnSatuSehatKirimObservationLabPK.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimObservationLabPK.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimObservationLabPK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimObservationLabPK.setText("Kirim Observation Lab PK Satu Sehat");
-        MnSatuSehatKirimObservationLabPK.setToolTipText("");
-        MnSatuSehatKirimObservationLabPK.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimObservationLabPK.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimObservationLabPK.setIconTextGap(5);
-        MnSatuSehatKirimObservationLabPK.setName("MnSatuSehatKirimObservationLabPK"); // NOI18N
-        MnSatuSehatKirimObservationLabPK.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimObservationLabPK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimObservationLabPKActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimObservationLabPK);
-
-        MnSatuSehatKirimDiagnosticLabPK.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimDiagnosticLabPK.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimDiagnosticLabPK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimDiagnosticLabPK.setText("Kirim Diagnostic Lab PK Satu Sehat");
-        MnSatuSehatKirimDiagnosticLabPK.setToolTipText("");
-        MnSatuSehatKirimDiagnosticLabPK.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimDiagnosticLabPK.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimDiagnosticLabPK.setIconTextGap(5);
-        MnSatuSehatKirimDiagnosticLabPK.setName("MnSatuSehatKirimDiagnosticLabPK"); // NOI18N
-        MnSatuSehatKirimDiagnosticLabPK.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimDiagnosticLabPK.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimDiagnosticLabPKActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimDiagnosticLabPK);
-
-        MnSatuSehatKirimDiagnosticLabMB.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimDiagnosticLabMB.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimDiagnosticLabMB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimDiagnosticLabMB.setText("Kirim Diagnostic Lab MB Satu Sehat");
-        MnSatuSehatKirimDiagnosticLabMB.setToolTipText("");
-        MnSatuSehatKirimDiagnosticLabMB.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimDiagnosticLabMB.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimDiagnosticLabMB.setIconTextGap(5);
-        MnSatuSehatKirimDiagnosticLabMB.setName("MnSatuSehatKirimDiagnosticLabMB"); // NOI18N
-        MnSatuSehatKirimDiagnosticLabMB.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimDiagnosticLabMB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimDiagnosticLabMBActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimDiagnosticLabMB);
-
-        MnSatuSehatKirimObservationLabMB.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimObservationLabMB.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimObservationLabMB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimObservationLabMB.setText("Kirim Observation Lab MB Satu Sehat");
-        MnSatuSehatKirimObservationLabMB.setToolTipText("");
-        MnSatuSehatKirimObservationLabMB.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimObservationLabMB.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimObservationLabMB.setIconTextGap(5);
-        MnSatuSehatKirimObservationLabMB.setName("MnSatuSehatKirimObservationLabMB"); // NOI18N
-        MnSatuSehatKirimObservationLabMB.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimObservationLabMB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimObservationLabMBActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimObservationLabMB);
-
-        MnSatuSehatKirimSpecimenLabMB.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimSpecimenLabMB.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimSpecimenLabMB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimSpecimenLabMB.setText("Kirim Specimen Lab MB Satu Sehat");
-        MnSatuSehatKirimSpecimenLabMB.setToolTipText("");
-        MnSatuSehatKirimSpecimenLabMB.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimSpecimenLabMB.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimSpecimenLabMB.setIconTextGap(5);
-        MnSatuSehatKirimSpecimenLabMB.setName("MnSatuSehatKirimSpecimenLabMB"); // NOI18N
-        MnSatuSehatKirimSpecimenLabMB.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimSpecimenLabMB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimSpecimenLabMBActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimSpecimenLabMB);
-
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setForeground(new java.awt.Color(70, 70, 70));
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setText("Kirim Service Resquest Lab MB Satu Sehat");
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setToolTipText("");
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setIconTextGap(5);
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setName("MnSatuSehatKirimServiceRequestLabMBSatuSehat"); // NOI18N
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.setPreferredSize(new java.awt.Dimension(250, 25));
-        MnSatuSehatKirimServiceRequestLabMBSatuSehat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MnSatuSehatKirimServiceRequestLabMBSatuSehatActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(MnSatuSehatKirimServiceRequestLabMBSatuSehat);
-
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
@@ -451,12 +215,10 @@ public final class SatuSehatMapingRadiologi extends javax.swing.JDialog {
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
-        Scroll.setComponentPopupMenu(jPopupMenu1);
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
 
         tbJnsPerawatan.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
-        tbJnsPerawatan.setComponentPopupMenu(jPopupMenu1);
         tbJnsPerawatan.setName("tbJnsPerawatan"); // NOI18N
         tbJnsPerawatan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -841,7 +603,7 @@ public final class SatuSehatMapingRadiologi extends javax.swing.JDialog {
             if(Sequel.menyimpantf("satu_sehat_mapping_radiologi","?,?,?,?,?,?,?","Mapping Tindakan Radiologi",7,new String[]{
                 KodePemeriksaan.getText(),Code.getText(),RadiologiSystem.getText(),Display.getText(),SampelCode.getText(),SampelRadiologiSystem.getText(),SampelDisplay.getText()
             })==true){
-                tabMode.addRow(new String[]{
+                tabMode.addRow(new Object[]{
                     Code.getText(),RadiologiSystem.getText(),KodePemeriksaan.getText(),NamaPemeriksaan.getText(),Display.getText(),SampelCode.getText(),SampelRadiologiSystem.getText(),SampelDisplay.getText()
                 });
                 emptTeks();
@@ -1046,124 +808,6 @@ public final class SatuSehatMapingRadiologi extends javax.swing.JDialog {
         Valid.pindah(evt, SampelCode, SampelDisplay);
     }//GEN-LAST:event_SampelRadiologiSystemKeyPressed
 
-    private void MnSatusehatMapingLaboratActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatusehatMapingLaboratActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatMapingLaborat aplikasi=new SatuSehatMapingLaborat(null,false);
-        aplikasi.emptTeks();
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatusehatMapingLaboratActionPerformed
-
-    private void MnSatuSehatKirimSpecimenRadiologiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimSpecimenRadiologiActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimSpecimenRadiologi aplikasi=new SatuSehatKirimSpecimenRadiologi(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimSpecimenRadiologiActionPerformed
-
-    private void MnSatuSehatKirimObservationRadiologiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimObservationRadiologiActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimObservationRadiologi aplikasi=new SatuSehatKirimObservationRadiologi(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimObservationRadiologiActionPerformed
-
-    private void MnSatuSehatKirimDiagnosticRadiologiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimDiagnosticRadiologiActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimDiagnosticReportRadiologi aplikasi=new SatuSehatKirimDiagnosticReportRadiologi(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimDiagnosticRadiologiActionPerformed
-
-    private void MnSatuSehatKirimServiceRequestRadiologiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimServiceRequestRadiologiActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimServiceRequestRadiologi aplikasi=new SatuSehatKirimServiceRequestRadiologi(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimServiceRequestRadiologiActionPerformed
-
-    private void MnSatuSehatKirimServiceRequestLabPKSatuSehatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimServiceRequestLabPKSatuSehatActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimServiceRequestLabPK aplikasi=new SatuSehatKirimServiceRequestLabPK(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimServiceRequestLabPKSatuSehatActionPerformed
-
-    private void MnSatuSehatKirimSpecimenLabPKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimSpecimenLabPKActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimSpecimenLabPK aplikasi=new SatuSehatKirimSpecimenLabPK(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimSpecimenLabPKActionPerformed
-
-    private void MnSatuSehatKirimObservationLabPKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimObservationLabPKActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimObservationLabPK aplikasi=new SatuSehatKirimObservationLabPK(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimObservationLabPKActionPerformed
-
-    private void MnSatuSehatKirimDiagnosticLabPKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimDiagnosticLabPKActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimDiagnosticReportLabPK aplikasi=new SatuSehatKirimDiagnosticReportLabPK(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimDiagnosticLabPKActionPerformed
-
-    private void MnSatuSehatKirimDiagnosticLabMBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimDiagnosticLabMBActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimDiagnosticReportLabMB aplikasi=new SatuSehatKirimDiagnosticReportLabMB(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimDiagnosticLabMBActionPerformed
-
-    private void MnSatuSehatKirimObservationLabMBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimObservationLabMBActionPerformed
-         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimObservationLabMB aplikasi=new SatuSehatKirimObservationLabMB(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimObservationLabMBActionPerformed
-
-    private void MnSatuSehatKirimSpecimenLabMBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimSpecimenLabMBActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimSpecimenLabMB aplikasi=new SatuSehatKirimSpecimenLabMB(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimSpecimenLabMBActionPerformed
-
-    private void MnSatuSehatKirimServiceRequestLabMBSatuSehatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuSehatKirimServiceRequestLabMBSatuSehatActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        SatuSehatKirimServiceRequestLabMB aplikasi=new SatuSehatKirimServiceRequestLabMB(null,false);
-        aplikasi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        aplikasi.setLocationRelativeTo(internalFrame1);
-        aplikasi.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
-    }//GEN-LAST:event_MnSatuSehatKirimServiceRequestLabMBSatuSehatActionPerformed
-
     /**
     * @param args the command line arguments
     */
@@ -1195,19 +839,6 @@ public final class SatuSehatMapingRadiologi extends javax.swing.JDialog {
     private widget.PanelBiasa FormInput;
     private widget.TextBox KodePemeriksaan;
     private widget.Label LCount;
-    private javax.swing.JMenuItem MnSatuSehatKirimDiagnosticLabMB;
-    private javax.swing.JMenuItem MnSatuSehatKirimDiagnosticLabPK;
-    private javax.swing.JMenuItem MnSatuSehatKirimDiagnosticRadiologi;
-    private javax.swing.JMenuItem MnSatuSehatKirimObservationLabMB;
-    private javax.swing.JMenuItem MnSatuSehatKirimObservationLabPK;
-    private javax.swing.JMenuItem MnSatuSehatKirimObservationRadiologi;
-    private javax.swing.JMenuItem MnSatuSehatKirimServiceRequestLabMBSatuSehat;
-    private javax.swing.JMenuItem MnSatuSehatKirimServiceRequestLabPKSatuSehat;
-    private javax.swing.JMenuItem MnSatuSehatKirimServiceRequestRadiologi;
-    private javax.swing.JMenuItem MnSatuSehatKirimSpecimenLabMB;
-    private javax.swing.JMenuItem MnSatuSehatKirimSpecimenLabPK;
-    private javax.swing.JMenuItem MnSatuSehatKirimSpecimenRadiologi;
-    private javax.swing.JMenuItem MnSatusehatMapingLaborat;
     private widget.TextBox NamaPemeriksaan;
     private javax.swing.JPanel PanelInput;
     private widget.TextBox RadiologiSystem;
@@ -1227,7 +858,6 @@ public final class SatuSehatMapingRadiologi extends javax.swing.JDialog {
     private widget.Label jLabel7;
     private widget.Label jLabel9;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPopupMenu jPopupMenu1;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private widget.Table tbJnsPerawatan;

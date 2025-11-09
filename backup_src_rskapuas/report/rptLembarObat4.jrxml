@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.5.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="792" pageHeight="1224" columnWidth="781" leftMargin="4" rightMargin="7" topMargin="7" bottomMargin="7" uuid="9d0aa6e3-2fa3-4a4a-a9ef-9d7f82c03192">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SImrs_new"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sik_rsudsoemarno"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="penanggung" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -505,7 +505,7 @@
 					<font fontName="Tahoma" size="10"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Poli]]></text>
+				<text><![CDATA[Poli / Bangsal]]></text>
 			</staticText>
 			<line>
 				<reportElement x="114" y="220" width="395" height="1" uuid="0d55ca09-9e7a-4444-8991-9eb54ef4387e"/>
@@ -656,7 +656,7 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<summary>
-		<band height="114" splitType="Stretch">
+		<band height="233" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
 				<reportElement mode="Transparent" x="300" y="30" width="180" height="18" uuid="623a221f-9de7-49c8-a9a8-a79ee6dc7c71"/>
 				<textElement textAlignment="Center">
@@ -679,6 +679,84 @@
 			<line>
 				<reportElement x="110" y="10" width="399" height="1" uuid="339532bd-55cc-43d6-b621-feb51df80872"/>
 			</line>
+			<line>
+				<reportElement x="119" y="30" width="158" height="1" uuid="ac75e281-0fb7-4094-9c19-5fafff92e96d"/>
+			</line>
+			<line>
+				<reportElement x="119" y="53" width="158" height="1" uuid="ff139612-1daf-4c86-9cad-472040db7863"/>
+			</line>
+			<line>
+				<reportElement x="120" y="77" width="158" height="1" uuid="bf60d5ed-51f9-4660-99d3-95c68bca4af1"/>
+			</line>
+			<line>
+				<reportElement x="120" y="112" width="158" height="1" uuid="0cfc0170-a541-4d62-a4ca-033ef155bf9b"/>
+			</line>
+			<line>
+				<reportElement x="120" y="136" width="158" height="1" uuid="c12e4e95-c60b-4e7f-a769-b7e72663be88"/>
+			</line>
+			<line>
+				<reportElement x="120" y="161" width="158" height="1" uuid="15b8559d-665a-4cd4-b6fa-00fc1d0788bb"/>
+			</line>
+			<line>
+				<reportElement x="120" y="186" width="158" height="1" uuid="7e5233e9-c59e-461f-acbf-1e31f6da3af4"/>
+			</line>
+			<line>
+				<reportElement x="119" y="31" width="1" height="155" uuid="63100864-45c7-480e-bcf6-19b0d454c1d3"/>
+			</line>
+			<line>
+				<reportElement x="194" y="31" width="1" height="155" uuid="7e994599-0722-4bb8-bd15-33fa277b3213"/>
+			</line>
+			<line>
+				<reportElement x="277" y="31" width="1" height="155" uuid="6e85fb18-bb82-4c3d-9c2c-1070bff1dd83"/>
+			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="120" y="31" width="74" height="21" uuid="a86a3e02-3649-4c1e-9ab2-7afa243c6782"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="10"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Verifikasi Resep]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="121" y="56" width="74" height="21" uuid="6e8b4d18-5952-4d75-ab44-36cdd1e52fb4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="10"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Ambil Obat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="120" y="77" width="74" height="35" uuid="7edaa565-237c-4879-8d7b-b17ee14fb346"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="10"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Menulis Etiket, Copy R / LPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="120" y="113" width="74" height="21" uuid="3678c9fc-145f-43d5-aebf-a6a1987c3666"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="10"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Telaah I Dalam]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="120" y="137" width="74" height="21" uuid="e15036ba-967c-41f3-b7ff-aa7e11885ca2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="10"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Telaah II Luar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="118" y="163" width="76" height="21" uuid="4ecb9bcf-e574-45c1-b392-0ed19eaf8e76"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font fontName="Tahoma" size="10"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Penyerahan Obat]]></text>
+			</staticText>
 		</band>
 	</summary>
 </jasperReport>

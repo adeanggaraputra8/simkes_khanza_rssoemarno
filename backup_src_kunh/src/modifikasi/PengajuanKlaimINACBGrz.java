@@ -1,8 +1,6 @@
 package modifikasi;
 
 import bridging.ApiEKLAIM_inacbg;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -21,7 +19,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -29,21 +26,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
+import java.util.StringJoiner;
 import javax.swing.JOptionPane;
 import laporan.DlgDiagnosaPenyakit;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+
 
 /**
  *
@@ -53,12 +42,13 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
     private final DefaultTableModel tabMode, tabMode1, tabMode2, tabMode3, tabMode4,
             tabMode5, tabMode6, tabMode7, tabMode8, tabMode9, tabMode10, tabMode11, tabMode12, 
             tabMode13, tabMode14, tabMode15, tabMode16, tabMode17;
+    public  INACBGDaftarKlaimCari carisep = new INACBGDaftarKlaimCari(null, false);
     private final Properties prop = new Properties();
     private validasi Valid = new validasi();
     private sekuel Sequel = new sekuel();
-    private int i = 0, j = 0, x = 0, diag = 0, cekKanker = 0, kankerRanap = 0, kankerRalan = 0;
+    private int i = 0, j = 0, x = 0, diag = 0,prod = 0, cekKanker = 0, kankerRanap = 0, kankerRalan = 0, cekKlaim = 0;
     private Connection koneksi = koneksiDB.condb();
-    public DlgDiagnosaPenyakit diagnosa = new DlgDiagnosaPenyakit(null, false);
+    public  DlgDiagnosaPenyakit diagnosa = new DlgDiagnosaPenyakit(null, false); 
     private Date tanggal = new Date();
     private String jknya = "", tgllhrnya = "", jpel = "", norawat = "", sts_umur = "", sts_umur_ok = "", konversiKD = "",
             cekstsPulang = "", kdPulang = "", kls = "", nilaiKP = "", cekBB = "", tglmsk = "", tglplg = "", icuindikator = "",
@@ -69,10 +59,10 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             cekASAM = "", cekKUL = "", cekAPTT = "", cekANAL = "", cekPRO = "", cekDIM = "", nilaiUnggah = "", nilaiIsolasi = "",
             cekWAK = "", cekALBU = "", cekCRP = "", cekPT = "", cekANT = "", cekTHO = "", file = "", directory = "", nilaiKriteria = "",
             trfPlasma = "", kodePayor = "", nilaiKelainan = "", prosedurINADRG1 = "", prosedurINADRG2 = "", tglREG = "", NrawatTARIF = "",
-            diagnosaKlaimINADRG = "", hasilVerifDiag2 = "", hasilVerifDiag3 = "", hasilVerifDiag4 = "", caramasuk = "", nilaiPembiayaan = "",
+            diagnosaKlaimINADRG = "", hasilVerifDiag2 = "",hasilVerifDiag = "",hasilVerifProd = "",hasilVerifProdIDRG = "", hasilVerifDiag3 = "", hasilVerifDiag4 = "", caramasuk = "", nilaiPembiayaan = "",
             nilaiVenti = "", tglIntu = "", tglEkstu = "", dializer = "", onset = "", caraLhr = "", wktlahir = "", ltkjnn = "", kndisi = "",
             dgBantuanManual = "", forcep = "", vacum = "", cekDeliveri = "", mnt1APP = "", mnt1PUL = "", mnt1GRI = "", mnt1ACT = "", mnt1RES = "",
-            mnt5APP = "", mnt5PUL = "", mnt5GRI = "", mnt5ACT = "", mnt5RES = "", requestJson = "";
+            mnt5APP = "", mnt5PUL = "", mnt5GRI = "", mnt5ACT = "", mnt5RES = "", requestJson = "",norawatbayi="", status="";;
     private PreparedStatement ps, ps1, ps2, ps3, ps4, ps5, ps6, ps7, ps8, ps9, ps10, ps11, ps12, ps13, ps14, ps15, ps16, ps17, ps18;
     private ResultSet rs, rs1, rs2, rs3, rs4, rs5, rs6, rs7, rs8, rs9, rs10, rs11, rs12, rs13, rs14, rs15, rs16, rs17, rs18;
     private ApiEKLAIM_inacbg mbak_eka = new ApiEKLAIM_inacbg();
@@ -119,8 +109,10 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
     public PengajuanKlaimINACBGrz(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocation(8,1);
+        setSize(885,674);
 
-        tabMode = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Diagnosa ICD-10", "Status Diag.", "Verifikasi"
+        tabMode = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Diagnosa ICD-10", "Status Diag.","Verifikasi"
         }) {
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -131,7 +123,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 return a;
             }
             Class[] types = new Class[]{
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class,  java.lang.Object.class
             };
 
             @Override
@@ -153,7 +145,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 column.setPreferredWidth(95);
             } else if (i == 3) {
                 column.setPreferredWidth(95);
-            }
+            } 
         }
         tbDiagnosaPasien1.setDefaultRenderer(Object.class, new WarnaTable());
         
@@ -194,7 +186,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         }
         tbDiagnosaPasien2.setDefaultRenderer(Object.class, new WarnaTable());
 
-        tabMode5 = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Diagnosa ICD-10", "Status Diag.", "Verifikasi"
+        tabMode5 = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Diagnosa ICD-10", "Status Diag."
         }) {
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -205,7 +197,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 return a;
             }
             Class[] types = new Class[]{
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             @Override
@@ -217,7 +209,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         tbDiagnosaPasie3.setPreferredScrollableViewportSize(new Dimension(500, 500));
         tbDiagnosaPasie3.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             TableColumn column = tbDiagnosaPasie3.getColumnModel().getColumn(i);
             if (i == 0) {
                 column.setPreferredWidth(70);
@@ -225,9 +217,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 column.setPreferredWidth(340);
             } else if (i == 2) {
                 column.setPreferredWidth(95);
-            } else if (i == 3) {
-                column.setPreferredWidth(95);
-            }
+            } 
         }
         tbDiagnosaPasie3.setDefaultRenderer(Object.class, new WarnaTable());
         
@@ -268,7 +258,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         }
         tbDiagnosaPasie4.setDefaultRenderer(Object.class, new WarnaTable());
         
-        tabMode1 = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Prosedur ICD-9-CM","Jlh."}) {
+        tabMode1 = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Prosedur ICD-9-CM","Verifikasi"}) {
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 boolean a = false;
@@ -296,12 +286,12 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             } else if (i == 1) {
                 column.setPreferredWidth(350);
             } else if (i == 2) {
-                column.setPreferredWidth(40);
-            }
+                column.setPreferredWidth(95);
+            } 
         }
         tbTindakanPasien1.setDefaultRenderer(Object.class, new WarnaTable());
 
-        tabMode15 = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Prosedur ICD-9-CM","Jlh."}) {
+        tabMode15 = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Prosedur ICD-9-CM","Jlh.","Keterangan"}) {
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 boolean a = false;
@@ -311,7 +301,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 return a;
             }
             Class[] types = new Class[]{
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             @Override
             public Class getColumnClass(int columnIndex) {
@@ -322,7 +312,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         tbTindakanPasien2.setPreferredScrollableViewportSize(new Dimension(500, 500));
         tbTindakanPasien2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             TableColumn column = tbTindakanPasien2.getColumnModel().getColumn(i);
             if (i == 0) {
                 column.setPreferredWidth(70);
@@ -330,6 +320,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 column.setPreferredWidth(350);
             } else if (i == 2) {
                 column.setPreferredWidth(40);
+            } else if (i == 3) {
+                column.setPreferredWidth(100);
             }
         }
         tbTindakanPasien2.setDefaultRenderer(Object.class, new WarnaTable());
@@ -365,7 +357,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         }
         tbTindakanPasien3.setDefaultRenderer(Object.class, new WarnaTable());
         
-        tabMode16 = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Prosedur ICD-9-CM","Jlh."}) {
+        tabMode16 = new DefaultTableModel(null, new Object[]{"Kode", "Deskripsi Prosedur ICD-9-CM","Jlh.","Keterangan"}) {
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 boolean a = false;
@@ -375,7 +367,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 return a;
             }
             Class[] types = new Class[]{
-                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             @Override
             public Class getColumnClass(int columnIndex) {
@@ -386,7 +378,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         tbTindakanPasien4.setPreferredScrollableViewportSize(new Dimension(500, 500));
         tbTindakanPasien4.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             TableColumn column = tbTindakanPasien4.getColumnModel().getColumn(i);
             if (i == 0) {
                 column.setPreferredWidth(70);
@@ -394,6 +386,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 column.setPreferredWidth(350);
             } else if (i == 2) {
                 column.setPreferredWidth(40);
+            } else if (i == 3) {
+                column.setPreferredWidth(100);
             }
         }
         tbTindakanPasien4.setDefaultRenderer(Object.class, new WarnaTable());
@@ -813,6 +807,85 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         Tgravida.setDocument(new batasInput((byte) 2).getOnlyAngka(Tgravida));
         Tpartus.setDocument(new batasInput((byte) 2).getOnlyAngka(Tpartus));
         Tabortus.setDocument(new batasInput((byte) 2).getOnlyAngka(Tabortus));
+        
+
+         carisep.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(carisep.getTable().getSelectedRow()!= -1){ 
+                   setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    cekKlaim = 0;
+                    cekKlaim = Sequel.cariInteger("select count(-1) from eklaim_set_claim where no_sep='" + carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),2).toString() + "' and tgl_masuk='" + carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),22).toString() + "'");
+                    if (cekKlaim == 0) {
+                        if (akses.getkode().equals("Admin Utama")) {
+                            setKlaim(carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),0).toString(), carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),2).toString(),"JKN", "3", "-", carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),22).toString());
+                            tarifRS(carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),0).toString());
+                            TombolCek();
+                            TabRawat.setEnabled(true);
+                            TabRawat.setSelectedIndex(0);
+                            TabDiagnosa1.setSelectedIndex(0);
+                            TabProsedur1.setSelectedIndex(0);
+                            emptTeksLAINNYA();
+                        } else {
+                            setKlaim(carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),0).toString(), carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),2).toString(),"JKN", "3", "-",carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),22).toString());
+                            tarifRS(carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),0).toString());
+                            TombolCek();
+                            TabRawat.setEnabledAt(1, false);
+                            TabRawat.setEnabledAt(0, true);
+                            TabRawat.setSelectedIndex(0);
+                            TabDiagnosa1.setSelectedIndex(0);
+                            TabProsedur1.setSelectedIndex(0);
+                            emptTeksLAINNYA();
+                        }
+                    } else if (cekKlaim > 0) {
+                        if (akses.getkode().equals("Admin Utama")) {
+                            setKlaimAda(carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),0).toString(), carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),2).toString(),"JKN", "3", "-",carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),22).toString());
+                            tarifRS(carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),0).toString());
+                            TabRawat.setEnabled(true);
+                            TabRawat.setSelectedIndex(0);
+                            TabDiagnosa1.setSelectedIndex(0);
+                            TabProsedur1.setSelectedIndex(0);
+                            emptTeksLAINNYA();
+                        } else {
+                            setKlaimAda(carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),0).toString(), carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),2).toString(),"JKN", "3", "-",carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),22).toString());
+                            tarifRS(carisep.getTable().getValueAt(carisep.getTable().getSelectedRow(),0).toString());
+                            TabRawat.setEnabledAt(1, false);
+                            TabRawat.setEnabledAt(0, true);
+                            TabRawat.setSelectedIndex(0);
+                            TabDiagnosa1.setSelectedIndex(0);
+                            TabProsedur1.setSelectedIndex(0);
+                            emptTeksLAINNYA();
+                        }
+                    }
+                    setCursor(Cursor.getDefaultCursor());
+                }     
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        }); 
+         
+         carisep.getTable().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                    carisep.dispose();
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });  
     }
 
     /**
@@ -826,12 +899,15 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         Popup1 = new javax.swing.JPopupMenu();
         ppDiagnosa = new javax.swing.JMenuItem();
+        ppHapusData = new javax.swing.JMenuItem();
+        ppJadikanDU = new javax.swing.JMenuItem();
         Popup2 = new javax.swing.JPopupMenu();
         ppHapusDelivery = new javax.swing.JMenuItem();
         tglDiagnosa = new widget.Tanggal();
         internalFrame1 = new widget.InternalFrame();
         panelGlass8 = new widget.panelisi();
         BtnKirimOnline = new widget.Button();
+        BtnPrint = new widget.Button();
         BtnEditKlaim = new widget.Button();
         BtnHapusKlaim = new widget.Button();
         BtnFinal = new widget.Button();
@@ -880,7 +956,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         jLabel59 = new widget.Label();
         jLabel60 = new widget.Label();
         labelLOS = new widget.Label();
-        BtnGruper = new widget.Button();
+        BtnSimpanData = new widget.Button();
         separatHasil = new javax.swing.JSeparator();
         labelhasilG = new widget.Label();
         ScrollHasil1 = new widget.ScrollPane();
@@ -961,6 +1037,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         tglEkstubasi = new widget.Tanggal();
         labelHRlm7 = new widget.Label();
         cmbDializer = new widget.ComboBox();
+        labelHRlm8 = new widget.Label();
         TkntngDrh = new widget.TextBox();
         TabJaminanJKN = new javax.swing.JTabbedPane();
         internalFrame12 = new widget.InternalFrame();
@@ -1061,7 +1138,14 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         internalFrame15 = new widget.InternalFrame();
         Scroll12 = new widget.ScrollPane();
         tbPersalinan = new widget.Table();
-        labelHRlm9 = new widget.Label();
+        BtnGrouperIDRG = new widget.Button();
+        BtnFinalIdrg = new widget.Button();
+        BtnEditIdrg = new widget.Button();
+        BtnGrouperInacbg = new widget.Button();
+        BtnFinalInacbg = new widget.Button();
+        BtnEditINACBG = new widget.Button();
+        BtnImportIDRGtoINACBG = new widget.Button();
+        BtnCarisep = new widget.Button();
         internalFrame3 = new widget.InternalFrame();
         scrollInput1 = new widget.ScrollPane();
         FormInput2 = new widget.PanelBiasa();
@@ -1265,11 +1349,12 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         tglEkstubasi1 = new widget.Tanggal();
 
         Popup1.setName("Popup1"); // NOI18N
+        Popup1.setPreferredSize(new java.awt.Dimension(230, 58));
 
         ppDiagnosa.setBackground(new java.awt.Color(242, 242, 242));
         ppDiagnosa.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         ppDiagnosa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        ppDiagnosa.setText("Diagnosa ICD-10");
+        ppDiagnosa.setText("Diagnosa & Prosedur Pasien");
         ppDiagnosa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         ppDiagnosa.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         ppDiagnosa.setIconTextGap(8);
@@ -1281,6 +1366,38 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             }
         });
         Popup1.add(ppDiagnosa);
+
+        ppHapusData.setBackground(new java.awt.Color(242, 242, 242));
+        ppHapusData.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppHapusData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppHapusData.setText("Hapus Dx / Pro tidak berlaku");
+        ppHapusData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppHapusData.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppHapusData.setIconTextGap(8);
+        ppHapusData.setName("ppHapusData"); // NOI18N
+        ppHapusData.setPreferredSize(new java.awt.Dimension(180, 25));
+        ppHapusData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppHapusDataBtnPrintActionPerformed(evt);
+            }
+        });
+        Popup1.add(ppHapusData);
+
+        ppJadikanDU.setBackground(new java.awt.Color(242, 242, 242));
+        ppJadikanDU.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppJadikanDU.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppJadikanDU.setText("Jadikan Diagnosa Utama");
+        ppJadikanDU.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppJadikanDU.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppJadikanDU.setIconTextGap(8);
+        ppJadikanDU.setName("ppJadikanDU"); // NOI18N
+        ppJadikanDU.setPreferredSize(new java.awt.Dimension(180, 25));
+        ppJadikanDU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppJadikanDUBtnPrintActionPerformed(evt);
+            }
+        });
+        Popup1.add(ppJadikanDU);
 
         Popup2.setName("Popup2"); // NOI18N
 
@@ -1301,7 +1418,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         Popup2.add(ppHapusDelivery);
 
         tglDiagnosa.setEditable(false);
-        tglDiagnosa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-07-2023" }));
+        tglDiagnosa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025" }));
         tglDiagnosa.setDisplayFormat("dd-MM-yyyy");
         tglDiagnosa.setName("tglDiagnosa"); // NOI18N
         tglDiagnosa.setOpaque(false);
@@ -1355,6 +1472,26 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             }
         });
         panelGlass8.add(BtnKirimOnline);
+
+        BtnPrint.setForeground(new java.awt.Color(0, 0, 0));
+        BtnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/print.png"))); // NOI18N
+        BtnPrint.setMnemonic('K');
+        BtnPrint.setText("Print Klaim");
+        BtnPrint.setToolTipText("Alt+K");
+        BtnPrint.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnPrint.setName("BtnPrint"); // NOI18N
+        BtnPrint.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnPrintActionPerformed(evt);
+            }
+        });
+        BtnPrint.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnPrintKeyPressed(evt);
+            }
+        });
+        panelGlass8.add(BtnPrint);
 
         BtnEditKlaim.setForeground(new java.awt.Color(0, 0, 0));
         BtnEditKlaim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/addressbook-edit24.png"))); // NOI18N
@@ -1447,7 +1584,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         scrollInput.setPreferredSize(new java.awt.Dimension(102, 1100));
 
         FormInput.setBackground(new java.awt.Color(255, 255, 255));
-        FormInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "::[ Data Klaim ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(0, 0, 0))); // NOI18N
+        FormInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "::[ Data Klaim ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13))); // NOI18N
         FormInput.setName("FormInput"); // NOI18N
         FormInput.setPreferredSize(new java.awt.Dimension(100, 1080));
         FormInput.setLayout(null);
@@ -1479,7 +1616,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbCOB.setForeground(new java.awt.Color(0, 0, 0));
         cmbCOB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-" }));
         cmbCOB.setName("cmbCOB"); // NOI18N
-        cmbCOB.setOpaque(false);
         cmbCOB.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cmbCOBMouseClicked(evt);
@@ -1767,21 +1903,21 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput.add(labelLOS);
         labelLOS.setBounds(125, 193, 30, 23);
 
-        BtnGruper.setForeground(new java.awt.Color(0, 0, 0));
-        BtnGruper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/SeratusRibu.png"))); // NOI18N
-        BtnGruper.setMnemonic('G');
-        BtnGruper.setText("Simpan & Grouper");
-        BtnGruper.setToolTipText("Alt+G");
-        BtnGruper.setGlassColor(new java.awt.Color(0, 153, 153));
-        BtnGruper.setName("BtnGruper"); // NOI18N
-        BtnGruper.setPreferredSize(new java.awt.Dimension(100, 30));
-        BtnGruper.addActionListener(new java.awt.event.ActionListener() {
+        BtnSimpanData.setForeground(new java.awt.Color(0, 0, 0));
+        BtnSimpanData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16i.png"))); // NOI18N
+        BtnSimpanData.setMnemonic('G');
+        BtnSimpanData.setText("Simpan Data");
+        BtnSimpanData.setToolTipText("Alt+G");
+        BtnSimpanData.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnSimpanData.setName("BtnSimpanData"); // NOI18N
+        BtnSimpanData.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnSimpanData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BtnGruperActionPerformed(evt);
+                BtnSimpanDataActionPerformed(evt);
             }
         });
-        FormInput.add(BtnGruper);
-        BtnGruper.setBounds(760, 490, 160, 30);
+        FormInput.add(BtnSimpanData);
+        BtnSimpanData.setBounds(780, 350, 460, 30);
 
         separatHasil.setForeground(new java.awt.Color(0, 0, 0));
         separatHasil.setName("separatHasil"); // NOI18N
@@ -1840,7 +1976,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbKP.setForeground(new java.awt.Color(0, 0, 0));
         cmbKP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Kelas 3", "Kelas 2", "Kelas 1", "Kelas VIP", "Kelas VVIP" }));
         cmbKP.setName("cmbKP"); // NOI18N
-        cmbKP.setOpaque(false);
         FormInput.add(cmbKP);
         cmbKP.setBounds(125, 137, 80, 23);
 
@@ -1986,7 +2121,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             }
         });
         FormInput.add(BtnRefres);
-        BtnRefres.setBounds(930, 490, 180, 30);
+        BtnRefres.setBounds(780, 310, 460, 30);
 
         jLabel61.setForeground(new java.awt.Color(0, 0, 0));
         jLabel61.setText("Nama Petugas : ");
@@ -2033,7 +2168,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbcrPulang.setForeground(new java.awt.Color(0, 0, 0));
         cmbcrPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Dirujuk", "Atas permintaan sendiri", "Meninggal", "Atas persetujuan dokter", "Lain-lain" }));
         cmbcrPulang.setName("cmbcrPulang"); // NOI18N
-        cmbcrPulang.setOpaque(false);
         cmbcrPulang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cmbcrPulangMouseClicked(evt);
@@ -2050,7 +2184,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbKH.setForeground(new java.awt.Color(0, 0, 0));
         cmbKH.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Kelas 3", "Kelas 2", "Kelas 1" }));
         cmbKH.setName("cmbKH"); // NOI18N
-        cmbKH.setOpaque(false);
         FormInput.add(cmbKH);
         cmbKH.setBounds(655, 81, 70, 23);
 
@@ -2101,7 +2234,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         tglSEP.setBounds(490, 53, 90, 23);
 
         TabDiagnosa1.setBackground(new java.awt.Color(250, 255, 245));
-        TabDiagnosa1.setForeground(new java.awt.Color(0, 0, 0));
         TabDiagnosa1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         TabDiagnosa1.setName("TabDiagnosa1"); // NOI18N
         TabDiagnosa1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2126,7 +2258,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         internalFrame4.add(Scroll7, java.awt.BorderLayout.CENTER);
 
-        TabDiagnosa1.addTab("Diagnosa Statistik (V5)", internalFrame4);
+        TabDiagnosa1.addTab("Diagnosa ICD 10", internalFrame4);
 
         internalFrame5.setBorder(null);
         internalFrame5.setName("internalFrame5"); // NOI18N
@@ -2144,13 +2276,12 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         internalFrame5.add(Scroll8, java.awt.BorderLayout.CENTER);
 
-        TabDiagnosa1.addTab("Diagnosa INADRG (V6)", internalFrame5);
+        TabDiagnosa1.addTab("Diagnosa IDRG IM", internalFrame5);
 
         FormInput.add(TabDiagnosa1);
         TabDiagnosa1.setBounds(45, 550, 630, 145);
 
         TabProsedur1.setBackground(new java.awt.Color(250, 255, 245));
-        TabProsedur1.setForeground(new java.awt.Color(0, 0, 0));
         TabProsedur1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         TabProsedur1.setName("TabProsedur1"); // NOI18N
         TabProsedur1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2175,7 +2306,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         internalFrame8.add(Scroll2, java.awt.BorderLayout.CENTER);
 
-        TabProsedur1.addTab("Prosedur Statistik (V5)", internalFrame8);
+        TabProsedur1.addTab("Prosedur ICD 9", internalFrame8);
 
         internalFrame9.setBorder(null);
         internalFrame9.setName("internalFrame9"); // NOI18N
@@ -2193,7 +2324,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         internalFrame9.add(Scroll10, java.awt.BorderLayout.CENTER);
 
-        TabProsedur1.addTab("Prosedur INADRG (V6)", internalFrame9);
+        TabProsedur1.addTab("Prosedur IDRG IM", internalFrame9);
 
         FormInput.add(TabProsedur1);
         TabProsedur1.setBounds(690, 550, 510, 131);
@@ -2222,7 +2353,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbvalidTB.setForeground(new java.awt.Color(0, 0, 0));
         cmbvalidTB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Validasi", "Batal Validasi" }));
         cmbvalidTB.setName("cmbvalidTB"); // NOI18N
-        cmbvalidTB.setOpaque(false);
         FormInput.add(cmbvalidTB);
         cmbvalidTB.setBounds(285, 193, 100, 23);
 
@@ -2265,7 +2395,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbCrMasuk.setForeground(new java.awt.Color(0, 0, 0));
         cmbCrMasuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rujukan FKTP", "Rujukan FKRTL", "Rujukan Spesialis", "Dari Rawat Jalan", "Dari Rawat Inap", "Dari Rawat Darurat", "Lahir di RS", "Rujukan Panti Jompo", "Rujukan dari RS Jiwa", "Rujukan Fasilitas", "Lain-lain" }));
         cmbCrMasuk.setName("cmbCrMasuk"); // NOI18N
-        cmbCrMasuk.setOpaque(false);
         FormInput.add(cmbCrMasuk);
         cmbCrMasuk.setBounds(285, 137, 140, 23);
 
@@ -2278,7 +2407,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbPembiayaan.setForeground(new java.awt.Color(0, 0, 0));
         cmbPembiayaan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Peserta", "Pemberi Kerja", "Asuransi Tambahan" }));
         cmbPembiayaan.setName("cmbPembiayaan"); // NOI18N
-        cmbPembiayaan.setOpaque(false);
         FormInput.add(cmbPembiayaan);
         cmbPembiayaan.setBounds(817, 81, 130, 23);
 
@@ -2342,7 +2470,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbVentilator.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ya", "Tidak" }));
         cmbVentilator.setSelectedIndex(1);
         cmbVentilator.setName("cmbVentilator"); // NOI18N
-        cmbVentilator.setOpaque(false);
         cmbVentilator.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbVentilatorActionPerformed(evt);
@@ -2357,7 +2484,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput.add(labelHRlm5);
         labelHRlm5.setBounds(735, 193, 80, 23);
 
-        tglIntubasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-07-2023 21:27:57" }));
+        tglIntubasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
         tglIntubasi.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tglIntubasi.setName("tglIntubasi"); // NOI18N
         tglIntubasi.setOpaque(false);
@@ -2371,7 +2498,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput.add(labelHRlm6);
         labelHRlm6.setBounds(960, 193, 65, 23);
 
-        tglEkstubasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-07-2023 21:27:57" }));
+        tglEkstubasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
         tglEkstubasi.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tglEkstubasi.setName("tglEkstubasi"); // NOI18N
         tglEkstubasi.setOpaque(false);
@@ -2389,9 +2516,14 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbDializer.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Multiple Use (reuse)", "Single Use" }));
         cmbDializer.setSelectedIndex(1);
         cmbDializer.setName("cmbDializer"); // NOI18N
-        cmbDializer.setOpaque(false);
         FormInput.add(cmbDializer);
         cmbDializer.setBounds(1026, 109, 130, 23);
+
+        labelHRlm8.setForeground(new java.awt.Color(255, 0, 0));
+        labelHRlm8.setText("Kantong Darah : ");
+        labelHRlm8.setName("labelHRlm8"); // NOI18N
+        FormInput.add(labelHRlm8);
+        labelHRlm8.setBounds(915, 137, 110, 23);
 
         TkntngDrh.setForeground(new java.awt.Color(0, 0, 0));
         TkntngDrh.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -2405,7 +2537,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         TkntngDrh.setBounds(1026, 137, 40, 23);
 
         TabJaminanJKN.setBackground(new java.awt.Color(250, 255, 245));
-        TabJaminanJKN.setForeground(new java.awt.Color(0, 0, 0));
         TabJaminanJKN.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         TabJaminanJKN.setName("TabJaminanJKN"); // NOI18N
         TabJaminanJKN.setOpaque(true);
@@ -2417,10 +2548,11 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         internalFrame12.setBorder(null);
         internalFrame12.setName("internalFrame12"); // NOI18N
+        internalFrame12.setPreferredSize(new java.awt.Dimension(630, 220));
         internalFrame12.setLayout(new java.awt.BorderLayout(1, 1));
 
         FormInput1.setName("FormInput1"); // NOI18N
-        FormInput1.setPreferredSize(new java.awt.Dimension(560, 208));
+        FormInput1.setPreferredSize(new java.awt.Dimension(600, 220));
         FormInput1.setLayout(null);
 
         jLabel36.setForeground(new java.awt.Color(0, 0, 0));
@@ -2862,35 +2994,30 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbMnt1App.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt1App.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt1App.setName("cmbMnt1App"); // NOI18N
-        cmbMnt1App.setOpaque(false);
         FormInput3.add(cmbMnt1App);
         cmbMnt1App.setBounds(197, 36, 40, 23);
 
         cmbMnt1Pul.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt1Pul.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt1Pul.setName("cmbMnt1Pul"); // NOI18N
-        cmbMnt1Pul.setOpaque(false);
         FormInput3.add(cmbMnt1Pul);
         cmbMnt1Pul.setBounds(197, 64, 40, 23);
 
         cmbMnt1Gri.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt1Gri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt1Gri.setName("cmbMnt1Gri"); // NOI18N
-        cmbMnt1Gri.setOpaque(false);
         FormInput3.add(cmbMnt1Gri);
         cmbMnt1Gri.setBounds(197, 92, 40, 23);
 
         cmbMnt1Act.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt1Act.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt1Act.setName("cmbMnt1Act"); // NOI18N
-        cmbMnt1Act.setOpaque(false);
         FormInput3.add(cmbMnt1Act);
         cmbMnt1Act.setBounds(197, 120, 40, 23);
 
         cmbMnt1Res.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt1Res.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt1Res.setName("cmbMnt1Res"); // NOI18N
-        cmbMnt1Res.setOpaque(false);
         FormInput3.add(cmbMnt1Res);
         cmbMnt1Res.setBounds(197, 148, 40, 23);
 
@@ -2927,35 +3054,30 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbMnt5App.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt5App.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt5App.setName("cmbMnt5App"); // NOI18N
-        cmbMnt5App.setOpaque(false);
         FormInput3.add(cmbMnt5App);
         cmbMnt5App.setBounds(332, 36, 40, 23);
 
         cmbMnt5Pul.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt5Pul.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt5Pul.setName("cmbMnt5Pul"); // NOI18N
-        cmbMnt5Pul.setOpaque(false);
         FormInput3.add(cmbMnt5Pul);
         cmbMnt5Pul.setBounds(332, 64, 40, 23);
 
         cmbMnt5Gri.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt5Gri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt5Gri.setName("cmbMnt5Gri"); // NOI18N
-        cmbMnt5Gri.setOpaque(false);
         FormInput3.add(cmbMnt5Gri);
         cmbMnt5Gri.setBounds(332, 92, 40, 23);
 
         cmbMnt5Act.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt5Act.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt5Act.setName("cmbMnt5Act"); // NOI18N
-        cmbMnt5Act.setOpaque(false);
         FormInput3.add(cmbMnt5Act);
         cmbMnt5Act.setBounds(332, 120, 40, 23);
 
         cmbMnt5Res.setForeground(new java.awt.Color(0, 0, 0));
         cmbMnt5Res.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "0", "1", "2" }));
         cmbMnt5Res.setName("cmbMnt5Res"); // NOI18N
-        cmbMnt5Res.setOpaque(false);
         FormInput3.add(cmbMnt5Res);
         cmbMnt5Res.setBounds(332, 148, 40, 23);
 
@@ -3062,7 +3184,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbOnset.setForeground(new java.awt.Color(0, 0, 0));
         cmbOnset.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Timbul Spontan", "Dengan Induksi", "SC Tanpa Kontraksi/Induksi" }));
         cmbOnset.setName("cmbOnset"); // NOI18N
-        cmbOnset.setOpaque(false);
         FormInput4.add(cmbOnset);
         cmbOnset.setBounds(115, 120, 170, 23);
 
@@ -3072,7 +3193,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput4.add(labelHRlm22);
         labelHRlm22.setBounds(290, 8, 140, 23);
 
-        wktkelahiran.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-07-2023 21:27:57" }));
+        wktkelahiran.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
         wktkelahiran.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         wktkelahiran.setName("wktkelahiran"); // NOI18N
         wktkelahiran.setOpaque(false);
@@ -3089,7 +3210,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbCaraLhr.setForeground(new java.awt.Color(0, 0, 0));
         cmbCaraLhr.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Vaginal", "SC" }));
         cmbCaraLhr.setName("cmbCaraLhr"); // NOI18N
-        cmbCaraLhr.setOpaque(false);
         FormInput4.add(cmbCaraLhr);
         cmbCaraLhr.setBounds(433, 36, 70, 23);
 
@@ -3102,7 +3222,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbLtkJanin.setForeground(new java.awt.Color(0, 0, 0));
         cmbLtkJanin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Kepala", "Sungsang", "Lintang" }));
         cmbLtkJanin.setName("cmbLtkJanin"); // NOI18N
-        cmbLtkJanin.setOpaque(false);
         FormInput4.add(cmbLtkJanin);
         cmbLtkJanin.setBounds(433, 64, 80, 23);
 
@@ -3115,7 +3234,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbKondisi.setForeground(new java.awt.Color(0, 0, 0));
         cmbKondisi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Lahir Hidup", "Lahir Meninggal" }));
         cmbKondisi.setName("cmbKondisi"); // NOI18N
-        cmbKondisi.setOpaque(false);
         FormInput4.add(cmbKondisi);
         cmbKondisi.setBounds(433, 92, 110, 23);
 
@@ -3128,7 +3246,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbBantuan.setForeground(new java.awt.Color(0, 0, 0));
         cmbBantuan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Tidak", "Ya" }));
         cmbBantuan.setName("cmbBantuan"); // NOI18N
-        cmbBantuan.setOpaque(false);
         FormInput4.add(cmbBantuan);
         cmbBantuan.setBounds(433, 120, 60, 23);
 
@@ -3141,7 +3258,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbForcep.setForeground(new java.awt.Color(0, 0, 0));
         cmbForcep.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Tidak", "Ya" }));
         cmbForcep.setName("cmbForcep"); // NOI18N
-        cmbForcep.setOpaque(false);
         FormInput4.add(cmbForcep);
         cmbForcep.setBounds(433, 148, 60, 23);
 
@@ -3154,7 +3270,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbVacum.setForeground(new java.awt.Color(0, 0, 0));
         cmbVacum.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Tidak", "Ya" }));
         cmbVacum.setName("cmbVacum"); // NOI18N
-        cmbVacum.setOpaque(false);
         FormInput4.add(cmbVacum);
         cmbVacum.setBounds(433, 176, 60, 23);
 
@@ -3211,15 +3326,136 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         TabJaminanJKN.addTab("Delivery Persalinan", internalFrame15);
 
         FormInput.add(TabJaminanJKN);
-        TabJaminanJKN.setBounds(45, 280, 720, 240);
+        TabJaminanJKN.setBounds(45, 280, 730, 250);
         TabJaminanJKN.getAccessibleContext().setAccessibleName("");
         TabJaminanJKN.getAccessibleContext().setAccessibleDescription("");
 
-        labelHRlm9.setForeground(new java.awt.Color(255, 0, 0));
-        labelHRlm9.setText("Kantong Darah : ");
-        labelHRlm9.setName("labelHRlm9"); // NOI18N
-        FormInput.add(labelHRlm9);
-        labelHRlm9.setBounds(915, 137, 110, 23);
+        BtnGrouperIDRG.setForeground(new java.awt.Color(0, 0, 0));
+        BtnGrouperIDRG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/RunCalibration.png"))); // NOI18N
+        BtnGrouperIDRG.setMnemonic('G');
+        BtnGrouperIDRG.setText("Grouper IDRG");
+        BtnGrouperIDRG.setToolTipText("Alt+G");
+        BtnGrouperIDRG.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnGrouperIDRG.setName("BtnGrouperIDRG"); // NOI18N
+        BtnGrouperIDRG.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnGrouperIDRG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGrouperIDRGActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnGrouperIDRG);
+        BtnGrouperIDRG.setBounds(780, 390, 150, 30);
+
+        BtnFinalIdrg.setForeground(new java.awt.Color(0, 0, 0));
+        BtnFinalIdrg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/SeratusRibu.png"))); // NOI18N
+        BtnFinalIdrg.setMnemonic('G');
+        BtnFinalIdrg.setText("Final IDRG");
+        BtnFinalIdrg.setToolTipText("Alt+G");
+        BtnFinalIdrg.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnFinalIdrg.setName("BtnFinalIdrg"); // NOI18N
+        BtnFinalIdrg.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnFinalIdrg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnFinalIdrgActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnFinalIdrg);
+        BtnFinalIdrg.setBounds(780, 430, 150, 30);
+
+        BtnEditIdrg.setForeground(new java.awt.Color(0, 0, 0));
+        BtnEditIdrg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Edit.png"))); // NOI18N
+        BtnEditIdrg.setMnemonic('G');
+        BtnEditIdrg.setText("Edit IDRG");
+        BtnEditIdrg.setToolTipText("Alt+G");
+        BtnEditIdrg.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnEditIdrg.setName("BtnEditIdrg"); // NOI18N
+        BtnEditIdrg.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnEditIdrg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEditIdrgActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnEditIdrg);
+        BtnEditIdrg.setBounds(780, 470, 150, 30);
+
+        BtnGrouperInacbg.setForeground(new java.awt.Color(0, 0, 0));
+        BtnGrouperInacbg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/RunCalibration.png"))); // NOI18N
+        BtnGrouperInacbg.setMnemonic('G');
+        BtnGrouperInacbg.setText("Grouper INACBG");
+        BtnGrouperInacbg.setToolTipText("Alt+G");
+        BtnGrouperInacbg.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnGrouperInacbg.setName("BtnGrouperInacbg"); // NOI18N
+        BtnGrouperInacbg.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnGrouperInacbg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGrouperInacbgActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnGrouperInacbg);
+        BtnGrouperInacbg.setBounds(1090, 390, 150, 30);
+
+        BtnFinalInacbg.setForeground(new java.awt.Color(0, 0, 0));
+        BtnFinalInacbg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/SeratusRibu.png"))); // NOI18N
+        BtnFinalInacbg.setMnemonic('G');
+        BtnFinalInacbg.setText("Final INACBG");
+        BtnFinalInacbg.setToolTipText("Alt+G");
+        BtnFinalInacbg.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnFinalInacbg.setName("BtnFinalInacbg"); // NOI18N
+        BtnFinalInacbg.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnFinalInacbg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnFinalInacbgActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnFinalInacbg);
+        BtnFinalInacbg.setBounds(1090, 430, 150, 30);
+
+        BtnEditINACBG.setForeground(new java.awt.Color(0, 0, 0));
+        BtnEditINACBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/EDIT2.png"))); // NOI18N
+        BtnEditINACBG.setMnemonic('G');
+        BtnEditINACBG.setText("Edit INACBG");
+        BtnEditINACBG.setToolTipText("Alt+G");
+        BtnEditINACBG.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnEditINACBG.setName("BtnEditINACBG"); // NOI18N
+        BtnEditINACBG.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnEditINACBG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnEditINACBGActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnEditINACBG);
+        BtnEditINACBG.setBounds(1090, 470, 150, 30);
+
+        BtnImportIDRGtoINACBG.setForeground(new java.awt.Color(0, 0, 0));
+        BtnImportIDRGtoINACBG.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/kanan.png"))); // NOI18N
+        BtnImportIDRGtoINACBG.setMnemonic('G');
+        BtnImportIDRGtoINACBG.setText("Import INACBG");
+        BtnImportIDRGtoINACBG.setToolTipText("Alt+G");
+        BtnImportIDRGtoINACBG.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnImportIDRGtoINACBG.setName("BtnImportIDRGtoINACBG"); // NOI18N
+        BtnImportIDRGtoINACBG.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnImportIDRGtoINACBG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnImportIDRGtoINACBGActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnImportIDRGtoINACBG);
+        BtnImportIDRGtoINACBG.setBounds(940, 430, 140, 30);
+
+        BtnCarisep.setForeground(new java.awt.Color(0, 0, 0));
+        BtnCarisep.setMnemonic('O');
+        BtnCarisep.setText("Cari Sep");
+        BtnCarisep.setToolTipText("Alt+O");
+        BtnCarisep.setGlassColor(new java.awt.Color(0, 153, 153));
+        BtnCarisep.setName("BtnCarisep"); // NOI18N
+        BtnCarisep.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnCarisep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCarisepActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnCarisep);
+        BtnCarisep.setBounds(450, 140, 97, 23);
 
         scrollInput.setViewportView(FormInput);
 
@@ -3236,7 +3472,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         scrollInput1.setPreferredSize(new java.awt.Dimension(102, 1200));
 
         FormInput2.setBackground(new java.awt.Color(255, 255, 255));
-        FormInput2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "::[ Data Klaim ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13), new java.awt.Color(0, 0, 0))); // NOI18N
+        FormInput2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "::[ Data Klaim ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 13))); // NOI18N
         FormInput2.setName("FormInput2"); // NOI18N
         FormInput2.setPreferredSize(new java.awt.Dimension(100, 1278));
         FormInput2.setLayout(null);
@@ -3607,7 +3843,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Suspek", "Probabel", "Terkonfirmasi", "ODP", "PDP" }));
         cmbStatus.setSelectedIndex(2);
         cmbStatus.setName("cmbStatus"); // NOI18N
-        cmbStatus.setOpaque(false);
         cmbStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbStatusActionPerformed(evt);
@@ -3905,21 +4140,18 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbID.setForeground(new java.awt.Color(0, 0, 0));
         cmbID.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NIK", "Kartu Izin Tinggal Terbatas (Kitas)", "Paspor", "Kartu JKN", "Kartu Keluarga (KK)", "Surat UNHCR", "Surat Kelurahan", "Surat Dinas Sosial", "Surat Dinas Kesehatan", "Surat Jaminan Pelayanan", "Lainnya", "Nomor Klaim Ibu" }));
         cmbID.setName("cmbID"); // NOI18N
-        cmbID.setOpaque(false);
         FormInput2.add(cmbID);
         cmbID.setBounds(125, 53, 220, 23);
 
         cmbKomor.setForeground(new java.awt.Color(0, 0, 0));
         cmbKomor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tidak Ada", "Ada" }));
         cmbKomor.setName("cmbKomor"); // NOI18N
-        cmbKomor.setOpaque(false);
         FormInput2.add(cmbKomor);
         cmbKomor.setBounds(318, 137, 80, 23);
 
         cmbEpisod.setForeground(new java.awt.Color(0, 0, 0));
         cmbEpisod.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "ICU tekanan negatif dengan ventilator", "ICU tekanan negatif tanpa ventilator", "ICU tanpa tekanan negatif dengan ventilator", "ICU tanpa tekanan negatif tanpa ventilator", "Isolasi tekanan negatif", "Isolasi tanpa tekanan negatif", "ICU dengan ventilator", "ICU tanpa ventilator", "Isolasi tekanan negatif dengan ventilator", "Isolasi tekanan negatif tanpa ventilator", "Isolasi non tekanan negatif dengan ventilator", "Isolasi non tekanan negatif tanpa ventilator" }));
         cmbEpisod.setName("cmbEpisod"); // NOI18N
-        cmbEpisod.setOpaque(false);
         FormInput2.add(cmbEpisod);
         cmbEpisod.setBounds(655, 137, 280, 23);
 
@@ -3933,7 +4165,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbRS.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ya", "Tidak" }));
         cmbRS.setSelectedIndex(1);
         cmbRS.setName("cmbRS"); // NOI18N
-        cmbRS.setOpaque(false);
         FormInput2.add(cmbRS);
         cmbRS.setBounds(905, 277, 70, 23);
 
@@ -3941,7 +4172,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbCO.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ya", "Tidak" }));
         cmbCO.setSelectedIndex(1);
         cmbCO.setName("cmbCO"); // NOI18N
-        cmbCO.setOpaque(false);
         FormInput2.add(cmbCO);
         cmbCO.setBounds(125, 137, 70, 23);
 
@@ -4350,7 +4580,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbUnggah.setForeground(new java.awt.Color(0, 0, 0));
         cmbUnggah.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Resume Medis", "Ruang Perawatan", "Hasil Laboratorium", "Hasil Radiologi", "Hasil Penunjang Lainnya", "Resep Obat / Alkes", "Tagihan (Billing)", "Kartu Identitas", "Dokumen KIPI", "Lain-lain" }));
         cmbUnggah.setName("cmbUnggah"); // NOI18N
-        cmbUnggah.setOpaque(false);
         FormInput2.add(cmbUnggah);
         cmbUnggah.setBounds(725, 364, 160, 23);
 
@@ -4482,7 +4711,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbcrPulang1.setForeground(new java.awt.Color(0, 0, 0));
         cmbcrPulang1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Dirujuk", "Atas permintaan sendiri", "Meninggal", "Atas persetujuan dokter", "Lain-lain" }));
         cmbcrPulang1.setName("cmbcrPulang1"); // NOI18N
-        cmbcrPulang1.setOpaque(false);
         cmbcrPulang1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbcrPulang1ActionPerformed(evt);
@@ -4501,7 +4729,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbKriteria.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Kriteria A", "Kriteria B", "Kriteria C" }));
         cmbKriteria.setSelectedIndex(1);
         cmbKriteria.setName("cmbKriteria"); // NOI18N
-        cmbKriteria.setOpaque(false);
         FormInput2.add(cmbKriteria);
         cmbKriteria.setBounds(125, 305, 80, 23);
 
@@ -4514,7 +4741,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbIsolasi.setForeground(new java.awt.Color(0, 0, 0));
         cmbIsolasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tidak", "Ya" }));
         cmbIsolasi.setName("cmbIsolasi"); // NOI18N
-        cmbIsolasi.setOpaque(false);
         FormInput2.add(cmbIsolasi);
         cmbIsolasi.setBounds(303, 305, 70, 23);
 
@@ -4571,7 +4797,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbKelainan.setForeground(new java.awt.Color(0, 0, 0));
         cmbKelainan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Tanpa Kelainan", "Dengan Kelainan" }));
         cmbKelainan.setName("cmbKelainan"); // NOI18N
-        cmbKelainan.setOpaque(false);
         FormInput2.add(cmbKelainan);
         cmbKelainan.setBounds(303, 277, 110, 23);
 
@@ -4721,7 +4946,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         jLabel98.setBounds(690, 880, 180, 23);
 
         TabDiagnosa2.setBackground(new java.awt.Color(250, 255, 245));
-        TabDiagnosa2.setForeground(new java.awt.Color(0, 0, 0));
         TabDiagnosa2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         TabDiagnosa2.setName("TabDiagnosa2"); // NOI18N
         TabDiagnosa2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -4770,7 +4994,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         TabDiagnosa2.setBounds(45, 750, 630, 145);
 
         TabProsedur2.setBackground(new java.awt.Color(250, 255, 245));
-        TabProsedur2.setForeground(new java.awt.Color(0, 0, 0));
         TabProsedur2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         TabProsedur2.setName("TabProsedur2"); // NOI18N
         TabProsedur2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -4827,7 +5050,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbCrMasuk1.setForeground(new java.awt.Color(0, 0, 0));
         cmbCrMasuk1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Rujukan FKTP", "Rujukan FKRTL", "Rujukan Spesialis", "Dari Rawat Jalan", "Dari Rawat Inap", "Dari Rawat Darurat", "Lahir di RS", "Rujukan Panti Jompo", "Rujukan dari RS Jiwa", "Rujukan Fasilitas", "Lain-lain" }));
         cmbCrMasuk1.setName("cmbCrMasuk1"); // NOI18N
-        cmbCrMasuk1.setOpaque(false);
         FormInput2.add(cmbCrMasuk1);
         cmbCrMasuk1.setBounds(365, 249, 140, 23);
 
@@ -4841,7 +5063,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbVentilator1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ya", "Tidak" }));
         cmbVentilator1.setSelectedIndex(1);
         cmbVentilator1.setName("cmbVentilator1"); // NOI18N
-        cmbVentilator1.setOpaque(false);
         cmbVentilator1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbVentilator1ActionPerformed(evt);
@@ -4856,7 +5077,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput2.add(labeljam3);
         labeljam3.setBounds(475, 193, 60, 23);
 
-        tglIntubasi1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-07-2023 21:27:58" }));
+        tglIntubasi1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
         tglIntubasi1.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tglIntubasi1.setName("tglIntubasi1"); // NOI18N
         tglIntubasi1.setOpaque(false);
@@ -4870,7 +5091,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput2.add(labeljam4);
         labeljam4.setBounds(475, 221, 60, 23);
 
-        tglEkstubasi1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-07-2023 21:27:58" }));
+        tglEkstubasi1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
         tglEkstubasi1.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tglEkstubasi1.setName("tglEkstubasi1"); // NOI18N
         tglEkstubasi1.setOpaque(false);
@@ -5014,33 +5235,26 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tarifPoliExeKeyReleased
 
-    private void BtnGruperActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGruperActionPerformed
+    private void BtnSimpanDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanDataActionPerformed
         if (norawat.equals("") || noSEP.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Pilih dulu salah satu No. SEP...!!!!");
         } 
-//        else if (!tglREG.equals(tglSEP.getText())) {
-//            JOptionPane.showMessageDialog(null, "Tgl. SEP & Tgl. Registrasi berbeda, perbaikilah terlebih dulu...!!!!");
-//        } 
         else if (wktMasuk.getText().trim().equals("") || dpjp.getText().trim().equals("")) {
             setKlaim(norawat, noSEP.getText(), "JKN", "3","-", tglSEP.getText());
         } else if (cmbcrPulang.getSelectedItem().equals("-")) {
             JOptionPane.showMessageDialog(null, "Pilihlah cara pulang pasien dengan benar...!!!!");        
         } else {
-            if (jpel.equals("2")) {
-                if (tabMode.getRowCount() == 0) {
-                    JOptionPane.showMessageDialog(null, "Diagnosa ICD-10 masih kosong...!!!!");
-                } else {                    
-                    simpanGroupingJKN();
-                }
-            } else {
-                if (tabMode.getRowCount() == 0 || tabMode13.getRowCount() == 0) {
-                    JOptionPane.showMessageDialog(null, "Untuk kasus rawat inap Diagnosa ICD-10 V5 & V6 harus terisi...!!!!");
-                } else {
-                    simpanGroupingJKN();
-                }
-            }
+            
+                simpanDataJKN();
+                TombolCek();
         }
-    }//GEN-LAST:event_BtnGruperActionPerformed
+        
+        if (labelrwt.equals("JALAN")) {
+                Sequel.mengedit("vedika_ralan","no_rawat=? and no_sep=?","status=Pending',tgl=now(),kd_petugas='"+akses.getkode()+"' ",2,new String[]{norawat,noSEP.getText()});
+        }else if (labelrwt.equals("INAP")){
+                Sequel.mengedit("vedika_ranap","no_rawat=? and no_sep=?","status='Pending',tgl=now(),kd_petugas='"+akses.getkode()+"' ",2,new String[]{norawat,noSEP.getText()});
+        }
+    }//GEN-LAST:event_BtnSimpanDataActionPerformed
 
     private void BtnKirimOnlineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKirimOnlineActionPerformed
         //kalau kode payor 3 adalah JKN
@@ -5051,7 +5265,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         if (kodePayor.equals("3")) {
             if (tabMode2.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "Hasil grouper belum ada, lakukan proses simpan & grouper klaim dulu,...!!");
-                BtnGruper.requestFocus();
+                BtnSimpanData.requestFocus();
             } else {
                 if (Sequel.cariInteger("select count(-1) from setting_bridging where kd_bridging='1' and status_aktif='Ya'") == 1) {
                     kankerRanap = Sequel.cariInteger("select count(-1) from diagnosa_pasien dp inner join penyakit p on p.kd_penyakit=dp.kd_penyakit "
@@ -5069,20 +5283,12 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                     if ((kankerRanap > 0 && cekKanker < 1) || (kankerRalan > 0 && cekKanker < 1)) {
                         i = JOptionPane.showConfirmDialog(null, "Diagnosa utama pasien ini terindikasi kanker, lakukan proses pengiriman data ke Kemenkes terlebih dulu...", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                         if (i == JOptionPane.YES_OPTION) {
-//                            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-//                            DlgDataKanker kanker = new DlgDataKanker(null, false);
-//                            kanker.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-//                            kanker.setLocationRelativeTo(internalFrame1);
-//                            kanker.isCek();
-//                            kanker.emptTeks();
-//                            kanker.setData(Sequel.cariIsi("select no_rawat from bridging_sep where no_sep='" + noSEP.getText() + "'"));
-//                            kanker.setVisible(true);
-//                            this.setCursor(Cursor.getDefaultCursor());
+
                         }
 
                     } else {
-                        tampilDiagnosa();
-                        tampilProsedur();
+//                        tampilDiagnosa();
+//                        tampilProsedur();
                         mbak_eka.mengirimOnline(noSEP.getText());
                         labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
                         labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
@@ -5091,8 +5297,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                         tampilHG2();
                     }
                 } else {
-                    tampilDiagnosa();
-                    tampilProsedur();
+//                    tampilDiagnosa();
+//                    tampilProsedur();
                     mbak_eka.mengirimOnline(noSEP.getText());
                     labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
                     labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
@@ -5107,8 +5313,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Hasil grouper belum ada, lakukan proses simpan & grouper klaim dulu,...!!");
                 BtnGruper2.requestFocus();
             } else {
-                tampilDiagnosa();
-                tampilProsedur();
+//                tampilDiagnosa();
+//                tampilProsedur();
                 mbak_eka.mengirimOnline(noKlaim.getText());
                 labelhasilG2.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noKlaim.getText() + "'"));
                 tampilHG1();
@@ -5126,16 +5332,17 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         if (kodePayor.equals("3")) {
             if (tabMode2.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "Hasil grouper belum ada, lakukan proses simpan & grouper klaim dulu,...!!");
-                BtnGruper.requestFocus();
+                BtnSimpanData.requestFocus();
             } else {
-                tampilDiagnosa();
-                tampilProsedur();
+//                tampilDiagnosa();
+//                tampilProsedur();
                 mbak_eka.mengedit(noSEP.getText());
                 labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
                 labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
                         + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
                 tampilHG1();
                 tampilHG2();
+                TombolCek();
             }
 
         } else {
@@ -5143,12 +5350,13 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Hasil grouper belum ada, lakukan proses simpan & grouper klaim dulu,...!!");
                 BtnGruper2.requestFocus();
             } else {
-                tampilDiagnosa();
-                tampilProsedur();
+//                tampilDiagnosa();
+//                tampilProsedur();
                 mbak_eka.mengedit(noKlaim.getText());
                 labelhasilG2.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noKlaim.getText() + "'"));
                 tampilHG1();
                 tampilHG2();
+                TombolCek();
             }
         }
     }//GEN-LAST:event_BtnEditKlaimActionPerformed
@@ -5162,10 +5370,10 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         if (kodePayor.equals("3")) {
             if (tabMode2.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "Hasil grouper belum ada, lakukan proses simpan & grouper klaim dulu,...!!");
-                BtnGruper.requestFocus();
+                BtnSimpanData.requestFocus();
             } else {
-                tampilDiagnosa();
-                tampilProsedur();
+//                tampilDiagnosa();
+//                tampilProsedur();
                 mbak_eka.menghapus(noSEP.getText(), nikPetugas.getText());
                 dispose();
             }
@@ -5175,12 +5383,14 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(null, "Hasil grouper belum ada, lakukan proses simpan & grouper klaim dulu,...!!");
                 BtnGruper2.requestFocus();
             } else {
-                tampilDiagnosa();
-                tampilProsedur();
+//                tampilDiagnosa();
+//                tampilProsedur();
                 mbak_eka.menghapus(noKlaim.getText(), nikPetugas1.getText());
                 dispose();
             }
         }
+        
+         
     }//GEN-LAST:event_BtnHapusKlaimActionPerformed
 
     private void BtnFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnFinalActionPerformed
@@ -5188,18 +5398,25 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         if (kodePayor.equals("3")) {
             if (tabMode2.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "Lakukan proses simpan & grouper klaim dulu,...!!");
-                BtnGruper.requestFocus();
+                BtnSimpanData.requestFocus();
             } else {
                 i = JOptionPane.showConfirmDialog(null, "Apakah proses final klaim akan tetap dilanjutkan..??!!", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                 if (i == JOptionPane.YES_OPTION) {
-                    tampilDiagnosa();
-                    tampilProsedur();
+//                    tampilDiagnosa();
+//                    tampilProsedur();
                     mbak_eka.mempinal(noSEP.getText(), nikPetugas.getText());
                     labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
                     labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
                             + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
                     tampilHG1();
                     tampilHG2();
+                    tampilRespon();
+                    if (labelrwt.equals("JALAN")) {
+                            Sequel.mengedit("vedika_ralan","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                        }else if (labelrwt.equals("INAP")){
+                            Sequel.mengedit("vedika_ranap","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                    }
+                    TombolCek();
                 }
             }
 
@@ -5210,12 +5427,13 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             } else {
                 i = JOptionPane.showConfirmDialog(null, "Apakah proses final klaim akan tetap dilanjutkan..??!!", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                 if (i == JOptionPane.YES_OPTION) {
-                    tampilDiagnosa();
-                    tampilProsedur();
+//                    tampilDiagnosa();
+//                    tampilProsedur();
                     mbak_eka.mempinal(noKlaim.getText(), nikPetugas1.getText());
                     labelhasilG2.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noKlaim.getText() + "'"));
                     tampilHG1();
                     tampilHG2();
+                     tampilRespon();
                 }
             }
         }
@@ -5245,10 +5463,10 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 cekFinal = "";
                 cekFinal = Sequel.cariIsi("select klaim_final from eklaim_new_claim where no_sep='" + noSEP.getText() + "'");
 
-                if (cekFinal.equals("Final")) {
-                    JOptionPane.showMessageDialog(null, "Data klaim pasien ini sudah difinal, proses tidak dapat dilanjutkan...!!");
-                    tampilDiagnosa();
-                    tampilProsedur();
+                if (cekFinal.toLowerCase().contains("final")) {
+                    JOptionPane.showMessageDialog(null, "Data klaim pasien ini sudah difinal, Silahkan Klik Edit dan ikuti langkah berikutnya. . .");
+//                    tampilDiagnosa();
+//                    tampilProsedur();
                 } else {
                     //rawat inap
                     if (jpel.equals("1")) {
@@ -5328,6 +5546,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 }
             }
         }
+//        tampilDiagnosa();
+//        tampilProsedur();
     }//GEN-LAST:event_ppDiagnosaBtnPrintActionPerformed
 
     private void tglDiagnosaDTPCari1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tglDiagnosaDTPCari1ItemStateChanged
@@ -5340,8 +5560,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void BtnGruperStageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGruperStageActionPerformed
         kodeTopUPnya = "";
-        tampilDiagnosa();
-        tampilProsedur();
+//        tampilDiagnosa();
+//        tampilProsedur();
 
         try {
             j = 0;
@@ -5363,6 +5583,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 mbak_eka.menggrouperKedua(noSEP.getText(), kodeTopUPnya);
                 tampilHG1();
                 tampilHG2();
+                TombolCek();
             }
         } catch (Exception e) {
             System.out.println("Notifikasi : " + e);
@@ -5435,8 +5656,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void BtnGruperStage1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGruperStage1ActionPerformed
         kodeTopUPnya = "";
-        tampilDiagnosa();
-        tampilProsedur();
+//        tampilDiagnosa();
+//        tampilProsedur();
 
         try {
             j = 0;
@@ -6221,6 +6442,606 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_saKeyReleased
 
+    private void BtnGrouperIDRGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGrouperIDRGActionPerformed
+        
+        if (jpel.equals("2")) {
+                if (tabMode13.getRowCount() == 0) {
+                    JOptionPane.showMessageDialog(null, "Diagnosa IDRG masih kosong...!!!!");
+                } else {  
+                    tampilDiagnosa();
+                    tampilProsedur();   
+                    diag = 0;
+                    prod = 0;
+                    if (jpel.equals("2")) {
+                        for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                            if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                diag++;
+                            }
+                        }
+                    } else {
+                        for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                            if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                diag++;
+                            }
+                        }
+
+                    }
+                    
+                    if (jpel.equals("2")) {
+                        for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+                            if (tbTindakanPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                prod++;
+                            }
+                        }
+                    } else {
+                        for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+                            if (tbTindakanPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                prod++;
+                            }
+                        }
+                    }
+
+                    if (diag > 0) {
+                        JOptionPane.showMessageDialog(null, "Masih ada diagnosa IM yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                        tbDiagnosaPasien2.requestFocus();
+                    } else {
+                        mbak_eka.kirimdiagnosaidrg(noSEP.getText(), diagnosaKlaimINADRG); 
+                    }
+                    
+                    
+                    if (prod > 0) {
+                                 JOptionPane.showMessageDialog(null, "Masih ada Prosedur IM yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                 tbTindakanPasien2.requestFocus();
+                    } else {
+                                mbak_eka.kirimproseduridrg(noSEP.getText(), prosedurINADRG1);       
+                    }
+                     mbak_eka.kirimgrouperidrg(noSEP.getText());
+                      tampilRespon();
+                      TombolCek();
+                }
+            } else {
+                tampilDiagnosa();
+                tampilProsedur();   
+                if (tabMode13.getRowCount() == 0) {
+                    JOptionPane.showMessageDialog(null, "Untuk Diagnosa IDRG IM harus terisi...!!!!");
+                } else {
+                   
+                    diag = 0;
+                    prod = 0;
+                    if (jpel.equals("2")) {
+                        for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                            if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                diag++;
+                            }
+                        }
+                    } else {
+                        for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                            if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                diag++;
+                            }
+                        }
+                    }
+                    
+                    if (jpel.equals("2")) {
+                        for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+                            if (tbTindakanPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                prod++;
+                            }
+                        }
+                    } else {
+                        for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+                            if (tbTindakanPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                prod++;
+                            }
+                        }
+                    }
+
+                    if (diag > 0) {
+                        JOptionPane.showMessageDialog(null, "Masih ada diagnosa IM yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                        tbDiagnosaPasien2.requestFocus();
+                    } else {
+                        mbak_eka.kirimdiagnosaidrg(noSEP.getText(), diagnosaKlaimINADRG); 
+                    }
+                    
+                    if (prod > 0) {
+                                 JOptionPane.showMessageDialog(null, "Masih ada Prosedur IM yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                 tbTindakanPasien2.requestFocus();
+                    } else {
+                                mbak_eka.kirimproseduridrg(noSEP.getText(), prosedurINADRG1);       
+                    } 
+                      mbak_eka.kirimgrouperidrg(noSEP.getText());
+                      tampilRespon();
+                      TombolCek();
+                }
+            }
+        
+    }//GEN-LAST:event_BtnGrouperIDRGActionPerformed
+
+    private void BtnFinalIdrgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnFinalIdrgActionPerformed
+            Sequel.mengedit("eklaim_set_claim", "no_sep=?","diagnosa_inagrouper='"+diagnosaKlaimINADRG+"',procedure_inagrouper='"+prosedurINADRG1+"' ",1,new String[]{noSEP.getText()});
+            mbak_eka.kirimfinalidrg(noSEP.getText());
+            tampilRespon();
+            TombolCek();
+    }//GEN-LAST:event_BtnFinalIdrgActionPerformed
+
+    private void BtnEditIdrgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditIdrgActionPerformed
+         mbak_eka.reeditidrg(noSEP.getText());
+         TombolCek();
+    }//GEN-LAST:event_BtnEditIdrgActionPerformed
+
+    private void BtnGrouperInacbgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGrouperInacbgActionPerformed
+              if (jpel.equals("2")) {
+                    SetDiagnosa();
+                    SetProsedur();
+                    if (tabMode.getRowCount() == 0) {
+                            JOptionPane.showMessageDialog(null, "Untuk Diagnosa INACBG harus terisi...!!!!");
+                    }else{ 
+                        diag = 0;
+                        prod = 0;
+                        if (jpel.equals("2")) {
+                            for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
+                                if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("IM tidak berlaku")) {
+                                    diag++;
+                                }
+                            }
+                        } else {
+                            for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
+                                if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("IM tidak berlaku")) {
+                                    diag++;
+                                }
+                            }
+
+                        }
+
+                        if (jpel.equals("2")) {
+                            for (i = 0; i < tbTindakanPasien1.getRowCount(); i++) {
+                                if (tbTindakanPasien1.getValueAt(i, 2).toString().equals("IM tidak berlaku")) {
+                                    prod++;
+                                }
+                            }
+                        } else {
+                            for (i = 0; i < tbTindakanPasien1.getRowCount(); i++) {
+                                if (tbTindakanPasien1.getValueAt(i, 2).toString().equals("IM tidak berlaku")) {
+                                    prod++;
+                                }
+                            }
+                        }
+                        
+                        
+                            if (diag > 0) {
+                                JOptionPane.showMessageDialog(null, "Masih ada diagnosa yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                tbDiagnosaPasien1.requestFocus();
+                            } 
+//                            else {
+//                                mbak_eka.kirimdiagnosainacbg(noSEP.getText(), diagnosaKlaim);
+//                            }
+
+                            else if (prod > 0) {
+                                         JOptionPane.showMessageDialog(null, "Masih ada Prosedur yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                         tbTindakanPasien1.requestFocus();
+                            } 
+                            else {
+                                   mbak_eka.kirimprosedurinacbg(noSEP.getText(), prosedurKlaim);        
+                             
+                            
+                      if(mbak_eka.menggrouperPertama(noSEP.getText())==true){
+                        labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Final IDRG','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                            labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                    + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                            tampilHG1();
+                            tampilHG2();
+                            tampilRespon();
+                            if (tabMode3.getRowCount() == 0) {
+                                BtnGruperStage.setEnabled(false);
+                                BtnFinalInacbg.setEnabled(true);
+                                JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Final INACBG. . !!");
+                            } else {
+                                BtnGruperStage.setEnabled(true);
+                                BtnFinalInacbg.setEnabled(false);
+                                JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Grouper Stage 2 lalu Final INACBG. . !!");
+                            }
+                            TombolCek();
+                        } else {
+                            labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Final IDRG','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                            labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                    + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                            tampilHG1();
+                            tampilHG2();
+                            tampilRespon();
+                          //  tampilRespon();
+                            if (tabMode3.getRowCount() == 0) {
+                                BtnGruperStage.setEnabled(false);
+                                BtnFinalInacbg.setEnabled(true);
+                                 JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Final INACBG. . !!");
+                            } else {
+                                BtnGruperStage.setEnabled(true);
+                                BtnFinalInacbg.setEnabled(false);
+                                JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Grouper Stage 2 lalu Final INACBG. . !!");
+                            }
+                             //mbak_eka.kirimfinalinacbg(noSEP.getText());
+                             TombolCek();
+                        }
+                    }
+                    }
+                         
+            }else{
+                    SetDiagnosa();
+                    SetProsedur();
+                    if (tabMode.getRowCount() == 0) {
+                            JOptionPane.showMessageDialog(null, "Untuk Diagnosa INACBG harus terisi...!!!!");
+                    }else{
+                        diag = 0;
+                        prod = 0;
+                        if (jpel.equals("2")) {
+                           for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
+                                if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("IM tidak berlaku")) {
+                                    diag++;
+                                }
+                            }
+                        } else {
+                            for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
+                                if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("IM tidak berlaku")) {
+                                    diag++;
+                                }
+                            }
+
+                        }
+
+                        if (jpel.equals("2")) {
+                            for (i = 0; i < tbTindakanPasien1.getRowCount(); i++) {
+                                if (tbTindakanPasien1.getValueAt(i, 2).toString().equals("IM tidak berlaku")) {
+                                    prod++;
+                                }
+                            }
+                        } else {
+                            for (i = 0; i < tbTindakanPasien1.getRowCount(); i++) {
+                                if (tbTindakanPasien1.getValueAt(i, 2).toString().equals("IM tidak berlaku")) {
+                                    prod++;
+                                }
+                            }
+                        }
+                        
+                        
+                            if (diag > 0) {
+                                JOptionPane.showMessageDialog(null, "Masih ada diagnosa yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                tbDiagnosaPasien1.requestFocus();
+                            } else
+//                                mbak_eka.kirimdiagnosainacbg(noSEP.getText(), diagnosaKlaim);
+//                            }
+
+                            if (prod > 0) {
+                                         JOptionPane.showMessageDialog(null, "Masih ada Prosedur yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                         tbTindakanPasien1.requestFocus();
+                            } else {
+                                mbak_eka.kirimprosedurinacbg(noSEP.getText(), prosedurKlaim);        
+
+                    
+                     if(mbak_eka.menggrouperPertama(noSEP.getText())==true){
+                        labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Final IDRG','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                            labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                    + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                            tampilHG1();
+                            tampilHG2();
+                            tampilRespon();
+                            if (tabMode3.getRowCount() == 0) {
+                                BtnGruperStage.setEnabled(false);
+                                BtnFinalInacbg.setEnabled(true);
+                               JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Final INACBG. . !!");
+                            } else {
+                                BtnGruperStage.setEnabled(true);
+                                 BtnFinalInacbg.setEnabled(false);
+                                JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Grouper Stage 2 lalu Final INACBG. . !!");
+                            }
+                            TombolCek();
+                        } else {
+                            labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Final IDRG','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                            labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                    + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                            tampilHG1();
+                            tampilHG2();
+                            tampilRespon();
+                            if (tabMode3.getRowCount() == 0) {
+                                BtnGruperStage.setEnabled(false);
+                                BtnFinalInacbg.setEnabled(true);
+                               JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Final INACBG. . !!");
+                            } else {
+                                BtnGruperStage.setEnabled(true);
+                                 BtnFinalInacbg.setEnabled(false);
+                                JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Grouper Stage 2 lalu Final INACBG. . !!");
+                            }
+                           TombolCek();
+                        }
+                      }
+                 }
+              }
+    }//GEN-LAST:event_BtnGrouperInacbgActionPerformed
+
+    private void BtnFinalInacbgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnFinalInacbgActionPerformed
+        Sequel.mengedit("eklaim_set_claim", "no_sep=?","diagnosa='"+diagnosaKlaim+"',`procedure`='"+prosedurKlaim+"' ",1,new String[]{noSEP.getText()});        
+        mbak_eka.kirimfinalinacbg(noSEP.getText());
+        TombolCek();
+    }//GEN-LAST:event_BtnFinalInacbgActionPerformed
+
+    private void BtnEditINACBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditINACBGActionPerformed
+          mbak_eka.reeditinacbg(noSEP.getText());
+          TombolCek();
+    }//GEN-LAST:event_BtnEditINACBGActionPerformed
+
+    private void BtnImportIDRGtoINACBGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnImportIDRGtoINACBGActionPerformed
+        if (jpel.equals("1")) {
+            status="Ranap";
+        } else if (jpel.equals("2")){
+             status="Ralan";
+        }
+        if(mbak_eka.importidrgtoinacbg(noSEP.getText())==true){
+    
+            if (tabMode.getRowCount() == 0) {
+                 TabDiagnosa1.setSelectedIndex(0);
+                  try {
+                    for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) { 
+                        String kodeICD = tbDiagnosaPasien2.getValueAt(i, 0).toString();
+
+                        // ambil prioritas global terakhir dari dua tabel
+                        int prioritasTerakhir = Sequel.cariInteger(
+                            "SELECT IFNULL(MAX(prioritas),0) FROM (" +
+                            " SELECT prioritas FROM diagnosa_pasien WHERE no_rawat=? " +
+                            " UNION ALL " +
+                            " SELECT prioritas FROM eklaim_diagnosaimport_invalid WHERE no_rawat=? " +
+                            ") AS gabung",
+                            norawat, norawat
+                        );
+                        int prioritasBaru = prioritasTerakhir + 1;
+
+                        try {                      
+                            // cek apakah diagnosa sudah pernah ada
+                            if (Sequel.cariInteger(
+                                "SELECT COUNT(dp.kd_penyakit) FROM diagnosa_pasien dp " +
+                                "INNER JOIN reg_periksa rp ON dp.no_rawat=rp.no_rawat " +
+                                "INNER JOIN pasien ps ON rp.no_rkm_medis=ps.no_rkm_medis " +
+                                "WHERE ps.no_rkm_medis='"+norm+"' AND dp.kd_penyakit=?",
+                                kodeICD
+                            ) > 0) {
+
+                                Sequel.menyimpandxpseklaim("diagnosa_pasien", "?,?,?,?,?", "ICD 10", 5, new String[]{
+                                    norawat, kodeICD, status, String.valueOf(prioritasBaru), "Lama"
+                                });
+
+                            } else {
+                                Sequel.menyimpandxpseklaim("diagnosa_pasien", "?,?,?,?,?", "ICD 10", 5, new String[]{
+                                    norawat, kodeICD, status, String.valueOf(prioritasBaru), "Baru"
+                                });
+                            }
+
+                        } catch (Exception ex) {
+                            System.out.println("Insert diagnosa gagal: " + ex.getMessage());
+
+                            // kalau gagal, tetap ambil prioritas berikutnya (tidak tabrakan)
+                            prioritasTerakhir = Sequel.cariInteger(
+                                "SELECT IFNULL(MAX(prioritas),0) FROM (" +
+                                " SELECT prioritas FROM diagnosa_pasien WHERE no_rawat=? " +
+                                " UNION ALL " +
+                                " SELECT prioritas FROM eklaim_diagnosaimport_invalid WHERE no_rawat=? " +
+                                ") AS gabung",
+                                norawat, norawat
+                            );
+                            prioritasBaru = prioritasTerakhir + 1;
+
+                            Sequel.menyimpan("eklaim_diagnosaimport_invalid", "?,?,?,?,?,?", 6, new String[]{
+                                norawat,
+                                kodeICD,
+                                status,
+                                String.valueOf(prioritasBaru),
+                                tbDiagnosaPasien2.getValueAt(i, 1).toString(),
+                                "IM Tidak Berlaku"
+                            });
+                        }
+                    }
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null,
+                        "Maaf, gagal menyimpan data. Kemungkinan ada data diagnosa yang sama dimasukkan sebelumnya...!");
+                }
+            } else {
+                   JOptionPane.showMessageDialog(null,"Maaf, gagal import. Kemungkinan ada data diagnosa yang sama dimasukkan sebelumnya...!");
+            }
+            
+           if (tabMode1.getRowCount() == 0) {
+                TabProsedur1.setSelectedIndex(0);
+                try {
+                    for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+                        String kodePRO = tbTindakanPasien2.getValueAt(i, 0).toString();
+
+                        // Ambil prioritas terakhir dari dua tabel agar tidak ada duplikasi
+                        int prioritasTerakhir = Sequel.cariInteger(
+                            "SELECT IFNULL(MAX(prioritas), 0) FROM (" +
+                            " SELECT prioritas FROM prosedur_pasien WHERE no_rawat=? " +
+                            " UNION ALL " +
+                            " SELECT prioritas FROM eklaim_prosedurimport_invalid WHERE no_rawat=? " +
+                            ") AS gabung",
+                            norawat, norawat
+                        );
+                        int prioritasBaru = prioritasTerakhir + 1;
+
+                        try {
+                            // Coba simpan ke tabel prosedur_pasien
+                            Sequel.menyimpandxpseklaim(
+                                "prosedur_pasien", "?,?,?,?", "ICD9", 4,
+                                new String[]{norawat, kodePRO, status, String.valueOf(prioritasBaru)}
+                            );
+
+                        } catch (Exception ex) {
+                            System.out.println("Insert prosedur gagal: " + ex.getMessage());
+
+                            // kalau gagal, ambil prioritas berikutnya lagi agar tetap unik
+                            prioritasTerakhir = Sequel.cariInteger(
+                                "SELECT IFNULL(MAX(prioritas), 0) FROM (" +
+                                " SELECT prioritas FROM prosedur_pasien WHERE no_rawat=? " +
+                                " UNION ALL " +
+                                " SELECT prioritas FROM eklaim_prosedurimport_invalid WHERE no_rawat=? " +
+                                ") AS gabung",
+                                norawat, norawat
+                            );
+                            prioritasBaru = prioritasTerakhir + 1;
+
+                            // Simpan ke tabel invalid jika gagal
+                            Sequel.menyimpan(
+                                "eklaim_prosedurimport_invalid", "?,?,?,?,?,?", 6,
+                                new String[]{
+                                    norawat,
+                                    kodePRO,
+                                    status,
+                                    String.valueOf(prioritasBaru),
+                                    tbTindakanPasien2.getValueAt(i, 1).toString(),
+                                    "Kode ICD9 tidak ada di master prosedur"
+                                }
+                            );
+                        }
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, 
+                        "Maaf, gagal menyimpan data prosedur. Kemungkinan ada data yang sama atau tidak valid.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null,"Maaf, gagal import. Kemungkinan ada data prosedur yang sama dimasukkan sebelumnya...!");
+            }
+             
+            SetDiagnosa();
+            SetProsedur();
+            TombolCek();
+        }
+    }//GEN-LAST:event_BtnImportIDRGtoINACBGActionPerformed
+
+    private void BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrintActionPerformed
+        mbak_eka.printklaim(noSEP.getText());
+    }//GEN-LAST:event_BtnPrintActionPerformed
+
+    private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnPrintKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnPrintKeyPressed
+
+    private void ppHapusDataBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppHapusDataBtnPrintActionPerformed
+        cekFinal = "";
+        cekFinal = Sequel.cariIsi("select klaim_final from eklaim_new_claim where no_sep='" + noSEP.getText() + "'");
+        // --- Diagnosa 1 ---
+        if (tbDiagnosaPasien1.getSelectedRow() != -1) {
+            if (tabMode.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf, data sudah habis...!!!!");
+            } else if (cekFinal.toLowerCase().contains("final")) {
+                JOptionPane.showMessageDialog(null, "Data klaim pasien ini sudah difinal, Silahkan Klik Edit INACBG dan ikuti langkah berikutnya. . .");
+            } else if (tbDiagnosaPasien1.getValueAt(tbDiagnosaPasien1.getSelectedRow(), 3).toString().equals("IM tidak berlaku")) {
+                Sequel.queryu2("delete from eklaim_diagnosaimport_invalid where no_rawat=? and kd_penyakit=?", 2, new String[]{
+                    norawat, tbDiagnosaPasien1.getValueAt(tbDiagnosaPasien1.getSelectedRow(), 0).toString()
+                });
+            } else {
+                JOptionPane.showMessageDialog(null, "Maaf, tidak bisa hapus diagnosa inacbg yang sesuai atau silahkan hapus di menu Diagnosa");
+            }
+
+        // --- Diagnosa 2 ---
+        } else if (tbDiagnosaPasien2.getSelectedRow() != -1) {
+            if (tabMode13.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf, data sudah habis...!!!!");
+            } else if (cekFinal.toLowerCase().contains("final")) {
+                JOptionPane.showMessageDialog(null, "Data klaim pasien ini sudah difinal, Silahkan Klik Edit IDRG dan ikuti langkah berikutnya. . .");
+            } else if (!tbDiagnosaPasien2.getValueAt(tbDiagnosaPasien2.getSelectedRow(), 3).toString().equals("Sesuai")) {
+                Sequel.queryu2("delete from diagnosa_pasien_inadrg where no_rawat=? and kd_penyakit=?", 2, new String[]{
+                    norawat, tbDiagnosaPasien2.getValueAt(tbDiagnosaPasien2.getSelectedRow(), 0).toString()
+                });
+            } else {
+                JOptionPane.showMessageDialog(null, "Maaf, tidak bisa diagnosa idrg yang sesuai atau silahkan hapus di menu Diagnosa");
+            }
+
+        // --- Prosedur 1 ---
+        } else if (tbTindakanPasien1.getSelectedRow() != -1) {
+            if (tabMode1.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf, data sudah habis...!!!!");
+            } else if (cekFinal.toLowerCase().contains("final")) {
+                JOptionPane.showMessageDialog(null, "Data klaim pasien ini sudah difinal, Silahkan Klik Edit INACBG dan ikuti langkah berikutnya. . .");
+            } else if (tbTindakanPasien1.getValueAt(tbTindakanPasien1.getSelectedRow(), 2).toString().equals("IM tidak berlaku")) {
+                Sequel.queryu2("delete from eklaim_prosedurimport_invalid where no_rawat=? and kode=?", 2, new String[]{
+                    norawat, tbTindakanPasien1.getValueAt(tbTindakanPasien1.getSelectedRow(), 0).toString()
+                });
+            } else {
+                JOptionPane.showMessageDialog(null, "Maaf, tidak bisa prosedur idrg yang sesuai atau silahkan hapus di menu Diagnosa");
+            }
+
+        // --- Prosedur 2 ---
+        } else if (tbTindakanPasien2.getSelectedRow() != -1) {
+            if (tabMode1.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf, data sudah habis...!!!!");
+            } else if (cekFinal.toLowerCase().contains("final")) {
+                JOptionPane.showMessageDialog(null, "Data klaim pasien ini sudah difinal, Silahkan Klik Edit IDRG dan ikuti langkah berikutnya. . .");
+            } else if (!tbTindakanPasien2.getValueAt(tbTindakanPasien2.getSelectedRow(), 2).toString().equals("Sesuai")) {
+                Sequel.queryu2("delete from prosedur_pasien_inadrg where no_rawat=? and kode=?", 2, new String[]{
+                    norawat, tbTindakanPasien2.getValueAt(tbTindakanPasien2.getSelectedRow(), 0).toString()
+                });
+            } else {
+                JOptionPane.showMessageDialog(null, "Maaf, tidak bisa prosedur idrg yang sesuai atau silahkan hapus di menu Diagnosa");
+            }
+
+        // --- Tidak ada tabel aktif ---
+        } else {
+            JOptionPane.showMessageDialog(null, "Silakan pilih data yang ingin dihapus terlebih dahulu!");
+        }
+        tampilDiagnosa();
+        tampilProsedur();
+    }//GEN-LAST:event_ppHapusDataBtnPrintActionPerformed
+
+    private void ppJadikanDUBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppJadikanDUBtnPrintActionPerformed
+        cekFinal = "";
+        cekFinal = Sequel.cariIsi("select klaim_final from eklaim_new_claim where no_sep='" + noSEP.getText() + "'");
+         if (jpel.equals("1")) {
+            status="Ranap";
+        } else if (jpel.equals("2")){
+             status="Ralan";
+        }
+        // --- Diagnosa 1 ---
+        if (tbDiagnosaPasien1.getSelectedRow() != -1) {
+            if (tabMode.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf, data sudah habis...!!!!");
+            } else if (cekFinal.toLowerCase().contains("final")) {
+                JOptionPane.showMessageDialog(null, "Data klaim pasien ini sudah difinal, Silahkan Klik Edit IDRG dan ikuti langkah berikutnya. . .");
+            } else if (Sequel.cariInteger(
+                        "SELECT (" +
+                        "IFNULL((SELECT COUNT(*) FROM diagnosa_pasien WHERE no_rawat='" + norawat + "' AND status='" + status + "' AND prioritas='1'),0) + " +
+                        "IFNULL((SELECT COUNT(*) FROM eklaim_diagnosaimport_invalid WHERE no_rawat='" + norawat + "' AND status='" + status + "' AND prioritas='1'),0)" +
+                        ") AS total"
+                    ) > 0){
+               JOptionPane.showMessageDialog(null, "Diagnosa Pasien sudah ada Primary, silahkan cek kembali datanya. . .");
+            } else if (tbDiagnosaPasien1.getValueAt(tbDiagnosaPasien1.getSelectedRow(), 2).toString().equals("Sekunder")) {
+                Sequel.mengedit("diagnosa_pasien", "no_rawat='"+norawat+"' AND kd_penyakit='"+tbDiagnosaPasien1.getValueAt(tbDiagnosaPasien1.getSelectedRow(), 0).toString()+"'",
+                        "prioritas='1' ");
+            } else {
+                JOptionPane.showMessageDialog(null, "Maaf, tidak bisa hapus diagnosa inacbg yang sesuai atau silahkan hapus di menu Diagnosa");
+            }
+
+        // --- Diagnosa 2 ---
+        } else if (tbDiagnosaPasien2.getSelectedRow() != -1) {
+            if (tabMode13.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "Maaf, data sudah habis...!!!!");
+            } else if (cekFinal.toLowerCase().contains("final")) {
+                JOptionPane.showMessageDialog(null, "Data klaim pasien ini sudah difinal, Silahkan Klik Edit IDRG dan ikuti langkah berikutnya. . .");
+            }  else if (tbDiagnosaPasien2.getValueAt(tbDiagnosaPasien2.getSelectedRow(), 2).toString().equals("Sekunder")) {
+                Sequel.mengedit("diagnosa_pasien_inadrg", "no_rawat='"+norawat+"' AND kd_penyakit='"+tbDiagnosaPasien2.getValueAt(tbDiagnosaPasien2.getSelectedRow(), 0).toString()+"'",
+                        "prioritas='1' ");
+            } else if (Sequel.cariInteger("SELECT COUNT(prioritas) as prioritas FROM diagnosa_pasien_idrg WHERE no_rawat='"+status+"' AND status='Ranap' AND prioritas='1' ")>0){
+               JOptionPane.showMessageDialog(null, "Diagnosa Pasien sudah ada Primary, silahkan cek kembali datanya. . .");
+            } else {
+                JOptionPane.showMessageDialog(null, "Maaf, tidak bisa diagnosa idrg yang sesuai atau silahkan hapus di menu Diagnosa");
+            }
+        }  else {
+            JOptionPane.showMessageDialog(null, "Silakan pilih data yang ingin dijadikan Diagnosa Utama");
+        }
+        tampilDiagnosa();
+    }//GEN-LAST:event_ppJadikanDUBtnPrintActionPerformed
+
+    private void BtnCarisepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCarisepActionPerformed
+        carisep.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+        carisep.emptTeks();
+        carisep.tampilKLAIM();
+        carisep.setLocationRelativeTo(this);
+        carisep.setVisible(true);
+    }//GEN-LAST:event_BtnCarisepActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -6241,20 +7062,29 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
     private widget.Button BtnAddEpisod;
     private widget.Button BtnAddUnggah;
     private widget.Button BtnBaru;
+    private widget.Button BtnCarisep;
     private widget.Button BtnDelEpisod;
     private widget.Button BtnDelUnggah;
     private widget.Button BtnDelUnggahPilihan;
+    private widget.Button BtnEditINACBG;
+    private widget.Button BtnEditIdrg;
     private widget.Button BtnEditKlaim;
     private widget.Button BtnFinal;
-    private widget.Button BtnGruper;
+    private widget.Button BtnFinalIdrg;
+    private widget.Button BtnFinalInacbg;
+    private widget.Button BtnGrouperIDRG;
+    private widget.Button BtnGrouperInacbg;
     private widget.Button BtnGruper2;
     private widget.Button BtnGruperStage;
     private widget.Button BtnGruperStage1;
     private widget.Button BtnHapusKlaim;
+    private widget.Button BtnImportIDRGtoINACBG;
     private widget.Button BtnKeluar;
     private widget.Button BtnKirimOnline;
+    private widget.Button BtnPrint;
     private widget.Button BtnRefres;
     private widget.Button BtnRefres1;
+    private widget.Button BtnSimpanData;
     private widget.Button BtnTambah;
     private widget.Button BtnUnggahDipilih;
     private widget.Button BtnUploadFile;
@@ -6541,7 +7371,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
     private widget.Label labelHRlm5;
     private widget.Label labelHRlm6;
     private widget.Label labelHRlm7;
-    private widget.Label labelHRlm9;
+    private widget.Label labelHRlm8;
     private widget.Label labelLM;
     private widget.Label labelLM1;
     private widget.Label labelLM2;
@@ -6619,7 +7449,9 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
     private widget.TextBox pnb;
     private widget.Label pnb7;
     private javax.swing.JMenuItem ppDiagnosa;
+    private javax.swing.JMenuItem ppHapusData;
     private javax.swing.JMenuItem ppHapusDelivery;
+    private javax.swing.JMenuItem ppJadikanDU;
     private widget.Label pros_inadrg1;
     private widget.Label pros_inadrg2;
     private widget.TextBox rad;
@@ -7257,7 +8089,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 nmPetugas.setText(Sequel.cariIsi("select nama from petugas WHERE nip='" + akses.getkode() + "'"));
                 nikPetugas.setText(Sequel.cariIsi("SELECT no_ik FROM inacbg_coder_nik WHERE nik='" + akses.getkode() + "'"));
             }
-            //labeltekanandarah.setText(Sequel.cariIsi("select tensi from pemeriksaan_ralan where no_rawat ='"+norw+"'"));
+
             labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + nosep + "'"));
             labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
                     + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + nosep + "'"));
@@ -7360,33 +8192,36 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
     }
 
     private void tampilDiagnosa() {
-        diagnosaKlaim = "";
-        diagnosaKlaimINADRG = "";
+        diagnosaKlaim = null;
+        diagnosaKlaimINADRG = null;
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
             //diagnosa v5 -----------------------------------------
             Valid.tabelKosong(tabMode);
             try {
-               ps1 = koneksi.prepareStatement("SELECT dp.kd_penyakit, p.ciri_ciri, IF (dp.prioritas = '1','Primer','Sekunder') status "
+                ps1 = koneksi.prepareStatement("SELECT dp.kd_penyakit, p.ciri_ciri, IF (dp.prioritas = '1','Primer','Sekunder') status,dp.prioritas as urutan "
                         + "FROM diagnosa_pasien dp INNER JOIN penyakit p ON p.kd_penyakit=dp.kd_penyakit "
-                        + "WHERE dp.no_rawat='" + norawat + "' ORDER BY dp.prioritas");
+                        + "WHERE dp.no_rawat='" + norawat + "' union all "
+                        + "SELECT edi.kd_penyakit, edi.nm_penyakit as ciri_ciri, IF (edi.prioritas = '1','Primer','Sekunder') status,edi.prioritas as urutan "
+                        + "FROM eklaim_diagnosaimport_invalid edi WHERE edi.no_rawat='" + norawat + "' order by urutan ");
                 try {
                     rs1 = ps1.executeQuery();
+                    StringJoiner dxklaim = new StringJoiner("#");
                     while (rs1.next()) {
-                        diagnosaKlaim = diagnosaKlaim + rs1.getString("kd_penyakit") + "#";
-                 //       if (mbak_eka.ngecekDiagnosa(rs1.getString("kd_penyakit")) == true) {
-                 if (mbak_eka.ngecekDiagnosaINADRG(rs1.getString("kd_penyakit")) == true) {
-                            hasilVerifDiag1 = "Sesuai";
+                       dxklaim.add(rs1.getString("kd_penyakit"));
+                        if (mbak_eka.ngecekDiagnosa(rs1.getString("kd_penyakit")) == true) {
+                            hasilVerifDiag = "Sesuai";
                         } else {
-                            hasilVerifDiag1 = "Belum Sesuai";
+                            hasilVerifDiag = "IM tidak berlaku";
                         }
                         tabMode.addRow(new Object[]{
                             rs1.getString("kd_penyakit"),
                             rs1.getString("ciri_ciri"),
                             rs1.getString("status"),
-                            hasilVerifDiag1
+                            hasilVerifDiag
                         });
                     }
+                    diagnosaKlaim=dxklaim.toString();
                 } catch (Exception e) {
                     System.out.println("Notifikasi : " + e);
                 } finally {
@@ -7400,29 +8235,32 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             } catch (SQLException e) {
                 System.out.println("Notifikasi : " + e);
             }
-            
+
             //diagnosa v6 -----------------------------------------
             Valid.tabelKosong(tabMode13);
             try {
-                ps13 = koneksi.prepareStatement("SELECT dp.kd_penyakit, p.ciri_ciri, IF (dp.prioritas = '1','Primer','Sekunder') status "
-                        + "FROM diagnosa_pasien dp INNER JOIN penyakit p ON p.kd_penyakit=dp.kd_penyakit "
+                ps13 = koneksi.prepareStatement("SELECT dp.kd_penyakit, dp.nm_penyakit, IF (dp.prioritas = '1','Primer','Sekunder') status "
+                        + "FROM diagnosa_pasien_inadrg dp "
                         + "WHERE dp.no_rawat='" + norawat + "' ORDER BY dp.prioritas");
                 try {
                     rs13 = ps13.executeQuery();
+                     StringJoiner dxidrg = new StringJoiner("#");
                     while (rs13.next()) {
-                        diagnosaKlaimINADRG = diagnosaKlaimINADRG + rs13.getString("kd_penyakit") + "#";
-                        if (mbak_eka.ngecekDiagnosaINADRG(rs13.getString("kd_penyakit")) == true) {
-                            hasilVerifDiag2 = "Sesuai";
-                        } else {
-                            hasilVerifDiag2 = "Belum Sesuai";
-                        }
+                        dxidrg.add(rs13.getString("kd_penyakit"));
+                        hasilVerifDiag2 = mbak_eka.ngecekDiagnosaINADRG(rs13.getString("kd_penyakit"));
+//                        if (mbak_eka.ngecekDiagnosaINADRG(rs13.getString("kd_penyakit")) == true) {
+//                            hasilVerifDiag2 = "Sesuai";
+//                        } else {
+//                            hasilVerifDiag2 = "Belum Sesuai";
+//                        }
                         tabMode13.addRow(new Object[]{
                             rs13.getString("kd_penyakit"),
-                            rs13.getString("ciri_ciri"),
+                            rs13.getString("nm_penyakit"),
                             rs13.getString("status"),
                             hasilVerifDiag2
                         });
                     }
+                    diagnosaKlaimINADRG=dxidrg.toString();
                 } catch (Exception e) {
                     System.out.println("Notifikasi : " + e);
                 } finally {
@@ -7446,20 +8284,23 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                         + "WHERE dp.no_rawat='" + norawat + "' ORDER BY dp.prioritas");
                 try {
                     rs1 = ps1.executeQuery();
+                    StringJoiner dxklaim1 = new StringJoiner("#");
+                    
                     while (rs1.next()) {
-                        diagnosaKlaim = diagnosaKlaim + rs1.getString("kd_penyakit") + "#";
-                        if (mbak_eka.ngecekDiagnosaINADRG(rs1.getString("kd_penyakit")) == true) {
-                            hasilVerifDiag3 = "Sesuai";
+                        dxklaim1.add(rs1.getString("kd_penyakit"));
+                        if (mbak_eka.ngecekDiagnosa(rs1.getString("kd_penyakit")) == true) {
+                            hasilVerifDiag = "Sesuai";
                         } else {
-                            hasilVerifDiag3 = "Belum Sesuai";
+                            hasilVerifDiag = "Belum Sesuai";
                         }
                         tabMode5.addRow(new Object[]{
                             rs1.getString("kd_penyakit"),
                             rs1.getString("ciri_ciri"),
                             rs1.getString("status"),
-                            hasilVerifDiag3
+                            hasilVerifDiag
                         });
                     }
+                    diagnosaKlaim = dxklaim1.toString();
                 } catch (Exception e) {
                     System.out.println("Notifikasi : " + e);
                 } finally {
@@ -7477,25 +8318,28 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             //diagnosa v6 -----------------------------------------
             Valid.tabelKosong(tabMode14);
             try {
-                ps14 = koneksi.prepareStatement("SELECT dp.kd_penyakit, p.ciri_ciri, IF (dp.prioritas = '1','Primer','Sekunder') status "
-                        + "FROM diagnosa_pasien dp INNER JOIN penyakit p ON p.kd_penyakit=dp.kd_penyakit "
+                ps14 = koneksi.prepareStatement("SELECT dp.kd_penyakit, dp.nm_penyakit, IF (dp.prioritas = '1','Primer','Sekunder') status "
+                        + "FROM diagnosa_pasien_inadrg dp "
                         + "WHERE dp.no_rawat='" + norawat + "' ORDER BY dp.prioritas");
                 try {
                     rs14 = ps14.executeQuery();
+                    StringJoiner dxidrg1 = new StringJoiner("#");
                     while (rs14.next()) {
-                        diagnosaKlaimINADRG = diagnosaKlaimINADRG + rs14.getString("kd_penyakit") + "#";
-                        if (mbak_eka.ngecekDiagnosaINADRG(rs14.getString("kd_penyakit")) == true) {
-                            hasilVerifDiag4 = "Sesuai";
-                        } else {
-                            hasilVerifDiag4 = "Belum Sesuai";
-                        }
+                         dxidrg1.add(rs14.getString("kd_penyakit"));
+                         hasilVerifDiag4 = mbak_eka.ngecekDiagnosaINADRG(rs14.getString("kd_penyakit"));
+//                        if (mbak_eka.ngecekDiagnosaINADRG(rs14.getString("kd_penyakit")) == true) {
+//                            hasilVerifDiag4 = "Sesuai";
+//                        } else {
+//                            hasilVerifDiag4 = "Belum Sesuai";
+//                        }
                         tabMode14.addRow(new Object[]{
                             rs14.getString("kd_penyakit"),
-                            rs14.getString("ciri_ciri"),
+                            rs14.getString("nm_penyakit"),
                             rs14.getString("status"),
                             hasilVerifDiag4
                         });
                     }
+                    diagnosaKlaimINADRG =dxidrg1.toString();
                 } catch (Exception e) {
                     System.out.println("Notifikasi : " + e);
                 } finally {
@@ -7511,32 +8355,124 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             }
         }
     }
+    
+    private void SetDiagnosa() {
+        diagnosaKlaim = null;
+        diagnosaKlaimINADRG = null;
+        //kalau kode payor 3 adalah JKN
+        if (kodePayor.equals("3")) {
+            //diagnosa v5 -----------------------------------------
+            Valid.tabelKosong(tabMode);
+            try {
+                ps1 = koneksi.prepareStatement("SELECT dp.kd_penyakit, p.ciri_ciri, IF (dp.prioritas = '1','Primer','Sekunder') status,dp.prioritas as urutan "
+                        + "FROM diagnosa_pasien dp INNER JOIN penyakit p ON p.kd_penyakit=dp.kd_penyakit "
+                        + "WHERE dp.no_rawat='" + norawat + "' union all "
+                        + "SELECT edi.kd_penyakit, edi.nm_penyakit as ciri_ciri, IF (edi.prioritas = '1','Primer','Sekunder') status,edi.prioritas as urutan "
+                        + "FROM eklaim_diagnosaimport_invalid edi WHERE edi.no_rawat='" + norawat + "' order by urutan ");
+                try {
+                    rs1 = ps1.executeQuery();
+                    StringJoiner dxklaim = new StringJoiner("#");
+                    while (rs1.next()) {
+                       dxklaim.add(rs1.getString("kd_penyakit"));
+                        if (mbak_eka.kirimdiagnosainacbg(noSEP.getText(),rs1.getString("kd_penyakit")) == true) {
+                            hasilVerifDiag = "Sesuai";
+                        } else {
+                            hasilVerifDiag = "IM tidak berlaku";
+                        }
+                        tabMode.addRow(new Object[]{
+                            rs1.getString("kd_penyakit"),
+                            rs1.getString("ciri_ciri"),
+                            rs1.getString("status"),
+                            hasilVerifDiag
+                        });
+                    }
+                    diagnosaKlaim=dxklaim.toString();
+                    mbak_eka.kirimdiagnosainacbg(noSEP.getText(),diagnosaKlaim);
+                } catch (Exception e) {
+                    System.out.println("Notifikasi : " + e);
+                } finally {
+                    if (rs1 != null) {
+                        rs1.close();
+                    }
+                    if (ps1 != null) {
+                        ps1.close();
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("Notifikasi : " + e);
+            }
+
+            //diagnosa v6 -----------------------------------------
+            Valid.tabelKosong(tabMode13);
+            try {
+                ps13 = koneksi.prepareStatement("SELECT dp.kd_penyakit, dp.nm_penyakit, IF (dp.prioritas = '1','Primer','Sekunder') status "
+                        + "FROM diagnosa_pasien_inadrg dp "
+                        + "WHERE dp.no_rawat='" + norawat + "' ORDER BY dp.prioritas");
+                try {
+                    rs13 = ps13.executeQuery();
+                     StringJoiner dxidrg = new StringJoiner("#");
+                    while (rs13.next()) {
+                        dxidrg.add(rs13.getString("kd_penyakit"));
+                        hasilVerifDiag2 = mbak_eka.ngecekDiagnosaINADRG(rs13.getString("kd_penyakit"));
+//                        if (mbak_eka.ngecekDiagnosaINADRG(rs13.getString("kd_penyakit")) == true) {
+//                            hasilVerifDiag2 = "Sesuai";
+//                        } else {
+//                            hasilVerifDiag2 = "Belum Sesuai";
+//                        }
+                        tabMode13.addRow(new Object[]{
+                            rs13.getString("kd_penyakit"),
+                            rs13.getString("nm_penyakit"),
+                            rs13.getString("status"),
+                            hasilVerifDiag2
+                        });
+                    }
+                    diagnosaKlaimINADRG=dxidrg.toString();
+                } catch (Exception e) {
+                    System.out.println("Notifikasi : " + e);
+                } finally {
+                    if (rs13 != null) {
+                        rs13.close();
+                    }
+                    if (ps13 != null) {
+                        ps13.close();
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("Notifikasi : " + e);
+            }
+
+        } 
+    }
 
     private void tampilProsedur() {
         prosedurKlaim = "";
-        
+        prosedurINADRG1="";
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
-            //prosedur v5 ---------------------------------------
             Valid.tabelKosong(tabMode1);
             try {
-                ps2 = koneksi.prepareStatement("SELECT pp.kode, i.deskripsi_panjang,1 as qty FROM prosedur_pasien pp "
-                        + "INNER JOIN icd9 i ON i.kode=pp.kode WHERE pp.no_rawat='" + norawat + "' ORDER BY pp.prioritas");
+                ps2 = koneksi.prepareStatement("SELECT pp.kode, i.deskripsi_panjang FROM prosedur_pasien pp "
+                        + "INNER JOIN icd9 i ON i.kode=pp.kode WHERE pp.no_rawat='" + norawat + "' union all "
+                        + "SELECT epi.kode, epi.deskripsi_panjang FROM eklaim_prosedurimport_invalid epi "
+                        + "WHERE epi.no_rawat='" + norawat + "' ");
                 try {
                     rs2 = ps2.executeQuery();
+                    StringJoiner psklaim = new StringJoiner("#");
                     while (rs2.next()) {
-                        if (prosedurKlaim.equals("")) {
-                            prosedurKlaim = rs2.getString("kode");
+                        if (mbak_eka.ngecekProsedur(rs2.getString("kode")) == true) {
+                            hasilVerifProd = "Sesuai";
                         } else {
-                            prosedurKlaim = prosedurKlaim + "#" + rs2.getString("kode");
+                           hasilVerifProd = "IM tidak berlaku";
                         }
-                        
+                        psklaim.add(rs2.getString("kode"));
                         tabMode1.addRow(new Object[]{
                             rs2.getString("kode"),
                             rs2.getString("deskripsi_panjang"),
-                            rs2.getString("qty")
+                            hasilVerifProd
+ 
                         });
                     }
+                    prosedurKlaim = psklaim.toString();
                 } catch (Exception e) {
                     System.out.println("Notifikasi : " + e);
                 } finally {
@@ -7555,15 +8491,21 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             //prosedur v6 ---------------------------------------
             Valid.tabelKosong(tabMode15);
             try {
-                ps15 = koneksi.prepareStatement("SELECT pp.kode, i.deskripsi_panjang,1 as qty FROM prosedur_pasien pp "
-                        + "INNER JOIN icd9 i ON i.kode=pp.kode WHERE pp.no_rawat='" + norawat + "' ORDER BY pp.prioritas");
+                ps15 = koneksi.prepareStatement("SELECT pp.kode, pp.deskripsi_panjang,qty FROM prosedur_pasien_inadrg pp "
+                        + " WHERE pp.no_rawat='" + norawat + "' ORDER BY pp.prioritas");
                 try {
                     rs15 = ps15.executeQuery();
                     while (rs15.next()) {
+                        if (mbak_eka.ngecekProsedurINADRG(rs15.getString("kode")) == true) {
+                            hasilVerifProdIDRG = "Sesuai";
+                        } else {
+                           hasilVerifProdIDRG = "Belum Sesuai";
+                        }
                         tabMode15.addRow(new Object[]{
                             rs15.getString("kode"),
                             rs15.getString("deskripsi_panjang"),
-                            rs15.getString("qty")
+                            rs15.getString("qty"),
+                            hasilVerifProdIDRG
                         });
                     }
                 } catch (Exception e) {
@@ -7579,24 +8521,36 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             } catch (SQLException e) {
                 System.out.println("Notifikasi : " + e);
             }            
-            hasilJLHProsedur();
+             hasilJLHProsedur();
 
         } else {
             //prosedur v5 ---------------------------------------
             Valid.tabelKosong(tabMode6);
             try {
-                ps2 = koneksi.prepareStatement("SELECT pp.kode, i.deskripsi_panjang,1 as qty FROM prosedur_pasien pp "
+                ps2 = koneksi.prepareStatement("SELECT pp.kode, i.deskripsi_panjang FROM prosedur_pasien pp "
                         + "INNER JOIN icd9 i ON i.kode=pp.kode WHERE pp.no_rawat='" + norawat + "' ORDER BY pp.prioritas");
                 try {
                     rs2 = ps2.executeQuery();
-                    while (rs2.next()) {
-                        
+                     StringJoiner psklaim5 = new StringJoiner("#");
+                    while (rs2.next()) {  
+                        if (mbak_eka.ngecekProsedur(rs2.getString("kode")) == true) {
+                            hasilVerifProd = "Sesuai";
+                        } else {
+                           hasilVerifProd = "Belum Sesuai";
+                        }
+//                        if (prosedurKlaim.equals("")) {
+//                            prosedurKlaim = rs2.getString("kode");
+//                        } else {
+//                             psklaim5.add(rs2.getString("kode"));
+//                        }
+                        psklaim5.add(rs2.getString("kode"));
                         tabMode6.addRow(new Object[]{
                             rs2.getString("kode"),
                             rs2.getString("deskripsi_panjang"),
-                            rs2.getString("qty")
+                            hasilVerifProd
                         });
                     }
+                    prosedurKlaim = psklaim5.toString();
                 } catch (Exception e) {
                     System.out.println("Notifikasi : " + e);
                 } finally {
@@ -7610,20 +8564,25 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             } catch (SQLException e) {
                 System.out.println("Notifikasi : " + e);
             } 
-                hasilJLHProsedur();
             
             //prosedur v6 ---------------------------------------
             Valid.tabelKosong(tabMode16);
             try {
-                ps16 = koneksi.prepareStatement("SELECT pp.kode, i.deskripsi_panjang,1 as qty FROM prosedur_pasien pp "
-                        + "INNER JOIN icd9 i ON i.kode=pp.kode WHERE pp.no_rawat='" + norawat + "' ORDER BY pp.prioritas");
+                ps16 = koneksi.prepareStatement("SELECT pp.kode, pp.deskripsi_panjang,qty FROM prosedur_pasien_inadrg pp "
+                        + " WHERE pp.no_rawat='" + norawat + "' ORDER BY pp.prioritas");
                 try {
                     rs16 = ps16.executeQuery();
                     while (rs16.next()) {
+                        if (mbak_eka.ngecekProsedurINADRG(rs16.getString("kode")) == true) {
+                            hasilVerifProdIDRG = "Sesuai";
+                        } else {
+                           hasilVerifProdIDRG = "Belum Sesuai";
+                        }
                         tabMode16.addRow(new Object[]{
                             rs16.getString("kode"),
                             rs16.getString("deskripsi_panjang"),
-                            rs16.getString("qty")
+                            rs16.getString("qty"),
+                           hasilVerifProdIDRG
                         });
                     }
                 } catch (Exception e) {
@@ -7641,6 +8600,89 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             } 
             hasilJLHProsedur();
         }
+    }
+    
+     private void SetProsedur() {
+        prosedurKlaim = "";
+        prosedurINADRG1="";
+        //kalau kode payor 3 adalah JKN
+        if (kodePayor.equals("3")) {
+            Valid.tabelKosong(tabMode1);
+            try {
+                ps2 = koneksi.prepareStatement("SELECT pp.kode, i.deskripsi_panjang FROM prosedur_pasien pp "
+                        + "INNER JOIN icd9 i ON i.kode=pp.kode WHERE pp.no_rawat='" + norawat + "' union all "
+                        + "SELECT epi.kode, epi.deskripsi_panjang FROM eklaim_prosedurimport_invalid epi "
+                        + "WHERE epi.no_rawat='" + norawat + "' ");
+                try {
+                    rs2 = ps2.executeQuery();
+                    StringJoiner psklaim = new StringJoiner("#");
+                    while (rs2.next()) {
+                        if (mbak_eka.kirimprosedurinacbg(noSEP.getText(),rs2.getString("kode")) == true) {
+                            hasilVerifProd = "Sesuai";
+                        } else {
+                           hasilVerifProd = "IM tidak berlaku";
+                        }
+                        psklaim.add(rs2.getString("kode"));
+                        tabMode1.addRow(new Object[]{
+                            rs2.getString("kode"),
+                            rs2.getString("deskripsi_panjang"),
+                            hasilVerifProd
+ 
+                        });
+                    }
+                    prosedurKlaim = psklaim.toString();
+                    mbak_eka.kirimprosedurinacbg(noSEP.getText(),prosedurKlaim);
+                } catch (Exception e) {
+                    System.out.println("Notifikasi : " + e);
+                } finally {
+                    if (rs2 != null) {
+                        rs2.close();
+                    }
+                    if (ps2 != null) {
+                        ps2.close();
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("Notifikasi : " + e);
+            }
+                 hasilJLHProsedur();
+            
+            //prosedur v6 ---------------------------------------
+            Valid.tabelKosong(tabMode15);
+            try {
+                ps15 = koneksi.prepareStatement("SELECT pp.kode, pp.deskripsi_panjang,qty FROM prosedur_pasien_inadrg pp "
+                        + " WHERE pp.no_rawat='" + norawat + "' ORDER BY pp.prioritas");
+                try {
+                    rs15 = ps15.executeQuery();
+                    while (rs15.next()) {
+                        if (mbak_eka.ngecekProsedurINADRG(rs15.getString("kode")) == true) {
+                            hasilVerifProdIDRG = "Sesuai";
+                        } else {
+                           hasilVerifProdIDRG = "Belum Sesuai";
+                        }
+                        tabMode15.addRow(new Object[]{
+                            rs15.getString("kode"),
+                            rs15.getString("deskripsi_panjang"),
+                            rs15.getString("qty"),
+                            hasilVerifProdIDRG
+                        });
+                    }
+                } catch (Exception e) {
+                    System.out.println("Notifikasi : " + e);
+                } finally {
+                    if (rs15 != null) {
+                        rs15.close();
+                    }
+                    if (ps15 != null) {
+                        ps15.close();
+                    }
+                }
+            } catch (SQLException e) {
+                System.out.println("Notifikasi : " + e);
+            }            
+             hasilJLHProsedur();
+
+        } 
     }
     
     private void tampilTerupload() {
@@ -7760,7 +8802,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         labelTarifRS.setText("");
         labelhasilG.setText("Hasil Grouper : ");
         labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. 0");
-        cmbCrMasuk.setSelectedIndex(0);
+        cmbCrMasuk.setSelectedIndex(3);
         cmbPembiayaan.setSelectedIndex(0);
         cmbPembiayaan.setEnabled(false);
         sistole.setText("0");
@@ -7926,27 +8968,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
             pnb1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
             
 
@@ -7955,27 +8997,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         } else {
             pnb8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                    + "AND (kp.kd_kategori='PNB01')");
 
             pnb10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='PNB01')");
 
             pnb13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                    + "AND (kp.kd_kategori='PNB01')");
 
             nilaiPNB = pnb8 + pnb9 + pnb10 + pnb11 + pnb12 + pnb13;
@@ -7986,11 +9028,11 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
     private void hitungRI() {
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
-            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%' OR kd_kamar LIKE '%NC%') AND no_rawat='" + NrawatTARIF + "'");
+            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'R.ICU%'  OR kd_kamar LIKE '%NICU%' OR kd_kamar LIKE '%HCA%' OR kd_kamar LIKE '%HCD%') AND no_rawat='" + NrawatTARIF + "'");
             ri.setText(Valid.SetAngka2(nilaiRI));
 
         } else {
-            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'ICU%' OR kd_kamar LIKE '%NC%') AND no_rawat='" + NrawatTARIF + "'");
+            nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'R.ICU%'  OR kd_kamar LIKE '%NICU%' OR kd_kamar LIKE '%HCA%' OR kd_kamar LIKE '%HCD%') AND no_rawat='" + NrawatTARIF + "'");
             ri1.setText(Valid.SetAngka2(nilaiRI));
         }
     }
@@ -8014,48 +9056,48 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
-            kmr1 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NC%') AND no_rawat='" + NrawatTARIF + "'");
+            kmr1 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
             kmr2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                    + "AND (kp.kd_kategori='KMA11')");
             kmr4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                    + "AND (kp.kd_kategori='KMA11')");
             kmr5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                    + "AND (kp.kd_kategori='KMA11')");
 
             nilaiKAM = kmr1 + kmr2 + kmr3 + kmr4 + kmr5 + kmr6 + kmr7;
             kam.setText(Valid.SetAngka2(nilaiKAM));
 
         } else {
-            kmr8 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NC%') AND no_rawat='" + NrawatTARIF + "'");
+            kmr8 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
             kmr9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                    + "AND (kp.kd_kategori='KMA11')");
             kmr10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KMA11')");
             kmr13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                   + "AND (kp.kd_kategori='KMA11')");
             kmr14 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                    + "AND (kp.kd_kategori='KMA11')");
 
             nilaiKAM = kmr8 + kmr9 + kmr10 + kmr11 + kmr12 + kmr13 + kmr14;
@@ -8095,22 +9137,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
             kon1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
 
             nilaiKON = kon1 + kon2 + kon3 + kon4 + kon5 + kon6;
@@ -8118,22 +9160,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         } else {
             kon8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                     + "(kp.kd_kategori='KST03')");
             kon13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' AND "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND "
                    + "(kp.kd_kategori='KST03')");
 
             nilaiKON = kon8 + kon9 + kon10 + kon11 + kon12 + kon13;
@@ -8159,22 +9201,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
             kep1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
 
             nilaiKEP = kep1 + kep2 + kep3 + kep4 + kep5 + kep6;
@@ -8182,22 +9224,22 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         } else {
             kep8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
             kep13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
-                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat='" + NrawatTARIF + "' "
+                    + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "') "
                     + "AND (kp.kd_kategori='KPR05')");
 
             nilaiKEP = kep8 + kep9 + kep10 + kep11 + kep12 + kep13;
@@ -8226,27 +9268,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             reh1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
             reh5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
             reh6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
 
             nilaiREH = reh1 + reh2 + reh3 + reh4 + reh5 + reh6;
             reh.setText(Valid.SetAngka2(nilaiREH));
@@ -8255,27 +9297,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             reh8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RHB10')");
             reh11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
             reh12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
             reh13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RHB10')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RHB10')");
 
             nilaiREH = reh8 + reh9 + reh10 + reh11 + reh12 + reh13;
             reh7.setText(Valid.SetAngka2(nilaiREH));
@@ -8291,27 +9333,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             rad01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             rad5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             rad6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             nilaiRAD = rad01 + rad2 + rad3 + rad4 + rad5 + rad6 + rad7;
             rad.setText(Valid.SetAngka2(nilaiRAD));
 
@@ -8320,27 +9362,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             rad9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='RDL07')");
             rad12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             rad13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             rad14 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='RDL07')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='RDL07')");
             nilaiRAD = rad8 + rad9 + rad10 + rad11 + rad12 + rad13 + rad14;
             rad1.setText(Valid.SetAngka2(nilaiRAD));
         }
@@ -8353,27 +9395,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             lab01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             lab5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             lab6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             nilaiLAB = lab01 + lab2 + lab3 + lab4 + lab5 + lab6 + lab7;
             lab.setText(Valid.SetAngka2(nilaiLAB));
 
@@ -8382,27 +9424,27 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
             lab9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='LBR08')");
             lab12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             lab13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             lab14 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='LBR08')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='LBR08')");
             nilaiLAB = lab8 + lab9 + lab10 + lab11 + lab12 + lab13 + lab14;
             lab1.setText(Valid.SetAngka2(nilaiLAB));
         }
@@ -8418,17 +9460,17 @@ private void hitungOBAT() {
 
         //kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
-            obt1 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Obat'");
-            obt2 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Retur Obat'");
-            obt3 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Resep Pulang'");
+            obt1 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Obat'");
+            obt2 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Retur Obat'");
+            obt3 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Resep Pulang'");
 
             nilaiOBAT = obt1 - obt2 + obt3;
             obat.setText(Valid.SetAngka2(nilaiOBAT));
 
         } else {
-            obt4 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Obat'");
-            obt5 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Retur Obat'");
-            obt6 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Resep Pulang'");
+            obt4 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Obat'");
+            obt5 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Retur Obat'");
+            obt6 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Resep Pulang'");
 
             nilaiOBAT = obt4 - obt5 + obt6;
             obat1.setText(Valid.SetAngka2(nilaiOBAT));
@@ -8456,31 +9498,31 @@ private void hitungOBAT() {
             pb01 = Sequel.cariIsiAngka("SELECT SUM(biayaoperator1+biayaoperator2+biayaoperator3+biayaasisten_operator1+biayaasisten_operator2+biayaasisten_operator3+ "
                     + "biayainstrumen+biayadokter_anak+biayaperawaat_resusitas+biayadokter_anestesi+biayaasisten_anestesi+biayaasisten_anestesi2+biayabidan+ "
                     + "biayabidan2+biayabidan3+biayaperawat_luar+biayaalat+biayasewaok+akomodasi+bagian_rs+biaya_omloop+biaya_omloop2+biaya_omloop3+biaya_omloop4+ "
-                    + "biaya_omloop5+biayasarpras+biaya_dokter_pjanak+biaya_dokter_umum) biaya FROM operasi WHERE no_rawat='" + NrawatTARIF + "'");
+                    + "biaya_omloop5+biayasarpras+biaya_dokter_pjanak+biaya_dokter_umum) biaya FROM operasi WHERE no_rawat  in ('" + NrawatTARIF + "', '" + norawatbayi + "') ");
             pb2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             pb6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             pb7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             nilaiPB = pb01+pb2+pb3+pb4+pb5+pb6+pb7;
             pb.setText(Valid.SetAngka2(nilaiPB));
 
@@ -8488,31 +9530,31 @@ private void hitungOBAT() {
             pb8 = Sequel.cariIsiAngka("SELECT SUM(biayaoperator1+biayaoperator2+biayaoperator3+biayaasisten_operator1+biayaasisten_operator2+biayaasisten_operator3+ "
                     + "biayainstrumen+biayadokter_anak+biayaperawaat_resusitas+biayadokter_anestesi+biayaasisten_anestesi+biayaasisten_anestesi2+biayabidan+ "
                     + "biayabidan2+biayabidan3+biayaperawat_luar+biayaalat+biayasewaok+akomodasi+bagian_rs+biaya_omloop+biaya_omloop2+biaya_omloop3+biaya_omloop4+ "
-                    + "biaya_omloop5+biayasarpras+biaya_dokter_pjanak+biaya_dokter_umum) biaya FROM operasi WHERE no_rawat='" + NrawatTARIF + "'");
+                    + "biaya_omloop5+biayasarpras+biaya_dokter_pjanak+biaya_dokter_umum) biaya FROM operasi WHERE no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') ");
              pb9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawa in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             pb13 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             pb14 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PBD02')");
             nilaiPB = pb8+pb9+pb10+pb11+pb12+pb13+pb14;
             pb1.setText(Valid.SetAngka2(nilaiPB));
         }
@@ -8539,27 +9581,27 @@ private void hitungOBAT() {
             pd01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             pd5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             pd6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             nilaiPd = pd01+pd2+pd3+pd4+pd5+pd6;
             pd.setText(Valid.SetAngka2(nilaiPd));
 
@@ -8567,27 +9609,27 @@ private void hitungOBAT() {
            pd7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PLD09')");
             pd10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             pd11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             pd12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PLD09')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PLD09')");
             nilaiPd = pd7+pd8+pd9+pd10+pd11+pd12;
             pd1.setText(Valid.SetAngka2(nilaiPd));
         }
@@ -8614,27 +9656,27 @@ private void hitungOBAT() {
             ta01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             ta5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             ta6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             nilaiTa = ta01+ta2+ta3+ta4+ta5+ta6;
             ta.setText(Valid.SetAngka2(nilaiTa));
 
@@ -8642,27 +9684,27 @@ private void hitungOBAT() {
             ta7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='TAH04')");
             ta10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat= in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             ta11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             ta12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             nilaiTa = ta7+ta8+ta9+ta10+ta11+ta12;
             ta1.setText(Valid.SetAngka2(nilaiTa));
         }
@@ -8689,27 +9731,27 @@ private void hitungOBAT() {
             al01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             al5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             al6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             NilaiAl = al01+al2+al3+al4+al5+al6;
             bmhp.setText(Valid.SetAngka2(NilaiAl));
 
@@ -8717,27 +9759,27 @@ private void hitungOBAT() {
              al7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='BHP15')");
             al10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             al11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             al12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='BHP15')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='BHP15')");
             NilaiAl = al7+al8+al9+al10+al11+al12;
             bmhp1.setText(Valid.SetAngka2(NilaiAl));
         }
@@ -8765,27 +9807,27 @@ private void hitungOBAT() {
             sa01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             sa5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             sa6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             NilaiSa = sa01+sa2+sa3+sa4+sa5+sa6;
             sa.setText(Valid.SetAngka2(NilaiSa));
 
@@ -8793,27 +9835,27 @@ private void hitungOBAT() {
             sa7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             sa10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             sa11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             sa12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             NilaiSa = sa7+sa8+sa9+sa10+sa11+sa12;
             sa1.setText(Valid.SetAngka2(NilaiSa));
         }
@@ -8840,27 +9882,27 @@ private void hitungOBAT() {
             pen01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PNJ06')");
             pen2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PNJ06')");
             pen3 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PNJ06')");
             pen4 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PNJ06')");
             pen5 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PNJ06')");
             pen6 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='PNJ06')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='PNJ06')");
             NilaiPen = pen01+pen2+pen3+pen4+pen5+pen6;
             pen.setText(Valid.SetAngka2(NilaiPen));
 
@@ -8868,27 +9910,27 @@ private void hitungOBAT() {
             pen7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "')' AND (kp.kd_kategori='KP042')");
             pen8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             pen9 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             pen10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             pen11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             pen12 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat='" + NrawatTARIF + "' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='KP042')");
             NilaiSa = pen7+pen8+pen9+pen10+pen11+pen12;
             pen1.setText(Valid.SetAngka2(NilaiPen));
         }
@@ -8989,6 +10031,30 @@ private void hitungOBAT() {
                             rs4.getString("desc")
                         });
                     }
+                        // === LETAKKAN LISTENER DI SINI ===
+                        tabMode3.addTableModelListener(e -> {
+                            if (e.getColumn() == 0) { // kolom checkbox
+                                int row = e.getFirstRow();
+                                Boolean checked = (Boolean) tabMode3.getValueAt(row, 0);
+
+                                if (checked != null && checked) {
+                                    String type = (String) tabMode3.getValueAt(row, 1); // kolom type
+
+                                    if (type != null && type.toLowerCase().contains("special")) {
+                                        // hanya boleh 1 per type "Special"
+                                        for (int i = 0; i < tabMode3.getRowCount(); i++) {
+                                            if (i != row) {
+                                                String otherType = (String) tabMode3.getValueAt(i, 1);
+                                                if (type.equalsIgnoreCase(otherType)) {
+                                                    tabMode3.setValueAt(false, i, 0);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                        // ================================
                 } catch (Exception e) {
                     System.out.println("Notifikasi : " + e);
                 } finally {
@@ -9119,7 +10185,6 @@ private void hitungOBAT() {
             } else {
                 BtnGruperStage.setEnabled(true);
             }
-            //labeltekanandarah.setText(Sequel.cariIsi("select tensi from pemeriksaan_ralan where no_rawat ='"+norW+"'"));
             labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noseP + "'"));
             labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
                     + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noseP + "'"));
@@ -9181,10 +10246,10 @@ private void hitungOBAT() {
             ChkNaikTurun.setSelected(false);
             ChkRawatIntensif.setSelected(false);
             cmbKP.setSelectedIndex(0);
-            cmbCrMasuk.setSelectedIndex(0);   
+            //cmbCrMasuk.setSelectedIndex(0);   
             nilaiPembiayaan = Sequel.cariIsi("select ifnull(pembiayaan,'') from bridging_sep where no_sep='" + noSEP.getText() + "'");
             umur.setText(Sequel.cariIsi("select concat(umurdaftar,' ','" + sts_umur_ok + "') from reg_periksa where no_rawat='" + norawat + "'"));
-            cekBB = Sequel.cariIsi("select berat_badan_benar from pasien_bayi where no_rkm_medis='" + norm.getText() + "'");
+            cekBB = Sequel.cariIsi("select berat_badan from pasien_bayi where no_rkm_medis='" + norm.getText() + "'");
             cmbVentilator.setEnabled(false);
             cmbVentilator.setSelectedIndex(1);
             tglIntubasi.setDate(new Date());
@@ -9238,23 +10303,34 @@ private void hitungOBAT() {
                         + "inner join reg_periksa r on r.no_rawat = k.no_rawat where k.stts_pulang not in ('-','Pindah Kamar') and k.no_rawat = '" + norawat + "'"));
 
                 cekstsPulang = Sequel.cariIsi("select stts_pulang from kamar_inap where no_rawat='" + norawat + "' and stts_pulang not in ('-','pindah kamar')");
-                if (cekstsPulang.equals("Dirujuk")) {
+                 if (cekstsPulang.equals("Rujuk")) {
                     kdPulang = "2";
                     cmbcrPulang.setSelectedIndex(1);
-                } else if (cekstsPulang.equals("APS")) {
+                } else if (cekstsPulang.equals("Atas Permintaan Sendiri")) {
                     kdPulang = "3";
                     cmbcrPulang.setSelectedIndex(2);
-                } else if (cekstsPulang.equals("Meninggal >= 48 Jam") || cekstsPulang.equals("Meninggal < 48 Jam")) {
+                } else if (cekstsPulang.equals("Meninggal > 48") || cekstsPulang.equals("Meninggal")) {
                     kdPulang = "4";
                     cmbcrPulang.setSelectedIndex(3);
-                } else if (cekstsPulang.equals("Sembuh/BLPL")) {
+                } else if (cekstsPulang.equals(" Atas Persetujuan Dokter")) {
                     kdPulang = "1";
                     cmbcrPulang.setSelectedIndex(4);
                 } else if (cekstsPulang.equals("Kabur")) {
                     kdPulang = "5";
                     cmbcrPulang.setSelectedIndex(5);
                 }
-
+                 
+                if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_sep='"+noSEP.getText()+"' AND jnspelayanan='1' AND diagawal LIKE '%P03%'") > 0) {
+                    cmbCrMasuk.setSelectedIndex(6);
+                } else if (Sequel.cariInteger("SELECT no_rawat FROM reg_periksa WHERE no_rawat='"+norawat+"' and kd_poli IN ('IGDK','PPN')") > 0) {
+                    cmbCrMasuk.setSelectedIndex(3);
+                } else if (Sequel.cariInteger("SELECT no_rawat FROM reg_periksa WHERE no_rawat='"+norawat+"' and kd_poli NOT IN ('IGDK','PPN')") > 0) {
+                    cmbCrMasuk.setSelectedIndex(5);
+                } 
+                else {
+                     cmbCrMasuk.setSelectedIndex(5);
+                }
+                
                 //pembiayaan
                 if (nilaiPembiayaan.equals("")) {
                     cmbPembiayaan.setSelectedIndex(0);
@@ -9298,25 +10374,53 @@ private void hitungOBAT() {
                 tglmsk = Sequel.cariIsi("SELECT CONCAT(bs.tglsep,' ',rp.jam_reg) FROM reg_periksa rp "
                         + "INNER JOIN bridging_sep bs ON bs.no_rawat=rp.no_rawat WHERE bs.no_rawat='" + norawat + "'");
                 tglplg = tglmsk;
-                
-                cekstsPulang = Sequel.cariIsi("SELECT stts  FROM reg_periksa where no_rawat ='" + norawat + "' ");
+//                kdPulang = "1";
+//                cmbcrPulang.setSelectedIndex(4);
+                cekstsPulang = Sequel.cariIsi("SELECT stts FROM reg_periksa WHERE no_rawat='" + norawat + "' ");
                 if (cekstsPulang.equals("Dirujuk")) {
                     kdPulang = "2";
                     cmbcrPulang.setSelectedIndex(1);
+                } else if (cekstsPulang.equals("Pulang Paksa")) {
+                    kdPulang = "3";
+                    cmbcrPulang.setSelectedIndex(2);
+                } else if ( cekstsPulang.equals("Meninggal")) {
+                    kdPulang = "4";
+                    cmbcrPulang.setSelectedIndex(3);
+                } else if (cekstsPulang.equals("Sudah") || cekstsPulang.equals("Belum")) {
+                    kdPulang = "1";
+                    cmbcrPulang.setSelectedIndex(4);
                 } else {
-                     cmbcrPulang.setSelectedIndex(4);
-                     kdPulang = "1";
+                    kdPulang = "1";
+                    cmbcrPulang.setSelectedIndex(4);
                 }
+                
                 dpjp.setText(Sequel.cariIsi("select d.nm_dokter from reg_periksa rp inner join dokter d on d.kd_dokter=rp.kd_dokter where rp.no_rawat='" + norawat + "'"));
                 labelLOS.setText("1");
+                
+                if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND asal_rujukan='1. Faskes 1' AND noskdp='' AND tujuankunjungan='0' AND kdpolitujuan <> 'IGD' AND asesmenpelayanan = ''") > 0) {
+                    cmbCrMasuk.setSelectedIndex(0);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND asal_rujukan='2. Faskes 2(RS)'AND kdppkrujukan NOT IN ('1408R001')") > 0) {
+                    cmbCrMasuk.setSelectedIndex(1);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND tujuankunjungan='0' AND asesmenpelayanan = '2'") > 0) {
+                    cmbCrMasuk.setSelectedIndex(2);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND tujuankunjungan='2' AND asesmenpelayanan = '5'") > 0) {
+                    cmbCrMasuk.setSelectedIndex(3);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_sep='"+noSEP.getText()+"' AND jnspelayanan='2' AND asal_rujukan='2. Faskes 2(RS)'AND kdppkrujukan IN ('1408R001')") > 0) {
+                    cmbCrMasuk.setSelectedIndex(4);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_sep='"+noSEP.getText()+"' AND jnspelayanan='2' AND kdpolitujuan='IGD'") > 0) {
+                    cmbCrMasuk.setSelectedIndex(5);
+                } 
+                else {
+                     cmbCrMasuk.setSelectedIndex(3);
+                }
                 
                 if (Sequel.cariInteger("select count(-1) from pemeriksaan_ralan where no_rawat = '" + norawat + "'") > 0) {
                     if (Sequel.cariIsi("select tensi from pemeriksaan_ralan where no_rawat = '" + norawat + "'").equals("")) {
                         sistole.setText("0");
                         diastole.setText("0");
                     } else {
-                        sistole.setText(Sequel.cariIsi("select SUBSTRING_INDEX(tensi,'/',1) sistole from pemeriksaan_ralan where no_rawat = '" + norawat + "'"));
-                        diastole.setText(Sequel.cariIsi("select SUBSTRING_INDEX(tensi,'/',-1) diastole from pemeriksaan_ralan where no_rawat = '" + norawat + "'"));
+                        sistole.setText(Sequel.cariIsi("select SUBSTRING_INDEX(tensi,'/',1) sistole from pemeriksaan_ralan where nip in (select kd_dokter from dokter ) and no_rawat = '" + norawat + "'"));
+                        diastole.setText(Sequel.cariIsi("select SUBSTRING_INDEX(tensi,'/',-1) diastole from pemeriksaan_ralan where nip in (select kd_dokter from dokter ) and no_rawat = '" + norawat + "'"));
                     }
 
                 } else {
@@ -9395,7 +10499,7 @@ private void hitungOBAT() {
             cmbEpisod.setSelectedIndex(0);
             cmbCrMasuk1.setSelectedIndex(0);
             umur1.setText(Sequel.cariIsi("select concat(umurdaftar,' ','" + sts_umur_ok + "') from reg_periksa where no_rawat='" + norawat + "'"));
-            cekBB = Sequel.cariIsi("select berat_badan_benar from pasien_bayi where no_rkm_medis='" + norm.getText() + "'");
+            cekBB = Sequel.cariIsi("select berat_badan from pasien_bayi where no_rkm_medis='" + norm.getText() + "'");
             
             ChkRawatIntensif1.setEnabled(false);
             ChkRawatIntensif1.setSelected(false);
@@ -9918,6 +11022,23 @@ private void hitungOBAT() {
                             cmbCrMasuk.setSelectedIndex(10);
                         }
 
+// if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND asal_rujukan='1. Faskes 1' AND noskdp='' AND tujuankunjungan='0' AND asesmenpelayanan = '' ") > 0) {
+//                    cmbCrMasuk.setSelectedIndex(0);
+//                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND asal_rujukan='2. Faskes 2(RS)'AND kdppkrujukan NOT IN ('1408R001')") > 0) {
+//                    cmbCrMasuk.setSelectedIndex(1);
+//                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND tujuankunjungan='0' AND asesmenpelayanan = '2'") > 0) {
+//                    cmbCrMasuk.setSelectedIndex(2);
+//                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND tujuankunjungan='2' AND asesmenpelayanan = '5'") > 0) {
+//                    cmbCrMasuk.setSelectedIndex(3);
+//                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND asal_rujukan='2. Faskes 2(RS)'AND kdppkrujukan IN ('1408R001')") > 0) {
+//                    cmbCrMasuk.setSelectedIndex(4);
+//                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND kdpolitujuan='IGD'") > 0) {
+//                    cmbCrMasuk.setSelectedIndex(5);
+//                } 
+//                else {
+//                     cmbCrMasuk.setSelectedIndex(3);
+//                }
+
                         //jns. pelayanan 1 (rawat inap)
                         if (jpel.equals("1")) {
                             labelrwt.setText("INAP");
@@ -9951,6 +11072,8 @@ private void hitungOBAT() {
                                 } else if (naikKLS.equals("vvip")) {
                                     cmbKP.setSelectedIndex(4);
                                 }
+                                
+                               
                                 
                                 //pembiayaan
                                 cmbPembiayaan.setEnabled(true);
@@ -10014,6 +11137,7 @@ private void hitungOBAT() {
                                 tarifPoliExe.setEnabled(true);
                                 tarifPoliExe.setText(rs6.getString("tarif_poli_eks"));
                             }
+                           
 
                             if (naikTurunkls.equals("0")) {
                                 ChkNaikTurun.setEnabled(false);
@@ -10771,6 +11895,12 @@ private void hitungOBAT() {
                 ps11 = koneksi.prepareStatement("SELECT 'MDC' komponen, mdc_number kode, mdc_description deskripsi FROM eklaim_response_inagrouper "
                         + "WHERE no_sep='" + noSEP.getText() + "' UNION ALL "
                         + "SELECT 'DRG', drg_code, drg_description FROM eklaim_response_inagrouper "
+                        + "WHERE no_sep='" + noSEP.getText() + "' UNION ALL "
+                        + "SELECT 'Cost Weight','-', total_cost_weight FROM eklaim_response_inagrouper "
+                        + "WHERE no_sep='" + noSEP.getText() + "' UNION ALL "
+                        + "SELECT 'NBR','-', nbr FROM eklaim_response_inagrouper "
+                        + "WHERE no_sep='" + noSEP.getText() + "' UNION ALL "
+                        + "SELECT 'Status','-', status_cd FROM eklaim_response_inagrouper "
                         + "WHERE no_sep='" + noSEP.getText() + "'");
                 try {
                     rs11 = ps11.executeQuery();
@@ -10828,53 +11958,102 @@ private void hitungOBAT() {
         }
     }
   
+//    private void hasilJLHProsedur() {
+//        prosedurINADRG1 = null;
+//        prosedurINADRG2 = null;
+//        pros_inadrg1.setText("");
+//        pros_inadrg2.setText("");        
+//        StringJoiner psidrg = new StringJoiner("#");
+//        //kalau kode payor 3 adalah JKN
+//        if (kodePayor.equals("3")) {
+//            for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+//                if (i == 0) {
+//                    if (!tbTindakanPasien2.getValueAt(i, 2).toString().equals("") && Integer.parseInt(tbTindakanPasien2.getValueAt(i, 2).toString()) > 1) {
+//                        prosedurINADRG1 = tbTindakanPasien2.getValueAt(i, 0).toString() + "+" + tbTindakanPasien2.getValueAt(i, 2).toString();
+//                    } else {
+//                        prosedurINADRG1 = tbTindakanPasien2.getValueAt(i, 0).toString();
+//                    }
+//                } else {
+//                    if (!tbTindakanPasien2.getValueAt(i, 2).toString().equals("") && Integer.parseInt(tbTindakanPasien2.getValueAt(i, 2).toString()) > 1) {
+//                        prosedurINADRG1 = psidrg.add(tbTindakanPasien2.getValueAt(i, 0).toString() + "+" + tbTindakanPasien2.getValueAt(i, 2).toString()).toString();
+//                    } else {
+//                        prosedurINADRG1 = psidrg.add(tbTindakanPasien2.getValueAt(i, 0).toString()).toString();
+//                    }
+//                }
+//            }
+//            pros_inadrg1.setText(prosedurINADRG1);
+//
+//        } else {
+//            for (i = 0; i < tbTindakanPasien4.getRowCount(); i++) {
+//                if (i == 0) {
+//                    if (!tbTindakanPasien4.getValueAt(i, 2).toString().equals("") && Integer.parseInt(tbTindakanPasien4.getValueAt(i, 2).toString()) > 1) {
+//                        prosedurINADRG2 = tbTindakanPasien4.getValueAt(i, 0).toString() + "+" + tbTindakanPasien4.getValueAt(i, 2).toString();
+//                    } else {
+//                        prosedurINADRG2 = tbTindakanPasien4.getValueAt(i, 0).toString();
+//                    }
+//                } else {
+//                    if (!tbTindakanPasien4.getValueAt(i, 2).toString().equals("") && Integer.parseInt(tbTindakanPasien4.getValueAt(i, 2).toString()) > 1) {
+//                        prosedurINADRG2 = psidrg.add(tbTindakanPasien4.getValueAt(i, 0).toString() + "+" + tbTindakanPasien4.getValueAt(i, 2).toString()).toString();
+//                    } else {
+//                        prosedurINADRG2 = psidrg.add(tbTindakanPasien4.getValueAt(i, 0).toString()).toString();
+//                    }
+//                }
+//            }
+//            pros_inadrg2.setText(prosedurINADRG2);
+//        }
+//    }
+    
     private void hasilJLHProsedur() {
         prosedurINADRG1 = "";
         prosedurINADRG2 = "";
         pros_inadrg1.setText("");
         pros_inadrg2.setText("");        
 
-        //kalau kode payor 3 adalah JKN
+        // kalau kode payor 3 adalah JKN
         if (kodePayor.equals("3")) {
+            StringJoiner psidrg = new StringJoiner("#");
+
             for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
-                if (i == 0) {
-                    if (!tbTindakanPasien2.getValueAt(i, 2).toString().equals("") && Integer.parseInt(tbTindakanPasien2.getValueAt(i, 2).toString()) > 1) {
-                        prosedurINADRG1 = tbTindakanPasien2.getValueAt(i, 0).toString() + "+" + tbTindakanPasien2.getValueAt(i, 2).toString();
-                    } else {
-                        prosedurINADRG1 = tbTindakanPasien2.getValueAt(i, 0).toString();
-                    }
+                String kode = tbTindakanPasien2.getValueAt(i, 0).toString();
+                String jumlah = tbTindakanPasien2.getValueAt(i, 2).toString();
+
+                if (!jumlah.equals("") && Integer.parseInt(jumlah) > 1) {
+                    psidrg.add(kode + "+" + jumlah);
                 } else {
-                    if (!tbTindakanPasien2.getValueAt(i, 2).toString().equals("") && Integer.parseInt(tbTindakanPasien2.getValueAt(i, 2).toString()) > 1) {
-                        prosedurINADRG1 = prosedurINADRG1 + "#" + tbTindakanPasien2.getValueAt(i, 0).toString() + "+" + tbTindakanPasien2.getValueAt(i, 2).toString();
-                    } else {
-                        prosedurINADRG1 = prosedurINADRG1 + "#" + tbTindakanPasien2.getValueAt(i, 0).toString();
-                    }
+                    psidrg.add(kode);
                 }
             }
-            pros_inadrg1.setText(prosedurINADRG1);
+
+            if (psidrg.length() > 0) {
+                prosedurINADRG1 = psidrg.toString();
+                pros_inadrg1.setText(prosedurINADRG1);
+            }
 
         } else {
+            StringJoiner psidrg = new StringJoiner("#");
+
             for (i = 0; i < tbTindakanPasien4.getRowCount(); i++) {
-                if (i == 0) {
-                    if (!tbTindakanPasien4.getValueAt(i, 2).toString().equals("") && Integer.parseInt(tbTindakanPasien4.getValueAt(i, 2).toString()) > 1) {
-                        prosedurINADRG2 = tbTindakanPasien4.getValueAt(i, 0).toString() + "+" + tbTindakanPasien4.getValueAt(i, 2).toString();
-                    } else {
-                        prosedurINADRG2 = tbTindakanPasien4.getValueAt(i, 0).toString();
-                    }
+                String kode = tbTindakanPasien4.getValueAt(i, 0).toString();
+                String jumlah = tbTindakanPasien4.getValueAt(i, 2).toString();
+
+                if (!jumlah.equals("") && Integer.parseInt(jumlah) > 1) {
+                    psidrg.add(kode + "+" + jumlah);
                 } else {
-                    if (!tbTindakanPasien4.getValueAt(i, 2).toString().equals("") && Integer.parseInt(tbTindakanPasien4.getValueAt(i, 2).toString()) > 1) {
-                        prosedurINADRG2 = prosedurINADRG2 + "#" + tbTindakanPasien4.getValueAt(i, 0).toString() + "+" + tbTindakanPasien4.getValueAt(i, 2).toString();
-                    } else {
-                        prosedurINADRG2 = prosedurINADRG2 + "#" + tbTindakanPasien4.getValueAt(i, 0).toString();
-                    }
+                    psidrg.add(kode);
                 }
             }
-            pros_inadrg2.setText(prosedurINADRG2);
+
+            if (psidrg.length() > 0) {
+                prosedurINADRG1 = psidrg.toString();
+                pros_inadrg1.setText(prosedurINADRG1);
+            }
         }
     }
+
     
     public void tarifRS(String NORW) {
         NrawatTARIF = NORW;
+        norawatbayi=Sequel.cariIsi("SELECT no_rawat2 FROM ranap_gabung WHERE no_rawat='"+NORW+"' ");
         hitungPNB();
         hitungRI();
         hitungKAMAR();
@@ -10893,10 +12072,10 @@ private void hitungOBAT() {
         hitungTOTAL();
     }
     
-    private void simpanGroupingJKN() {
+    private void simpanDataJKN() {
         cekDATA();
-        tampilDiagnosa();
-        tampilProsedur();
+       // tampilDiagnosa();
+       // tampilProsedur();
         
         for (i = 0; i < tbPersalinan.getRowCount(); i++) {
             requestJson = "{"
@@ -10918,14 +12097,14 @@ private void hitungOBAT() {
 
         diag = 0;
         if (jpel.equals("2")) {
-            for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
-                if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+            for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
                     diag++;
                 }
             }
         } else {
-            for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
-                if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+            for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
                     diag++;
                 }
             }
@@ -10939,9 +12118,10 @@ private void hitungOBAT() {
 
         if (diag > 0) {
             JOptionPane.showMessageDialog(null, "Masih ada diagnosa yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
-            tbDiagnosaPasien1.requestFocus();
+            tbDiagnosaPasien2.requestFocus();
         } else {
-            if (mbak_eka.menggrouper(noSEP.getText(), noPeserta.getText(), tglmsk, tglplg, jpel, kls, subakut.getText(), kronik.getText(), icuindikator,
+                                     
+                    mbak_eka.menggrouper(noSEP.getText(), noPeserta.getText(), tglmsk, tglplg, jpel, kls, subakut.getText(), kronik.getText(), icuindikator,
                     losIntensif.getText(), ventilator.getText(), naikTurunkls, nilaiKP, losNaikKls.getText(), persenNaikKls, brtlhr.getText(),
                     kdPulang, diagnosaKlaim, prosedurKlaim, Double.parseDouble(pnb.getText().trim()), 
                     Double.parseDouble(pb.getText().trim()),Double.parseDouble(kon.getText().trim()),Double.parseDouble(ta.getText().trim()),
@@ -10952,97 +12132,490 @@ private void hitungOBAT() {
                     kodePayor, "JKN", cmbCOB.getSelectedItem().toString(), nikPetugas.getText(), "0", "#", "0", "0", pros_inadrg1.getText(), 
                     diagnosaKlaimINADRG, caramasuk, nilaiPembiayaan, sistole.getText(), diastole.getText(), nilaiVenti, tglIntu, tglEkstu, dializer, 
                     TkntngDrh.getText(), mnt1APP, mnt1PUL, mnt1GRI, mnt1ACT, mnt1RES, mnt5APP, mnt5PUL, mnt5GRI, mnt5ACT, mnt5RES, TUsiaHml.getText(), 
-                    Tgravida.getText(), Tpartus.getText(), Tabortus.getText(), onset, cekDeliveri, requestJson) == true) {
+                    Tgravida.getText(), Tpartus.getText(), Tabortus.getText(), onset, cekDeliveri, requestJson);  
+                    
+               i = JOptionPane.showConfirmDialog(null, "Apa Mau di lanjutkan sampai Kirim Online Klaim ?", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                if (i == JOptionPane.YES_OPTION) {
+                        //grouper idrg
+                          if (jpel.equals("2")) {
+                            if (tabMode13.getRowCount() == 0) {
+                                JOptionPane.showMessageDialog(null, "Diagnosa IDRG masih kosong...!!!!");
+                            } else {  
+                                tampilDiagnosa();
+                                tampilProsedur();   
+                                diag = 0;
+                                prod = 0;
+                                if (jpel.equals("2")) {
+                                    for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                                        if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                            diag++;
+                                        }
+                                    }
+                                } else {
+                                    for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                                        if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                            diag++;
+                                        }
+                                    }
 
-                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
-                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
-                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
-                tampilHG1();
-                tampilHG2();
-                tampilRespon();
-                if (tabMode3.getRowCount() == 0) {
-                    BtnGruperStage.setEnabled(false);
-                } else {
-                    BtnGruperStage.setEnabled(true);
+                                }
+
+                                if (jpel.equals("2")) {
+                                    for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+                                        if (tbTindakanPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                            prod++;
+                                        }
+                                    }
+                                } else {
+                                    for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+                                        if (tbTindakanPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                            prod++;
+                                        }
+                                    }
+                                }
+
+                                if (diag > 0) {
+                                    JOptionPane.showMessageDialog(null, "Masih ada diagnosa IM yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                    tbDiagnosaPasien2.requestFocus();
+                                } else {
+                                    mbak_eka.kirimdiagnosaidrg(noSEP.getText(), diagnosaKlaimINADRG); 
+                                }
+
+
+                                if (prod > 0) {
+                                             JOptionPane.showMessageDialog(null, "Masih ada Prosedur IM yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                             tbTindakanPasien2.requestFocus();
+                                } else {
+                                            mbak_eka.kirimproseduridrg(noSEP.getText(), prosedurINADRG1);       
+                                }
+                                 mbak_eka.kirimgrouperidrg(noSEP.getText());
+                                  tampilRespon();
+                                  TombolCek();
+                            }
+                        } else {
+                            tampilDiagnosa();
+                            tampilProsedur();   
+                            if (tabMode13.getRowCount() == 0) {
+                                JOptionPane.showMessageDialog(null, "Untuk Diagnosa IDRG IM harus terisi...!!!!");
+                            } else {
+
+                                diag = 0;
+                                prod = 0;
+                                if (jpel.equals("2")) {
+                                    for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                                        if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                            diag++;
+                                        }
+                                    }
+                                } else {
+                                    for (i = 0; i < tbDiagnosaPasien2.getRowCount(); i++) {
+                                        if (tbDiagnosaPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                            diag++;
+                                        }
+                                    }
+                                }
+
+                                if (jpel.equals("2")) {
+                                    for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+                                        if (tbTindakanPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                            prod++;
+                                        }
+                                    }
+                                } else {
+                                    for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
+                                        if (tbTindakanPasien2.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+                                            prod++;
+                                        }
+                                    }
+                                }
+
+                                if (diag > 0) {
+                                    JOptionPane.showMessageDialog(null, "Masih ada diagnosa IM yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                    tbDiagnosaPasien2.requestFocus();
+                                } else {
+                                    mbak_eka.kirimdiagnosaidrg(noSEP.getText(), diagnosaKlaimINADRG); 
+                                }
+
+                                if (prod > 0) {
+                                             JOptionPane.showMessageDialog(null, "Masih ada Prosedur IM yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                             tbTindakanPasien2.requestFocus();
+                                } else {
+                                            mbak_eka.kirimproseduridrg(noSEP.getText(), prosedurINADRG1);       
+                                } 
+                                  mbak_eka.kirimgrouperidrg(noSEP.getText());
+                            }
+                        }
+                          
+                        //finalidrg
+                         Sequel.mengedit("eklaim_set_claim", "no_sep=?","diagnosa_inagrouper='"+diagnosaKlaimINADRG+"',procedure_inagrouper='"+prosedurINADRG1+"' ",1,new String[]{noSEP.getText()});
+                         mbak_eka.kirimfinalidrg(noSEP.getText());
+                         
+                         //grouper inacbg
+                          if (jpel.equals("2")) {
+                            SetDiagnosa();
+                            SetProsedur();
+                            if (tabMode.getRowCount() == 0) {
+                                    JOptionPane.showMessageDialog(null, "Untuk Diagnosa INACBG harus terisi...!!!!");
+                            }else{ 
+                                diag = 0;
+                                prod = 0;
+                                if (jpel.equals("2")) {
+                                    for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
+                                        if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("IM tidak berlaku")) {
+                                            diag++;
+                                        }
+                                    }
+                                } else {
+                                    for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
+                                        if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("IM tidak berlaku")) {
+                                            diag++;
+                                        }
+                                    }
+
+                                }
+
+                                if (jpel.equals("2")) {
+                                    for (i = 0; i < tbTindakanPasien1.getRowCount(); i++) {
+                                        if (tbTindakanPasien1.getValueAt(i, 2).toString().equals("IM tidak berlaku")) {
+                                            prod++;
+                                        }
+                                    }
+                                } else {
+                                    for (i = 0; i < tbTindakanPasien1.getRowCount(); i++) {
+                                        if (tbTindakanPasien1.getValueAt(i, 2).toString().equals("IM tidak berlaku")) {
+                                            prod++;
+                                        }
+                                    }
+                                }
+
+
+                                    if (diag > 0) {
+                                        JOptionPane.showMessageDialog(null, "Masih ada diagnosa yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                        tbDiagnosaPasien1.requestFocus();
+                                    } 
+        //                            else {
+        //                                mbak_eka.kirimdiagnosainacbg(noSEP.getText(), diagnosaKlaim);
+        //                            }
+
+                                    else if (prod > 0) {
+                                                 JOptionPane.showMessageDialog(null, "Masih ada Prosedur yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                                 tbTindakanPasien1.requestFocus();
+                                    } 
+                                    else {
+                                           mbak_eka.kirimprosedurinacbg(noSEP.getText(), prosedurKlaim);        
+
+
+                              if(mbak_eka.menggrouperPertama(noSEP.getText())==true){
+                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Final IDRG','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                    labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                            + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                    tampilHG1();
+                                    tampilHG2();
+                                    tampilRespon();
+                                    if (tabMode3.getRowCount() == 0) {
+                                            BtnGruperStage.setEnabled(false);
+                                            BtnFinalInacbg.setEnabled(true);
+                                          //  Final Inacbg
+                                          Sequel.mengedit("eklaim_set_claim", "no_sep=?","diagnosa='"+diagnosaKlaim+"',`procedure`='"+prosedurKlaim+"' ",1,new String[]{noSEP.getText()});        
+                                          mbak_eka.kirimfinalinacbg(noSEP.getText());
+
+
+                                        //final klaim
+                                        if (kodePayor.equals("3")) {
+
+                                                mbak_eka.mempinal(noSEP.getText(), nikPetugas.getText());
+                                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                                tampilHG1();
+                                                tampilHG2();
+                                                tampilRespon();
+                                                if (labelrwt.equals("JALAN")) {
+                                                        Sequel.mengedit("vedika_ralan","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                                                    }else if (labelrwt.equals("INAP")){
+                                                        Sequel.mengedit("vedika_ranap","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                                                }
+                                                //kirim online
+                                                mbak_eka.mengirimOnline(noSEP.getText());
+                                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                                tampilHG1();
+                                                tampilHG2();
+                                                TombolCek();
+                                            }
+                                      
+                                      
+                                    } else {
+                                        BtnGruperStage.setEnabled(true);
+                                        BtnFinalInacbg.setEnabled(false);
+                                        JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Grouper Stage 2 lalu Final INACBG. . !!");
+                                    }
+                                    TombolCek();
+                                } else {
+                                    labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Final IDRG','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                    labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                            + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                    tampilHG1();
+                                    tampilHG2();
+                                    tampilRespon();
+                                  //  tampilRespon();
+                                    if (tabMode3.getRowCount() == 0) {
+                                        BtnGruperStage.setEnabled(false);
+                                            BtnFinalInacbg.setEnabled(true);
+                                          //  Final Inacbg
+                                          Sequel.mengedit("eklaim_set_claim", "no_sep=?","diagnosa='"+diagnosaKlaim+"',`procedure`='"+prosedurKlaim+"' ",1,new String[]{noSEP.getText()});        
+                                          mbak_eka.kirimfinalinacbg(noSEP.getText());
+
+
+                                        //final klaim
+                                        if (kodePayor.equals("3")) {
+
+                                                mbak_eka.mempinal(noSEP.getText(), nikPetugas.getText());
+                                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                                tampilHG1();
+                                                tampilHG2();
+                                                tampilRespon();
+                                                if (labelrwt.equals("JALAN")) {
+                                                        Sequel.mengedit("vedika_ralan","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                                                    }else if (labelrwt.equals("INAP")){
+                                                        Sequel.mengedit("vedika_ranap","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                                                }
+                                                //kirim online
+                                                mbak_eka.mengirimOnline(noSEP.getText());
+                                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                                tampilHG1();
+                                                tampilHG2();
+                                                TombolCek();
+                                            }
+                                    } else {
+                                        BtnGruperStage.setEnabled(true);
+                                        BtnFinalInacbg.setEnabled(false);
+                                        JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Grouper Stage 2 lalu Final INACBG. . !!");
+                                    }
+                                     //mbak_eka.kirimfinalinacbg(noSEP.getText());
+                                     TombolCek();
+                                }
+                            }
+                            }
+
+                    }else{
+                            SetDiagnosa();
+                            SetProsedur();
+                            if (tabMode.getRowCount() == 0) {
+                                    JOptionPane.showMessageDialog(null, "Untuk Diagnosa INACBG harus terisi...!!!!");
+                            }else{
+                                diag = 0;
+                                prod = 0;
+                                if (jpel.equals("2")) {
+                                   for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
+                                        if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("IM tidak berlaku")) {
+                                            diag++;
+                                        }
+                                    }
+                                } else {
+                                    for (i = 0; i < tbDiagnosaPasien1.getRowCount(); i++) {
+                                        if (tbDiagnosaPasien1.getValueAt(i, 3).toString().equals("IM tidak berlaku")) {
+                                            diag++;
+                                        }
+                                    }
+
+                                }
+
+                                if (jpel.equals("2")) {
+                                    for (i = 0; i < tbTindakanPasien1.getRowCount(); i++) {
+                                        if (tbTindakanPasien1.getValueAt(i, 2).toString().equals("IM tidak berlaku")) {
+                                            prod++;
+                                        }
+                                    }
+                                } else {
+                                    for (i = 0; i < tbTindakanPasien1.getRowCount(); i++) {
+                                        if (tbTindakanPasien1.getValueAt(i, 2).toString().equals("IM tidak berlaku")) {
+                                            prod++;
+                                        }
+                                    }
+                                }
+
+
+                                    if (diag > 0) {
+                                        JOptionPane.showMessageDialog(null, "Masih ada diagnosa yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                        tbDiagnosaPasien1.requestFocus();
+                                    } else
+        //                                mbak_eka.kirimdiagnosainacbg(noSEP.getText(), diagnosaKlaim);
+        //                            }
+
+                                    if (prod > 0) {
+                                                 JOptionPane.showMessageDialog(null, "Masih ada Prosedur yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+                                                 tbTindakanPasien1.requestFocus();
+                                    } else {
+                                        mbak_eka.kirimprosedurinacbg(noSEP.getText(), prosedurKlaim);        
+
+
+                             if(mbak_eka.menggrouperPertama(noSEP.getText())==true){
+                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Final IDRG','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                    labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                            + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                    tampilHG1();
+                                    tampilHG2();
+                                    tampilRespon();
+                                    if (tabMode3.getRowCount() == 0) {
+                                        BtnGruperStage.setEnabled(false);
+                                            BtnFinalInacbg.setEnabled(true);
+                                          //  Final Inacbg
+                                          Sequel.mengedit("eklaim_set_claim", "no_sep=?","diagnosa='"+diagnosaKlaim+"',`procedure`='"+prosedurKlaim+"' ",1,new String[]{noSEP.getText()});        
+                                          mbak_eka.kirimfinalinacbg(noSEP.getText());
+
+
+                                        //final klaim
+                                        if (kodePayor.equals("3")) {
+
+                                                mbak_eka.mempinal(noSEP.getText(), nikPetugas.getText());
+                                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                                tampilHG1();
+                                                tampilHG2();
+                                                tampilRespon();
+                                                if (labelrwt.equals("JALAN")) {
+                                                        Sequel.mengedit("vedika_ralan","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                                                    }else if (labelrwt.equals("INAP")){
+                                                        Sequel.mengedit("vedika_ranap","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                                                }
+                                                //kirim online
+                                                mbak_eka.mengirimOnline(noSEP.getText());
+                                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                                tampilHG1();
+                                                tampilHG2();
+                                                TombolCek();
+                                            }
+                                    } else {
+                                        BtnGruperStage.setEnabled(true);
+                                         BtnFinalInacbg.setEnabled(false);
+                                        JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Grouper Stage 2 lalu Final INACBG. . !!");
+                                    }
+                                    TombolCek();
+                                } else {
+                                    labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Final IDRG','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                    labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                            + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                    tampilHG1();
+                                    tampilHG2();
+                                    tampilRespon();
+                                    if (tabMode3.getRowCount() == 0) {
+                                        BtnGruperStage.setEnabled(false);
+                                            BtnFinalInacbg.setEnabled(true);
+                                          //  Final Inacbg
+                                          Sequel.mengedit("eklaim_set_claim", "no_sep=?","diagnosa='"+diagnosaKlaim+"',`procedure`='"+prosedurKlaim+"' ",1,new String[]{noSEP.getText()});        
+                                          mbak_eka.kirimfinalinacbg(noSEP.getText());
+
+
+                                        //final klaim
+                                        if (kodePayor.equals("3")) {
+
+                                                mbak_eka.mempinal(noSEP.getText(), nikPetugas.getText());
+                                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                                tampilHG1();
+                                                tampilHG2();
+                                                tampilRespon();
+                                                if (labelrwt.equals("JALAN")) {
+                                                        Sequel.mengedit("vedika_ralan","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                                                    }else if (labelrwt.equals("INAP")){
+                                                        Sequel.mengedit("vedika_ranap","no_rawat=? and no_sep=?","status='Final Klaim',tgl=now() ",2,new String[]{norawat,noSEP.getText()});
+                                                }
+                                                //kirim online
+                                                mbak_eka.mengirimOnline(noSEP.getText());
+                                                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
+                                                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                                                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
+                                                tampilHG1();
+                                                tampilHG2();
+                                                TombolCek();
+                                            }
+                                    } else {
+                                        BtnGruperStage.setEnabled(true);
+                                         BtnFinalInacbg.setEnabled(false);
+                                        JOptionPane.showMessageDialog(null, "Silahkan Lanjutkan Klik Tombol Grouper Stage 2 lalu Final INACBG. . !!");
+                                    }
+                                   TombolCek();
+                                }
+                              }
+                         }
+                      }        
                 }
-            } else {
-                labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noSEP.getText() + "'"));
-                labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
-                        + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noSEP.getText() + "'"));
-                tampilHG1();
-                tampilHG2();
-                tampilRespon();
-                if (tabMode3.getRowCount() == 0) {
-                    BtnGruperStage.setEnabled(false);
-                } else {
-                    BtnGruperStage.setEnabled(true);
-                }
-            }
         }
+             
     }
     
     private void simpanGrouperLAINNYA() {
-        cekDATA();
-        tampilDiagnosa();
-        tampilProsedur();
-
-        diag = 0;
-        if (jpel.equals("2")) {
-            for (i = 0; i < tbDiagnosaPasie3.getRowCount(); i++) {
-                if (tbDiagnosaPasie3.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
-                    diag++;
-                }
-            }
-        } else {
-            for (i = 0; i < tbDiagnosaPasie3.getRowCount(); i++) {
-                if (tbDiagnosaPasie3.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
-                    diag++;
-                }
-            }
-
-            for (i = 0; i < tbDiagnosaPasie4.getRowCount(); i++) {
-                if (tbDiagnosaPasie4.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
-                    diag++;
-                }
-            }
-        }
-
-        if (diag > 0) {
-            JOptionPane.showMessageDialog(null, "Masih ada diagnosa yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
-            tbDiagnosaPasie3.requestFocus();
-        } else {
-            if (mbak_eka.menggrouper(noKlaim.getText(), noID.getText(), tglmsk, tglplg, jpel, kls, subakut1.getText(), kronik1.getText(), icuindikator,
-                    losIntensif1.getText(), ventilator1.getText(), "0", "", "0", "0", brtlhr1.getText(), kdPulang, diagnosaKlaim, prosedurKlaim, nilaiPNB,
-                    nilaiPB, nilaiKON, nilaiTa, nilaiKEP, NilaiPen, nilaiRAD, nilaiLAB, nilaiPd, nilaiREH, nilaiKAM, nilaiRI, nilaiOBAT,
-                    okr1.getText(), oke1.getText(), alkes1.getText(),NilaiAl, NilaiSa, cekPEMU, cekKAN, cekPET, cekPLAS, cekDESJEN, cekTRA,
-                    cekDESMOB, cekSTATUS, cekID, kirimEPISOD, cekKOM, cekRS, cekCI, cekASAM, cekPRO, cekCRP, cekKUL, cekDIM, cekPT, cekAPTT, cekWAK,
-                    cekANT, cekANAL, cekALBU, cekTHO, "0", dpjp1.getText(), kodePayor, nmJaminan.getText(), "#", nikPetugas1.getText(), trfPlasma,
-                    nilaiKriteria, nilaiIsolasi, nilaiKelainan, pros_inadrg2.getText(), diagnosaKlaimINADRG, caramasuk, "", "0", "0", nilaiVenti, tglIntu,
-                    tglEkstu, "1", "0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "") == true) {
-
-                labelhasilG2.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim "
-                        + "where no_sep='" + Sequel.cariIsi("SELECT claim_number FROM eklaim_generate_claim where no_rawat='" + norawat + "'") + "'"));
-                tampilHG1();
-                tampilHG2();
-                tampilRespon();
-                if (tabMode8.getRowCount() == 0) {
-                    BtnGruperStage1.setEnabled(false);
-                } else {
-                    BtnGruperStage1.setEnabled(true);
-                }
-            } else {
-                labelhasilG2.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim "
-                        + "where no_sep='" + Sequel.cariIsi("SELECT claim_number FROM eklaim_generate_claim where no_rawat='" + norawat + "'") + "'"));
-                tampilHG1();
-                tampilHG2();
-                tampilRespon();
-                if (tabMode8.getRowCount() == 0) {
-                    BtnGruperStage1.setEnabled(false);
-                } else {
-                    BtnGruperStage1.setEnabled(true);
-                }
-            }
-        }
+//        cekDATA();
+//        tampilDiagnosa();
+//        tampilProsedur();
+//
+//        diag = 0;
+//        if (jpel.equals("2")) {
+//            for (i = 0; i < tbDiagnosaPasie3.getRowCount(); i++) {
+//                if (tbDiagnosaPasie3.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+//                    diag++;
+//                }
+//            }
+//        } else {
+//            for (i = 0; i < tbDiagnosaPasie3.getRowCount(); i++) {
+//                if (tbDiagnosaPasie3.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+//                    diag++;
+//                }
+//            }
+//
+//            for (i = 0; i < tbDiagnosaPasie4.getRowCount(); i++) {
+//                if (tbDiagnosaPasie4.getValueAt(i, 3).toString().equals("Belum Sesuai")) {
+//                    diag++;
+//                }
+//            }
+//        }
+//
+//        if (diag > 0) {
+//            JOptionPane.showMessageDialog(null, "Masih ada diagnosa yg. blm. sesuai utk. diklaimkan, Silahkan perbaiki dulu.!!!");
+//            tbDiagnosaPasie3.requestFocus();
+//        } else {
+//            if (mbak_eka.menggrouper(noKlaim.getText(), noID.getText(), tglmsk, tglplg, jpel, kls, subakut1.getText(), kronik1.getText(), icuindikator,
+//                    losIntensif1.getText(), ventilator1.getText(), "0", "", "0", "0", brtlhr1.getText(), kdPulang, diagnosaKlaim, prosedurKlaim, nilaiPNB,
+//                    nilaiPB, nilaiKON, nilaiTa, nilaiKEP, NilaiPen, nilaiRAD, nilaiLAB, nilaiPd, nilaiREH, nilaiKAM, nilaiRI, nilaiOBAT,
+//                    okr1.getText(), oke1.getText(), alkes1.getText(),NilaiAl, NilaiSa, cekPEMU, cekKAN, cekPET, cekPLAS, cekDESJEN, cekTRA,
+//                    cekDESMOB, cekSTATUS, cekID, kirimEPISOD, cekKOM, cekRS, cekCI, cekASAM, cekPRO, cekCRP, cekKUL, cekDIM, cekPT, cekAPTT, cekWAK,
+//                    cekANT, cekANAL, cekALBU, cekTHO, "0", dpjp1.getText(), kodePayor, nmJaminan.getText(), "#", nikPetugas1.getText(), trfPlasma,
+//                    nilaiKriteria, nilaiIsolasi, nilaiKelainan, pros_inadrg2.getText(), diagnosaKlaimINADRG, caramasuk, "", "0", "0", nilaiVenti, tglIntu,
+//                    tglEkstu, "1", "0", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "") == true) {
+//
+//                labelhasilG2.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim "
+//                        + "where no_sep='" + Sequel.cariIsi("SELECT claim_number FROM eklaim_generate_claim where no_rawat='" + norawat + "'") + "'"));
+//                tampilHG1();
+//                tampilHG2();
+//                tampilRespon();
+//                if (tabMode8.getRowCount() == 0) {
+//                    BtnGruperStage1.setEnabled(false);
+//                } else {
+//                    BtnGruperStage1.setEnabled(true);
+//                }
+//            } else {
+//                labelhasilG2.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim "
+//                        + "where no_sep='" + Sequel.cariIsi("SELECT claim_number FROM eklaim_generate_claim where no_rawat='" + norawat + "'") + "'"));
+//                tampilHG1();
+//                tampilHG2();
+//                tampilRespon();
+//                if (tabMode8.getRowCount() == 0) {
+//                    BtnGruperStage1.setEnabled(false);
+//                } else {
+//                    BtnGruperStage1.setEnabled(true);
+//                }
+//            }
+//        }
     }
     
     private void emptnotb() {
@@ -11257,5 +12830,184 @@ private void hitungOBAT() {
         labelTarifRS.setText(Valid.SetAngka3(a+b+c+d+e+f+g+h+k+l+m+n+o+p+q).trim()); 
         }
       }
+    }
+     
+    public void TombolCek(){
+        if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Edit Klaim' ")>0){
+                        BtnRefres.setEnabled(false);
+                        BtnSimpanData.setEnabled(false);
+                        BtnGrouperIDRG.setEnabled(false);
+                        BtnFinalIdrg.setEnabled(false);
+                        BtnEditIdrg.setEnabled(true);
+                        BtnImportIDRGtoINACBG.setEnabled(false);
+                        BtnGrouperInacbg.setEnabled(false);
+                        BtnFinalInacbg.setEnabled(false);
+                        BtnEditINACBG.setEnabled(true);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(false);
+                        BtnFinal.setEnabled(true);                                            
+        }  if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Grouper IDRG' ")>0){
+                        BtnRefres.setEnabled(false);
+                        BtnSimpanData.setEnabled(false);
+                        BtnGrouperIDRG.setEnabled(true);
+                        BtnFinalIdrg.setEnabled(true);
+                        BtnEditIdrg.setEnabled(false);
+                        BtnImportIDRGtoINACBG.setEnabled(false);
+                        BtnGrouperInacbg.setEnabled(false);
+                        BtnFinalInacbg.setEnabled(false);
+                        BtnEditINACBG.setEnabled(false);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(true);
+                        BtnFinal.setEnabled(false);
+        
+        }  if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Final IDRG' ")>0){
+                        BtnRefres.setEnabled(false);
+                        BtnSimpanData.setEnabled(false);
+                        BtnGrouperIDRG.setEnabled(false);
+                        BtnFinalIdrg.setEnabled(false);
+                        BtnEditIdrg.setEnabled(true);
+                        BtnImportIDRGtoINACBG.setEnabled(true);
+                        BtnGrouperInacbg.setEnabled(true);
+                        BtnFinalInacbg.setEnabled(false);
+                        BtnEditINACBG.setEnabled(false);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(false);
+                        BtnFinal.setEnabled(false);
+    
+        }  if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Grouper INACBG' ")>0){
+                        BtnRefres.setEnabled(false);
+                        BtnSimpanData.setEnabled(false);
+                        BtnGrouperIDRG.setEnabled(false);
+                        BtnFinalIdrg.setEnabled(false);
+                        BtnEditIdrg.setEnabled(true);
+                        BtnImportIDRGtoINACBG.setEnabled(true);
+                        BtnGrouperInacbg.setEnabled(true);
+                        BtnFinalInacbg.setEnabled(true);
+                        BtnEditINACBG.setEnabled(false);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(false);
+                        BtnFinal.setEnabled(false);
+        
+        } if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Grouper INACBG s2' ")>0){
+                        BtnRefres.setEnabled(false);
+                        BtnSimpanData.setEnabled(false);
+                        BtnGrouperIDRG.setEnabled(false);
+                        BtnFinalIdrg.setEnabled(false);
+                        BtnEditIdrg.setEnabled(true);
+                        BtnImportIDRGtoINACBG.setEnabled(true);
+                        BtnGrouperInacbg.setEnabled(false);
+                        BtnGruperStage.setEnabled(false);
+                        BtnFinalInacbg.setEnabled(true);
+                        BtnEditINACBG.setEnabled(false);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(false);
+                        BtnFinal.setEnabled(false);
+        
+        } if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Final' ")>0){
+                        BtnRefres.setEnabled(false);
+                        BtnSimpanData.setEnabled(false);
+                        BtnGrouperIDRG.setEnabled(false);
+                        BtnFinalIdrg.setEnabled(false);
+                        BtnEditIdrg.setEnabled(false);
+                        BtnImportIDRGtoINACBG.setEnabled(false);
+                        BtnGrouperInacbg.setEnabled(false);
+                        BtnFinalInacbg.setEnabled(false);
+                        BtnEditINACBG.setEnabled(false);
+                        BtnKirimOnline.setEnabled(true);
+                        BtnPrint.setEnabled(true);
+                        BtnEditKlaim.setEnabled(true);
+                        BtnHapusKlaim.setEnabled(true);
+                        BtnFinal.setEnabled(false);
+        
+        } if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Belum' ")>0){
+                        BtnRefres.setEnabled(true);
+                        BtnSimpanData.setEnabled(true);
+                        BtnGrouperIDRG.setEnabled(false);
+                        BtnFinalIdrg.setEnabled(false);
+                        BtnEditIdrg.setEnabled(false);
+                        BtnImportIDRGtoINACBG.setEnabled(false);
+                        BtnGrouperInacbg.setEnabled(false);
+                        BtnFinalInacbg.setEnabled(false);
+                        BtnEditINACBG.setEnabled(false);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(false);
+                        BtnFinal.setEnabled(false);     
+        } if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Edit INACBG' ")>0){
+                        BtnRefres.setEnabled(true);
+                        BtnSimpanData.setEnabled(true);
+                        BtnGrouperIDRG.setEnabled(false);
+                        BtnFinalIdrg.setEnabled(false);
+                        BtnEditIdrg.setEnabled(true);
+                        BtnImportIDRGtoINACBG.setEnabled(true);
+                        BtnGrouperInacbg.setEnabled(true);
+                        BtnFinalInacbg.setEnabled(true);
+                        BtnEditINACBG.setEnabled(false);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(true);
+                        BtnFinal.setEnabled(false);
+        
+        } if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Edit IDRG' ")>0){
+                        BtnRefres.setEnabled(true);
+                        BtnSimpanData.setEnabled(true);
+                        BtnGrouperIDRG.setEnabled(true);
+                        BtnFinalIdrg.setEnabled(true);
+                        BtnEditIdrg.setEnabled(false);
+                        BtnImportIDRGtoINACBG.setEnabled(false);
+                        BtnGrouperInacbg.setEnabled(true);
+                        BtnFinalInacbg.setEnabled(false);
+                        BtnEditINACBG.setEnabled(false);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(true);
+                        BtnFinal.setEnabled(false);
+        
+        }  if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Simpan Data' ")>0){
+                        BtnRefres.setEnabled(true);
+                        BtnSimpanData.setEnabled(true);
+                        BtnGrouperIDRG.setEnabled(true);
+                        BtnFinalIdrg.setEnabled(true);
+                        BtnEditIdrg.setEnabled(false);
+                        BtnImportIDRGtoINACBG.setEnabled(false);
+                        BtnGrouperInacbg.setEnabled(false);
+                        BtnFinalInacbg.setEnabled(false);
+                        BtnEditINACBG.setEnabled(false);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(true);
+                        BtnFinal.setEnabled(false);
+        
+        }  if(Sequel.cariInteger("select count(no_sep) from eklaim_new_claim where no_sep = '"+noSEP.getText()+"' and klaim_final='Final INACBG' ")>0){
+                        BtnRefres.setEnabled(false);
+                        BtnSimpanData.setEnabled(false);
+                        BtnGrouperIDRG.setEnabled(false);
+                        BtnFinalIdrg.setEnabled(false);
+                        BtnEditIdrg.setEnabled(true);
+                        BtnImportIDRGtoINACBG.setEnabled(false);
+                        BtnGrouperInacbg.setEnabled(false);
+                        BtnFinalInacbg.setEnabled(false);
+                        BtnEditINACBG.setEnabled(true);
+                        BtnKirimOnline.setEnabled(false);
+                        BtnPrint.setEnabled(false);
+                        BtnEditKlaim.setEnabled(false);
+                        BtnHapusKlaim.setEnabled(false);
+                        BtnFinal.setEnabled(true);
+        
+        }
     }
 }

@@ -42,6 +42,7 @@ import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import modifikasi.BPJSListDataPRB;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.ssl.SSLSocketFactory;
@@ -297,6 +298,7 @@ public final class BPJSProgramPRB extends javax.swing.JDialog {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         MnSurat = new javax.swing.JMenuItem();
         MnTampilkanObatPRB = new javax.swing.JMenuItem();
+        MnCekPRBviaWS = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbProgramPRB = new widget.Table();
@@ -387,6 +389,21 @@ public final class BPJSProgramPRB extends javax.swing.JDialog {
             }
         });
         jPopupMenu1.add(MnTampilkanObatPRB);
+
+        MnCekPRBviaWS.setBackground(new java.awt.Color(255, 255, 254));
+        MnCekPRBviaWS.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnCekPRBviaWS.setForeground(java.awt.Color.darkGray);
+        MnCekPRBviaWS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnCekPRBviaWS.setText("Cek Data PRB Via WS");
+        MnCekPRBviaWS.setActionCommand("Cek Data PRB Via WS");
+        MnCekPRBviaWS.setName("MnCekPRBviaWS"); // NOI18N
+        MnCekPRBviaWS.setPreferredSize(new java.awt.Dimension(170, 28));
+        MnCekPRBviaWS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCekPRBviaWSActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(MnCekPRBviaWS);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -557,7 +574,7 @@ public final class BPJSProgramPRB extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-11-2021" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-11-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -571,7 +588,7 @@ public final class BPJSProgramPRB extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-11-2021" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-11-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -866,7 +883,7 @@ public final class BPJSProgramPRB extends javax.swing.JDialog {
         jLabel20.setBounds(565, 130, 80, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-11-2021" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-11-2025" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -1436,6 +1453,16 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }     
     }//GEN-LAST:event_MnTampilkanObatPRBActionPerformed
 
+    private void MnCekPRBviaWSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCekPRBviaWSActionPerformed
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        BPJSListDataPRB form=new BPJSListDataPRB(null,false);
+        form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        form.setLocationRelativeTo(internalFrame1);
+        form.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+
+    }//GEN-LAST:event_MnCekPRBviaWSActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1472,6 +1499,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.TextBox KdProgram;
     private widget.TextBox Keterangan;
     private widget.Label LCount;
+    private javax.swing.JMenuItem MnCekPRBviaWS;
     private javax.swing.JMenuItem MnSurat;
     private javax.swing.JMenuItem MnTampilkanObatPRB;
     private widget.TextBox NmDPJP;

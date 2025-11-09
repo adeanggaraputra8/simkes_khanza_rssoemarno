@@ -1547,11 +1547,11 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
             if (kd_payor.equals("3")) {
                 klaimLamaJKN();
   
-                 if(tbINACBG.getValueAt(tbINACBG.getSelectedRow(),7).toString().equals("Jalan")){
+               if(tbINACBG.getValueAt(tbINACBG.getSelectedRow(),7).toString().equals("Jalan")){
                  Sequel.mengedit("vedika_ralan","no_rawat=? and no_sep=?","status='InputInacbg',tgl=now(),kd_petugas='"+akses.getkode()+"' ",2,new String[]{noRawat.getText(),nosep_klaim.getText()});
-            }else if (tbINACBG.getValueAt(tbINACBG.getSelectedRow(),7).toString().equals("Inap")){
+               }else if (tbINACBG.getValueAt(tbINACBG.getSelectedRow(),7).toString().equals("Inap")){
                  Sequel.mengedit("vedika_ranap","no_rawat=? and no_sep=?","status='InputInacbg',tgl=now(),kd_petugas='"+akses.getkode()+"' ",2,new String[]{noRawat.getText(),nosep_klaim.getText()});
-            }
+              }
             } else {
                 klaimLamaLAINYA();
             }
@@ -3181,4 +3181,5 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
     public void verifData() {
         cekData = "dari luar";
     }
+    
 }

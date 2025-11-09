@@ -38,6 +38,7 @@ import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import modifikasi.BPJSListRujukanKeluarKhusus;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.conn.scheme.Scheme;
@@ -228,6 +229,8 @@ public final class BPJSRujukanKhusus extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        MnCekRujukanViaws = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbProgramPRB = new widget.Table();
@@ -268,6 +271,23 @@ public final class BPJSRujukanKhusus extends javax.swing.JDialog {
         Scroll2 = new widget.ScrollPane();
         tbProsedur = new widget.Table();
 
+        jPopupMenu1.setName("jPopupMenu1"); // NOI18N
+        jPopupMenu1.setPreferredSize(new java.awt.Dimension(200, 36));
+
+        MnCekRujukanViaws.setBackground(new java.awt.Color(255, 255, 254));
+        MnCekRujukanViaws.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnCekRujukanViaws.setForeground(java.awt.Color.darkGray);
+        MnCekRujukanViaws.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnCekRujukanViaws.setText("Cek Rujukan Khusus Via WS");
+        MnCekRujukanViaws.setName("MnCekRujukanViaws"); // NOI18N
+        MnCekRujukanViaws.setPreferredSize(new java.awt.Dimension(170, 28));
+        MnCekRujukanViaws.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnCekRujukanViawsActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(MnCekRujukanViaws);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
@@ -276,6 +296,7 @@ public final class BPJSRujukanKhusus extends javax.swing.JDialog {
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
+        Scroll.setComponentPopupMenu(jPopupMenu1);
         Scroll.setName("Scroll"); // NOI18N
         Scroll.setOpaque(true);
 
@@ -399,7 +420,7 @@ public final class BPJSRujukanKhusus extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-11-2021" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-11-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -413,7 +434,7 @@ public final class BPJSRujukanKhusus extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-11-2021" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "05-11-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -593,7 +614,7 @@ public final class BPJSRujukanKhusus extends javax.swing.JDialog {
         jLabel16.setText("Prosedur :");
         jLabel16.setName("jLabel16"); // NOI18N
         FormInput.add(jLabel16);
-        jLabel16.setBounds(0, 214, 79, 23);
+        jLabel16.setBounds(640, 30, 79, 23);
 
         Prosedur.setName("Prosedur"); // NOI18N
         Prosedur.setPreferredSize(new java.awt.Dimension(578, 23));
@@ -603,7 +624,7 @@ public final class BPJSRujukanKhusus extends javax.swing.JDialog {
             }
         });
         FormInput.add(Prosedur);
-        Prosedur.setBounds(83, 214, 509, 23);
+        Prosedur.setBounds(720, 30, 370, 23);
 
         BtnCari3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/accept.png"))); // NOI18N
         BtnCari3.setMnemonic('4');
@@ -621,7 +642,7 @@ public final class BPJSRujukanKhusus extends javax.swing.JDialog {
             }
         });
         FormInput.add(BtnCari3);
-        BtnCari3.setBounds(595, 214, 28, 23);
+        BtnCari3.setBounds(1100, 30, 28, 23);
 
         Scroll2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)));
         Scroll2.setName("Scroll2"); // NOI18N
@@ -635,7 +656,7 @@ public final class BPJSRujukanKhusus extends javax.swing.JDialog {
         Scroll2.setViewportView(tbProsedur);
 
         FormInput.add(Scroll2);
-        Scroll2.setBounds(83, 241, 540, 150);
+        Scroll2.setBounds(650, 60, 440, 150);
 
         Scroll3.setViewportView(FormInput);
 
@@ -987,6 +1008,16 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }
     }//GEN-LAST:event_BtnHapusKeyPressed
 
+    private void MnCekRujukanViawsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCekRujukanViawsActionPerformed
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        BPJSListRujukanKeluarKhusus form=new BPJSListRujukanKeluarKhusus(null,false);
+        form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        form.setLocationRelativeTo(internalFrame1);
+        form.setVisible(true);
+        this.setCursor(Cursor.getDefaultCursor());
+
+    }//GEN-LAST:event_MnCekRujukanViawsActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1018,6 +1049,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.TextBox Diagnosa;
     private widget.PanelBiasa FormInput;
     private widget.Label LCount;
+    private javax.swing.JMenuItem MnCekRujukanViaws;
     private widget.TextBox NmPasien;
     private widget.TextBox NoPeserta;
     private widget.TextBox NoRM;
@@ -1038,6 +1070,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.Label jLabel6;
     private widget.Label jLabel7;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private widget.Table tbDiagnosa;

@@ -86,7 +86,7 @@ public final class ApotekBPJSDaftarPelayananObat2 extends javax.swing.JDialog {
 
         tabMode=new DefaultTableModel(null,new String[]{
                 "No.SEP Apotek","No.SEP Asal","Iterasi","No.Resep","No.Kartu","Nama Peserta","Kode Jenis","Jenis Obat","Tgl.Pelayanan",
-                "Kode Obat","Nama Obat","Tipe Obat","Signa 1","Signa 2","Racikan","Kode Poli","PoliKlinik","Kode Dokter","Nama Dokter"
+                "Kode Obat","Nama Obat","Jumlah Obat","Signa 1","Signa 2","Racikan","Kode Poli","PoliKlinik","Kode Dokter","Nama Dokter"
             }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };

@@ -1,4 +1,5 @@
 package modifikasi;
+import bridging.ApiEKLAIM_inacbg;
 import fungsi.WarnaTable;
 import fungsi.WarnaTableVedika;
 import fungsi.batasInput;
@@ -42,6 +43,7 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
     private boolean[] pilih;
     private boolean sukses=true;
     private DlgCariPoli3 poli=new DlgCariPoli3(null,false);
+     private ApiEKLAIM_inacbg mbak_eka = new ApiEKLAIM_inacbg();
 
     /**
      * Creates new form DlgSpesialis
@@ -584,7 +586,7 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
         panelGlass10.add(jLabel8);
 
         tgl1.setEditable(false);
-        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-04-2025" }));
+        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-10-2025" }));
         tgl1.setDisplayFormat("dd-MM-yyyy");
         tgl1.setName("tgl1"); // NOI18N
         tgl1.setOpaque(false);
@@ -599,7 +601,7 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
         panelGlass10.add(jLabel21);
 
         tgl2.setEditable(false);
-        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-04-2025" }));
+        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-10-2025" }));
         tgl2.setDisplayFormat("dd-MM-yyyy");
         tgl2.setName("tgl2"); // NOI18N
         tgl2.setOpaque(false);

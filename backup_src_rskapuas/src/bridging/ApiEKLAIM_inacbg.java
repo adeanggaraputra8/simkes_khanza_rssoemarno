@@ -1142,6 +1142,7 @@ public class ApiEKLAIM_inacbg {
             if (root.path("metadata").path("code").asText().equals("200")) {
                 JOptionPane.showMessageDialog(null,"Sukses Final IDRG. . .");
                 Sequel.mengedit("eklaim_new_claim","no_sep=?","klaim_final='Final IDRG'",1,new String[]{noPengajuan});
+                Sequel.mengedit("eklaim_response_inagrouper","no_sep=?","status_cd='final'",1,new String[]{noPengajuan});
             } else {
                 JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText()); 
             }
