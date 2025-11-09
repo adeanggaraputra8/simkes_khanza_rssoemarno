@@ -54,6 +54,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import widget.TextBox;
 /**
  *
  * @author Owner
@@ -983,6 +984,22 @@ public final class validasi {
             kiri.requestFocus();
         }
     }
+
+    public void pindah2(KeyEvent evt, TextArea kiri, Tanggal kanan) {
+        if(evt.getKeyCode()==KeyEvent.VK_TAB){
+            kanan.requestFocus();
+        }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
+            kiri.requestFocus();
+        }
+    }
+
+    public void pindah2(KeyEvent evt, Button kiri, TextBox kanan) {
+        if(evt.getKeyCode()==KeyEvent.VK_TAB){
+            kanan.requestFocus();
+        }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
+            kiri.requestFocus();
+        }
+    }
     
     public void pindah(java.awt.event.KeyEvent evt,JTextField kiri,JTextArea kanan) {
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
@@ -1427,9 +1444,15 @@ public final class validasi {
         if (file.lastModified() < 1) return 0;
         return milliToDay(Calendar.getInstance().getTimeInMillis() - file.lastModified());
     }
+
+    /**
+     * Converts milliseconds to days
+     */
+    public static int milliToDay(long milli) {
+        return (int) ((double) milli / (1000 * 24 * 60 * 60));
+    }
     
-    @SuppressWarnings("empty-statement")
-    public void MyReportPDFWithName(String reportName,String reportDirName,String reportDirLoc,String name,String judul,Map parameters){
+     public void MyReportPDFWithName(String reportName,String reportDirName,String reportDirLoc,String name,String judul,Map parameters){
         Properties systemProp = System.getProperties();
 
         // Ambil current dir
@@ -1467,15 +1490,56 @@ public final class validasi {
             System.out.println(e);
         }
     }
+     
+     public String saveToPDFTteQry(String reportName, String reportDirName, String judul, String qry, Map parameters) {
+            String a = "";
+            try {
+                prop.loadFromXML(new FileInputStream("setting/database.xml"));
+                String saveDir = prop.getProperty("FOLDERPDF");
 
-    /**
-     * Converts milliseconds to days
-     */
-    public static int milliToDay(long milli) {
-        return (int) ((double) milli / (1000 * 24 * 60 * 60));
-    }
-    
-     public String saveToPDFTte(String reportName, String reportDirName, String judul, Map parameters) {
+                File d = new File(saveDir);
+                if (!d.isDirectory()) {
+                    Files.createDirectories(Paths.get(saveDir));
+                }
+
+                // 🔹 Tambahan: gunakan query SQL seperti MyReportqrypdf()
+                ps = connect.prepareStatement(qry);
+                rs = ps.executeQuery();
+                JRResultSetDataSource rsdt = new JRResultSetDataSource(rs);
+
+                try {
+                    // lokasi file jasper
+                    String namafile = "./" + reportDirName + "/" + reportName;
+
+                    // nama file PDF hasil
+                    String outputFile = saveDir + "/" + judul.replaceAll("/", "") + ".pdf";
+
+                    // isi report dengan data dari query (rsdt)
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(namafile, parameters, rsdt);
+
+                    // ekspor ke PDF
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
+
+                    a = outputFile;
+
+                    JOptionPane.showMessageDialog(null, 
+                        "Berhasil Menyiapkan File PDF. Klik Ok untuk membubuhkan TTE,..!!");
+
+                } catch (Exception rptexcpt) {
+                    System.out.println("Report Can't view because : " + rptexcpt);
+                    JOptionPane.showMessageDialog(null, "Report Can't view because : " + rptexcpt);
+                } finally {
+                    if (rs != null) rs.close();
+                    if (ps != null) ps.close();
+                }
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return a;
+        }
+     
+      public String saveToPDFTte(String reportName, String reportDirName, String judul, Map parameters) {
         String a = "";
         try {
             prop.loadFromXML(new FileInputStream("setting/database.xml"));

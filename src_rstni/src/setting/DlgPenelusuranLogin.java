@@ -11,7 +11,6 @@
 
 package setting;
 
-import digitalsignature.DlgListLogTte;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -30,7 +29,6 @@ import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import digitalsignature.DlgListLogTte;
 
 /**
  *
@@ -44,7 +42,7 @@ public class DlgPenelusuranLogin extends javax.swing.JDialog {
     private PreparedStatement ps;
     private ResultSet rs;
     private String keyword="";
-    private DlgListLogTte pasien=new DlgListLogTte(null,false);
+
     /** Creates new form DlgPemberianInfus
      * @param parent
      * @param modal */
@@ -133,7 +131,6 @@ public class DlgPenelusuranLogin extends javax.swing.JDialog {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         ppFilterPemulanganPasien = new javax.swing.JMenuItem();
-        ppLogTTE = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         jPanel3 = new javax.swing.JPanel();
         panelGlass8 = new widget.panelisi();
@@ -173,22 +170,6 @@ public class DlgPenelusuranLogin extends javax.swing.JDialog {
             }
         });
         jPopupMenu1.add(ppFilterPemulanganPasien);
-
-        ppLogTTE.setBackground(new java.awt.Color(255, 255, 254));
-        ppLogTTE.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
-        ppLogTTE.setForeground(java.awt.Color.darkGray);
-        ppLogTTE.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
-        ppLogTTE.setText("Log Status TTE");
-        ppLogTTE.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        ppLogTTE.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        ppLogTTE.setName("ppLogTTE"); // NOI18N
-        ppLogTTE.setPreferredSize(new java.awt.Dimension(240, 25));
-        ppLogTTE.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ppLogTTEBtnPrintActionPerformed(evt);
-            }
-        });
-        jPopupMenu1.add(ppLogTTE);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -493,13 +474,6 @@ public class DlgPenelusuranLogin extends javax.swing.JDialog {
         tampil2();
     }//GEN-LAST:event_ppFilterPemulanganPasienBtnPrintActionPerformed
 
-    private void ppLogTTEBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppLogTTEBtnPrintActionPerformed
-        
-        pasien.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        pasien.setLocationRelativeTo(internalFrame1);
-        pasien.setVisible(true);
-    }//GEN-LAST:event_ppLogTTEBtnPrintActionPerformed
-
     /**
     * @param args the command line arguments
     */
@@ -538,7 +512,6 @@ public class DlgPenelusuranLogin extends javax.swing.JDialog {
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private javax.swing.JMenuItem ppFilterPemulanganPasien;
-    private javax.swing.JMenuItem ppLogTTE;
     private widget.Table tbObat;
     private widget.Table tbObat1;
     // End of variables declaration//GEN-END:variables

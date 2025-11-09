@@ -22,10 +22,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import modifikasi.DlgTaskId_belumm;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import fungsi.akses;
 
 /**
  *
@@ -127,6 +129,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
 
         jPopupMenu1 = new javax.swing.JPopupMenu();
         MnCekKodeBooking = new javax.swing.JMenuItem();
+        MnTaskidBelumDilayani = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbJnsPerawatan = new widget.Table();
@@ -142,6 +145,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         jLabel21 = new widget.Label();
         DTPCari2 = new widget.Tanggal();
         BtnCari = new widget.Button();
+        BtnCari1 = new widget.Button();
         jLabel7 = new widget.Label();
         LCount = new widget.Label();
         BtnKeluar1 = new widget.Button();
@@ -161,6 +165,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         NonJKNBelum = new widget.Label();
         jLabel16 = new widget.Label();
         NonJKNSelesai = new widget.Label();
+        BtnSimpan = new widget.Button();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -179,6 +184,22 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
             }
         });
         jPopupMenu1.add(MnCekKodeBooking);
+
+        MnTaskidBelumDilayani.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnTaskidBelumDilayani.setForeground(new java.awt.Color(70, 70, 70));
+        MnTaskidBelumDilayani.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnTaskidBelumDilayani.setText("Menu Task ID Belum Dilayani");
+        MnTaskidBelumDilayani.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnTaskidBelumDilayani.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnTaskidBelumDilayani.setIconTextGap(5);
+        MnTaskidBelumDilayani.setName("MnTaskidBelumDilayani"); // NOI18N
+        MnTaskidBelumDilayani.setPreferredSize(new java.awt.Dimension(240, 26));
+        MnTaskidBelumDilayani.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnTaskidBelumDilayaniActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(MnTaskidBelumDilayani);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -246,7 +267,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-09-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-06-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -260,7 +281,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-09-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-06-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -283,6 +304,24 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
             }
         });
         panelGlass9.add(BtnCari);
+
+        BtnCari1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/accept.png"))); // NOI18N
+        BtnCari1.setMnemonic('2');
+        BtnCari1.setText("Belum Dilayani");
+        BtnCari1.setToolTipText("Alt+2");
+        BtnCari1.setName("BtnCari1"); // NOI18N
+        BtnCari1.setPreferredSize(new java.awt.Dimension(100, 23));
+        BtnCari1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCari1ActionPerformed(evt);
+            }
+        });
+        BtnCari1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnCari1KeyPressed(evt);
+            }
+        });
+        panelGlass9.add(BtnCari1);
 
         jLabel7.setText("Record :");
         jLabel7.setName("jLabel7"); // NOI18N
@@ -417,6 +456,24 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         NonJKNSelesai.setPreferredSize(new java.awt.Dimension(35, 23));
         panelGlass8.add(NonJKNSelesai);
 
+        BtnSimpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
+        BtnSimpan.setMnemonic('S');
+        BtnSimpan.setText("Simpan Belum Dilayani");
+        BtnSimpan.setToolTipText("Alt+S");
+        BtnSimpan.setName("BtnSimpan"); // NOI18N
+        BtnSimpan.setPreferredSize(new java.awt.Dimension(150, 30));
+        BtnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSimpanActionPerformed(evt);
+            }
+        });
+        BtnSimpan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnSimpanKeyPressed(evt);
+            }
+        });
+        panelGlass8.add(BtnSimpan);
+
         jPanel2.add(panelGlass8, java.awt.BorderLayout.PAGE_START);
 
         internalFrame1.add(jPanel2, java.awt.BorderLayout.PAGE_END);
@@ -462,6 +519,39 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_MnCekKodeBookingActionPerformed
 
+    private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
+        for(i=0;i<tbJnsPerawatan.getRowCount();i++){
+            try {
+               Sequel.menyimpan("antrian_bantu_belum","'"+tbJnsPerawatan.getValueAt(i,0).toString()+"','','"+tbJnsPerawatan.getValueAt(i,1).toString()+" "+"09:17:48','Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
+            
+            }catch(Exception e){
+                System.out.println("Notifikasi : "+e);
+            }
+        }
+    }//GEN-LAST:event_BtnSimpanActionPerformed
+
+    private void BtnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnSimpanKeyPressed
+
+    }//GEN-LAST:event_BtnSimpanKeyPressed
+
+    private void BtnCari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCari1ActionPerformed
+        emptTeks();
+        tampi2();
+    }//GEN-LAST:event_BtnCari1ActionPerformed
+
+    private void BtnCari1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCari1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnCari1KeyPressed
+
+    private void MnTaskidBelumDilayaniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnTaskidBelumDilayaniActionPerformed
+        akses.setform("BPJSAntreanPerTanggal");
+        DlgTaskId_belumm sep=new DlgTaskId_belumm(null,false);
+        sep.emptyteks();
+        sep.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        sep.setLocationRelativeTo(internalFrame1);
+        sep.setVisible(true);
+    }//GEN-LAST:event_MnTaskidBelumDilayaniActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -506,7 +596,9 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.Button BtnCari;
+    private widget.Button BtnCari1;
     private widget.Button BtnKeluar1;
+    private widget.Button BtnSimpan;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
     private widget.Label JknBelum;
@@ -517,6 +609,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
     private widget.Label MJknCapaian;
     private widget.Label MJknSelesai;
     private javax.swing.JMenuItem MnCekKodeBooking;
+    private javax.swing.JMenuItem MnTaskidBelumDilayani;
     private widget.Label NonJKNBelum;
     private widget.Label NonJKNSelesai;
     private widget.Label SEPTerbit;
@@ -624,8 +717,116 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
             System.out.println("Notifikasi : "+e);
         }
         
+        
 
-        sep = Sequel.cariInteger("select count(bridging_sep.no_rawat) from bridging_sep where bridging_sep.tglsep between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' and bridging_sep.jnspelayanan = '2' and bridging_sep.kdpolitujuan <> 'IGD'")+
+        sep = Sequel.cariInteger("select count(bridging_sep.no_rawat) from bridging_sep where bridging_sep.tglsep between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' and bridging_sep.jnspelayanan = '2' and bridging_sep.kdpolitujuan not in ('IGD','HDL','LAB','RAD')")+
+                Sequel.cariInteger("select count(bridging_sep_internal.no_rawat) from bridging_sep_internal where bridging_sep_internal.tglsep between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' and bridging_sep_internal.jnspelayanan = '2' and bridging_sep_internal.kdpolitujuan <> 'IGD'");
+        jkn_capaian = (jkn_selesai/sep)*100;
+        mjkn_capaian = (mjkn_selesai/sep)*100;
+        jkn_capaian_angka = (int)jkn_capaian;
+        mjkn_capaian_angka = (int)mjkn_capaian;
+        LCount.setText(""+tabMode.getRowCount());
+        SEPTerbit.setText(""+sep);
+        TotBelum.setText(""+tot_belum);
+        TotSelesai.setText(""+tot_selesai);
+        JknBelum.setText(""+jkn_belum);
+        JknSelesai.setText(""+jkn_selesai);
+        JknCapaian.setText("("+jkn_capaian_angka+"%)");
+        MJknBelum.setText(""+mjkn_belum);
+        MJknSelesai.setText(""+mjkn_selesai);
+        MJknCapaian.setText("("+mjkn_capaian_angka+"%)");
+        NonJKNBelum.setText(""+umum_belum);
+        NonJKNSelesai.setText(""+umum_selesai);
+    }
+    
+    private void tampi2() {
+        Valid.tabelKosong(tabMode);
+        try{
+            ps=koneksi.prepareStatement(
+                   "SELECT reg_periksa.tgl_registrasi FROM reg_periksa WHERE reg_periksa.tgl_registrasi BETWEEN ? AND ? group by reg_periksa.tgl_registrasi");
+            try {
+                ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
+                ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
+                rs=ps.executeQuery();
+                while(rs.next()){
+                    try {
+                        headers = new HttpHeaders();
+                        headers.setContentType(MediaType.APPLICATION_JSON);
+                        headers.add("x-cons-id",koneksiDB.CONSIDAPIMOBILEJKN());
+                        utc=String.valueOf(api.GetUTCdatetimeAsString());
+                        headers.add("x-timestamp",utc);
+                        headers.add("x-signature",api.getHmac(utc));
+                        headers.add("user_key",koneksiDB.USERKEYAPIMOBILEJKN());
+                        requestEntity = new HttpEntity(headers);
+                        URL = link+"/antrean/pendaftaran/tanggal/"+rs.getString("tgl_registrasi");	
+                        System.out.println("URL : "+URL);
+                        root = mapper.readTree(api.getRest().exchange(URL, HttpMethod.GET, requestEntity, String.class).getBody());
+                        nameNode = root.path("metadata");
+                        if(nameNode.path("code").asText().equals("200")){
+                            response = mapper.readTree(api.Decrypt(root.path("response").asText(),utc));
+                            
+                            if(response.isArray()){
+                                for(JsonNode list:response){
+                                   if (list.path("status").asText().equals("Belum dilayani")){
+                                    tabMode.addRow(new Object[]{
+                                        list.path("kodebooking").asText(),list.path("tanggal").asText(),list.path("kodepoli").asText(),
+                                        list.path("kodedokter").asText(),list.path("jampraktek").asText(),list.path("nik").asText(),list.path("nokapst").asText(),list.path("nohp").asText(),list.path("norekammedis").asText(),list.path("jeniskunjungan").asText(),list.path("nomorreferensi").asText(),list.path("sumberdata").asText(),list.path("ispeserta").asText().equals("true")?"Ya":"Tidak",list.path("noantrean").asText(),list.path("estimasidilayani").asText(),list.path("createdtime").asText(),list.path("status").asText()
+                                    });
+                                    if (list.path("status").asText().equals("Belum dilayani")) {
+                                        tot_belum += 1;
+                                    }
+                                    if (list.path("status").asText().equals("Selesai dilayani")) {
+                                        tot_selesai += 1;
+                                    }
+                                    if (list.path("status").asText().equals("Belum dilayani") && list.path("sumberdata").asText().equals("Bridging Antrean") && list.path("ispeserta").asText().equals("true")) {
+                                        jkn_belum += 1;
+                                    }
+                                    if (list.path("status").asText().equals("Selesai dilayani") && list.path("sumberdata").asText().equals("Bridging Antrean") && list.path("ispeserta").asText().equals("true")) {
+                                        jkn_selesai += 1;
+                                    }
+                                    if (list.path("status").asText().equals("Belum dilayani") && list.path("sumberdata").asText().equals("Mobile JKN")) {
+                                        mjkn_belum += 1;
+                                    }
+                                    if (list.path("status").asText().equals("Selesai dilayani") && list.path("sumberdata").asText().equals("Mobile JKN")) {
+                                        mjkn_selesai += 1;
+                                    }
+                                    if (list.path("status").asText().equals("Belum dilayani") && list.path("ispeserta").asText().equals("false")) {
+                                        umum_belum += 1;
+                                    }
+                                    if (list.path("status").asText().equals("Selesai dilayani") && list.path("ispeserta").asText().equals("false")) {
+                                        umum_selesai += 1;
+                                    }
+                                  }
+                                }
+                            }
+                        }else {
+                            System.out.println("Notif : "+nameNode.path("message").asText());               
+                        } 
+                      
+                    } catch (Exception ex) {
+                        System.out.println("Notifikasi : "+ex);
+                        if(ex.toString().contains("UnknownHostException")){
+                            JOptionPane.showMessageDialog(rootPane,"Koneksi ke server BPJS terputus...!");
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Notif : "+e);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        }catch(Exception e){
+            System.out.println("Notifikasi : "+e);
+        }
+        
+        
+
+        sep = Sequel.cariInteger("select count(bridging_sep.no_rawat) from bridging_sep where bridging_sep.tglsep between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' and bridging_sep.jnspelayanan = '2' and bridging_sep.kdpolitujuan not in ('IGD','HDL','LAB','RAD')")+
                 Sequel.cariInteger("select count(bridging_sep_internal.no_rawat) from bridging_sep_internal where bridging_sep_internal.tglsep between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' and bridging_sep_internal.jnspelayanan = '2' and bridging_sep_internal.kdpolitujuan <> 'IGD'");
         jkn_capaian = (jkn_selesai/sep)*100;
         mjkn_capaian = (mjkn_selesai/sep)*100;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.5.1  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="421" pageHeight="595" columnWidth="381" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="61a43582-7681-4dc4-b741-e31fb8ec70aa">
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="421" pageHeight="765" columnWidth="381" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="61a43582-7681-4dc4-b741-e31fb8ec70aa">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="372"/>
@@ -8,6 +8,15 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
 	<parameter name="hari" class="java.lang.String"/>
 	<parameter name="TanggalAwal" class="java.lang.String"/>
 	<parameter name="TanggalAkhir" class="java.lang.String"/>
@@ -95,7 +104,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="555" splitType="Stretch">
+		<band height="599" splitType="Stretch">
 			<textField>
 				<reportElement x="70" y="23" width="311" height="14" uuid="066b0dc0-4328-4354-ab1d-744379b256e9"/>
 				<textElement textAlignment="Center">
@@ -385,14 +394,18 @@
 				</textElement>
 				<textFieldExpression><![CDATA["Telah diperiksa kesehatan badannya dan sekarang dalam keadaan sakit dan perlu istirahat "+$P{hari}+" hari dari tanggal "+$P{TanggalAwal}+" sampai dengan "+$P{TanggalAkhir}]]></textFieldExpression>
 			</textField>
-			<componentElement>
-				<reportElement x="192" y="397" width="185" height="87" isRemoveLineWhenBlank="true" uuid="0bb5b2fd-8cae-48c1-9ab3-ce5be31f7a4a">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" errorCorrectionLevel="H">
-					<jr:codeExpression><![CDATA[$P{finger}]]></jr:codeExpression>
-				</jr:QRCode>
-			</componentElement>
+			<staticText>
+				<reportElement x="200" y="430" width="174" height="11" uuid="94cb1316-00d0-4633-b5a7-8925ae71384a"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<image>
+				<reportElement x="1" y="542" width="380" height="44" uuid="6d442085-5069-4c04-9081-068909cf3cc9"/>
+				<imageExpression><![CDATA["http://localhost/bsrersmrm.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</detail>
 	<summary>

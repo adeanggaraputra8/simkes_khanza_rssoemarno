@@ -114,12 +114,12 @@
 				<text><![CDATA[Nama]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="70" y="179" width="152" height="14" uuid="8c82f0e5-894b-452d-8239-c2ee743e914d"/>
+				<reportElement x="70" y="204" width="260" height="14" uuid="8c82f0e5-894b-452d-8239-c2ee743e914d"/>
 				<textElement>
 					<font fontName="Tahoma" size="10"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Yang bertanda tangan dibawah ini]]></text>
+				<text><![CDATA[Yang bertanda tangan dibawah ini menerangkan bahwa :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="183" y="272" width="7" height="14" uuid="b5d90fc6-de26-42bc-927e-9cadf6be5443"/>
@@ -177,14 +177,6 @@
 				</textElement>
 				<text><![CDATA[Alamat]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="223" y="179" width="269" height="14" uuid="b8b312df-53a9-4cc6-8372-65b0098ba4e9"/>
-				<textElement>
-					<font fontName="Tahoma" size="10"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nm_dokter}+" menerangkan"]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="191" y="232" width="301" height="14" uuid="da9dd610-7ea0-4d76-835d-cdb666faa53e"/>
 				<textElement>
@@ -254,7 +246,9 @@
 				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
 			</image>
 			<line direction="BottomUp">
-				<reportElement x="4" y="46" width="551" height="1" uuid="434fd143-59ec-4734-8a2c-2756a7146458"/>
+				<reportElement x="4" y="49" width="551" height="1" uuid="434fd143-59ec-4734-8a2c-2756a7146458">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
 				<graphicElement>
 					<pen lineWidth="1.25"/>
 				</graphicElement>
@@ -304,14 +298,6 @@
 					<paragraph lineSpacing="Double"/>
 				</textElement>
 				<text><![CDATA[     Demikian Surat Keterangan ini dibuat dengan benar dan untuk dapat digunakan sebagaimana mestinya.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="70" y="199" width="113" height="14" uuid="bbd11496-e7e3-49f0-90c8-45d6d82b402a"/>
-				<textElement>
-					<font fontName="Tahoma" size="10"/>
-					<paragraph lineSpacing="Single"/>
-				</textElement>
-				<text><![CDATA[bahwa]]></text>
 			</staticText>
 		</band>
 	</detail>

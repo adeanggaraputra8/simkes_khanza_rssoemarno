@@ -12,6 +12,7 @@
 
 package rekammedis;
 
+import digitalsignature.DlgTTEFile;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -65,6 +66,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
     private String keputusan="",pilihan="",datatriase="",finger="",kodepetugas="";
     private StringBuilder htmlContent;
     private boolean sukses=true;
+    private  DlgTTEFile ttefile=new DlgTTEFile (null,false);
     
     /** Creates new form DlgRujuk
      * @param parent
@@ -3876,6 +3878,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
     }//GEN-LAST:event_ChkAccorActionPerformed
 
     private void BtnPrint1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrint1ActionPerformed
+      String data="";
         if(TNoRM1.getText().trim().equals("")||TPasien1.getText().trim().equals("")){
             Valid.textKosong(TCari,"Pasien");
         }else{
@@ -4236,7 +4239,12 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                         pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 3..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 3","PDF Triase Skala 3"},"Lembar Triase Skala 3");
                         switch (pilihan) {
                             case "Lembar Triase Skala 3":
-                                  Valid.MyReportqry("rptLembarTriaseSkala3.jasper","report","::[ Triase Skala 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                                  //Valid.MyReportqry("rptLembarTriaseSkala3.jasper","report","::[ Triase Skala 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                                 data = Valid.saveToPDFTteQry("rptLembarTriaseSkala3.jasper","report",tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString(),"select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                                    ttefile.isCek(data, TNoRM1.getText(), tbTriase.getValueAt(tbTriase.getSelectedRow(),0).toString(), kodepetugas);
+                                    ttefile.setSize(540, 185);
+                                    ttefile.setLocationRelativeTo(internalFrame1);
+                                    ttefile.setVisible(true);
                                   break;
                             case "PDF Triase Skala 3":
                                   Valid.MyReportqrypdf("rptLembarTriaseSkala3.jasper","report","::[ Triase Skala 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);

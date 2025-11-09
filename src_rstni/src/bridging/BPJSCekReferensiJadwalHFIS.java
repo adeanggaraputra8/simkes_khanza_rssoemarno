@@ -46,7 +46,8 @@ public final class BPJSCekReferensiJadwalHFIS extends javax.swing.JDialog {
     private sekuel Sequel=new sekuel();
     private int i=0;
     private ApiMobileJKN api=new ApiMobileJKN();
-    private String URL="",link="",utc="",requestJson="";
+    private ApiBPJS api2=new ApiBPJS();
+    private String URL="",link="",utc="",urlvclaim="",linkvclaim="",requestJson="";
     private HttpHeaders headers;
     private HttpEntity requestEntity;
     private ObjectMapper mapper = new ObjectMapper();
@@ -191,6 +192,8 @@ public final class BPJSCekReferensiJadwalHFIS extends javax.swing.JDialog {
         
         try {
             link=koneksiDB.URLAPIMOBILEJKN();
+            linkvclaim=koneksiDB.URLAPIBPJS();
+            
         } catch (Exception e) {
             System.out.println("E : "+e);
         }

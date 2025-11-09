@@ -6875,11 +6875,11 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                          TNoRw.getText(),NmPpkRujukan.getText(),"-",NoRujukan.getText(),"0",NmPpkRujukan.getText(),KdPenyakit.getText(),"-",
                          "-",NoBalasan.getText()
                      });
-                      if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM referensi_mobilejkn_bpjs WHERE no_rawat='"+TNoRw.getText()+"'")==1){
-                            Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid',Now(),'0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
+                      if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM referensi_mobilejkn_bpjs WHERE no_rawat='"+TNoRw.getText()+"'")>0){
+                            Sequel.menyimpan("antrian_bantu","'"+Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='"+TNoRw.getText()+"'")+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
                            }else{
-                                SimpanAntrianOnSite();
-                                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid',Now(),'0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
+                               // SimpanAntrianOnSite();
+                                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
                            }
                      if(!prb.equals("")){
                         if(Sequel.menyimpantf("bpjs_prb","?,?","PRB",2,new String[]{response.asText(),prb})==true){
@@ -6905,11 +6905,11 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                             TNoRw.getText(),NmPpkRujukan.getText(),"-",NoRujukan.getText(),"0",NmPpkRujukan.getText(),KdPenyakit.getText(),"-",
                             "-",NoBalasan.getText()
                         });
-                         if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM referensi_mobilejkn_bpjs WHERE no_rawat='"+TNoRw.getText()+"'")==1){
-                            Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid',Now(),'0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
+                         if(Sequel.cariInteger("SELECT COUNT(no_rawat) FROM referensi_mobilejkn_bpjs WHERE no_rawat='"+TNoRw.getText()+"'")>0){
+                            Sequel.menyimpan("antrian_bantu","'"+Sequel.cariIsi("select nobooking from referensi_mobilejkn_bpjs where no_rawat='"+TNoRw.getText()+"'")+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
                            }else{
-                                SimpanAntrianOnSite();
-                                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid',Now(),'0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
+                               // SimpanAntrianOnSite();
+                                Sequel.menyimpan("antrian_bantu","'"+TNoRw.getText()+"','"+response.asText()+"',Now(),'Belum Valid','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','' ");
                            }
                         if(!prb.equals("")){
                            if(Sequel.menyimpantf("bpjs_prb","?,?","PRB",2,new String[]{response.asText(),prb})==true){

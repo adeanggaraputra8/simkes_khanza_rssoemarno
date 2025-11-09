@@ -12,7 +12,7 @@
 
 package digitalsignature;
 
-import antrian.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fungsi.WarnaTable;
@@ -49,7 +49,6 @@ public class DlgManagementSignatureUser extends javax.swing.JDialog {
   private validasi Valid=new validasi();
   private Connection koneksi=koneksiDB.condb();
   public  DlgCariDokter dokter=new DlgCariDokter(null,false);
-  public  DlgListKodeAntrian listKodeLayanan=new DlgListKodeAntrian(null,false);
   private String link="",URL="",responseJson="";
   private HttpHeaders headers;
   private HttpEntity requestEntity;
@@ -115,32 +114,7 @@ public class DlgManagementSignatureUser extends javax.swing.JDialog {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         });
-        listKodeLayanan.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {;}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                    if(listKodeLayanan.getTable().getSelectedRow()!= -1){                    
-                       
-//                            kdAntrian.setText(listKodeLayanan.getTable().getValueAt(listKodeLayanan.getTable().getSelectedRow(),0).toString());
-                            nik.setText(listKodeLayanan.getTable().getValueAt(listKodeLayanan.getTable().getSelectedRow(),1).toString());
-//                            kdPelayanan.setText(listKodeLayanan.getTable().getValueAt(listKodeLayanan.getTable().getSelectedRow(),2).toString());
-                            
-                      
-                    }                
-                
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
+
        
         tampil();
     }

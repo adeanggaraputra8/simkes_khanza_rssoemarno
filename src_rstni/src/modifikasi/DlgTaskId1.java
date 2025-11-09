@@ -159,9 +159,14 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
             System.out.println("E : "+e);
         }
         
-        wktadmisi.setDocument(new batasInput((byte)13).getOnlyAngka(wktadmisi));
-        wktpoli.setDocument(new batasInput((byte)13).getOnlyAngka(wktpoli));
-        wktfarmasi.setDocument(new batasInput((byte)13).getOnlyAngka(wktfarmasi));
+        wktadmisi1.setDocument(new batasInput((byte)13).getOnlyAngka(wktadmisi1));
+        wktpoli1.setDocument(new batasInput((byte)13).getOnlyAngka(wktpoli1));
+        wktfarmasi1.setDocument(new batasInput((byte)13).getOnlyAngka(wktfarmasi1));
+        wktadmisi2.setDocument(new batasInput((byte)13).getOnlyAngka(wktadmisi2));
+        wktpoli2.setDocument(new batasInput((byte)13).getOnlyAngka(wktpoli2));
+        wktfarmasi2.setDocument(new batasInput((byte)13).getOnlyAngka(wktfarmasi2));
+        
+        emptyteks();
         
            
     }
@@ -203,11 +208,14 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
         task7 = new widget.Button();
         panelGlass7 = new widget.panelisi();
         jLabel4 = new widget.Label();
-        wktadmisi = new widget.TextBox();
+        wktadmisi1 = new widget.TextBox();
         jLabel5 = new widget.Label();
-        wktpoli = new widget.TextBox();
+        wktpoli1 = new widget.TextBox();
         jLabel8 = new widget.Label();
-        wktfarmasi = new widget.TextBox();
+        wktfarmasi1 = new widget.TextBox();
+        wktadmisi2 = new widget.TextBox();
+        wktpoli2 = new widget.TextBox();
+        wktfarmasi2 = new widget.TextBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -240,7 +248,7 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "25-08-2022" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-08-2023" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -254,7 +262,7 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "25-08-2022" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "09-08-2023" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -519,42 +527,69 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
         panelGlass7.add(jLabel4);
         jLabel4.setBounds(0, 12, 90, 23);
 
-        wktadmisi.setName("wktadmisi"); // NOI18N
-        wktadmisi.addKeyListener(new java.awt.event.KeyAdapter() {
+        wktadmisi1.setName("wktadmisi1"); // NOI18N
+        wktadmisi1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                wktadmisiKeyPressed(evt);
+                wktadmisi1KeyPressed(evt);
             }
         });
-        panelGlass7.add(wktadmisi);
-        wktadmisi.setBounds(95, 12, 50, 23);
+        panelGlass7.add(wktadmisi1);
+        wktadmisi1.setBounds(95, 12, 50, 23);
 
         jLabel5.setText("Waktu Poli :");
         jLabel5.setName("jLabel5"); // NOI18N
         panelGlass7.add(jLabel5);
         jLabel5.setBounds(230, 10, 90, 23);
 
-        wktpoli.setName("wktpoli"); // NOI18N
-        wktpoli.addKeyListener(new java.awt.event.KeyAdapter() {
+        wktpoli1.setName("wktpoli1"); // NOI18N
+        wktpoli1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                wktpoliKeyPressed(evt);
+                wktpoli1KeyPressed(evt);
             }
         });
-        panelGlass7.add(wktpoli);
-        wktpoli.setBounds(330, 10, 50, 23);
+        panelGlass7.add(wktpoli1);
+        wktpoli1.setBounds(330, 10, 50, 23);
 
         jLabel8.setText("Waktu Farmasi :");
         jLabel8.setName("jLabel8"); // NOI18N
         panelGlass7.add(jLabel8);
         jLabel8.setBounds(530, 10, 90, 23);
 
-        wktfarmasi.setName("wktfarmasi"); // NOI18N
-        wktfarmasi.addKeyListener(new java.awt.event.KeyAdapter() {
+        wktfarmasi1.setName("wktfarmasi1"); // NOI18N
+        wktfarmasi1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                wktfarmasiKeyPressed(evt);
+                wktfarmasi1KeyPressed(evt);
             }
         });
-        panelGlass7.add(wktfarmasi);
-        wktfarmasi.setBounds(620, 10, 50, 23);
+        panelGlass7.add(wktfarmasi1);
+        wktfarmasi1.setBounds(620, 10, 50, 23);
+
+        wktadmisi2.setName("wktadmisi2"); // NOI18N
+        wktadmisi2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                wktadmisi2KeyPressed(evt);
+            }
+        });
+        panelGlass7.add(wktadmisi2);
+        wktadmisi2.setBounds(150, 12, 50, 23);
+
+        wktpoli2.setName("wktpoli2"); // NOI18N
+        wktpoli2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                wktpoli2KeyPressed(evt);
+            }
+        });
+        panelGlass7.add(wktpoli2);
+        wktpoli2.setBounds(390, 10, 50, 23);
+
+        wktfarmasi2.setName("wktfarmasi2"); // NOI18N
+        wktfarmasi2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                wktfarmasi2KeyPressed(evt);
+            }
+        });
+        panelGlass7.add(wktfarmasi2);
+        wktfarmasi2.setBounds(680, 10, 50, 23);
 
         internalFrame1.add(panelGlass7, java.awt.BorderLayout.PAGE_START);
 
@@ -709,7 +744,7 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
             System.out.println("Notifikasi : "+e);
         }
             
-        Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal2=tanggal1 + INTERVAL "+wktadmisi.getText()+" MINUTE ");
+        Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal2=tanggal1 + INTERVAL "+wktadmisi1.getText()+" MINUTE ");
        } 
     }//GEN-LAST:event_addantrianActionPerformed
 
@@ -748,7 +783,7 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
                         }
                     
                 }
-                Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal3=tanggal2 + INTERVAL "+wktadmisi.getText()+" MINUTE ");
+                Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal3=tanggal2 + INTERVAL "+wktadmisi2.getText()+" MINUTE ");
                 
              }catch(Exception e){
             System.out.println("Notifikasi : "+e);
@@ -791,7 +826,7 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
                         }catch (Exception ex) {
                             System.out.println("Notifikasi Bridging : "+ex);
                         }
-                   Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal4=tanggal3 + INTERVAL "+wktpoli.getText()+" MINUTE ");
+                   Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal4=tanggal3 + INTERVAL "+wktpoli1.getText()+" MINUTE ");
                 }
              }catch(Exception e){
             System.out.println("Notifikasi : "+e);
@@ -834,7 +869,7 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
                         }catch (Exception ex) {
                             System.out.println("Notifikasi Bridging : "+ex);
                         }
-                   Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal5=tanggal4 + INTERVAL "+wktpoli.getText()+" MINUTE ");
+                   Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal5=tanggal4 + INTERVAL "+wktpoli2.getText()+" MINUTE ");
                 }
              }catch(Exception e){
             System.out.println("Notifikasi : "+e);
@@ -877,7 +912,7 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
                         }catch (Exception ex) {
                             System.out.println("Notifikasi Bridging : "+ex);
                         }
-                  Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal6=tanggal5 + INTERVAL "+wktfarmasi.getText()+" MINUTE ");
+                  Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal6=tanggal5 + INTERVAL "+wktfarmasi1.getText()+" MINUTE ");
                 }
              }catch(Exception e){
             System.out.println("Notifikasi : "+e);
@@ -921,7 +956,7 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
                         }catch (Exception ex) {
                             System.out.println("Notifikasi Bridging : "+ex);
                         }
-                  Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal7=tanggal6 + INTERVAL "+wktfarmasi.getText()+" MINUTE ");    
+                  Sequel.mengedit("antrian_bantu","no_rawat='"+tbJnsPerawatan.getValueAt(i,0).toString()+"'","status='Sudah Valid',tanggal7=tanggal6 + INTERVAL "+wktfarmasi2.getText()+" MINUTE ");    
                 }
              }catch(Exception e){
             System.out.println("Notifikasi : "+e);
@@ -1019,17 +1054,17 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_task7KeyPressed
 
-    private void wktadmisiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wktadmisiKeyPressed
+    private void wktadmisi1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wktadmisi1KeyPressed
 
-    }//GEN-LAST:event_wktadmisiKeyPressed
+    }//GEN-LAST:event_wktadmisi1KeyPressed
 
-    private void wktpoliKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wktpoliKeyPressed
+    private void wktpoli1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wktpoli1KeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_wktpoliKeyPressed
+    }//GEN-LAST:event_wktpoli1KeyPressed
 
-    private void wktfarmasiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wktfarmasiKeyPressed
+    private void wktfarmasi1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wktfarmasi1KeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_wktfarmasiKeyPressed
+    }//GEN-LAST:event_wktfarmasi1KeyPressed
 
     private void addantrianfrmasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addantrianfrmasiActionPerformed
        for(i=0;i<tbJnsPerawatan.getRowCount();i++){
@@ -1087,6 +1122,18 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_addantrianfrmasiKeyPressed
 
+    private void wktadmisi2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wktadmisi2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_wktadmisi2KeyPressed
+
+    private void wktpoli2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wktpoli2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_wktpoli2KeyPressed
+
+    private void wktfarmasi2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wktfarmasi2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_wktfarmasi2KeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -1134,9 +1181,12 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
     private widget.Button task6;
     private widget.Button task7;
     private widget.Table tbJnsPerawatan;
-    private widget.TextBox wktadmisi;
-    private widget.TextBox wktfarmasi;
-    private widget.TextBox wktpoli;
+    private widget.TextBox wktadmisi1;
+    private widget.TextBox wktadmisi2;
+    private widget.TextBox wktfarmasi1;
+    private widget.TextBox wktfarmasi2;
+    private widget.TextBox wktpoli1;
+    private widget.TextBox wktpoli2;
     // End of variables declaration//GEN-END:variables
 
     private void tampil() {
@@ -1185,9 +1235,12 @@ public final class DlgTaskId1 extends javax.swing.JDialog {
     }
     
     public void emptyteks(){
-        wktadmisi.setText("7");
-        wktpoli.setText("15");
-        wktfarmasi.setText("15");
+        wktadmisi1.setText(Sequel.cariIsi("SELECT FLOOR(RAND()*(1-15+1))+15"));
+        wktadmisi2.setText(Sequel.cariIsi("SELECT FLOOR(RAND()*(2-8+1))+8"));
+        wktpoli1.setText(Sequel.cariIsi("SELECT FLOOR(RAND()*(15-30+1))+30"));
+        wktpoli2.setText(Sequel.cariIsi("SELECT FLOOR(RAND()*(1-15+1))+15"));
+        wktfarmasi1.setText(Sequel.cariIsi("SELECT FLOOR(RAND()*(5-30+1))+30"));
+        wktfarmasi2.setText(Sequel.cariIsi("SELECT FLOOR(RAND()*(1-5+1))+5"));
     
     }
 }

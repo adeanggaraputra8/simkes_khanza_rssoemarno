@@ -447,6 +447,16 @@ public class koneksiDB {
         return var;
     }
     
+    public static String JADIKANPIUTANGAPOTEKBPJS(){
+        try{
+            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+            var=EnkripsiAES.decrypt(prop.getProperty("JADIKANPIUTANGAPOTEKBPJS"));
+        }catch(Exception e){
+            var="no"; 
+        }
+        return var;
+    }
+    
     public static String URLAPIPCARE(){
         try{
             prop.loadFromXML(new FileInputStream("setting/database.xml"));
@@ -1331,6 +1341,27 @@ public class koneksiDB {
             var=EnkripsiAES.decrypt(prop.getProperty("USERKEYAPISMARTCLAIM"));
         }catch(Exception e){
             var=""; 
+        }
+        return var;
+    }
+    
+    public static String URL_EKLAIM_INACBG(){
+        try{
+            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+            var=prop.getProperty("URLEKLAIMINACBG");
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    //Fungsi Tambahan 
+    public static String KODEPPKAPOTEKBPJS() {
+        try {
+            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+            var = prop.getProperty("KODEPPKAPOTEKBPJS");
+        } catch (Exception e) {
+            var = "";
         }
         return var;
     }

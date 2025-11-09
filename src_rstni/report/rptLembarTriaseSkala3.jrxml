@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bf46801-580a-469b-99ba-e103c2a475e1">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
@@ -720,7 +720,7 @@
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<summary>
-		<band height="128" splitType="Stretch">
+		<band height="201" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement mode="Opaque" x="176" y="0" width="379" height="15" forecolor="#000000" backcolor="#C8C800" uuid="a5a32d90-8204-4271-8866-b37f73c686a4"/>
@@ -739,7 +739,7 @@
 				<text><![CDATA[PLAN]]></text>
 			</staticText>
 			<line>
-				<reportElement x="175" y="0" width="1" height="127" uuid="71d7cde8-2405-462c-84e1-fa036b04fb7d">
+				<reportElement x="175" y="0" width="1" height="128" uuid="71d7cde8-2405-462c-84e1-fa036b04fb7d">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -830,7 +830,7 @@
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="0" y="0" width="1" height="127" uuid="db5aac8b-84a0-4aba-8fdf-5b03ebeed26e">
+				<reportElement x="-1" y="0" width="1" height="183" uuid="db5aac8b-84a0-4aba-8fdf-5b03ebeed26e">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -839,7 +839,7 @@
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="555" y="0" width="1" height="127" uuid="11ee52ae-4477-4bdb-8607-5bc9130bef4f">
+				<reportElement x="554" y="0" width="1" height="183" uuid="11ee52ae-4477-4bdb-8607-5bc9130bef4f">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -848,15 +848,6 @@
 					<pen lineWidth="0.5" lineStyle="Solid"/>
 				</graphicElement>
 			</line>
-			<componentElement>
-				<reportElement x="430" y="70" width="114" height="56" isRemoveLineWhenBlank="true" uuid="1a2920de-bf6c-46ec-90bf-5a42a5e0bd3e">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-				</reportElement>
-				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" errorCorrectionLevel="H">
-					<jr:codeExpression><![CDATA[$P{finger}]]></jr:codeExpression>
-				</jr:QRCode>
-			</componentElement>
 			<staticText>
 				<reportElement mode="Transparent" x="8" y="52" width="162" height="15" forecolor="#000000" backcolor="#F0F0DC" uuid="70be4047-a2b8-46b9-bdfa-7c65e3420cb0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -879,6 +870,27 @@
 					<pen lineWidth="0.5"/>
 				</graphicElement>
 			</line>
+			<staticText>
+				<reportElement x="390" y="89" width="154" height="11" uuid="15ea3f4c-2f59-4262-ad4b-fa5cd1e46197"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="184" width="556" height="1" uuid="88e2441c-a2f4-4809-b05f-ee2b5e035fd9">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<image>
+				<reportElement x="6" y="136" width="538" height="44" uuid="17d4dd6e-ae54-4f6e-b9a9-dbddf087665f"/>
+				<imageExpression><![CDATA["http://localhost/bsrersmrm.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</summary>
 </jasperReport>

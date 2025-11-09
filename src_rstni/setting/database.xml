@@ -155,6 +155,10 @@
     <entry key="PORTORTHANC">4xOkFa6gxM9Bc/dkpEtJ+A==</entry>
     <entry key="USERORTHANC">V9bi0P2HgAq8Nn8lUyS6/A==</entry>
     <entry key="PASSORTHANC">V9bi0P2HgAq8Nn8lUyS6/A==</entry>
+    <entry key="URLEKLAIMINACBG">http://localhost/eclaim-bridging/</entry>
     <entry key="URLTTE">http://localhost/api_gateway/v1/tte/</entry>
+    <entry key="KODEPPKAPOTEKBPJS">kode apotek bpjs</entry>
+    <entry key="HOSTport">localhost</entry>
     <entry key="FOLDERPDF">/home/ade/Dokumen/berkas_tte/temp/</entry>
+    <entry key="UPLOADTTEPDF">http://localhost/berkas_tte/upload_secure.php</entry>
 </properties>

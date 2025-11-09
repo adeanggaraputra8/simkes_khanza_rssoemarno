@@ -35,9 +35,9 @@ import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-//import org.icepdf.ri.common.ComponentKeyBinding;
-//import org.icepdf.ri.common.SwingController;
-//import org.icepdf.ri.common.SwingViewBuilder;
+import org.icepdf.ri.common.ComponentKeyBinding;
+import org.icepdf.ri.common.SwingController;
+import org.icepdf.ri.common.SwingViewBuilder;
 
 /**
  *
@@ -231,46 +231,46 @@ passphrase.addWindowListener(new WindowListener() {
     viewpdf(txtNameFile.getText(),LocationFile); 
 }//GEN-LAST:event_BtnViewFileActionPerformed
 void viewpdf(String fileName,String fileLocation){
-//          try {
-//                SwingController ctrl = new SwingController();
-//                SwingViewBuilder vb = new SwingViewBuilder(ctrl);
-//                JPanel s = vb.buildViewerPanel();
-//                ComponentKeyBinding.install(ctrl, s);
-//                ctrl.setToolBarVisible(false);
-//                ctrl.getDocumentViewController().setAnnotationCallback(
-//                new org.icepdf.ri.common.MyAnnotationCallback(ctrl.getDocumentViewController())
-//                );
-//                if(fileLocation.equals("local")){  
-//                  ctrl.openDocument("tempfile/"+txtNameFile.getText());
-//                }else{
-//                 URL url =new URL("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+koneksiDB.PORTWEB()+"/"+koneksiDB.HYBRIDWEB()+"/"+txtLokasiFile.getText()+"/"+txtNameFile.getText());
-//                   ctrl.openDocument(url);
-//                }
-//              jScrollPane1.setViewportView(s); 
-//        }
-//        catch (Exception e){
-//            
-//        }
+          try {
+                SwingController ctrl = new SwingController();
+                SwingViewBuilder vb = new SwingViewBuilder(ctrl);
+                JPanel s = vb.buildViewerPanel();
+                ComponentKeyBinding.install(ctrl, s);
+                ctrl.setToolBarVisible(false);
+                ctrl.getDocumentViewController().setAnnotationCallback(
+                new org.icepdf.ri.common.MyAnnotationCallback(ctrl.getDocumentViewController())
+                );
+                if(fileLocation.equals("local")){  
+                  ctrl.openDocument("tempfile/"+txtNameFile.getText());
+                }else{
+                 URL url =new URL("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+koneksiDB.PORTWEB()+"/"+koneksiDB.HYBRIDWEB()+"/"+txtLokasiFile.getText()+"/"+txtNameFile.getText());
+                   ctrl.openDocument(url);
+                }
+              jScrollPane1.setViewportView(s); 
+        }
+        catch (Exception e){
+            
+        }
 }
     void openpdf(String file){
- //         try {
-//            URL url =new URL("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+koneksiDB.PORTWEB()+"/"+koneksiDB.HYBRIDWEB()+"/"+txtLokasiFile.getText()+"/"+file);
-//            SwingController ctrl = new SwingController();
-//            SwingViewBuilder vb = new SwingViewBuilder(ctrl);
-//            JPanel s = vb.buildViewerPanel();
-//            ComponentKeyBinding.install(ctrl, s);
-//            ctrl.setToolBarVisible(false);
-//            ctrl.getDocumentViewController().setAnnotationCallback(
-//            new org.icepdf.ri.common.MyAnnotationCallback(ctrl.getDocumentViewController())
-//            );
-//            ctrl.openDocument(url);
-//            
-////            dashboardview.add(s);
-//              jScrollPane1.setViewportView(s); 
-//        }
-//        catch (Exception e){
-//            
-//      }
+          try {
+            URL url =new URL("http://"+koneksiDB.HOSTHYBRIDWEB()+":"+koneksiDB.PORTWEB()+"/"+koneksiDB.HYBRIDWEB()+"/"+txtLokasiFile.getText()+"/"+file);
+            SwingController ctrl = new SwingController();
+            SwingViewBuilder vb = new SwingViewBuilder(ctrl);
+            JPanel s = vb.buildViewerPanel();
+            ComponentKeyBinding.install(ctrl, s);
+            ctrl.setToolBarVisible(false);
+            ctrl.getDocumentViewController().setAnnotationCallback(
+            new org.icepdf.ri.common.MyAnnotationCallback(ctrl.getDocumentViewController())
+            );
+            ctrl.openDocument(url);
+            
+//            dashboardview.add(s);
+              jScrollPane1.setViewportView(s); 
+        }
+        catch (Exception e){
+            
+      }
   
 //    try {
 //          Defs.setProperty("java.awt.headless", "true");
@@ -345,30 +345,30 @@ void viewpdf(String fileName,String fileLocation){
     private void txtNoRawatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNoRawatActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNoRawatActionPerformed
-//    void signtte(){
-//        
-//        
-//        
-//        
-//         System.out.println("sign");
-//        try{
-//        File file =new File("tempfile/cobaResume.pdf");
-//        byte[] data = new byte[(int) file.length()];
-//        data = FileUtils.readFileToByteArray(file);
-////        byte[] data = file.toByteArray();//convert ur file into byte[]
-//        HttpClient httpClient = new DefaultHttpClient();//Client
-//        HttpPost postRequest = new HttpPost("http://localhost/webapps/berkastte/upload.php");//Post Request to specified URL
-//        ByteArrayBody bab = new ByteArrayBody(data, "b.pdf");
-//        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);// Multipart data
-//        reqEntity.addPart("file", bab); //adding data to request entity
-//        postRequest.setEntity(reqEntity);//adding request entity to post request
-//        HttpResponse response = (HttpResponse) httpClient.execute(postRequest); 
-//         System.out.println(response);
-//        }catch (Exception e){
-//            
-//        }
-//    
-//}
+    void signtte(){
+        
+        
+        
+        
+         System.out.println("sign");
+        try{
+        File file =new File("tempfile/cobaResume.pdf");
+        byte[] data = new byte[(int) file.length()];
+        data = FileUtils.readFileToByteArray(file);
+//        byte[] data = file.toByteArray();//convert ur file into byte[]
+        HttpClient httpClient = new DefaultHttpClient();//Client
+        HttpPost postRequest = new HttpPost("http://localhost/webapps/berkastte/upload.php");//Post Request to specified URL
+        ByteArrayBody bab = new ByteArrayBody(data, "b.pdf");
+        MultipartEntity reqEntity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);// Multipart data
+        reqEntity.addPart("file", bab); //adding data to request entity
+        postRequest.setEntity(reqEntity);//adding request entity to post request
+        HttpResponse response = (HttpResponse) httpClient.execute(postRequest); 
+         System.out.println(response);
+        }catch (Exception e){
+            
+        }
+    
+}
     /**
     * @param args the command line arguments
     */
