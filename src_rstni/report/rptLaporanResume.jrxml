@@ -28,6 +28,7 @@
 	<parameter name="ruang" class="java.lang.String"/>
 	<parameter name="norawat" class="java.lang.String"/>
 	<parameter name="tanggalkeluar" class="java.lang.String"/>
+	<parameter name="bsre" class="java.io.InputStream"/>
 	<queryString>
 		<![CDATA[select reg_periksa.tgl_registrasi,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.jk,pasien.tgl_lahir,
 reg_periksa.umurdaftar,reg_periksa.sttsumur,pasien.pekerjaan,concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab,', ',propinsi.nm_prop) as alamat, 
@@ -523,14 +524,6 @@ where resume_pasien.no_rawat= $P{norawat}]]>
 				</textElement>
 				<text><![CDATA[Dokter Penanggung Jawab]]></text>
 			</staticText>
-			<componentElement>
-				<reportElement x="347" y="728" width="176" height="50" isRemoveLineWhenBlank="true" uuid="92ab0356-8454-4b64-a117-5ac52c90d28f">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<jr:QRCode xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" errorCorrectionLevel="H">
-					<jr:codeExpression><![CDATA[$P{finger}]]></jr:codeExpression>
-				</jr:QRCode>
-			</componentElement>
 			<line>
 				<reportElement x="0" y="800" width="534" height="1" uuid="b3a4f55b-ef2f-4f60-bbb5-92b2f31a7ad7"/>
 				<graphicElement>
@@ -1242,6 +1235,18 @@ where resume_pasien.no_rawat= $P{norawat}]]>
 				</textElement>
 				<text><![CDATA[Obat-obatan waktu pulang/nasihat :]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="359" y="745" width="154" height="11" uuid="7f1de622-9ea1-408f-9023-1698b11c0a11"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="8" isBold="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<image>
+				<reportElement x="3" y="750" width="328" height="44" uuid="adb51611-9dd7-4678-8ff8-c2d333e12e09"/>
+				<imageExpression><![CDATA[$P{bsre}]]></imageExpression>
+			</image>
 		</band>
 	</detail>
 	<columnFooter>

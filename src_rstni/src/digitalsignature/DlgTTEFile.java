@@ -580,7 +580,7 @@ public class DlgTTEFile extends javax.swing.JDialog {
 
                 apitte.unggahKeServer(data, nomorrawat.replaceAll("/", "") + ".pdf");
 
-                apitte.mengunggahFile(nomorrawat.replaceAll("/", "") + ".pdf", encodedString, nomorrawat, kddokter.getText(), kdberkas.getText(), Tpaspras.getText(), Sequel.cariIsi("select status_lanjut from reg_periksa where no_rawat = '" + nomorrawat + "'"), akses.getkode(), norkmmedis);
+                apitte.mengunggahFile(nomorrawat.replaceAll("/", "") + ".pdf", encodedString, nomorrawat, kddokter.getText(), kdberkas.getText(), Tpaspras.getText(), Sequel.cariIsi("select status_lanjut from reg_periksa where no_rawat = '" + nomorrawat + "'"), TDokter.getText(), norkmmedis);
 
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e);

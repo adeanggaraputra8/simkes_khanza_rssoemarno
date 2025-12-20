@@ -11,6 +11,7 @@
 
 package rekammedis;
 
+import digitalsignature.DlgTTEFile;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -61,6 +62,7 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
     private RMCariHasilLaborat carilaborat=new RMCariHasilLaborat(null,false);
     private RMCariJumlahObat cariobat=new RMCariJumlahObat(null,false);
     private DlgDiagnosaPenyakit penyakit=new DlgDiagnosaPenyakit(null,false);
+    private  DlgTTEFile ttefile=new DlgTTEFile (null,false);
     private String tanggal="",finger="",variabel="";
     
     /** Creates new form DlgRujuk
@@ -1791,6 +1793,7 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
     }//GEN-LAST:event_Obat2anKeyPressed
 
     private void MnLaporanResumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnLaporanResumeActionPerformed
+       String data ="";
         if(tbObat.getSelectedRow()>-1){
             Map<String, Object> param = new HashMap<>();    
             param.put("namars",akses.getnamars());
@@ -1799,7 +1802,8 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
             param.put("propinsirs",akses.getpropinsirs());
             param.put("kontakrs",akses.getkontakrs());
             param.put("emailrs",akses.getemailrs());   
-            param.put("logo",Sequel.cariGambar("select setting.logo from setting")); 
+            param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
+            param.put("bsre",Sequel.cariGambar("select bsre from gambar"));
             param.put("norawat",tbObat.getValueAt(tbObat.getSelectedRow(),1).toString());
             tanggal="";
             if(Sequel.cariIsi("select reg_periksa.status_lanjut from reg_periksa where reg_periksa.no_rawat=?",TNoRw.getText()).equals("Ralan")){
@@ -1814,7 +1818,11 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
             finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",tbObat.getValueAt(tbObat.getSelectedRow(),4).toString());
             param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+tbObat.getValueAt(tbObat.getSelectedRow(),5).toString()+"\nID "+(finger.equals("")?tbObat.getValueAt(tbObat.getSelectedRow(),4).toString():finger)+"\n"+tanggal); 
             
-            Valid.MyReport("rptLaporanResume.jasper","report","::[ Laporan Resume Pasien ]::",param);
+            data = Valid.saveToPDFTte("rptLaporanResume.jasper","report",TNoRw.getText(),param);
+             ttefile.isCek(data, TNoRM.getText(), TNoRw.getText(), KodeDokter.getText());
+                 ttefile.setSize(540, 185);
+                 ttefile.setLocationRelativeTo(internalFrame1);
+                 ttefile.setVisible(true);
         }
     }//GEN-LAST:event_MnLaporanResumeActionPerformed
 

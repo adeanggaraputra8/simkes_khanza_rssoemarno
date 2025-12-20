@@ -45,6 +45,7 @@
 	<parameter name="finger" class="java.lang.String"/>
 	<parameter name="tandavital" class="java.lang.String"/>
 	<parameter name="catatan" class="java.lang.String"/>
+	<parameter name="bsre" class="java.io.InputStream"/>
 	<queryString>
 		<![CDATA[select * from temporary]]>
 	</queryString>
@@ -889,7 +890,7 @@
 			</line>
 			<image>
 				<reportElement x="6" y="136" width="538" height="44" uuid="17d4dd6e-ae54-4f6e-b9a9-dbddf087665f"/>
-				<imageExpression><![CDATA["http://localhost/bsrersmrm.jpg"]]></imageExpression>
+				<imageExpression><![CDATA[$P{bsre}]]></imageExpression>
 			</image>
 		</band>
 	</summary>

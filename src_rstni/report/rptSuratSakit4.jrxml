@@ -30,6 +30,7 @@
 	<parameter name="penyakit" class="java.lang.String"/>
 	<parameter name="nosakit" class="java.lang.String"/>
 	<parameter name="finger" class="java.lang.String"/>
+	<parameter name="bsre" class="java.io.InputStream"/>
 	<queryString>
 		<![CDATA[select reg_periksa.no_rawat,dokter.nm_dokter,pasien.keluarga,pasien.namakeluarga,pasien.tgl_lahir,pasien.jk,
  pasien.nm_pasien,pasien.umur,pasien.pekerjaan,pasien.alamat,DATE_FORMAT(reg_periksa.tgl_registrasi,'%d-%m-%Y')as tgl_registrasi
@@ -404,7 +405,7 @@
 			</staticText>
 			<image>
 				<reportElement x="1" y="542" width="380" height="44" uuid="6d442085-5069-4c04-9081-068909cf3cc9"/>
-				<imageExpression><![CDATA["http://localhost/bsrersmrm.jpg"]]></imageExpression>
+				<imageExpression><![CDATA[$P{bsre}]]></imageExpression>
 			</image>
 		</band>
 	</detail>
