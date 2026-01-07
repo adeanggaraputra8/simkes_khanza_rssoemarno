@@ -80,8 +80,11 @@ public final class DlgStokOpname extends javax.swing.JDialog {
                 column.setPreferredWidth(80);
             }else if(i==1){
                 column.setPreferredWidth(170);
-            }else if(i==2){
+            }else if(i==2 && akses.getkode().equals("Admin Utama")){
                 column.setPreferredWidth(90);
+            }else if(i==2 && !akses.getkode().equals("Admin Utama")){
+                column.setMinWidth(0);
+                column.setMaxWidth(0);
             }else if(i==3){
                 column.setPreferredWidth(50);
             }else if(i==4){

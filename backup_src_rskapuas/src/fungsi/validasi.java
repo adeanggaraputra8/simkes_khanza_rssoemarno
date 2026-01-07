@@ -8,6 +8,7 @@ package fungsi;
 
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dimension;
@@ -83,11 +84,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
+import javax.swing.DefaultCellEditor;
+import javax.swing.SwingUtilities;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -96,6 +100,7 @@ import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 
 /**
@@ -2453,6 +2458,75 @@ public final class validasi {
             System.out.println("No files found in the folder: " + folderPath);
         }
     }
+    
+    public <T> void applyComboEditor(
+        JTable table,
+        int columnIndex,
+        List<T> dataList,
+        int fillColumnIndex   // kolom yang diisi otomatis, -1 jika tidak ada
+        ) {
+
+            JComboBox<T> combo = new JComboBox<>();
+
+            // isi data ke combo
+            for (T item : dataList) combo.addItem(item);
+
+            combo.setEditable(true);
+
+            // Autocomplete SwingX (aman & simple)
+            AutoCompleteDecorator.decorate(combo);
+
+            // --- Jika item dipilih, isi kolom lain ---
+            combo.addActionListener(e -> {
+                if (!combo.isPopupVisible()) return;
+
+                int row = table.getSelectedRow();
+                if (row == -1) return;
+
+                Object selected = combo.getSelectedItem();
+
+                if (fillColumnIndex != -1 && selected != null) {
+                    try {
+                        // otomatis ambil field "kd" jika ada
+                        java.lang.reflect.Field f = selected.getClass().getDeclaredField("kd");
+                        f.setAccessible(true);
+                        Object kdValue = f.get(selected);
+
+                        table.setValueAt(kdValue, row, fillColumnIndex);
+                    } catch (Exception ex) {
+                        // tidak apa-apa, class item mungkin tidak punya "kd"
+                    }
+                }
+            });
+
+            // --- CellEditor untuk JTable ---
+            DefaultCellEditor cellEditor = new DefaultCellEditor(combo) {
+
+                @Override
+                public Object getCellEditorValue() {
+                    return combo.getSelectedItem();
+                }
+
+                @Override
+                public Component getTableCellEditorComponent(
+                        JTable table, Object value, boolean isSelected, int row, int col) {
+
+                    // set pilihan saat mulai edit
+                    combo.setSelectedItem(value);
+
+                    // auto popup (aman untuk macOS)
+                    SwingUtilities.invokeLater(() -> {
+                        if (combo.isDisplayable() && combo.isShowing()) {
+                            combo.showPopup();
+                        }
+                    });
+
+                    return combo;
+                }
+            };
+
+            table.getColumnModel().getColumn(columnIndex).setCellEditor(cellEditor);
+        }
       
 }
 

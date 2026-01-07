@@ -45,7 +45,7 @@ public class DlgDaftarPermintaanResep extends javax.swing.JDialog {
     private ResultSet rs,rs2,rs3;
     private String bangsal="",aktifkanparsial="no",kamar="",alarm="",DEPOAKTIFOBAT="",
             formalarm="",nol_detik,detik,NoResep="",TglPeresepan="",JamPeresepan="",
-            NoRawat="",NoRM="",Pasien="",DokterPeresep="",Status="",KodeDokter="",Ruang="",KodeRuang="";
+            NoRawat="",NoRM="",Pasien="",DokterPeresep="",Status="",KodeDokter="",Ruang="",KodeRuang="", JenisResep="";
     private DlgCariDokter dokter=new DlgCariDokter(null,false);
     private DlgCariPoli poli=new DlgCariPoli(null,false);
     private DlgCariBangsal ruang=new DlgCariBangsal(null,false);
@@ -2189,17 +2189,24 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
     }//GEN-LAST:event_tbPermintaanStokKeyPressed
 
     private void BtnPenyerahanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPenyerahanActionPerformed
-        if(TabPilihRawat.getSelectedIndex()==0){
+         JenisResep="";
+         if(TabPilihRawat.getSelectedIndex()==0){
             if(TabRawatJalan.getSelectedIndex()==0){
                 if(akses.getberi_obat()==true){
                     if(tabMode.getRowCount()==0){
                         JOptionPane.showMessageDialog(null,"Maaf, data sudah habis...!!!!");
                         TCari.requestFocus();
+                   
                     }else if(NoRawat.equals("")){
                         JOptionPane.showMessageDialog(null,"Maaf, Silahkan pilih data resep dokter yang mau diserahkan..!!");
                     }else{
-                        Sequel.queryu("delete from antriapotek3");
-                        Sequel.queryu("insert into antriapotek3 values('"+NoResep+"','1','"+NoRawat+"')");
+                        if(Sequel.cariInteger("select COUNT(resep_obat.no_resep) as jlh from resep_obat where resep_obat.no_resep in(select distinct resep_dokter_racikan.no_resep from resep_dokter_racikan) and resep_obat.jam_peresepan<>'00:00:00' and resep_obat.status='ralan' and resep_obat.status='ralan' AND resep_obat.no_resep='"+NoResep+"' ")>0){
+                            JenisResep="racikan";
+                        }else{
+                            JenisResep="non racikan";
+                        }
+                        Sequel.queryu("delete from antriapotek3 where jenis='"+JenisResep+"'");
+                        Sequel.queryu("insert into antriapotek3 values('"+NoResep+"','1','"+NoRawat+"','"+JenisResep+"')");
                         Sequel.queryu("delete from bukti_penyerahan_resep_obat where no_resep='"+NoResep+"'");
                         Sequel.mengedit("resep_obat","no_resep='"+NoResep+"'","tgl_penyerahan=CURRENT_DATE(),jam_penyerahan=CURRENT_TIME() ");
                     }

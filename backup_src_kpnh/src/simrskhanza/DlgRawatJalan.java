@@ -66,7 +66,7 @@ import keuangan.DlgJnsPerawatanRalan;
 import keuangan.Jurnal;
 import laporan.DlgBerkasRawat;
 import modifikasi.DlgOdontogram;
-import modifikasi.DlgSBarRalan;
+import modifikasi.DlgSBARRalan;
 import modifikasi.ValidasiSBARRalan;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpEntity;
@@ -1742,6 +1742,8 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         cmbDtk = new widget.ComboBox();
         ChkJln = new widget.CekBox();
         CaraBayar = new widget.TextBox();
+        NoJKN = new widget.TextBox();
+        jLabel63 = new widget.Label();
         PanelAccor = new widget.PanelBiasa();
         ChkAccor = new widget.CekBox();
         ScrollMenu = new widget.ScrollPane();
@@ -1952,7 +1954,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         BtnDiagnosa1.setBounds(340, 110, 28, 23);
 
         TanggalKunjungan.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalKunjungan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-11-2024" }));
+        TanggalKunjungan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-06-2025" }));
         TanggalKunjungan.setDisplayFormat("dd-MM-yyyy");
         TanggalKunjungan.setName("TanggalKunjungan"); // NOI18N
         TanggalKunjungan.setOpaque(false);
@@ -2261,7 +2263,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-11-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-06-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -2275,7 +2277,7 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-11-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-06-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -4075,13 +4077,13 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         FormInput.add(TPasien);
         TPasien.setBounds(283, 10, 200, 23);
 
-        jLabel23.setText("Tanggal :");
+        jLabel23.setText("No. JKN :");
         jLabel23.setName("jLabel23"); // NOI18N
         FormInput.add(jLabel23);
-        jLabel23.setBounds(554, 10, 60, 23);
+        jLabel23.setBounds(930, 10, 60, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-11-2024" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-06-2025" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -4147,6 +4149,17 @@ public final class DlgRawatJalan extends javax.swing.JDialog {
         CaraBayar.setName("CaraBayar"); // NOI18N
         FormInput.add(CaraBayar);
         CaraBayar.setBounds(490, 10, 70, 23);
+
+        NoJKN.setEditable(false);
+        NoJKN.setHighlighter(null);
+        NoJKN.setName("NoJKN"); // NOI18N
+        FormInput.add(NoJKN);
+        NoJKN.setBounds(990, 10, 140, 23);
+
+        jLabel63.setText("Tanggal :");
+        jLabel63.setName("jLabel63"); // NOI18N
+        FormInput.add(jLabel63);
+        jLabel63.setBounds(554, 10, 60, 23);
 
         internalFrame1.add(FormInput, java.awt.BorderLayout.PAGE_START);
 
@@ -8312,10 +8325,8 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
             TCari.requestFocus();
         }else{ 
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            DlgSBarRalan form=new DlgSBarRalan(null,false);
+            DlgSBARRalan form=new DlgSBARRalan(null,false);
             form.isCek();
-            form.emptTeks();
-            form.setNoRm(TNoRw.getText(),DTPCari2.getDate());
             form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             form.setLocationRelativeTo(internalFrame1);
             form.setVisible(true);
@@ -8482,6 +8493,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.TextBox NmDiagnosa1;
     private widget.TextBox NmSadar;
     private widget.TextBox NmTenagaMedis;
+    private widget.TextBox NoJKN;
     private widget.PanelBiasa PanelAccor;
     private javax.swing.JPanel PanelInput;
     private javax.swing.JPanel PanelInput1;
@@ -8643,6 +8655,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Label jLabel60;
     private widget.Label jLabel61;
     private widget.Label jLabel62;
+    private widget.Label jLabel63;
     private widget.Label jLabel64;
     private widget.Label jLabel67;
     private widget.Label jLabel7;
@@ -9013,6 +9026,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         ChkInput3.setSelected(true);
         isForm4();
         TabRawatMouseClicked(null);
+        //NoJKN.setText(Sequel.cariIsi("select no_peserta from pasien where no_rkm_medis='"+TNoRM.getText()+"' "));
     }
     
     private void isForm(){

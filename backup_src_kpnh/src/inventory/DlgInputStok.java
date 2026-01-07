@@ -107,11 +107,17 @@ public class DlgInputStok extends javax.swing.JDialog {
                 column.setPreferredWidth(100);
             }else if(i==4){
                 column.setPreferredWidth(50);
-            }else if(i==5){
+            }else if(i==5 && akses.getkode().equals("Admin Utama")){
+                column.setPreferredWidth(50);
+            }else if(i==5 && !akses.getkode().equals("Admin Utama")){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
-            }else if(i==6){
+            }else if(i==6 && akses.getkode().equals("Admin Utama")){
                 column.setPreferredWidth(42);
+            }else if(i==6 && !akses.getkode().equals("Admin Utama")){
+//                column.setPreferredWidth(42);
+                column.setMinWidth(0);
+                column.setMaxWidth(0);
             }else if(i==7){
                 column.setPreferredWidth(42);
             }else if(i==8){

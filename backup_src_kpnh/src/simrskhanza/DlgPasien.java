@@ -5411,12 +5411,12 @@ private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                     kdprop,PropinsiPj.getText(),Kd2.getText()
             })==true){
                 
-                if (akses.getkode()=="Admin Utama"){
+                //if (akses.getkode()=="Admin Utama"){
                 Sequel.meghapus("status_pasien","no_rm",TNo.getText());
                     Sequel.menyimpan2("status_pasien","?,?","Data",2,new String[]{
                         TNo.getText(),StatusPasien.getSelectedItem().toString()
                     });
-                }
+                //}
                  
                   Sequel.meghapus("m_input_riwayat","no_rkm_medis",TNo.getText());
                     Sequel.menyimpan("m_input_riwayat","?,?,?","Data",3, new String[]{

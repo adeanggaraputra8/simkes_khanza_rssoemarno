@@ -135,10 +135,10 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
             } else if (i == 23) {
-//                column.setPreferredWidth(80);
-                column.setMinWidth(0);
-                column.setMaxWidth(0);
-            }
+                column.setPreferredWidth(80);
+//                column.setMinWidth(0);
+//                column.setMaxWidth(0);
+            }  
         }
         tbINACBG.setDefaultRenderer(Object.class, new WarnaTable());
         
@@ -409,6 +409,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         ppAmbilDataKlaim = new javax.swing.JMenuItem();
         ppExportKlaimFinal = new javax.swing.JMenuItem();
         ppAmbilDataPsDx = new javax.swing.JMenuItem();
+        ppHapusData = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbINACBG = new widget.Table();
@@ -464,7 +465,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         panelGlass8.add(jLabel15);
 
         tgl1.setEditable(false);
-        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tgl1.setDisplayFormat("dd-MM-yyyy");
         tgl1.setName("tgl1"); // NOI18N
         tgl1.setOpaque(false);
@@ -484,7 +485,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         panelGlass8.add(jLabel17);
 
         tgl2.setEditable(false);
-        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tgl2.setDisplayFormat("dd-MM-yyyy");
         tgl2.setName("tgl2"); // NOI18N
         tgl2.setOpaque(false);
@@ -656,7 +657,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         panelGlass12.add(jLabel19);
 
         tgl3.setEditable(false);
-        tgl3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tgl3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tgl3.setDisplayFormat("dd-MM-yyyy");
         tgl3.setName("tgl3"); // NOI18N
         tgl3.setOpaque(false);
@@ -671,7 +672,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         panelGlass12.add(jLabel20);
 
         tgl4.setEditable(false);
-        tgl4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tgl4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tgl4.setDisplayFormat("dd-MM-yyyy");
         tgl4.setName("tgl4"); // NOI18N
         tgl4.setOpaque(false);
@@ -842,7 +843,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         panelGlass14.add(jLabel24);
 
         tgl5.setEditable(false);
-        tgl5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tgl5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tgl5.setDisplayFormat("dd-MM-yyyy");
         tgl5.setName("tgl5"); // NOI18N
         tgl5.setOpaque(false);
@@ -857,7 +858,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         panelGlass14.add(jLabel25);
 
         tgl6.setEditable(false);
-        tgl6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tgl6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tgl6.setDisplayFormat("dd-MM-yyyy");
         tgl6.setName("tgl6"); // NOI18N
         tgl6.setOpaque(false);
@@ -1049,6 +1050,22 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         });
         Popup1.add(ppAmbilDataPsDx);
 
+        ppHapusData.setBackground(new java.awt.Color(242, 242, 242));
+        ppHapusData.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppHapusData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppHapusData.setText("Hapus Data");
+        ppHapusData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppHapusData.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppHapusData.setIconTextGap(8);
+        ppHapusData.setName("ppHapusData"); // NOI18N
+        ppHapusData.setPreferredSize(new java.awt.Dimension(240, 25));
+        ppHapusData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppHapusDataBtnPrintActionPerformed(evt);
+            }
+        });
+        Popup1.add(ppHapusData);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
@@ -1118,7 +1135,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         panelGlass9.add(jLabel13);
 
         cmbJnsKlaim.setForeground(new java.awt.Color(0, 0, 0));
-        cmbJnsKlaim.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "JKN", "JAMINAN COVID-19", "JAMINAN KIPI", "JAMINAN CO-INSIDENSE", "JAMINAN BAYI BARU LAHIR" }));
+        cmbJnsKlaim.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "JKN", "JAMKESKINDA", "JAMINAN COVID-19", "JAMINAN KIPI", "JAMINAN CO-INSIDENSE", "JAMINAN BAYI BARU LAHIR" }));
         cmbJnsKlaim.setName("cmbJnsKlaim"); // NOI18N
         cmbJnsKlaim.setPreferredSize(new java.awt.Dimension(165, 23));
         cmbJnsKlaim.addActionListener(new java.awt.event.ActionListener() {
@@ -1196,7 +1213,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         });
         panelGlass10.add(Chktgl);
 
-        tglA.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tglA.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tglA.setDisplayFormat("dd-MM-yyyy");
         tglA.setName("tglA"); // NOI18N
         tglA.setOpaque(false);
@@ -1210,7 +1227,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         jLabel18.setPreferredSize(new java.awt.Dimension(23, 23));
         panelGlass10.add(jLabel18);
 
-        tglB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tglB.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tglB.setDisplayFormat("dd-MM-yyyy");
         tglB.setName("tglB"); // NOI18N
         tglB.setOpaque(false);
@@ -1312,7 +1329,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         } else {
             if (kd_payor.equals("3")) {
                 if (jnsRawat.equals("Rawat Jalan")) {
-                    if (Sequel.cariInteger("SELECT COUNT(-1) FROM bridging_sep WHERE nomr='" + Sequel.cariIsi("select no_rkm_medis from reg_periksa where no_rawat='" + noRawat.getText() + "'") + "' "
+                    if (Sequel.cariInteger("SELECT COUNT(-1) FROM bridging_sep WHERE nomr='" + Sequel.cariIsi("select no_rkm_medis from reg_periksa where reg_periksa.no_rawat='" + noRawat.getText() + "'") + "' "
                             + "AND tglsep='" + tglSep + "' AND jnspelayanan='1'") > 0) {
                         i = JOptionPane.showConfirmDialog(null, "Pasien telah memiliki SEP Rawat Jalan & Rawat Inap dihari yang sama, Apakah proses klaim akan tetap dilanjutkan,...!!", "Konfirmasi", JOptionPane.YES_NO_OPTION);
                         if (i == JOptionPane.YES_OPTION) {
@@ -1430,6 +1447,20 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         } else if (cmbJnsKlaim.getSelectedItem().equals("-")) {
             JOptionPane.showMessageDialog(null, "Silahkan pilih dulu salah satu pilihan jenis klaim yang akan diproses,...!!");
             cmbJnsKlaim.requestFocus();
+        } else if (cmbJnsKlaim.getSelectedItem().equals("JAMKESKINDA")) {
+             tgl1.setDate(new Date());
+            Calendar kalender = Calendar.getInstance();
+            kalender.add(Calendar.DATE, -30);
+            tgl1.setDate(kalender.getTime());
+            tgl2.setDate(new Date());
+            cmbLimit1.setSelectedIndex(0);
+            tglSep = "";
+            TCari2.setText("");
+            TCari2.requestFocus();
+            tampil();
+//            WindowSEPbpjs.setSize(870, 512);
+//            WindowSEPbpjs.setLocationRelativeTo(internalFrame1);
+//            WindowSEPbpjs.setVisible(true);    
         }
     }//GEN-LAST:event_BtnDataActionPerformed
 
@@ -1708,7 +1739,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         } else if (cmbJnsKlaim.getSelectedIndex() == 1) {
             jnsKlaim = "JKN";
         } else if (cmbJnsKlaim.getSelectedIndex() == 2) {
-            jnsKlaim = "JAMINAN COVID-19";
+            jnsKlaim = "JAMKESKINDA";
         } else if (cmbJnsKlaim.getSelectedIndex() == 3) {
             jnsKlaim = "JAMINAN KIPI";
         } else if (cmbJnsKlaim.getSelectedIndex() == 4) {
@@ -1846,6 +1877,55 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
        mbak_eka.ambilDataDiagnosaDanProsedur(nosep_klaim.getText(),noRawat.getText(),Sequel.cariIsi("select no_rkm_medis from reg_periksa where no_rawat='" + noRawat.getText() +"' "));
     }//GEN-LAST:event_ppAmbilDataPsDxBtnPrintActionPerformed
 
+    private void ppHapusDataBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppHapusDataBtnPrintActionPerformed
+                                                   
+    try {
+            int row = tbINACBG.getSelectedRow();
+            if (row < 0) {
+                JOptionPane.showMessageDialog(null, 
+                    "⚠️ Silakan pilih dulu data yang akan dihapus!", 
+                    "Peringatan", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Object valStatusJkn = tbINACBG.getValueAt(row, 1);
+            Object valStatusFinal = tbINACBG.getValueAt(row, 18);
+
+            String statusjkn = (valStatusJkn == null ? "" : valStatusJkn.toString());
+            String statusfinal = (valStatusFinal == null ? "" : valStatusFinal.toString());
+
+            if (statusjkn.equals("") && statusfinal.equalsIgnoreCase("Belum")) {
+                // Jalankan perintah hapus
+               Sequel.queryu2("delete from eklaim_new_claim where no_sep=? and no_rawat=? ",2,new String[]{
+                        nosep_klaim.getText(),noRawat.getText()
+                    });
+
+                // Refresh tampilan
+                if (Chktgl.isSelected()) {
+                    tampilKLAIM();
+                } else {
+                    tampilSEP();
+                }
+
+                JOptionPane.showMessageDialog(null, 
+                    "Data berhasil dihapus.", 
+                    "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, 
+                    "⚠️ Maaf, data tidak dapat dihapus karena status sudah JKN atau sudah final.", 
+                    "Gagal Hapus", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Notifikasi Hapus : " + e);
+            JOptionPane.showMessageDialog(null, 
+                "Terjadi kesalahan saat menghapus data: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_ppHapusDataBtnPrintActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1947,6 +2027,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
     private javax.swing.JMenuItem ppAmbilDataKlaim;
     private javax.swing.JMenuItem ppAmbilDataPsDx;
     private javax.swing.JMenuItem ppExportKlaimFinal;
+    private javax.swing.JMenuItem ppHapusData;
     private javax.swing.JMenuItem ppPengajuanKlaim;
     private widget.Table tbINACBG;
     private widget.Table tbIbuBayi;
@@ -1981,7 +2062,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                         + "eg.cbg_tarif+eg.sub_acute_tarif+eg.chronic_tarif+(SELECT if(SUM(cmg.tarif) IS NULL,0,SUM(cmg.tarif)) FROM eklaim_grouping_spc_cmg cmg WHERE cmg.no_sep=enc.no_sep) total_tarif_grouping, "
                         + "if(esc.upgrade_class_ind='1',eg.add_payment_amt,0) naik_kelas_tarif, round(esc.real_tarif,0) real_tarif,enc.klaim_final,if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') kirim_online, "
                         + "enc.nm_pasien, date_format(enc.tgl_input,'%d-%m-%Y') tglInput, enc.tglsep, p.nama nm_petugas, IFNULL(ecd.top_up_rawat,'0') trf_covid, enc.no_rm, "
-                        + "IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ','Ranap')) unit, IFNULL(egc.payor_id,'3') payor_id FROM eklaim_new_claim enc LEFT JOIN eklaim_generate_claim egc ON egc.claim_number=enc.no_sep "
+                        + "IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ','Ranap')) unit, IF(rp.kd_pj='JMA','5','3') payor_id FROM eklaim_new_claim enc LEFT JOIN eklaim_generate_claim egc ON egc.claim_number=enc.no_sep "
                         + "LEFT JOIN eklaim_set_claim esc ON esc.no_sep=enc.no_sep LEFT JOIN eklaim_grouping eg ON eg.no_sep=enc.no_sep LEFT JOIN eklaim_online_status eos ON eos.no_sep=enc.no_sep "
                         + "LEFT JOIN inacbg_coder_nik koder ON koder.no_ik=esc.coder_nik LEFT JOIN pegawai p ON p.nik=koder.nik LEFT JOIN eklaim_covid19_data ecd ON ecd.no_sep=enc.no_sep "
                         + "LEFT JOIN reg_periksa rp on rp.no_rawat=enc.no_rawat LEFT JOIN poliklinik pl ON pl.kd_poli=rp.kd_poli WHERE "
@@ -2003,7 +2084,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                         + "eg.cbg_tarif+eg.sub_acute_tarif+eg.chronic_tarif+(SELECT if(SUM(cmg.tarif) IS NULL,0,SUM(cmg.tarif)) FROM eklaim_grouping_spc_cmg cmg WHERE cmg.no_sep=enc.no_sep) total_tarif_grouping, "
                         + "if(esc.upgrade_class_ind='1',eg.add_payment_amt,0) naik_kelas_tarif, round(esc.real_tarif,0) real_tarif,enc.klaim_final,if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') kirim_online, "
                         + "enc.nm_pasien, date_format(enc.tgl_input,'%d-%m-%Y') tglInput, enc.tglsep, p.nama nm_petugas, IFNULL(ecd.top_up_rawat,'0') trf_covid, enc.no_rm, "
-                        + "IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ','Ranap')) unit, IFNULL(egc.payor_id,'3') payor_id FROM eklaim_new_claim enc LEFT JOIN eklaim_generate_claim egc ON egc.claim_number=enc.no_sep "
+                        + "IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ','Ranap')) unit, IF(rp.kd_pj='JMA','5','3') payor_id FROM eklaim_new_claim enc LEFT JOIN eklaim_generate_claim egc ON egc.claim_number=enc.no_sep "
                         + "LEFT JOIN eklaim_set_claim esc ON esc.no_sep=enc.no_sep LEFT JOIN eklaim_grouping eg ON eg.no_sep=enc.no_sep LEFT JOIN eklaim_online_status eos ON eos.no_sep=enc.no_sep "
                         + "LEFT JOIN inacbg_coder_nik koder ON koder.no_ik=esc.coder_nik LEFT JOIN pegawai p ON p.nik=koder.nik LEFT JOIN eklaim_covid19_data ecd ON ecd.no_sep=enc.no_sep "
                         + "LEFT JOIN reg_periksa rp on rp.no_rawat=enc.no_rawat LEFT JOIN poliklinik pl ON pl.kd_poli=rp.kd_poli WHERE "
@@ -2386,10 +2467,12 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
     }
     
     public void isCek() {
-//      if(akses.getkode().equals("Admin Utama")){
-//         BtnData.setEnabled(true);
-//         BtnProses.setEnabled(true);                                      
-//       }else if (Sequel.cariInteger("SELECT icn.nik  FROM  inacbg_coder_nik icn inner join pegawai p on icn.nik =p.nik  WHERE icn.nik ='"+akses.getkode()+"' AND  p.departemen ='ENTR'")>0){
+      if(akses.getkode().equals("Admin Utama")){
+         ppHapusData.setVisible(true);
+       } else {
+         ppHapusData.setVisible(false);
+      }
+//       else if (Sequel.cariInteger("SELECT icn.nik  FROM  inacbg_coder_nik icn inner join pegawai p on icn.nik =p.nik  WHERE icn.nik ='"+akses.getkode()+"' AND  p.departemen ='ENTR'")>0){
 //         BtnData.setEnabled(true);
 //         BtnProses.setEnabled(true); 
 //       }else {
@@ -2428,7 +2511,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                         + "eg.cbg_tarif+eg.sub_acute_tarif+eg.chronic_tarif+(SELECT if(SUM(cmg.tarif) IS NULL,0,SUM(cmg.tarif)) FROM eklaim_grouping_spc_cmg cmg WHERE cmg.no_sep=enc.no_sep) total_tarif_grouping, "
                         + "if(esc.upgrade_class_ind='1',eg.add_payment_amt,0) naik_kelas_tarif, round(esc.real_tarif,0) real_tarif,enc.klaim_final,if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') kirim_online, "
                         + "enc.nm_pasien, date_format(enc.tgl_input,'%d-%m-%Y') tglInput, enc.tglsep, p.nama nm_petugas, IFNULL(ecd.top_up_rawat,'0') trf_covid, enc.no_rm, "
-                        + "IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ','Ranap')) unit, IFNULL(egc.payor_id,'3') payor_id FROM eklaim_new_claim enc LEFT JOIN eklaim_generate_claim egc ON egc.claim_number=enc.no_sep "
+                        + "IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ','Ranap')) unit, IF(rp.kd_pj='JMA','5','3') payor_id FROM eklaim_new_claim enc LEFT JOIN eklaim_generate_claim egc ON egc.claim_number=enc.no_sep "
                         + "LEFT JOIN eklaim_set_claim esc ON esc.no_sep=enc.no_sep LEFT JOIN eklaim_grouping eg ON eg.no_sep=enc.no_sep LEFT JOIN eklaim_online_status eos ON eos.no_sep=enc.no_sep "
                         + "LEFT JOIN inacbg_coder_nik koder ON koder.no_ik=esc.coder_nik LEFT JOIN pegawai p ON p.nik=koder.nik LEFT JOIN eklaim_covid19_data ecd ON ecd.no_sep=enc.no_sep "
                         + "LEFT JOIN reg_periksa rp on rp.no_rawat=enc.no_rawat LEFT JOIN poliklinik pl ON pl.kd_poli=rp.kd_poli WHERE "
@@ -2451,7 +2534,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                         + "eg.cbg_tarif+eg.sub_acute_tarif+eg.chronic_tarif+(SELECT if(SUM(cmg.tarif) IS NULL,0,SUM(cmg.tarif)) FROM eklaim_grouping_spc_cmg cmg WHERE cmg.no_sep=enc.no_sep) total_tarif_grouping, "
                         + "if(esc.upgrade_class_ind='1',eg.add_payment_amt,0) naik_kelas_tarif, round(esc.real_tarif,0) real_tarif,enc.klaim_final,if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') kirim_online, "
                         + "enc.nm_pasien, date_format(enc.tgl_input,'%d-%m-%Y') tglInput, enc.tglsep, p.nama nm_petugas, IFNULL(ecd.top_up_rawat,'0') trf_covid, enc.no_rm, "
-                        + "IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ','Ranap')) unit, IFNULL(egc.payor_id,'3') payor_id FROM eklaim_new_claim enc LEFT JOIN eklaim_generate_claim egc ON egc.claim_number=enc.no_sep "
+                        + "IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ','Ranap')) unit, IF(rp.kd_pj='JMA','5','3') payor_id FROM eklaim_new_claim enc LEFT JOIN eklaim_generate_claim egc ON egc.claim_number=enc.no_sep "
                         + "LEFT JOIN eklaim_set_claim esc ON esc.no_sep=enc.no_sep LEFT JOIN eklaim_grouping eg ON eg.no_sep=enc.no_sep LEFT JOIN eklaim_online_status eos ON eos.no_sep=enc.no_sep "
                         + "LEFT JOIN inacbg_coder_nik koder ON koder.no_ik=esc.coder_nik LEFT JOIN pegawai p ON p.nik=koder.nik LEFT JOIN eklaim_covid19_data ecd ON ecd.no_sep=enc.no_sep "
                         + "LEFT JOIN reg_periksa rp on rp.no_rawat=enc.no_rawat LEFT JOIN poliklinik pl ON pl.kd_poli=rp.kd_poli WHERE "
@@ -2579,7 +2662,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
             kd_payor = tbINACBG.getValueAt(tbINACBG.getSelectedRow(), 23).toString();
             if (kd_payor.equals("3")) {
                 cmbJnsKlaim.setSelectedIndex(1);
-            } else if (kd_payor.equals("71")) {
+            } else if (kd_payor.equals("5")) {
                 cmbJnsKlaim.setSelectedIndex(2);
             } else if (kd_payor.equals("72")) {
                 cmbJnsKlaim.setSelectedIndex(3);
@@ -2647,7 +2730,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
             kd_payor = kodepay;
             
             //untuk jaminan kipi belum selesai
-        } else if (nmKlaim.equals("JAMINAN COVID-19") || nmKlaim.equals("JAMINAN KIPI")) {            
+        } else if (nmKlaim.equals("JAMKESKINDA")) {            
             try {
                 ps5 = koneksi.prepareStatement("SELECT p.no_ktp nik, p.no_peserta noka_bpjs, p.no_rkm_medis, p.nm_pasien, "
                         + "if(p.jk='L','Laki-laki','Perempuan') jk, rp.tgl_registrasi, IF(rp.status_lanjut='Ralan','2','1') jRawat, "
@@ -2679,11 +2762,9 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                 System.out.println("Notifikasi : " + e);
             }
             
-            if (nmKlaim.equals("JAMINAN COVID-19")) {
+            if (nmKlaim.equals("JAMKESKINDA")) {
                 cmbJnsKlaim.setSelectedIndex(2);
-            } else if (nmKlaim.equals("JAMINAN KIPI")) {
-                cmbJnsKlaim.setSelectedIndex(3);
-            }
+            } 
             jnsKlaim = nmKlaim;
             noRawat.setText(norw);
             nosep_klaim.setText(noSyaratKlaim);            
@@ -2856,46 +2937,47 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
     private void klaimBaruLAINYA() {
         cekSEP = "";
         cekKlaim = 0;
-        cekSEP = Sequel.cariIsi("SELECT no_rawat FROM eklaim_generate_claim WHERE no_rawat='" + noRawat.getText() + "' and payor_id='" + kd_payor + "'");
-        cekKlaim = Sequel.cariInteger("select count(-1) from eklaim_set_claim where no_rawat='" + noRawat.getText() + "'");
+        cekSEP = Sequel.cariIsi("SELECT no_sep FROM eklaim_new_claim WHERE no_sep='" + nosep_klaim.getText() + "' and tglsep='" + tglSep + "'");
+        cekKlaim = Sequel.cariInteger("select count(-1) from eklaim_set_claim where no_sep='" + nosep_klaim.getText() + "' and tgl_masuk='" + tglSep + "'");
 
         if (cekSEP.equals("")) {
-            if (mbak_eka.ngirimLAINYA(noRawat.getText(), nik, tglKunj, jnsrwt, norm, nmpas, tgllahir, jk, kd_payor) == true) {
+             if (mbak_eka.ngirimLAINYA(noRawat.getText()) == true) {
+                Sequel.mengedit("jamkeskinda_jaminan","no_rawat=? and no_jaminan=?","status_inacbg='Terkirim' ",2,new String[]{noRawat.getText(),nosep_klaim.getText()});
                 if (cekKlaim == 0) {
                     if (akses.getkode().equals("Admin Utama")) {
-                        ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                        ajukan.setLocationRelativeTo(internalFrame1);
-                        if (kd_payor.equals("73")) {
-                            ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                        } else {
-                            ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                        }
-                        ajukan.tarifRS(noRawat.getText());
-                        ajukan.TabRawat.setEnabled(true);
-                        ajukan.TabRawat.setSelectedIndex(1);
-                        ajukan.TabDiagnosa2.setSelectedIndex(0);
-                        ajukan.emptTeksJKN();
-                        ajukan.setVisible(true);
+//                        ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+//                        ajukan.setLocationRelativeTo(internalFrame1);
+//                        if (kd_payor.equals("73")) {
+//                            ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
+//                        } else {
+//                            ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
+//                        }
+//                        ajukan.tarifRS(noRawat.getText());
+//                        ajukan.TabRawat.setEnabled(true);
+//                        ajukan.TabRawat.setSelectedIndex(1);
+//                        ajukan.TabDiagnosa2.setSelectedIndex(0);
+//                        ajukan.emptTeksJKN();
+//                        ajukan.setVisible(true);
                         if (Chktgl.isSelected() == true) {
                             tampilKLAIM();
                         } else {
                             tampilSEP();
                         }
                     } else {
-                        ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                        ajukan.setLocationRelativeTo(internalFrame1);
-                        if (kd_payor.equals("73")) {
-                            ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                        } else {
-                            ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                        }
-                        ajukan.tarifRS(noRawat.getText());
-                        ajukan.TabRawat.setEnabledAt(0, false);
-                        ajukan.TabRawat.setEnabledAt(1, true);
-                        ajukan.TabRawat.setSelectedIndex(1);
-                        ajukan.TabDiagnosa2.setSelectedIndex(0);
-                        ajukan.emptTeksJKN();
-                        ajukan.setVisible(true);
+//                        ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+//                        ajukan.setLocationRelativeTo(internalFrame1);
+//                        if (kd_payor.equals("73")) {
+//                            ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
+//                        } else {
+//                            ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
+//                        }
+//                        ajukan.tarifRS(noRawat.getText());
+//                        ajukan.TabRawat.setEnabledAt(0, false);
+//                        ajukan.TabRawat.setEnabledAt(1, true);
+//                        ajukan.TabRawat.setSelectedIndex(1);
+//                        ajukan.TabDiagnosa2.setSelectedIndex(0);
+//                        ajukan.emptTeksJKN();
+//                        ajukan.setVisible(true);
                         if (Chktgl.isSelected() == true) {
                             tampilKLAIM();
                         } else {
@@ -2904,39 +2986,39 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                     }
                 } else if (cekKlaim > 0) {
                     if (akses.getkode().equals("Admin Utama")) {
-                        ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                        ajukan.setLocationRelativeTo(internalFrame1);
-                        if (kd_payor.equals("73")) {
-                            ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                        } else {
-                            ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                        }
-                        ajukan.tarifRS(noRawat.getText());
-                        ajukan.TabRawat.setEnabled(true);
-                        ajukan.TabRawat.setSelectedIndex(1);
-                        ajukan.TabDiagnosa2.setSelectedIndex(0);
-                        ajukan.emptTeksJKN();
-                        ajukan.setVisible(true);
+//                        ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+//                        ajukan.setLocationRelativeTo(internalFrame1);
+//                        if (kd_payor.equals("73")) {
+//                            ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
+//                        } else {
+//                            ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
+//                        }
+//                        ajukan.tarifRS(noRawat.getText());
+//                        ajukan.TabRawat.setEnabled(true);
+//                        ajukan.TabRawat.setSelectedIndex(1);
+//                        ajukan.TabDiagnosa2.setSelectedIndex(0);
+//                        ajukan.emptTeksJKN();
+//                        ajukan.setVisible(true);
                         if (Chktgl.isSelected() == true) {
                             tampilKLAIM();
                         } else {
                             tampilSEP();
                         }
                     } else {
-                        ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                        ajukan.setLocationRelativeTo(internalFrame1);
-                        if (kd_payor.equals("73")) {
-                            ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                        } else {
-                            ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                        }
-                        ajukan.tarifRS(noRawat.getText());
-                        ajukan.TabRawat.setEnabledAt(0, false);
-                        ajukan.TabRawat.setEnabledAt(1, true);
-                        ajukan.TabRawat.setSelectedIndex(1);
-                        ajukan.TabDiagnosa2.setSelectedIndex(0);
-                        ajukan.emptTeksJKN();
-                        ajukan.setVisible(true);
+//                        ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+//                        ajukan.setLocationRelativeTo(internalFrame1);
+//                        if (kd_payor.equals("73")) {
+//                            ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
+//                        } else {
+//                            ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
+//                        }
+//                        ajukan.tarifRS(noRawat.getText());
+//                        ajukan.TabRawat.setEnabledAt(0, false);
+//                        ajukan.TabRawat.setEnabledAt(1, true);
+//                        ajukan.TabRawat.setSelectedIndex(1);
+//                        ajukan.TabDiagnosa2.setSelectedIndex(0);
+//                        ajukan.emptTeksJKN();
+//                        ajukan.setVisible(true);
                         if (Chktgl.isSelected() == true) {
                             tampilKLAIM();
                         } else {
@@ -2946,41 +3028,42 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                 }
             }
         } else {
+            Sequel.mengedit("jamkeskinda_jaminan","no_rawat=? and no_jaminan=?","status_inacbg='Terkirim' ",2,new String[]{noRawat.getText(),nosep_klaim.getText()});
             if (cekKlaim == 0) {
                 if (akses.getkode().equals("Admin Utama")) {
-                    ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                    ajukan.setLocationRelativeTo(internalFrame1);
-                    if (kd_payor.equals("73")) {
-                        ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                    } else {
-                        ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                    }
-                    ajukan.tarifRS(noRawat.getText());
-                    ajukan.TabRawat.setEnabled(true);
-                    ajukan.TabRawat.setSelectedIndex(1);
-                    ajukan.TabDiagnosa2.setSelectedIndex(0);
-                    ajukan.emptTeksJKN();
-                    ajukan.setVisible(true);
+//                    ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+//                    ajukan.setLocationRelativeTo(internalFrame1);
+//                    if (kd_payor.equals("73")) {
+//                        ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
+//                    } else {
+//                        ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
+//                    }
+//                    ajukan.tarifRS(noRawat.getText());
+//                    ajukan.TabRawat.setEnabled(true);
+//                    ajukan.TabRawat.setSelectedIndex(1);
+//                    ajukan.TabDiagnosa2.setSelectedIndex(0);
+//                    ajukan.emptTeksJKN();
+//                    ajukan.setVisible(true);
                     if (Chktgl.isSelected() == true) {
                         tampilKLAIM();
                     } else {
                         tampilSEP();
                     }
                 } else {
-                    ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                    ajukan.setLocationRelativeTo(internalFrame1);
-                    if (kd_payor.equals("73")) {
-                        ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                    } else {
-                        ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                    }
-                    ajukan.tarifRS(noRawat.getText());
-                    ajukan.TabRawat.setEnabledAt(0, false);
-                    ajukan.TabRawat.setEnabledAt(1, true);
-                    ajukan.TabRawat.setSelectedIndex(1);
-                    ajukan.TabDiagnosa2.setSelectedIndex(0);
-                    ajukan.emptTeksJKN();
-                    ajukan.setVisible(true);
+//                    ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+//                    ajukan.setLocationRelativeTo(internalFrame1);
+//                    if (kd_payor.equals("73")) {
+//                        ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
+//                    } else {
+//                        ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
+//                    }
+//                    ajukan.tarifRS(noRawat.getText());
+//                    ajukan.TabRawat.setEnabledAt(0, false);
+//                    ajukan.TabRawat.setEnabledAt(1, true);
+//                    ajukan.TabRawat.setSelectedIndex(1);
+//                    ajukan.TabDiagnosa2.setSelectedIndex(0);
+//                    ajukan.emptTeksJKN();
+//                    ajukan.setVisible(true);
                     if (Chktgl.isSelected() == true) {
                         tampilKLAIM();
                     } else {
@@ -2989,39 +3072,39 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                 }
             } else if (cekKlaim > 0) {
                 if (akses.getkode().equals("Admin Utama")) {
-                    ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                    ajukan.setLocationRelativeTo(internalFrame1);
-                    if (kd_payor.equals("73")) {
-                        ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                    } else {
-                        ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                    }
-                    ajukan.tarifRS(noRawat.getText());
-                    ajukan.TabRawat.setEnabled(true);
-                    ajukan.TabRawat.setSelectedIndex(1);
-                    ajukan.TabDiagnosa2.setSelectedIndex(0);
-                    ajukan.emptTeksJKN();
-                    ajukan.setVisible(true);
+//                    ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+//                    ajukan.setLocationRelativeTo(internalFrame1);
+//                    if (kd_payor.equals("73")) {
+//                        ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
+//                    } else {
+//                        ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
+//                    }
+//                    ajukan.tarifRS(noRawat.getText());
+//                    ajukan.TabRawat.setEnabled(true);
+//                    ajukan.TabRawat.setSelectedIndex(1);
+//                    ajukan.TabDiagnosa2.setSelectedIndex(0);
+//                    ajukan.emptTeksJKN();
+//                    ajukan.setVisible(true);
                     if (Chktgl.isSelected() == true) {
                         tampilKLAIM();
                     } else {
                         tampilSEP();
                     }
                 } else {
-                    ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                    ajukan.setLocationRelativeTo(internalFrame1);
-                    if (kd_payor.equals("73")) {
-                        ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                    } else {
-                        ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                    }
-                    ajukan.tarifRS(noRawat.getText());
-                    ajukan.TabRawat.setEnabledAt(0, false);
-                    ajukan.TabRawat.setEnabledAt(1, true);
-                    ajukan.TabRawat.setSelectedIndex(1);
-                    ajukan.TabDiagnosa2.setSelectedIndex(0);
-                    ajukan.emptTeksJKN();
-                    ajukan.setVisible(true);
+//                    ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+//                    ajukan.setLocationRelativeTo(internalFrame1);
+//                    if (kd_payor.equals("73")) {
+//                        ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
+//                    } else {
+//                        ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
+//                    }
+//                    ajukan.tarifRS(noRawat.getText());
+//                    ajukan.TabRawat.setEnabledAt(0, false);
+//                    ajukan.TabRawat.setEnabledAt(1, true);
+//                    ajukan.TabRawat.setSelectedIndex(1);
+//                    ajukan.TabDiagnosa2.setSelectedIndex(0);
+//                    ajukan.emptTeksJKN();
+//                    ajukan.setVisible(true);
                     if (Chktgl.isSelected() == true) {
                         tampilKLAIM();
                     } else {
@@ -3037,6 +3120,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
         cekKlaim = Sequel.cariInteger("select count(-1) from eklaim_set_claim where no_sep='" + nosep_klaim.getText() + "' and tgl_masuk='" + tglSep + "'");
 
         if (cekKlaim == 0) {
+            
             if (akses.getkode().equals("Admin Utama")) {
                 ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
                 //ajukan.setLocationRelativeTo(internalFrame1);
@@ -3068,6 +3152,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                 ajukan.setVisible(true);
             }
         } else if (cekKlaim > 0) {
+            
             if (akses.getkode().equals("Admin Utama")) {
                 ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
                 //ajukan.setLocationRelativeTo(internalFrame1);
@@ -3101,68 +3186,66 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
 
     private void klaimLamaLAINYA() {
         cekKlaim = 0;
-        cekKlaim = Sequel.cariInteger("select count(-1) from eklaim_set_claim where no_sep='" + nosep_klaim.getText() + "'");
-
+        cekKlaim = Sequel.cariInteger("select count(-1) from eklaim_set_claim where no_sep='" + nosep_klaim.getText() + "' and tgl_masuk='" + tglSep + "'");
+         Sequel.mengedit("jamkeskinda_jaminan","no_rawat=? and no_jaminan=?","status_inacbg='Terkirim' ",2,new String[]{noRawat.getText(),nosep_klaim.getText()});
         if (cekKlaim == 0) {
             if (akses.getkode().equals("Admin Utama")) {
                 ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                ajukan.setLocationRelativeTo(internalFrame1);
-                if (kd_payor.equals("73")) {
-                    ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                } else {
-                    ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                }
+                //ajukan.setLocationRelativeTo(internalFrame1);
+                 ajukan.setLocationRelativeTo(this);
+                 this.dispose();
+                ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, "5", "-", tglSep);
                 ajukan.tarifRS(noRawat.getText());
+                ajukan.TombolCek();
                 ajukan.TabRawat.setEnabled(true);
-                ajukan.TabRawat.setSelectedIndex(1);
-                ajukan.TabDiagnosa2.setSelectedIndex(0);
-                ajukan.emptTeksJKN();
+                ajukan.TabRawat.setSelectedIndex(0);
+                ajukan.TabDiagnosa1.setSelectedIndex(0);
+                ajukan.TabProsedur1.setSelectedIndex(0);
+                ajukan.emptTeksLAINNYA();
                 ajukan.setVisible(true);
             } else {
                 ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                ajukan.setLocationRelativeTo(internalFrame1);
-                if (kd_payor.equals("73")) {
-                    ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                } else {
-                    ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                }
+                //ajukan.setLocationRelativeTo(internalFrame1);
+                 ajukan.setLocationRelativeTo(this);
+                 this.dispose();
+                ajukan.setKlaim(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, "5", "-",tglSep);
                 ajukan.tarifRS(noRawat.getText());
-                ajukan.TabRawat.setEnabledAt(0, false);
-                ajukan.TabRawat.setEnabledAt(1, true);
-                ajukan.TabRawat.setSelectedIndex(1);
-                ajukan.TabDiagnosa2.setSelectedIndex(0);
-                ajukan.emptTeksJKN();
+                ajukan.TombolCek();
+                ajukan.TabRawat.setEnabledAt(1, false);
+                ajukan.TabRawat.setEnabledAt(0, true);
+                ajukan.TabRawat.setSelectedIndex(0);
+                ajukan.TabDiagnosa1.setSelectedIndex(0);
+                ajukan.TabProsedur1.setSelectedIndex(0);
+                ajukan.emptTeksLAINNYA();
                 ajukan.setVisible(true);
             }
         } else if (cekKlaim > 0) {
             if (akses.getkode().equals("Admin Utama")) {
                 ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                ajukan.setLocationRelativeTo(internalFrame1);
-                if (kd_payor.equals("73")) {
-                    ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                } else {
-                    ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-",tglKunj);
-                }
+                //ajukan.setLocationRelativeTo(internalFrame1);
+                 ajukan.setLocationRelativeTo(this);
+                 this.dispose();
+                ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, "5", "-", tglSep);
                 ajukan.tarifRS(noRawat.getText());
                 ajukan.TabRawat.setEnabled(true);
-                ajukan.TabRawat.setSelectedIndex(1);
-                ajukan.TabDiagnosa2.setSelectedIndex(0);
-                ajukan.emptTeksJKN();
+                ajukan.TabRawat.setSelectedIndex(0);
+                ajukan.TabDiagnosa1.setSelectedIndex(0);
+                ajukan.TabProsedur1.setSelectedIndex(0);
+                ajukan.emptTeksLAINNYA();
                 ajukan.setVisible(true);
             } else {
                 ajukan.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
-                ajukan.setLocationRelativeTo(internalFrame1);
-                if (kd_payor.equals("73")) {
-                    ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, nmibu, tglKunj);
-                } else {
-                    ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, kd_payor, "-", tglKunj);
-                }
+               //ajukan.setLocationRelativeTo(internalFrame1);
+                 ajukan.setLocationRelativeTo(this);
+                 this.dispose();
+                ajukan.setKlaimAda(noRawat.getText(), nosep_klaim.getText(), jnsKlaim, "5", "-", tglSep);
                 ajukan.tarifRS(noRawat.getText());
-                ajukan.TabRawat.setEnabledAt(0, false);
-                ajukan.TabRawat.setEnabledAt(1, true);
-                ajukan.TabRawat.setSelectedIndex(1);
-                ajukan.TabDiagnosa2.setSelectedIndex(0);
-                ajukan.emptTeksJKN();
+                ajukan.TabRawat.setEnabledAt(1, false);
+                ajukan.TabRawat.setEnabledAt(0, true);
+                ajukan.TabRawat.setSelectedIndex(0);
+                ajukan.TabDiagnosa1.setSelectedIndex(0);
+                ajukan.TabProsedur1.setSelectedIndex(0);
+                ajukan.emptTeksLAINNYA();
                 ajukan.setVisible(true);
             }
         }
@@ -3180,6 +3263,91 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
     
     public void verifData() {
         cekData = "dari luar";
+    }
+    
+    
+     public void KlaimRAZASekalianBanyak(String norw, String noSyaratKlaim, String nmKlaim, String kodepay) {
+        if (nmKlaim.equals("JKN")) {
+            jnsKlaim = nmKlaim;
+            noRawat.setText(norw);
+            nosep_klaim.setText(noSyaratKlaim);
+            cmbJnsKlaim.setSelectedIndex(1);
+            TCari1.setText("");
+            tgl.setDate(1);
+            tglA.setDate(tgl);
+            tglB.setDate(new Date());
+            kd_payor = kodepay;
+            cekSEP = "";
+                cekKlaim = 0;
+                cekSEP = Sequel.cariIsi("SELECT no_sep FROM eklaim_new_claim WHERE no_sep='" + nosep_klaim.getText() + "' and tglsep='" + tglSep + "'");
+                cekKlaim = Sequel.cariInteger("select count(-1) from eklaim_set_claim where no_sep='" + nosep_klaim.getText() + "' and tgl_masuk='" + tglSep + "'");
+
+                if (cekSEP.equals("")) {
+                    mbak_eka.ngirimJKNSekalianBanyak(noRawat.getText());
+                        if (cekKlaim == 0) {
+                            if (akses.getkode().equals("Admin Utama")) {
+                                if (Chktgl.isSelected() == true) {
+                                    tampilKLAIM();
+                                } else {
+                                    tampilSEP();
+                                }
+                            } else {
+                                if (Chktgl.isSelected() == true) {
+                                    tampilKLAIM();
+                                } else {
+                                    tampilSEP();
+                                }
+                            }
+                        } else if (cekKlaim > 0) {
+                            if (akses.getkode().equals("Admin Utama")) {
+                                if (Chktgl.isSelected() == true) {
+                                    tampilKLAIM();
+                                } else {
+                                    tampilSEP();
+                                }
+                            } else {
+                                if (Chktgl.isSelected() == true) {
+                                    tampilKLAIM();
+                                } else {
+                                    tampilSEP();
+                                }
+                            }
+                        }
+                } else {
+                    if (cekKlaim == 0) {
+                        if (akses.getkode().equals("Admin Utama")) {
+                            if (Chktgl.isSelected() == true) {
+                                    tampilKLAIM();
+                                } else {
+                                    tampilSEP();
+                                }
+
+                        } else {
+                            if (Chktgl.isSelected() == true) {
+                                    tampilKLAIM();
+                                } else {
+                                    tampilSEP();
+                                }
+
+                        }
+                    } else if (cekKlaim > 0) {
+                        if (akses.getkode().equals("Admin Utama")) {
+                            if (Chktgl.isSelected() == true) {
+                                    tampilKLAIM();
+                                } else {
+                                    tampilSEP();
+                                }
+
+                        } else {
+                            if (Chktgl.isSelected() == true) {
+                                    tampilKLAIM();
+                                } else {
+                                    tampilSEP();
+                                }
+                             }
+                        }    
+                    }
+        }
     }
     
 }

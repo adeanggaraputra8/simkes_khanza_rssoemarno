@@ -61,7 +61,7 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
         initComponents();
 
         Object[] row={"P","Kode Paket","Nama Operasi","Kategori","Operator 1","Operator 2","Operator 3",
-                      "Asisten Op 1","Asisten Op 2","Asisten Op 3","Instrumen","dr Anak","Perawat Resus","dr Anastesi",
+                      "Asisten Op 1","Asisten Op 2","Asisten Op 3","Instrumen","dr Anak","Asisten Anast 2","dr Anastesi",
                       "Asisten Anast 1","Asisten Anast 2","Bidan 1","Bidan 2","Bidan 3","Perawat Luar","Alat","Sewa OK/VK",
                       "Akomodasi","N.M.S.","Onloop 1","Onloop 2","Onloop 3","Onloop 4","Onloop 5",
                       "Sarpras","dr Pj Anak","dr Umum","Total"};
@@ -1373,7 +1373,7 @@ public class DlgTagihanOperasi extends javax.swing.JDialog {
         FormInput.add(kdprwresust);
         kdprwresust.setBounds(510, 220, 100, 23);
 
-        label24.setText("Prw.Resusitasi :");
+        label24.setText("Ast. Anestesi 3 :");
         label24.setName("label24"); // NOI18N
         label24.setPreferredSize(new java.awt.Dimension(70, 23));
         FormInput.add(label24);
@@ -2743,7 +2743,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         }else if(kdasistanestesi2.getText().trim().equals("")||nmasistanestesi2.getText().trim().equals("")){
             Valid.textKosong(kdasistanestesi2,"Asisten Anastesi 2");
         }else if(kdprwresust.getText().trim().equals("")||nmprwresust.getText().trim().equals("")){
-            Valid.textKosong(kdprwresust,"Perawat Resusitas");
+            Valid.textKosong(kdprwresust,"Asisten Anastesi 3");
         }else if(kdprwluar.getText().trim().equals("")||nmprwluar.getText().trim().equals("")){
             Valid.textKosong(kdprwluar,"Perawat Luar");
         }else if(kdpjanak.getText().trim().equals("")||nmpjanak.getText().trim().equals("")){

@@ -133,73 +133,201 @@ public class ApiEKLAIM_inacbg {
         return x;
     }
 
-    public boolean ngirimLAINYA(String norawat, String noIdentitas, String tglReg, String jnsrwt, String norm, String nmPas, String tglLhr, String jk, String payor) {
+    
+     public void ngirimJKNSekalianBanyak(String noRawat) {
         try {
-            headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.add("Content-Type", "application/json;charset=UTF-8");
-            requestJson10
-                    = "{"
-                    + "\"metadata\": {"
-                    + "\"method\": \"generate_claim_number\""
-                    + "},"
-                    + "\"data\": {"
-                    + "\"no_rawat\": \"" + norawat + "\","
-                    + "\"payor_id\": \"" + payor + "\""
-                    + "}"
-                    + "}";
+            ps = koneksi.prepareStatement("select bs.no_kartu, bs.no_sep, bs.nomr, bs.nama_pasien, "
+                    + "concat(bs.tanggal_lahir,' ','00:00:00') tgl_lhr, if(p.jk='L','1','2') jk, bs.tglsep, "
+                    + "bs.jnspelayanan from bridging_sep bs INNER JOIN pasien p ON p.no_rkm_medis=bs.nomr where no_rawat='" + noRawat + "'");
+            try {
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    headers.add("Content-Type", "application/json;charset=UTF-8");
+                    requestJson1
+                            = "{"
+                            + "\"metadata\": {"
+                            + "\"method\": \"new_claim\""
+                            + "},"
+                            + "\"data\": {"
+                            + "\"no_rawat\": \"" + noRawat + "\","
+                            + "\"nomor_kartu\": \"" + rs.getString("no_kartu") + "\","
+                            + "\"nomor_sep\": \"" + rs.getString("no_sep") + "\","
+                            + "\"tglsep\": \"" + rs.getString("tglsep") + "\","
+                            + "\"jnspelayanan\": \"" + rs.getString("jnspelayanan") + "\","
+                            + "\"nomor_rm\": \"" + rs.getString("nomr") + "\","
+                            + "\"nama_pasien\": \"" + rs.getString("nama_pasien") + "\","
+                            + "\"tgl_lahir\": \"" + rs.getString("tgl_lhr") + "\","
+                            + "\"gender\": \"" + rs.getString("jk") + "\""
+                            + "}"
+                            + "}";
 
-            System.out.println("JSON : " + requestJson10);
-            requestEntity = new HttpEntity(requestJson10, headers);
-            stringbalik = getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody();
-            System.out.println("Output : " + stringbalik);
-            root = mapper.readTree(stringbalik);
+                    System.out.println("JSON : " + requestJson1);
+                    requestEntity = new HttpEntity(requestJson1, headers);
+                    stringbalik = getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody();
+                    System.out.println("Output : " + stringbalik);
+                    root = mapper.readTree(stringbalik);
 
-            if (root.path("metadata").path("code").asText().equals("200")) {
-                //-------------------------------------------------------
-                headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_JSON);
-                headers.add("Content-Type", "application/json;charset=UTF-8");
-                requestJson11
-                        = "{"
-                        + "\"metadata\": {"
-                        + "\"method\": \"new_claim\""
-                        + "},"
-                        + "\"data\": {"
-                        + "\"no_rawat\": \"" + norawat + "\","
-                        + "\"nomor_kartu\": \"" + noIdentitas + "\","
-                        + "\"nomor_sep\": \"" + root.path("metadata").path("claim_number").asText() + "\","
-                        + "\"tglsep\": \"" + tglReg + "\","
-                        + "\"jnspelayanan\": \"" + jnsrwt + "\","
-                        + "\"nomor_rm\": \"" + norm + "\","
-                        + "\"nama_pasien\": \"" + nmPas + "\","
-                        + "\"tgl_lahir\": \"" + tglLhr + "\","
-                        + "\"gender\": \"" + jk + "\""
-                        + "}"
-                        + "}";
+                    if (root.path("metadata").path("code").asText().equals("200")) {
+                       System.out.print(root.path("metadata").path("message").asText());     
+                    } else {
+                        JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText());
+                    }
 
-                System.out.println("JSON : " + requestJson11);
-                requestEntity = new HttpEntity(requestJson11, headers);
-                stringbalik = getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody();
-                System.out.println("Output : " + stringbalik);
-                root = mapper.readTree(stringbalik);
-
-                if (root.path("metadata").path("code").asText().equals("200")) {
-                    JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText());
-                    x = true;
-                } else {
-                    JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText());
-                    x = false;
                 }
-                //-------------------------------------------------------
-            } else {
-                JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText());
-                x = false;
+            } catch (Exception e) {
+                System.out.println("Notif : " + e);
+                if (e.toString().contains("UnknownHostException") || e.toString().contains("false")) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } finally {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
             }
-        } catch (Exception erornya) {
-            System.out.println("Notifikasi : " + erornya);
-            if (erornya.toString().contains("UnknownHostException") || erornya.toString().contains("false")) {
-                JOptionPane.showMessageDialog(null, erornya);
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : " + ex);
+            if (ex.toString().contains("UnknownHostException") || ex.toString().contains("false")) {
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        }
+    }
+    
+    public boolean ngirimLAINYA(String norawat) {
+//        try {
+//            headers = new HttpHeaders();
+//            headers.setContentType(MediaType.APPLICATION_JSON);
+//            headers.add("Content-Type", "application/json;charset=UTF-8");
+//            requestJson10
+//                    = "{"
+//                    + "\"metadata\": {"
+//                    + "\"method\": \"generate_claim_number\""
+//                    + "},"
+//                    + "\"data\": {"
+//                    + "\"no_rawat\": \"" + norawat + "\","
+//                    + "\"payor_id\": \"" + payor + "\""
+//                    + "}"
+//                    + "}";
+//
+//            System.out.println("JSON : " + requestJson10);
+//            requestEntity = new HttpEntity(requestJson10, headers);
+//            stringbalik = getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody();
+//            System.out.println("Output : " + stringbalik);
+//            root = mapper.readTree(stringbalik);
+//
+//            if (root.path("metadata").path("code").asText().equals("200")) {
+//                //-------------------------------------------------------
+//                headers = new HttpHeaders();
+//                headers.setContentType(MediaType.APPLICATION_JSON);
+//                headers.add("Content-Type", "application/json;charset=UTF-8");
+//                requestJson11
+//                        = "{"
+//                        + "\"metadata\": {"
+//                        + "\"method\": \"new_claim\""
+//                        + "},"
+//                        + "\"data\": {"
+//                        + "\"no_rawat\": \"" + norawat + "\","
+//                        + "\"nomor_kartu\": \"" + noIdentitas + "\","
+//                        + "\"nomor_sep\": \"" + root.path("metadata").path("claim_number").asText() + "\","
+//                        + "\"tglsep\": \"" + tglReg + "\","
+//                        + "\"jnspelayanan\": \"" + jnsrwt + "\","
+//                        + "\"nomor_rm\": \"" + norm + "\","
+//                        + "\"nama_pasien\": \"" + nmPas + "\","
+//                        + "\"tgl_lahir\": \"" + tglLhr + "\","
+//                        + "\"gender\": \"" + jk + "\""
+//                        + "}"
+//                        + "}";
+//
+//                System.out.println("JSON : " + requestJson11);
+//                requestEntity = new HttpEntity(requestJson11, headers);
+//                stringbalik = getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody();
+//                System.out.println("Output : " + stringbalik);
+//                root = mapper.readTree(stringbalik);
+//
+//                if (root.path("metadata").path("code").asText().equals("200")) {
+//                    JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText());
+//                    x = true;
+//                } else {
+//                    JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText());
+//                    x = false;
+//                }
+//                //-------------------------------------------------------
+//            } else {
+//                JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText());
+//                x = false;
+//            }
+//        } catch (Exception erornya) {
+//            System.out.println("Notifikasi : " + erornya);
+//            if (erornya.toString().contains("UnknownHostException") || erornya.toString().contains("false")) {
+//                JOptionPane.showMessageDialog(null, erornya);
+//            }
+//        }
+//        return x;
+
+          try {
+            ps = koneksi.prepareStatement("select bs.no_kartu, bs.no_jaminan, p.no_rkm_medis, p.nm_pasien, " +
+                "concat(p.tgl_lahir,' ','00:00:00') tgl_lhr, if(p.jk='L','1','2') jk, bs.tgl_kunjungan, " +
+                "if(bs.status='Ranap','1','2') jnspelayanan from jamkeskinda_jaminan bs INNER JOIN reg_periksa rp ON rp.no_rawat=bs.no_rawat INNER JOIN pasien p ON rp.no_rkm_medis=p.no_rkm_medis  where bs.no_rawat='" + norawat + "'");
+            try {
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    headers.add("Content-Type", "application/json;charset=UTF-8");
+                    requestJson10
+                            = "{"
+                            + "\"metadata\": {"
+                            + "\"method\": \"new_claim\""
+                            + "},"
+                            + "\"data\": {"
+                            + "\"no_rawat\": \"" + norawat + "\","
+                            + "\"nomor_kartu\": \"" + rs.getString("no_kartu") + "\","
+                            + "\"nomor_sep\": \"" + rs.getString("no_jaminan") + "\","
+                            + "\"tglsep\": \"" + rs.getString("tgl_kunjungan") + "\","
+                            + "\"jnspelayanan\": \"" + rs.getString("jnspelayanan") + "\","
+                            + "\"nomor_rm\": \"" + rs.getString("no_rkm_medis") + "\","
+                            + "\"nama_pasien\": \"" + rs.getString("nm_pasien") + "\","
+                            + "\"tgl_lahir\": \"" + rs.getString("tgl_lhr") + "\","
+                            + "\"gender\": \"" + rs.getString("jk") + "\""
+                            + "}"
+                            + "}";
+
+                    System.out.println("JSON : " + requestJson10);
+                    requestEntity = new HttpEntity(requestJson10, headers);
+                    stringbalik = getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody();
+                    System.out.println("Output : " + stringbalik);
+                    root = mapper.readTree(stringbalik);
+
+                    if (root.path("metadata").path("code").asText().equals("200")) {
+                        JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText());
+                        x = true;
+                    } else {
+                        JOptionPane.showMessageDialog(null, root.path("metadata").path("message").asText());
+                        x = false;
+                    }
+
+                }
+            } catch (Exception e) {
+                System.out.println("Notif : " + e);
+                if (e.toString().contains("UnknownHostException") || e.toString().contains("false")) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+            } finally {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : " + ex);
+            if (ex.toString().contains("UnknownHostException") || ex.toString().contains("false")) {
+                JOptionPane.showMessageDialog(null, ex);
             }
         }
         return x;

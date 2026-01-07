@@ -473,17 +473,18 @@ public class DlgPasswordBPJS extends javax.swing.JDialog {
             Valid.textKosong(TKd,"User Name");
         }else if(TPass.getText().trim().equals("")){
             Valid.textKosong(TPass,"Password");
-        }else if(tabMode.getRowCount()==0){
+        }else if(tabMode.getRowCount()>=0){
             if(Sequel.menyimpantf("password_asuransi","?,aes_encrypt(?,'nur'),aes_encrypt(?,'windi')","Cara Bayar",3,new String[]{
                 kdpj.getText(),TKd.getText(),TPass.getText()
             })==true){
                 tampil();
                 emptTeks();
             }
-        }else if(tabMode.getRowCount()>0){
-            JOptionPane.showMessageDialog(null,"Maaf, Hanya diijinkan satu pengaturan ...!!!!");
-            TKd.requestFocus();
         }
+//        else if(tabMode.getRowCount()>0){
+//            JOptionPane.showMessageDialog(null,"Maaf, Hanya diijinkan satu pengaturan ...!!!!");
+//            TKd.requestFocus();
+//        }
     }//GEN-LAST:event_BtnSimpanActionPerformed
 
     private void tbSpesialisKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbSpesialisKeyPressed

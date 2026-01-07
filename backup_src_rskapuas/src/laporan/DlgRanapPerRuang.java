@@ -214,13 +214,13 @@ public final class DlgRanapPerRuang extends javax.swing.JDialog {
         setUndecorated(true);
         setResizable(false);
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Data Laporan Rawat Inap Per Ruang ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50,50,50))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Data Laporan Rawat Inap Per Ruang ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
         TabRawat.setBackground(new java.awt.Color(255, 255, 253));
         TabRawat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(241, 246, 236)));
-        TabRawat.setForeground(new java.awt.Color(50,50,50));
+        TabRawat.setForeground(new java.awt.Color(50, 50, 50));
         TabRawat.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         TabRawat.setName("TabRawat"); // NOI18N
         TabRawat.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -690,10 +690,12 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                 while(rs.next()){
                     jmlpasien=0;
                     ps2=koneksi.prepareStatement(
-                        "select count(reg_periksa.no_rawat) from reg_periksa inner join kamar_inap inner join kamar "+
-                        "on reg_periksa.no_rawat=kamar_inap.no_rawat and kamar_inap.kd_kamar=kamar.kd_kamar  "+
-                        "where reg_periksa.status_lanjut='Ranap' and reg_periksa.tgl_registrasi between ? and ? "+
-                        "and kamar.kd_bangsal=? and reg_periksa.kd_pj like ? group by reg_periksa.no_rawat");
+                        "SELECT COUNT(DISTINCT ki.no_rawat) FROM kamar_inap ki " +
+                        "INNER JOIN reg_periksa rp ON rp.no_rawat=ki.no_rawat " +
+                        "INNER JOIN kamar k ON ki.kd_kamar = k.kd_kamar " +
+                        "INNER JOIN bangsal b ON k.kd_bangsal = b.kd_bangsal " +
+                        "WHERE ki.stts_pulang <> 'Pindah Kamar'AND ki.tgl_masuk BETWEEN ? AND ? AND b.status = '1' AND k.kd_bangsal like ? AND rp.kd_pj like ? " +
+                        "GROUP BY k.kd_bangsal ORDER BY b.nm_bangsal;");
                     try {
                         ps2.setString(1,Valid.SetTgl(Tgl1.getSelectedItem()+""));
                         ps2.setString(2,Valid.SetTgl(Tgl2.getSelectedItem()+""));
@@ -785,10 +787,12 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                 while(rs.next()){
                     jmlpasien=0;
                     ps2=koneksi.prepareStatement(
-                        "select count(reg_periksa.no_rawat) from reg_periksa inner join kamar_inap inner join kamar "+
-                        "on reg_periksa.no_rawat=kamar_inap.no_rawat and kamar_inap.kd_kamar=kamar.kd_kamar  "+
-                        "where kamar_inap.stts_pulang<>'Pindah Kamar' and kamar_inap.tgl_keluar between ? and ? "+
-                        "and kamar.kd_bangsal=? and reg_periksa.kd_pj like ? group by reg_periksa.no_rawat");
+                        "SELECT COUNT(DISTINCT ki.no_rawat) FROM kamar_inap ki " +
+                        "INNER JOIN reg_periksa rp ON rp.no_rawat=ki.no_rawat " +
+                        "INNER JOIN kamar k ON ki.kd_kamar = k.kd_kamar " +
+                        "INNER JOIN bangsal b ON k.kd_bangsal = b.kd_bangsal " +
+                        "WHERE ki.stts_pulang <> 'Pindah Kamar'AND ki.tgl_keluar BETWEEN ? AND ? AND b.status = '1' AND k.kd_bangsal like ? AND rp.kd_pj like ? " +
+                        "GROUP BY k.kd_bangsal ORDER BY b.nm_bangsal;");
                     try {
                         ps2.setString(1,Valid.SetTgl(Tgl1.getSelectedItem()+""));
                         ps2.setString(2,Valid.SetTgl(Tgl2.getSelectedItem()+""));

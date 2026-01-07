@@ -113,6 +113,7 @@ import inventory.DlgCopyResep;
 import java.sql.SQLException;
 import permintaan.DlgPermintaanRanap;
 import modifikasi.DlgPenjualan1;
+import modifikasi.JAMKESKINDASEP;
 import permintaan.DlgPermintaanPelayananInformasiObat;
 import rekammedis.RMCatatanADIMEGizi;
 import rekammedis.RMChecklistKriteriaMasukHCU;
@@ -192,6 +193,7 @@ public final class DlgIGD extends javax.swing.JDialog {
     public  DlgRujukMasuk rujukmasuk=new DlgRujukMasuk(null,false);
     private DlgCatatan catatan=new DlgCatatan(null,false);
     private DlgRujukanPoliInternal dlgrjk=new DlgRujukanPoliInternal(null,false);
+    private JAMKESKINDASEP jamkeskinda=new JAMKESKINDASEP(null,false);
     private BPJSCekNoKartu cekViaBPJSKartu=new BPJSCekNoKartu();
     private BPJSCekNIK cekViaBPJSNik=new BPJSCekNIK();
     private PreparedStatement ps,ps2,ps3,ps4,ps5,pscaripiutang,psdx,pspd;
@@ -1178,6 +1180,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         btnCekBridging = new widget.Button();
         jLabel38 = new widget.Label();
         CmbJnsPasien = new widget.ComboBox();
+        BtnCekBPJS = new widget.Button();
         ChkInput = new widget.CekBox();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
@@ -4778,7 +4781,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         DlgSakit.setUndecorated(true);
         DlgSakit.setResizable(false);
 
-        internalFrame3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Cetak Surat Sakit ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 15), new java.awt.Color(50, 70, 50))); // NOI18N
+        internalFrame3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Cetak Surat Sakit ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(50, 70, 50))); // NOI18N
         internalFrame3.setName("internalFrame3"); // NOI18N
         internalFrame3.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -4787,7 +4790,7 @@ public final class DlgIGD extends javax.swing.JDialog {
 
         TglSakit1.setEditable(false);
         TglSakit1.setForeground(new java.awt.Color(50, 70, 50));
-        TglSakit1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-04-2025" }));
+        TglSakit1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-05-2025" }));
         TglSakit1.setDisplayFormat("dd-MM-yyyy");
         TglSakit1.setName("TglSakit1"); // NOI18N
         TglSakit1.setOpaque(false);
@@ -4835,7 +4838,7 @@ public final class DlgIGD extends javax.swing.JDialog {
 
         TglSakit2.setEditable(false);
         TglSakit2.setForeground(new java.awt.Color(50, 70, 50));
-        TglSakit2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-04-2025" }));
+        TglSakit2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-05-2025" }));
         TglSakit2.setDisplayFormat("dd-MM-yyyy");
         TglSakit2.setName("TglSakit2"); // NOI18N
         TglSakit2.setOpaque(false);
@@ -4861,7 +4864,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         DlgDemografi.setUndecorated(true);
         DlgDemografi.setResizable(false);
 
-        internalFrame4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Demografi Pendaftar ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 15), new java.awt.Color(50, 70, 50))); // NOI18N
+        internalFrame4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Demografi Pendaftar ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(50, 70, 50))); // NOI18N
         internalFrame4.setName("internalFrame4"); // NOI18N
         internalFrame4.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -5015,7 +5018,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         DlgSakit2.setUndecorated(true);
         DlgSakit2.setResizable(false);
 
-        internalFrame5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Cetak Surat Keterangan Rawat Inap ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 15), new java.awt.Color(50, 70, 50))); // NOI18N
+        internalFrame5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Cetak Surat Keterangan Rawat Inap ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(50, 70, 50))); // NOI18N
         internalFrame5.setName("internalFrame5"); // NOI18N
         internalFrame5.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -5128,7 +5131,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         WindowRiwayatSingkat.setUndecorated(true);
         WindowRiwayatSingkat.setResizable(false);
 
-        internalFrame8.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Riwayat Kunjungan Pasien ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 15), new java.awt.Color(70, 70, 70))); // NOI18N
+        internalFrame8.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Riwayat Kunjungan Pasien ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(70, 70, 70))); // NOI18N
         internalFrame8.setName("internalFrame8"); // NOI18N
         internalFrame8.setPreferredSize(new java.awt.Dimension(516, 402));
         internalFrame8.setLayout(null);
@@ -5178,7 +5181,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         WindowEditNoKTP.setUndecorated(true);
         WindowEditNoKTP.setResizable(false);
 
-        internalFrame12.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Cek dan Edit No.KTP ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 15), new java.awt.Color(70, 70, 70))); // NOI18N
+        internalFrame12.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Cek dan Edit No.KTP ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(70, 70, 70))); // NOI18N
         internalFrame12.setName("internalFrame12"); // NOI18N
         internalFrame12.setLayout(null);
 
@@ -5361,7 +5364,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         WindowSttsPasienCovid.setUndecorated(true);
         WindowSttsPasienCovid.setResizable(false);
 
-        internalFrame13.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Status Pasien Covid ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 15), new java.awt.Color(70, 70, 70))); // NOI18N
+        internalFrame13.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Status Pasien Covid ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(70, 70, 70))); // NOI18N
         internalFrame13.setName("internalFrame13"); // NOI18N
         internalFrame13.setLayout(null);
 
@@ -5489,7 +5492,7 @@ public final class DlgIGD extends javax.swing.JDialog {
             }
         });
 
-        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Registrasi IGD Hari Ini ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 15), new java.awt.Color(70, 70, 70))); // NOI18N
+        internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Registrasi IGD Hari Ini ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(70, 70, 70))); // NOI18N
         internalFrame1.setName("internalFrame1"); // NOI18N
         internalFrame1.setLayout(new java.awt.BorderLayout(1, 1));
 
@@ -5676,7 +5679,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         panelGlass7.add(jLabel15);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-04-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-05-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -5690,7 +5693,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         panelGlass7.add(jLabel17);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-04-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-05-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -5841,7 +5844,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         jLabel9.setBounds(165, 72, 36, 23);
 
         DTPReg.setForeground(new java.awt.Color(50, 70, 50));
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-04-2025" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-05-2025" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -6117,7 +6120,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         jLabel12.setText("Info Pasien BPJS : ");
         jLabel12.setName("jLabel12"); // NOI18N
         FormInput.add(jLabel12);
-        jLabel12.setBounds(910, 10, 100, 23);
+        jLabel12.setBounds(940, 10, 100, 23);
 
         label_pesan.setEditable(false);
         label_pesan.setBorder(null);
@@ -6160,7 +6163,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         jLabel27.setText("Keterangan Pasien :");
         jLabel27.setName("jLabel27"); // NOI18N
         FormInput.add(jLabel27);
-        jLabel27.setBounds(910, 130, 97, 23);
+        jLabel27.setBounds(910, 130, 98, 23);
 
         JnsPasien.setForeground(new java.awt.Color(0, 0, 0));
         JnsPasien.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "KLL", "KLB", "KK/PAK" }));
@@ -6193,7 +6196,7 @@ public final class DlgIGD extends javax.swing.JDialog {
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/143.png"))); // NOI18N
         jLabel14.setName("jLabel14"); // NOI18N
         FormInput.add(jLabel14);
-        jLabel14.setBounds(1010, 10, 20, 23);
+        jLabel14.setBounds(1040, 10, 20, 23);
 
         jLabel19.setText("Unit :");
         jLabel19.setName("jLabel19"); // NOI18N
@@ -6290,6 +6293,18 @@ public final class DlgIGD extends javax.swing.JDialog {
         });
         FormInput.add(CmbJnsPasien);
         CmbJnsPasien.setBounds(1140, 130, 80, 23);
+
+        BtnCekBPJS.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/2rightarrow.png"))); // NOI18N
+        BtnCekBPJS.setMnemonic('3');
+        BtnCekBPJS.setToolTipText("ALt+3");
+        BtnCekBPJS.setName("BtnCekBPJS"); // NOI18N
+        BtnCekBPJS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnCekBPJSActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnCekBPJS);
+        BtnCekBPJS.setBounds(910, 10, 28, 23);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -6866,6 +6881,8 @@ public final class DlgIGD extends javax.swing.JDialog {
             }else if(evt.getKeyCode()==KeyEvent.VK_T){
                 ctk();
                 JOptionPane.showMessageDialog(null, "Proses Cetak Selesai...");
+            }else if(evt.getKeyCode()==KeyEvent.VK_J){
+                tampilkanjamkeskinda();
             }
         }
 }//GEN-LAST:event_tbPetugasKeyPressed
@@ -12635,6 +12652,14 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
         // TODO add your handling code here:
     }//GEN-LAST:event_CmbJnsPasienKeyPressed
 
+    private void BtnCekBPJSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCekBPJSActionPerformed
+        if(NoKa.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, No Kartu BPJS tidak boleh kosong...!!!");
+        }else{
+            tampilinfo2(NoKa.getText());
+        }
+    }//GEN-LAST:event_BtnCekBPJSActionPerformed
+
     /**
     * @data args the command line arguments
     */
@@ -12657,6 +12682,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private widget.Button BtnBatal;
     private widget.Button BtnCari;
     private widget.Button BtnCari1;
+    private widget.Button BtnCekBPJS;
     private widget.Button BtnCloseIn10;
     private widget.Button BtnCloseIn5;
     private widget.Button BtnCloseIn9;
@@ -13457,7 +13483,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             kdpoli.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),21).toString());
             TPoli.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),11).toString());
             TBiaya.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),15).toString());
-            label_pesan.setText("No.SEP :"+Sequel.cariIsi("SELECT  IFNULL(no_sep,'') FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"' AND tglsep='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),3).toString()+"' ORDER BY no_sep DESC LIMIT 1"));
+            //label_pesan.setText("No.SEP :"+Sequel.cariIsi("SELECT  IFNULL(no_sep,'') FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"' AND tglsep='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),3).toString()+"' ORDER BY no_sep DESC LIMIT 1"));
             isCekPasien2();
             TPngJwb.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),12).toString());
             TAlmt.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),13).toString());
@@ -13465,6 +13491,11 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             TStatus.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),16).toString());            
             nmpnj.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),17).toString());
             kdpnj.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),19).toString());
+            if(nmpnj.getText().equals("JAMKESKINDA")){
+                tampilinfo2(NoKa.getText());
+            }else{ 
+                label_pesan.setText("No.SEP :"+Sequel.cariIsi("SELECT  IFNULL(no_sep,'') FROM bridging_sep WHERE jnspelayanan='2' AND no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"' AND tglsep='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),3).toString()+"' ORDER BY no_sep DESC LIMIT 1"));
+            }
             if(Sequel.cariInteger("SELECT COUNT(a.no_rawat) FROM bridging_sep a,penilaian_medis_igd b,data_triase_igd c WHERE a.no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"' AND b.no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"' and c.no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"'")> 0){
                     MnResumeRawatJalan1.setEnabled(true);        
             }else{
@@ -14255,6 +14286,68 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                 Sequel.menyimpan("mutasi_berkas","'"+TNoRw.getText()+"','Sudah Dikirim',now(),'0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00'","status='Sudah Dikirim',dikirim=now()","no_rawat='"+TNoRw.getText()+"'");
                 if(tabMode.getRowCount()!=0){tampil();}
             }
+    }
+     
+     public void tampilinfo2(String nojkn) {
+        try {                  
+            cekViaBPJSKartu.tampil(nojkn);
+            label_pesan.setText("Status BPJS"       +": " +cekViaBPJSKartu.statusPesertaketerangan + "\n"                              
+                                + "Keterangan BPJS"   +": " +cekViaBPJSKartu.jenisPesertaketerangan
+            );
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+            if(ex.toString().contains("UnknownHostException")){
+                JOptionPane.showMessageDialog(rootPane,"Koneksi ke server BPJS terputus...!");
+            }
+        }
+        
+    }
+     
+    public  void tampilkanjamkeskinda (){
+       if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+            TCari.requestFocus();
+        }else if(TNoRw.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+            tbPetugas.requestFocus();
+        }else if(label_pesan.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, cek dulu data peserta BPJS...!!!");
+            BtnCekBPJS.requestFocus();
+        }else if(!nmpnj.getText().trim().equals("JAMKESKINDA")){
+            JOptionPane.showMessageDialog(null,"Maaf, cara bayar harus JAMKESKINDA...!!!");
+            btnPenjab.requestFocus();
+        }else{
+            if(tbPetugas.getSelectedRow()!= -1){
+                try {
+                    ps=koneksi.prepareStatement("select pasien.no_peserta,pasien.tgl_lahir,pasien.jk from pasien where pasien.no_rkm_medis=?");
+                    try {
+                        ps.setString(1,TNoRM.getText());
+                        rs=ps.executeQuery();
+                        if(rs.next()){
+                                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                                jamkeskinda.setNoRm(TNoRw.getText(),rs.getString("no_peserta"),TNoRM.getText(),TPasien.getText(),rs.getString("tgl_lahir"),rs.getString("jk"),label_pesan.getText(),kddokter.getText(),TDokter.getText(),kdpoli.getText(),TPoli.getText(),"Ralan");
+                                jamkeskinda.autoNumber();
+                                jamkeskinda.isCek();
+                                jamkeskinda.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                                jamkeskinda.setLocationRelativeTo(internalFrame1);
+                                jamkeskinda.setVisible(true);
+                                this.setCursor(Cursor.getDefaultCursor());
+                            }
+                    } catch (Exception e) {
+                        System.out.println("Notif : "+e);
+                    } finally{
+                        if(rs!=null){
+                            rs.close();
+                        }
+                        if(ps!=null){
+                            ps.close();
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Notif : "+e);
+                }
+            }
+        }  
     }
      
 }

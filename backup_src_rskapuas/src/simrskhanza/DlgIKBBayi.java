@@ -3973,7 +3973,7 @@ private void MnKartuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             BtnBatal.requestFocus();
         }else if(tabMode.getRowCount()!=0){
                 shk.SetNoRM(tbDokter.getValueAt(tbDokter.getSelectedRow(),0).toString());
-                shk.setSize(647,210);
+                shk.setSize(647,460);
                 shk.setLocationRelativeTo(internalFrame1);
                 shk.setAlwaysOnTop(false);
                 shk.setVisible(true);

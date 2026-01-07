@@ -2435,6 +2435,42 @@ public class PanelDiagnosa extends widget.panelisi {
                             rs2.close();
                         }
                     }
+                    // ====== BAGIAN HASIL RADIOLOGI ======
+                    try {
+                        PreparedStatement psRad = koneksi.prepareStatement(
+                            "SELECT tgl_periksa,jam,hasil FROM hasil_radiologi " +
+                            "WHERE no_rawat=? ORDER BY tgl_periksa,jam"
+                        );
+                        psRad.setString(1, rs.getString("no_rawat"));
+                        ResultSet rsRad = psRad.executeQuery();
+
+                        if (rsRad.next()) {
+                            htmlContent.append(
+                                "<tr class='isi'>" +
+                                    "<td valign='middle' bgcolor='#FFFFF8' align='center' width='7%'>Tanggal</td>" +
+                                    "<td valign='middle' bgcolor='#FFFFF8' align='center' colspan='9'>Hasil Bacaan Radiologi</td>" +
+                                "</tr>"
+                            );
+
+                            rsRad.beforeFirst();
+                            while (rsRad.next()) {
+                                htmlContent.append(
+                                    "<tr class='isi'>" +
+                                        "<td align='center'>" +
+                                            rsRad.getString("tgl_periksa") + "<br>" +
+                                            rsRad.getString("jam") +
+                                        "</td>" +
+                                        "<td align='left' colspan='9'>" +
+                                            rsRad.getString("hasil").replaceAll("(\\r\\n|\\r|\\n|\\n\\r)", "<br>")+"</td>"+
+                                    "</tr>"
+                                );
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Notif Radiologi : " + e);
+                    }
+                    // ====== END HASIL RADIOLOGI ======
                     htmlContent.append(
                                 "</table>"+
                             "</td>"+

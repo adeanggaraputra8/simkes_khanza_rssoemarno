@@ -553,7 +553,7 @@ public final class DlgPenanggungJawab extends javax.swing.JDialog {
         }else if(Attn.getText().trim().equals("")){
             Valid.textKosong(Attn,"Attn");
         }else{
-            Sequel.menyimpan("penjab","'"+KdAsuransi.getText()+"','"+NmAsuransi.getText()+"','"+Perusahaan.getText()+"','"+AlamatAsuransi.getText()+"','"+NoTelp.getText()+"','"+Attn.getText()+"'","Kode Penanggung/Askes/Asuransi");
+            Sequel.menyimpan("penjab","'"+KdAsuransi.getText()+"','"+NmAsuransi.getText()+"','"+Perusahaan.getText()+"','"+AlamatAsuransi.getText()+"','"+NoTelp.getText()+"','"+Attn.getText()+"','1'","Kode Penanggung/Askes/Asuransi");
             BtnCariActionPerformed(evt);
             emptTeks();
         }

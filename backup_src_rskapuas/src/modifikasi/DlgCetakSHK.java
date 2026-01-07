@@ -16,6 +16,7 @@ import fungsi.koneksiDB;
 import fungsi.sekuel;
 import fungsi.validasi;
 import fungsi.akses;
+import fungsi.batasInput;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -99,6 +100,9 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
             public void windowDeactivated(WindowEvent e) {}
         });
          
+         
+        TSaturasiTangan.setDocument(new batasInput((byte)10).getOnlyAngka(TSaturasiTangan));
+        TSaturasiKaki.setDocument(new batasInput((byte)10).getOnlyAngka(TSaturasiKaki));
          jam();
  
     }
@@ -134,6 +138,24 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
         CmbMenit = new widget.ComboBox();
         CmbDetik = new widget.ComboBox();
         ChkJln = new widget.CekBox();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel38 = new widget.Label();
+        jLabel10 = new widget.Label();
+        DTPTgl = new widget.Tanggal();
+        jLabel11 = new widget.Label();
+        CmbJam1 = new widget.ComboBox();
+        CmbMenit1 = new widget.ComboBox();
+        CmbDetik1 = new widget.ComboBox();
+        ChkJln1 = new widget.CekBox();
+        TSaturasiTangan = new widget.TextBox();
+        jLabel26 = new widget.Label();
+        jLabel27 = new widget.Label();
+        jLabel28 = new widget.Label();
+        TSaturasiKaki = new widget.TextBox();
+        jLabel29 = new widget.Label();
+        cmbHasil = new widget.ComboBox();
+        BtnSimpan1 = new widget.Button();
+        BtnKeluar5 = new widget.Button();
 
         NoMr.setEditable(false);
         NoMr.setHighlighter(null);
@@ -163,10 +185,12 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
         panelBiasa4.setName("panelBiasa4"); // NOI18N
         panelBiasa4.setLayout(null);
 
-        jLabel37.setText("Nama Petugas :");
+        jLabel37.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel37.setText("Pemeriksaan Skrining PJB");
+        jLabel37.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         jLabel37.setName("jLabel37"); // NOI18N
         panelBiasa4.add(jLabel37);
-        jLabel37.setBounds(7, 10, 140, 23);
+        jLabel37.setBounds(220, 200, 190, 23);
 
         BtnKeluar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
         BtnKeluar4.setMnemonic('U');
@@ -195,11 +219,11 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
         panelBiasa4.add(BtnPetugas);
         BtnPetugas.setBounds(470, 10, 28, 23);
 
-        jLabel24.setText("Kordinator / Karu :");
+        jLabel24.setText("Saturasi Tangan Kanan % :");
         jLabel24.setName("jLabel24"); // NOI18N
         jLabel24.setPreferredSize(new java.awt.Dimension(60, 23));
         panelBiasa4.add(jLabel24);
-        jLabel24.setBounds(7, 40, 140, 23);
+        jLabel24.setBounds(150, 310, 140, 23);
 
         Tnmptg.setEditable(false);
         Tnmptg.setHighlighter(null);
@@ -239,7 +263,7 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
 
         BtnSimpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Save.png"))); // NOI18N
         BtnSimpan.setMnemonic('T');
-        BtnSimpan.setText("SImpan");
+        BtnSimpan.setText("Simpan");
         BtnSimpan.setToolTipText("Alt+T");
         BtnSimpan.setName("BtnSimpan"); // NOI18N
         BtnSimpan.setPreferredSize(new java.awt.Dimension(100, 30));
@@ -251,7 +275,7 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
         panelBiasa4.add(BtnSimpan);
         BtnSimpan.setBounds(110, 130, 100, 30);
 
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-08-2025" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-11-2025" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -317,6 +341,161 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
         panelBiasa4.add(ChkJln);
         ChkJln.setBounds(490, 100, 23, 23);
 
+        jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jSeparator2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jSeparator2.setName("jSeparator2"); // NOI18N
+        panelBiasa4.add(jSeparator2);
+        jSeparator2.setBounds(10, 180, 560, 10);
+
+        jLabel38.setText("Nama Petugas :");
+        jLabel38.setName("jLabel38"); // NOI18N
+        panelBiasa4.add(jLabel38);
+        jLabel38.setBounds(7, 10, 140, 23);
+
+        jLabel10.setText("Tanggal :");
+        jLabel10.setName("jLabel10"); // NOI18N
+        panelBiasa4.add(jLabel10);
+        jLabel10.setBounds(10, 250, 140, 23);
+
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-11-2025" }));
+        DTPTgl.setDisplayFormat("dd-MM-yyyy");
+        DTPTgl.setName("DTPTgl"); // NOI18N
+        DTPTgl.setOpaque(false);
+        DTPTgl.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                DTPTglItemStateChanged(evt);
+            }
+        });
+        DTPTgl.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                DTPTglKeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(DTPTgl);
+        DTPTgl.setBounds(160, 250, 90, 23);
+
+        jLabel11.setText("Jam :");
+        jLabel11.setName("jLabel11"); // NOI18N
+        panelBiasa4.add(jLabel11);
+        jLabel11.setBounds(250, 250, 36, 23);
+
+        CmbJam1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        CmbJam1.setName("CmbJam1"); // NOI18N
+        CmbJam1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbJam1KeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(CmbJam1);
+        CmbJam1.setBounds(290, 250, 62, 23);
+
+        CmbMenit1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        CmbMenit1.setName("CmbMenit1"); // NOI18N
+        CmbMenit1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbMenit1KeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(CmbMenit1);
+        CmbMenit1.setBounds(360, 250, 62, 23);
+
+        CmbDetik1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        CmbDetik1.setName("CmbDetik1"); // NOI18N
+        CmbDetik1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbDetik1KeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(CmbDetik1);
+        CmbDetik1.setBounds(420, 250, 62, 23);
+
+        ChkJln1.setBorder(null);
+        ChkJln1.setSelected(true);
+        ChkJln1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ChkJln1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkJln1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ChkJln1.setName("ChkJln1"); // NOI18N
+        panelBiasa4.add(ChkJln1);
+        ChkJln1.setBounds(490, 250, 23, 23);
+
+        TSaturasiTangan.setName("TSaturasiTangan"); // NOI18N
+        TSaturasiTangan.setPreferredSize(new java.awt.Dimension(300, 23));
+        panelBiasa4.add(TSaturasiTangan);
+        TSaturasiTangan.setBounds(300, 310, 50, 23);
+
+        jLabel26.setText("Kordinator / Karu :");
+        jLabel26.setName("jLabel26"); // NOI18N
+        jLabel26.setPreferredSize(new java.awt.Dimension(60, 23));
+        panelBiasa4.add(jLabel26);
+        jLabel26.setBounds(7, 40, 140, 23);
+
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setText("Hasil :");
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setName("jLabel27"); // NOI18N
+        jLabel27.setPreferredSize(new java.awt.Dimension(60, 23));
+        panelBiasa4.add(jLabel27);
+        jLabel27.setBounds(380, 290, 70, 23);
+
+        jLabel28.setText("Saturasi Kaki % :");
+        jLabel28.setName("jLabel28"); // NOI18N
+        jLabel28.setPreferredSize(new java.awt.Dimension(60, 23));
+        panelBiasa4.add(jLabel28);
+        jLabel28.setBounds(150, 340, 140, 23);
+
+        TSaturasiKaki.setName("TSaturasiKaki"); // NOI18N
+        TSaturasiKaki.setPreferredSize(new java.awt.Dimension(300, 23));
+        panelBiasa4.add(TSaturasiKaki);
+        TSaturasiKaki.setBounds(300, 340, 50, 23);
+
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel29.setText("Hasil Pemeriksaan");
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel29.setName("jLabel29"); // NOI18N
+        jLabel29.setPreferredSize(new java.awt.Dimension(60, 23));
+        panelBiasa4.add(jLabel29);
+        jLabel29.setBounds(150, 290, 140, 23);
+
+        cmbHasil.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Lolos", "Ulang", "Rujuk" }));
+        cmbHasil.setName("cmbHasil"); // NOI18N
+        cmbHasil.setPreferredSize(new java.awt.Dimension(62, 28));
+        cmbHasil.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmbHasilKeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(cmbHasil);
+        cmbHasil.setBounds(440, 290, 90, 23);
+
+        BtnSimpan1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Save.png"))); // NOI18N
+        BtnSimpan1.setMnemonic('T');
+        BtnSimpan1.setText("Simpan");
+        BtnSimpan1.setToolTipText("Alt+T");
+        BtnSimpan1.setName("BtnSimpan1"); // NOI18N
+        BtnSimpan1.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnSimpan1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSimpan1ActionPerformed(evt);
+            }
+        });
+        panelBiasa4.add(BtnSimpan1);
+        BtnSimpan1.setBounds(120, 380, 100, 30);
+
+        BtnKeluar5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
+        BtnKeluar5.setMnemonic('U');
+        BtnKeluar5.setText("Tutup");
+        BtnKeluar5.setToolTipText("Alt+U");
+        BtnKeluar5.setName("BtnKeluar5"); // NOI18N
+        BtnKeluar5.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnKeluar5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnKeluar5ActionPerformed(evt);
+            }
+        });
+        panelBiasa4.add(BtnKeluar5);
+        BtnKeluar5.setBounds(440, 380, 100, 30);
+
         internalFrame5.add(panelBiasa4, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(internalFrame5, java.awt.BorderLayout.CENTER);
@@ -325,7 +504,7 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        emptTeks();
+        emptTeks1();
     }//GEN-LAST:event_formWindowOpened
 
     private void BtnKeluar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluar4ActionPerformed
@@ -352,14 +531,14 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
 
     private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
         if(TNoSHK.getText().trim().equals("")){
-           Valid.textKosong(TNoSHK,"Bo. SHK");
+           Valid.textKosong(TNoSHK,"No. SHK");
        }else if(Tnmptg.getText().trim().equals("")){
            Valid.textKosong(Tnmptg,"Nama");
        }else if(Tnmkordinator.getText().trim().equals("")){
            Valid.textKosong(Tnmkordinator,"Nama Kordinator");
        }else{
            Sequel.menyimpan("data_shk","'"+NoMr.getText()+"','"+NipPetugas.getText()+"','"+NipKordinator.getText()+"','"+TNoSHK.getText()+"','"+Valid.SetTgl(DTPReg.getSelectedItem()+"")+" "+CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem()+"'","Data SHK");
-           emptTeks();
+           emptTeks1();
            dispose();
        }
     }//GEN-LAST:event_BtnSimpanActionPerformed
@@ -384,6 +563,46 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
 
     }//GEN-LAST:event_CmbDetikKeyPressed
 
+    private void DTPTglItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_DTPTglItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DTPTglItemStateChanged
+
+    private void DTPTglKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DTPTglKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_DTPTglKeyPressed
+
+    private void CmbJam1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbJam1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbJam1KeyPressed
+
+    private void CmbMenit1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbMenit1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbMenit1KeyPressed
+
+    private void CmbDetik1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbDetik1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbDetik1KeyPressed
+
+    private void cmbHasilKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbHasilKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbHasilKeyPressed
+
+    private void BtnSimpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpan1ActionPerformed
+       if(TSaturasiTangan.getText().trim().equals("")||TSaturasiKaki.getText().trim().equals("")){
+          JOptionPane.showMessageDialog(null, "Maaf, Saturasi harus terisi...!");
+       }else if(cmbHasil.getSelectedItem().equals("-")){
+           JOptionPane.showMessageDialog(null, "Maaf, Pilihan untuk hasil tidak bisa - (min)...!");
+       }else{
+           Sequel.menyimpan("data_pjb","'"+NoMr.getText()+"','"+TSaturasiTangan.getText()+"','"+TSaturasiKaki.getText()+"','"+cmbHasil.getSelectedItem()+"','"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+" "+CmbJam1.getSelectedItem()+":"+CmbMenit1.getSelectedItem()+":"+CmbDetik1.getSelectedItem()+"'","Data PJB");
+           emptTeks2();
+           dispose();
+       }
+    }//GEN-LAST:event_BtnSimpan1ActionPerformed
+
+    private void BtnKeluar5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluar5ActionPerformed
+        dispose();
+    }//GEN-LAST:event_BtnKeluar5ActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -402,36 +621,60 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private widget.Button BtnKeluar4;
+    private widget.Button BtnKeluar5;
     private widget.Button BtnPetugas;
     private widget.Button BtnSimpan;
+    private widget.Button BtnSimpan1;
     private widget.Button Btnkordinator;
     private widget.CekBox ChkJln;
+    private widget.CekBox ChkJln1;
     private widget.ComboBox CmbDetik;
+    private widget.ComboBox CmbDetik1;
     private widget.ComboBox CmbJam;
+    private widget.ComboBox CmbJam1;
     private widget.ComboBox CmbMenit;
+    private widget.ComboBox CmbMenit1;
     private widget.Tanggal DTPReg;
+    private widget.Tanggal DTPTgl;
     private widget.TextBox NipKordinator;
     private widget.TextBox NipPetugas;
     private widget.TextBox NoMr;
     private widget.TextBox TNoSHK;
+    private widget.TextBox TSaturasiKaki;
+    private widget.TextBox TSaturasiTangan;
     private widget.TextBox Tnmkordinator;
     private widget.TextBox Tnmptg;
+    private widget.ComboBox cmbHasil;
     private widget.InternalFrame internalFrame5;
+    private widget.Label jLabel10;
+    private widget.Label jLabel11;
     private widget.Label jLabel24;
     private widget.Label jLabel25;
+    private widget.Label jLabel26;
+    private widget.Label jLabel27;
+    private widget.Label jLabel28;
+    private widget.Label jLabel29;
     private widget.Label jLabel37;
+    private widget.Label jLabel38;
     private widget.Label jLabel8;
     private widget.Label jLabel9;
+    private javax.swing.JSeparator jSeparator2;
     private widget.PanelBiasa panelBiasa4;
     // End of variables declaration//GEN-END:variables
 
-    public void emptTeks() {
+    public void emptTeks1() {
         Tnmptg.setText("");        
         Tnmkordinator.setText("");
         TNoSHK.setText("");
         NipPetugas.setText("");
         NipKordinator.setText("");
-    }    
+    } 
+    
+     public void emptTeks2() {
+        TSaturasiTangan.setText("");        
+        TSaturasiKaki.setText("");
+        cmbHasil.setSelectedIndex(0);
+    } 
     
     public void SetNoRM(String norm) {
         NoMr.setText(norm);   
@@ -442,10 +685,16 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
             private int nilai_jam;
             private int nilai_menit;
             private int nilai_detik;
+            private int nilai_jam1;
+            private int nilai_menit1;
+            private int nilai_detik1;
             public void actionPerformed(ActionEvent e) {
                 String nol_jam = "";
                 String nol_menit = "";
                 String nol_detik = "";
+                 String nol_jam1 = "";
+                String nol_menit1 = "";
+                String nol_detik1 = "";
                 
                 Date now = Calendar.getInstance().getTime();
 
@@ -459,31 +708,51 @@ public final class DlgCetakSHK extends javax.swing.JDialog {
                     nilai_menit =CmbMenit.getSelectedIndex();
                     nilai_detik =CmbDetik.getSelectedIndex();
                 }
+                
+                if(ChkJln1.isSelected()==true){
+                    nilai_jam1 = now.getHours();
+                    nilai_menit1 = now.getMinutes();
+                    nilai_detik1 = now.getSeconds();
+                }else if(ChkJln1.isSelected()==false){
+                    nilai_jam1 =CmbJam1.getSelectedIndex();
+                    nilai_menit1 =CmbMenit1.getSelectedIndex();
+                    nilai_detik1 =CmbDetik1.getSelectedIndex();
+                }
 
                 // Jika nilai JAM lebih kecil dari 10 (hanya 1 digit)
-                if (nilai_jam <= 9) {
+                if (nilai_jam <= 9 || nilai_jam1 <= 9 ) {
                     // Tambahkan "0" didepannya
                     nol_jam = "0";
+                    nol_jam1 = "0";
                 }
                 // Jika nilai MENIT lebih kecil dari 10 (hanya 1 digit)
-                if (nilai_menit <= 9) {
+                if (nilai_menit <= 9 || nilai_menit1 <= 9) {
                     // Tambahkan "0" didepannya
                     nol_menit = "0";
+                    nol_menit1 = "0";
                 }
                 // Jika nilai DETIK lebih kecil dari 10 (hanya 1 digit)
-                if (nilai_detik <= 9) {
+                if (nilai_detik <= 9 || nilai_detik1 <= 9) {
                     // Tambahkan "0" didepannya
                     nol_detik = "0";
+                    nol_detik1 = "0";
                 }
                 // Membuat String JAM, MENIT, DETIK
                 String jam = nol_jam + Integer.toString(nilai_jam);
                 String menit = nol_menit + Integer.toString(nilai_menit);
                 String detik = nol_detik + Integer.toString(nilai_detik);
+                String jam1 = nol_jam + Integer.toString(nilai_jam1);
+                String menit1 = nol_menit + Integer.toString(nilai_menit1);
+                String detik1 = nol_detik + Integer.toString(nilai_detik1);
                 // Menampilkan pada Layar
                 //tampil_jam.setText("  " + jam + " : " + menit + " : " + detik + "  ");
                 CmbJam.setSelectedItem(jam);
                 CmbMenit.setSelectedItem(menit);
                 CmbDetik.setSelectedItem(detik);
+                
+                CmbJam1.setSelectedItem(jam1);
+                CmbMenit1.setSelectedItem(menit1);
+                CmbDetik1.setSelectedItem(detik1);
             }
         };
         // Timer

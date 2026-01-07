@@ -52,6 +52,11 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
     private ResultSet rs;
     private int i=0,pilihan=0;    
     private DlgCariPetugas petugas=new DlgCariPetugas(null,false);
+    private DlgCariPetugas asisten1=new DlgCariPetugas(null,false);
+    private DlgCariPetugas asisten2=new DlgCariPetugas(null,false);
+    private DlgCariPetugas instrumen=new DlgCariPetugas(null,false);
+    private DlgCariPetugas sirkuler2=new DlgCariPetugas(null,false);
+    private DlgCariPetugas sirkuler3=new DlgCariPetugas(null,false);
     private DlgCariDokter dokter=new DlgCariDokter(null,false);
     private String finger="",finger2="";
     private StringBuilder htmlContent;
@@ -69,7 +74,8 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
             "Kode Dokter Anest","Nama Dokter Anestesi","Verbal Identitas","Verbal Tindakan","Verbal Area Insisi","Penandaan Area Operasi",
             "Lama Operasi","Penayangan Radiologi","Penayangan CT Scan","Penayangan MRI","Pemberian Antibiotik","Nama Antibiotik Diberikan",
             "Jam Pemberian","Antisipasi Kehilangan Darah","Ada Hal Khusus","Hal Khusus Yang Perlu Diperhatikan","Tgl.Steril","Petunjuk Sterilisasi",
-            "Verifikasi Pre Operatif","NIP OK","Petugas Ruang OK"
+            "Verifikasi Pre Operatif","NIP Sirkuler1","Petugas Sirkuler 1","NIP Asisten1","Asisten 1","Nip Asisten2","Asisten 2","NIP Instrumen","Instrumen",
+            "NIP Sirkuler2","Petugas Sirkuler 2","NIP Sirkuler3","Petugas Sirkuler 3"
         }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -79,7 +85,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         tbObat.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbObat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 31; i++) {
+        for (i = 0; i < 41; i++) {
             TableColumn column = tbObat.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(105);
@@ -143,6 +149,26 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
                 column.setPreferredWidth(90);
             }else if(i==30){
                 column.setPreferredWidth(150);
+            }else if(i==21){
+                column.setPreferredWidth(90);
+            }else if(i==32){
+                column.setPreferredWidth(150);
+            }else if(i==23){
+                column.setPreferredWidth(90);
+            }else if(i==34){
+                column.setPreferredWidth(150);
+            }else if(i==35){
+                column.setPreferredWidth(90);
+            }else if(i==36){
+                column.setPreferredWidth(150);
+            }else if(i==37){
+                column.setPreferredWidth(90);
+            }else if(i==38){
+                column.setPreferredWidth(150);
+            }else if(i==39){
+                column.setPreferredWidth(90);
+            }else if(i==40){
+                column.setPreferredWidth(150);
             }
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
@@ -204,6 +230,121 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         }); 
+        
+        asisten1.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(asisten1.getTable().getSelectedRow()!= -1){     
+                    KdAsisten1.setText(asisten1.getTable().getValueAt(asisten1.getTable().getSelectedRow(),0).toString());
+                    NmAsisten1.setText(asisten1.getTable().getValueAt(asisten1.getTable().getSelectedRow(),1).toString());
+                    btnAsisten1.requestFocus();
+                }   
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        }); 
+        
+        asisten2.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(asisten2.getTable().getSelectedRow()!= -1){     
+                    KdAsisten2.setText(asisten2.getTable().getValueAt(asisten2.getTable().getSelectedRow(),0).toString());
+                    NmAsisten2.setText(asisten2.getTable().getValueAt(asisten2.getTable().getSelectedRow(),1).toString());
+                    btnAsisten2.requestFocus();
+                }   
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        }); 
+        
+        instrumen.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(instrumen.getTable().getSelectedRow()!= -1){     
+                    KdInstrumen.setText(instrumen.getTable().getValueAt(instrumen.getTable().getSelectedRow(),0).toString());
+                    NmInstrumen.setText(instrumen.getTable().getValueAt(instrumen.getTable().getSelectedRow(),1).toString());
+                    btnInstrumen.requestFocus();
+                }   
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        }); 
+        
+         sirkuler2.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(sirkuler2.getTable().getSelectedRow()!= -1){     
+                    KdSirkuler2.setText(sirkuler2.getTable().getValueAt(sirkuler2.getTable().getSelectedRow(),0).toString());
+                    NmSirkuler2.setText(sirkuler2.getTable().getValueAt(sirkuler2.getTable().getSelectedRow(),1).toString());
+                    btnSirkuler2.requestFocus();
+                }   
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        }); 
+         
+         sirkuler3.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(sirkuler3.getTable().getSelectedRow()!= -1){     
+                    KdSirkuler3.setText(sirkuler3.getTable().getValueAt(sirkuler3.getTable().getSelectedRow(),0).toString());
+                    NmSirkuler3.setText(sirkuler3.getTable().getValueAt(sirkuler3.getTable().getSelectedRow(),1).toString());
+                    btnSirkuler3.requestFocus();
+                }   
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
         
         dokter.addWindowListener(new WindowListener() {
             @Override
@@ -370,7 +511,26 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         jLabel40 = new widget.Label();
         jLabel62 = new widget.Label();
         jLabel18 = new widget.Label();
-        jLabel27 = new widget.Label();
+        jLabel41 = new widget.Label();
+        KdAsisten1 = new widget.TextBox();
+        NmAsisten1 = new widget.TextBox();
+        btnAsisten1 = new widget.Button();
+        jLabel42 = new widget.Label();
+        KdInstrumen = new widget.TextBox();
+        NmInstrumen = new widget.TextBox();
+        btnInstrumen = new widget.Button();
+        jLabel43 = new widget.Label();
+        KdAsisten2 = new widget.TextBox();
+        NmAsisten2 = new widget.TextBox();
+        btnAsisten2 = new widget.Button();
+        jLabel44 = new widget.Label();
+        KdSirkuler2 = new widget.TextBox();
+        NmSirkuler2 = new widget.TextBox();
+        btnSirkuler2 = new widget.Button();
+        jLabel45 = new widget.Label();
+        KdSirkuler3 = new widget.TextBox();
+        NmSirkuler3 = new widget.TextBox();
+        btnSirkuler3 = new widget.Button();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -561,7 +721,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12-01-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-11-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -575,7 +735,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12-01-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-11-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -636,7 +796,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
 
         PanelInput.setName("PanelInput"); // NOI18N
         PanelInput.setOpaque(false);
-        PanelInput.setPreferredSize(new java.awt.Dimension(192, 406));
+        PanelInput.setPreferredSize(new java.awt.Dimension(192, 465));
         PanelInput.setLayout(new java.awt.BorderLayout(1, 1));
 
         ChkInput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/143.png"))); // NOI18N
@@ -666,7 +826,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         FormInput.setBackground(new java.awt.Color(250, 255, 245));
         FormInput.setBorder(null);
         FormInput.setName("FormInput"); // NOI18N
-        FormInput.setPreferredSize(new java.awt.Dimension(100, 383));
+        FormInput.setPreferredSize(new java.awt.Dimension(100, 450));
         FormInput.setLayout(null);
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -724,7 +884,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         TglLahir.setBounds(689, 10, 100, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12-01-2023 07:20:16" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-11-2025 03:38:13" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -864,10 +1024,10 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         Tindakan.setBounds(79, 70, 305, 23);
 
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel26.setText("Perawat Kamar Operasi");
+        jLabel26.setText("Perawat Sirkuler 1 :");
         jLabel26.setName("jLabel26"); // NOI18N
         FormInput.add(jLabel26);
-        jLabel26.setBounds(21, 350, 130, 23);
+        jLabel26.setBounds(41, 350, 100, 23);
 
         KdPetugasOK.setEditable(false);
         KdPetugasOK.setHighlighter(null);
@@ -878,7 +1038,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         NmPetugasOK.setEditable(false);
         NmPetugasOK.setName("NmPetugasOK"); // NOI18N
         FormInput.add(NmPetugasOK);
-        NmPetugasOK.setBounds(259, 350, 300, 23);
+        NmPetugasOK.setBounds(259, 350, 210, 23);
 
         btnPetugasOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnPetugasOK.setMnemonic('2');
@@ -895,7 +1055,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
             }
         });
         FormInput.add(btnPetugasOK);
-        btnPetugasOK.setBounds(561, 350, 28, 23);
+        btnPetugasOK.setBounds(470, 350, 28, 23);
 
         jLabel5.setText(":");
         jLabel5.setName("jLabel5"); // NOI18N
@@ -1141,7 +1301,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         jLabel17.setBounds(0, 310, 115, 23);
 
         TanggalSeteril.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalSeteril.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "12-01-2023" }));
+        TanggalSeteril.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-11-2025" }));
         TanggalSeteril.setDisplayFormat("dd-MM-yyyy");
         TanggalSeteril.setName("TanggalSeteril"); // NOI18N
         TanggalSeteril.setOpaque(false);
@@ -1225,10 +1385,190 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         FormInput.add(jLabel18);
         jLabel18.setBounds(40, 310, 80, 23);
 
-        jLabel27.setText(":");
-        jLabel27.setName("jLabel27"); // NOI18N
-        FormInput.add(jLabel27);
-        jLabel27.setBounds(0, 350, 143, 23);
+        jLabel41.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel41.setText("Asisten 1 :");
+        jLabel41.setName("jLabel41"); // NOI18N
+        FormInput.add(jLabel41);
+        jLabel41.setBounds(510, 380, 60, 23);
+
+        KdAsisten1.setEditable(false);
+        KdAsisten1.setHighlighter(null);
+        KdAsisten1.setName("KdAsisten1"); // NOI18N
+        KdAsisten1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KdAsisten1ActionPerformed(evt);
+            }
+        });
+        FormInput.add(KdAsisten1);
+        KdAsisten1.setBounds(570, 380, 90, 23);
+
+        NmAsisten1.setEditable(false);
+        NmAsisten1.setName("NmAsisten1"); // NOI18N
+        FormInput.add(NmAsisten1);
+        NmAsisten1.setBounds(660, 380, 150, 23);
+
+        btnAsisten1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        btnAsisten1.setMnemonic('2');
+        btnAsisten1.setToolTipText("ALt+2");
+        btnAsisten1.setName("btnAsisten1"); // NOI18N
+        btnAsisten1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsisten1ActionPerformed(evt);
+            }
+        });
+        btnAsisten1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAsisten1KeyPressed(evt);
+            }
+        });
+        FormInput.add(btnAsisten1);
+        btnAsisten1.setBounds(810, 380, 28, 23);
+
+        jLabel42.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel42.setText("Instrumen :");
+        jLabel42.setName("jLabel42"); // NOI18N
+        FormInput.add(jLabel42);
+        jLabel42.setBounds(510, 350, 60, 23);
+
+        KdInstrumen.setEditable(false);
+        KdInstrumen.setHighlighter(null);
+        KdInstrumen.setName("KdInstrumen"); // NOI18N
+        KdInstrumen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KdInstrumenActionPerformed(evt);
+            }
+        });
+        FormInput.add(KdInstrumen);
+        KdInstrumen.setBounds(570, 350, 90, 23);
+
+        NmInstrumen.setEditable(false);
+        NmInstrumen.setName("NmInstrumen"); // NOI18N
+        FormInput.add(NmInstrumen);
+        NmInstrumen.setBounds(660, 350, 150, 23);
+
+        btnInstrumen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        btnInstrumen.setMnemonic('2');
+        btnInstrumen.setToolTipText("ALt+2");
+        btnInstrumen.setName("btnInstrumen"); // NOI18N
+        btnInstrumen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInstrumenActionPerformed(evt);
+            }
+        });
+        btnInstrumen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnInstrumenKeyPressed(evt);
+            }
+        });
+        FormInput.add(btnInstrumen);
+        btnInstrumen.setBounds(810, 350, 28, 23);
+
+        jLabel43.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel43.setText("Asisten 2 :");
+        jLabel43.setName("jLabel43"); // NOI18N
+        FormInput.add(jLabel43);
+        jLabel43.setBounds(510, 410, 60, 23);
+
+        KdAsisten2.setEditable(false);
+        KdAsisten2.setHighlighter(null);
+        KdAsisten2.setName("KdAsisten2"); // NOI18N
+        KdAsisten2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KdAsisten2ActionPerformed(evt);
+            }
+        });
+        FormInput.add(KdAsisten2);
+        KdAsisten2.setBounds(570, 410, 90, 23);
+
+        NmAsisten2.setEditable(false);
+        NmAsisten2.setName("NmAsisten2"); // NOI18N
+        FormInput.add(NmAsisten2);
+        NmAsisten2.setBounds(660, 410, 150, 23);
+
+        btnAsisten2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        btnAsisten2.setMnemonic('2');
+        btnAsisten2.setToolTipText("ALt+2");
+        btnAsisten2.setName("btnAsisten2"); // NOI18N
+        btnAsisten2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsisten2ActionPerformed(evt);
+            }
+        });
+        btnAsisten2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAsisten2KeyPressed(evt);
+            }
+        });
+        FormInput.add(btnAsisten2);
+        btnAsisten2.setBounds(810, 410, 28, 23);
+
+        jLabel44.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel44.setText("Perawat Sirkuler 2 :");
+        jLabel44.setName("jLabel44"); // NOI18N
+        FormInput.add(jLabel44);
+        jLabel44.setBounds(40, 380, 110, 23);
+
+        KdSirkuler2.setEditable(false);
+        KdSirkuler2.setHighlighter(null);
+        KdSirkuler2.setName("KdSirkuler2"); // NOI18N
+        FormInput.add(KdSirkuler2);
+        KdSirkuler2.setBounds(150, 380, 110, 23);
+
+        NmSirkuler2.setEditable(false);
+        NmSirkuler2.setName("NmSirkuler2"); // NOI18N
+        FormInput.add(NmSirkuler2);
+        NmSirkuler2.setBounds(260, 380, 210, 23);
+
+        btnSirkuler2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        btnSirkuler2.setMnemonic('2');
+        btnSirkuler2.setToolTipText("ALt+2");
+        btnSirkuler2.setName("btnSirkuler2"); // NOI18N
+        btnSirkuler2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSirkuler2ActionPerformed(evt);
+            }
+        });
+        btnSirkuler2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnSirkuler2KeyPressed(evt);
+            }
+        });
+        FormInput.add(btnSirkuler2);
+        btnSirkuler2.setBounds(470, 380, 28, 23);
+
+        jLabel45.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel45.setText("Perawat Sirkuler 3 :");
+        jLabel45.setName("jLabel45"); // NOI18N
+        FormInput.add(jLabel45);
+        jLabel45.setBounds(41, 410, 100, 23);
+
+        KdSirkuler3.setEditable(false);
+        KdSirkuler3.setHighlighter(null);
+        KdSirkuler3.setName("KdSirkuler3"); // NOI18N
+        FormInput.add(KdSirkuler3);
+        KdSirkuler3.setBounds(147, 410, 110, 23);
+
+        NmSirkuler3.setEditable(false);
+        NmSirkuler3.setName("NmSirkuler3"); // NOI18N
+        FormInput.add(NmSirkuler3);
+        NmSirkuler3.setBounds(259, 410, 210, 23);
+
+        btnSirkuler3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        btnSirkuler3.setMnemonic('2');
+        btnSirkuler3.setToolTipText("ALt+2");
+        btnSirkuler3.setName("btnSirkuler3"); // NOI18N
+        btnSirkuler3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSirkuler3ActionPerformed(evt);
+            }
+        });
+        btnSirkuler3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnSirkuler3KeyPressed(evt);
+            }
+        });
+        FormInput.add(btnSirkuler3);
+        btnSirkuler3.setBounds(470, 410, 28, 23);
 
         scrollInput.setViewportView(FormInput);
 
@@ -1266,14 +1606,14 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         }else if(SNCN.getText().trim().equals("")){
             Valid.textKosong(SNCN,"SN/CN");
         }else{
-            if(Sequel.menyimpantf("timeout_sebelum_insisi","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","Data",24,new String[]{
+            if(Sequel.menyimpantf("timeout_sebelum_insisi","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","Data",29,new String[]{
                 TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Tanggal.getSelectedItem().toString().substring(11,19),SNCN.getText(),Tindakan.getText(),
                 KodeDokterBedah.getText(),KodeDokterAnestesi.getText(),VerbalIdentitas.getSelectedItem().toString(),VerbalTindakan.getSelectedItem().toString(),
                 VerbalArea.getSelectedItem().toString(),AreaOperasi.getSelectedItem().toString(),PerkiraanLama.getText(),PenayanganRadiologi.getSelectedItem().toString(),
                 PenayanganCTScan.getSelectedItem().toString(),PenayanganMRI.getSelectedItem().toString(),PemberianAntibiotik.getSelectedItem().toString(),
                 NamaAntibiotikDIberikan.getText(),JamPemberianAntibiotik.getText(),AntisipisasiKehialnganDarah.getText(),AdaHalKhusus.getSelectedItem().toString(),
                 HalKhususDiperhatikan.getText(),Valid.SetTgl(TanggalSeteril.getSelectedItem()+""),PetunjukSterilisasi.getSelectedItem().toString(),
-                VerifikasiOperatif.getSelectedItem().toString(),KdPetugasOK.getText()
+                VerifikasiOperatif.getSelectedItem().toString(),KdPetugasOK.getText(),KdAsisten1.getText(),KdAsisten2.getText(),KdInstrumen.getText(),KdSirkuler2.getText(),KdSirkuler3.getText()
             })==true){
                 tampil();
                 emptTeks();
@@ -1389,12 +1729,18 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
                         "timeout_sebelum_insisi.penayangan_mri,timeout_sebelum_insisi.antibiotik_profilaks,timeout_sebelum_insisi.nama_antibiotik,"+
                         "timeout_sebelum_insisi.jam_pemberian,timeout_sebelum_insisi.antisipasi_kehilangan_darah,timeout_sebelum_insisi.hal_khusus,"+
                         "timeout_sebelum_insisi.hal_khusus_diperhatikan,timeout_sebelum_insisi.tanggal_steril,timeout_sebelum_insisi.petujuk_sterilisasi,"+
-                        "timeout_sebelum_insisi.verifikasi_preoperatif,timeout_sebelum_insisi.nip_perawat_ok,petugas.nama "+
+                        "timeout_sebelum_insisi.verifikasi_preoperatif,timeout_sebelum_insisi.nip_perawat_ok,petugas.nama,"+
+                        "timeout_sebelum_insisi.nip_asisten1,asisten1.nama as asisten1,timeout_sebelum_insisi.nip_asisten2,asisten2.nama as asisten2,timeout_sebelum_insisi.nip_instrumen,instrumen.nama as instrumen,timeout_sebelum_insisi.nip_sirkuler2,sirkuler2.nama as sirkuler2,timeout_sebelum_insisi.nip_sirkuler3,sirkuler3.nama as sirkuler3 "+
                         "from timeout_sebelum_insisi inner join reg_periksa on timeout_sebelum_insisi.no_rawat=reg_periksa.no_rawat "+
                         "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                         "inner join dokter as dokterbedah on dokterbedah.kd_dokter=timeout_sebelum_insisi.kd_dokter_bedah "+
                         "inner join dokter as dokteranestesi on dokteranestesi.kd_dokter=timeout_sebelum_insisi.kd_dokter_anestesi "+
                         "inner join petugas on petugas.nip=timeout_sebelum_insisi.nip_perawat_ok "+
+                        "inner join petugas as asisten1 on asisten1.nip=timeout_sebelum_insisi.nip_asisten1 "+
+                        "inner join petugas as asisten2 on asisten2.nip=timeout_sebelum_insisi.nip_asisten2 "+
+                        "inner join petugas as instrumen on instrumen.nip=timeout_sebelum_insisi.nip_instrumen "+
+                        "inner join petugas as sirkuler2 on sirkuler2.nip=timeout_sebelum_insisi.nip_sirkuler2 "+
+                        "inner join petugas as sirkuler3 on sirkuler3.nip=timeout_sebelum_insisi.nip_sirkuler3 "+
                         "where timeout_sebelum_insisi.tanggal between ? and ? order by timeout_sebelum_insisi.tanggal ");
                 }else{
                     ps=koneksi.prepareStatement(
@@ -1406,12 +1752,18 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
                         "timeout_sebelum_insisi.penayangan_mri,timeout_sebelum_insisi.antibiotik_profilaks,timeout_sebelum_insisi.nama_antibiotik,"+
                         "timeout_sebelum_insisi.jam_pemberian,timeout_sebelum_insisi.antisipasi_kehilangan_darah,timeout_sebelum_insisi.hal_khusus,"+
                         "timeout_sebelum_insisi.hal_khusus_diperhatikan,timeout_sebelum_insisi.tanggal_steril,timeout_sebelum_insisi.petujuk_sterilisasi,"+
-                        "timeout_sebelum_insisi.verifikasi_preoperatif,timeout_sebelum_insisi.nip_perawat_ok,petugas.nama "+
+                        "timeout_sebelum_insisi.verifikasi_preoperatif,timeout_sebelum_insisi.nip_perawat_ok,petugas.nama,"+
+                        "timeout_sebelum_insisi.nip_asisten1,asisten1.nama as asisten1,timeout_sebelum_insisi.nip_asisten2,asisten2.nama as asisten2,timeout_sebelum_insisi.nip_instrumen,instrumen.nama as instrumen,timeout_sebelum_insisi.nip_sirkuler2,sirkuler2.nama as sirkuler2,timeout_sebelum_insisi.nip_sirkuler3,sirkuler3.nama as sirkuler3 "+
                         "from timeout_sebelum_insisi inner join reg_periksa on timeout_sebelum_insisi.no_rawat=reg_periksa.no_rawat "+
                         "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                         "inner join dokter as dokterbedah on dokterbedah.kd_dokter=timeout_sebelum_insisi.kd_dokter_bedah "+
                         "inner join dokter as dokteranestesi on dokteranestesi.kd_dokter=timeout_sebelum_insisi.kd_dokter_anestesi "+
                         "inner join petugas on petugas.nip=timeout_sebelum_insisi.nip_perawat_ok "+
+                        "inner join petugas as asisten1 on asisten1.nip=timeout_sebelum_insisi.nip_asisten1 "+
+                        "inner join petugas as asisten2 on asisten2.nip=timeout_sebelum_insisi.nip_asisten2 "+
+                        "inner join petugas as instrumen on instrumen.nip=timeout_sebelum_insisi.nip_instrumen "+
+                        "inner join petugas as sirkuler2 on sirkuler2.nip=timeout_sebelum_insisi.nip_sirkuler2 "+
+                        "inner join petugas as sirkuler3 on sirkuler3.nip=timeout_sebelum_insisi.nip_sirkuler3 "+
                         "where timeout_sebelum_insisi.tanggal between ? and ? and (reg_periksa.no_rawat like ? or pasien.no_rkm_medis like ? or "+
                         "pasien.nm_pasien like ? or dokterbedah.nm_dokter like ? or dokteranestesi.nm_dokter like ? or petugas.nama like ?) "+
                         "order by timeout_sebelum_insisi.tanggal ");
@@ -1464,8 +1816,18 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
                             "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Tgl.Steril</b></td>"+
                             "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Petunjuk Sterilisasi</b></td>"+
                             "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Verifikasi Pre Operatif</b></td>"+
-                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>NIP OK</b></td>"+
-                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Petugas Ruang OK</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>NIP Siruker1</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Petugas Sirkuler 1</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>NIP Asisten1</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Asisten 1</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>NIP Asisten2</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Asisten 2</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>NIP Instrumen</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Instrumen</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>NIP Siruker2</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Petugas Sirkuler 2</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>NIP Siruker3</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Petugas Sirkuler 3</b></td>"+
                         "</tr>"
                     );
                     while(rs.next()){
@@ -1502,6 +1864,16 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
                                "<td valign='top'>"+rs.getString("verifikasi_preoperatif")+"</td>"+
                                "<td valign='top'>"+rs.getString("nip_perawat_ok")+"</td>"+
                                "<td valign='top'>"+rs.getString("nama")+"</td>"+
+                               "<td valign='top'>"+rs.getString("nip_asisten1")+"</td>"+
+                               "<td valign='top'>"+rs.getString("asisten1")+"</td>"+
+                               "<td valign='top'>"+rs.getString("nip_asisten2")+"</td>"+
+                               "<td valign='top'>"+rs.getString("asisten2")+"</td>"+
+                               "<td valign='top'>"+rs.getString("nip_instrumen")+"</td>"+
+                               "<td valign='top'>"+rs.getString("instrumen")+"</td>"+
+                               "<td valign='top'>"+rs.getString("nip_sirkuler2")+"</td>"+
+                               "<td valign='top'>"+rs.getString("sirkuler2")+"</td>"+
+                               "<td valign='top'>"+rs.getString("nip_sirkuler3")+"</td>"+
+                               "<td valign='top'>"+rs.getString("sirkuler3")+"</td>"+
                             "</tr>");
                     }
                     LoadHTML.setText(
@@ -1786,6 +2158,83 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         Valid.pindah(evt,PetunjukSterilisasi,btnPetugasOK);
     }//GEN-LAST:event_VerifikasiOperatifKeyPressed
 
+    private void btnAsisten1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsisten1ActionPerformed
+        pilihan=2;
+        asisten1.emptTeks();
+        asisten1.isCek();
+        asisten1.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        asisten1.setLocationRelativeTo(internalFrame1);
+        asisten1.setVisible(true);
+    }//GEN-LAST:event_btnAsisten1ActionPerformed
+
+    private void btnAsisten1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAsisten1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAsisten1KeyPressed
+
+    private void btnInstrumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInstrumenActionPerformed
+        pilihan=2;
+        instrumen.emptTeks();
+        instrumen.isCek();
+        instrumen.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        instrumen.setLocationRelativeTo(internalFrame1);
+        instrumen.setVisible(true);
+    }//GEN-LAST:event_btnInstrumenActionPerformed
+
+    private void btnInstrumenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnInstrumenKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInstrumenKeyPressed
+
+    private void KdInstrumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KdInstrumenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_KdInstrumenActionPerformed
+
+    private void KdAsisten2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KdAsisten2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_KdAsisten2ActionPerformed
+
+    private void btnAsisten2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsisten2ActionPerformed
+        pilihan=2;
+        asisten2.emptTeks();
+        asisten2.isCek();
+        asisten2.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        asisten2.setLocationRelativeTo(internalFrame1);
+        asisten2.setVisible(true);
+    }//GEN-LAST:event_btnAsisten2ActionPerformed
+
+    private void btnAsisten2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAsisten2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAsisten2KeyPressed
+
+    private void KdAsisten1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KdAsisten1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_KdAsisten1ActionPerformed
+
+    private void btnSirkuler2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSirkuler2ActionPerformed
+        pilihan=2;
+        sirkuler2.emptTeks();
+        sirkuler2.isCek();
+        sirkuler2.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        sirkuler2.setLocationRelativeTo(internalFrame1);
+        sirkuler2.setVisible(true);
+    }//GEN-LAST:event_btnSirkuler2ActionPerformed
+
+    private void btnSirkuler2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSirkuler2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSirkuler2KeyPressed
+
+    private void btnSirkuler3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSirkuler3ActionPerformed
+        pilihan=2;
+        sirkuler3.emptTeks();
+        sirkuler3.isCek();
+        sirkuler3.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        sirkuler3.setLocationRelativeTo(internalFrame1);
+        sirkuler3.setVisible(true);
+    }//GEN-LAST:event_btnSirkuler3ActionPerformed
+
+    private void btnSirkuler3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSirkuler3KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSirkuler3KeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -1820,7 +2269,12 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
     private widget.PanelBiasa FormInput;
     private widget.TextBox HalKhususDiperhatikan;
     private widget.TextBox JamPemberianAntibiotik;
+    private widget.TextBox KdAsisten1;
+    private widget.TextBox KdAsisten2;
+    private widget.TextBox KdInstrumen;
     private widget.TextBox KdPetugasOK;
+    private widget.TextBox KdSirkuler2;
+    private widget.TextBox KdSirkuler3;
     private widget.TextBox KodeDokterAnestesi;
     private widget.TextBox KodeDokterBedah;
     private widget.Label LCount;
@@ -1829,7 +2283,12 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
     private widget.TextBox NamaAntibiotikDIberikan;
     private widget.TextBox NamaDokterAnestesi;
     private widget.TextBox NamaDokterBedah;
+    private widget.TextBox NmAsisten1;
+    private widget.TextBox NmAsisten2;
+    private widget.TextBox NmInstrumen;
     private widget.TextBox NmPetugasOK;
+    private widget.TextBox NmSirkuler2;
+    private widget.TextBox NmSirkuler3;
     private javax.swing.JPanel PanelInput;
     private widget.ComboBox PemberianAntibiotik;
     private widget.ComboBox PenayanganCTScan;
@@ -1851,9 +2310,14 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
     private widget.ComboBox VerbalIdentitas;
     private widget.ComboBox VerbalTindakan;
     private widget.ComboBox VerifikasiOperatif;
+    private widget.Button btnAsisten1;
+    private widget.Button btnAsisten2;
     private widget.Button btnDokterAnestesi;
     private widget.Button btnDokterBedah;
+    private widget.Button btnInstrumen;
     private widget.Button btnPetugasOK;
+    private widget.Button btnSirkuler2;
+    private widget.Button btnSirkuler3;
     private widget.InternalFrame internalFrame1;
     private widget.Label jLabel16;
     private widget.Label jLabel17;
@@ -1866,7 +2330,6 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
     private widget.Label jLabel24;
     private widget.Label jLabel25;
     private widget.Label jLabel26;
-    private widget.Label jLabel27;
     private widget.Label jLabel28;
     private widget.Label jLabel29;
     private widget.Label jLabel30;
@@ -1881,6 +2344,11 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
     private widget.Label jLabel39;
     private widget.Label jLabel4;
     private widget.Label jLabel40;
+    private widget.Label jLabel41;
+    private widget.Label jLabel42;
+    private widget.Label jLabel43;
+    private widget.Label jLabel44;
+    private widget.Label jLabel45;
     private widget.Label jLabel5;
     private widget.Label jLabel51;
     private widget.Label jLabel52;
@@ -1922,12 +2390,18 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
                     "timeout_sebelum_insisi.penayangan_mri,timeout_sebelum_insisi.antibiotik_profilaks,timeout_sebelum_insisi.nama_antibiotik,"+
                     "timeout_sebelum_insisi.jam_pemberian,timeout_sebelum_insisi.antisipasi_kehilangan_darah,timeout_sebelum_insisi.hal_khusus,"+
                     "timeout_sebelum_insisi.hal_khusus_diperhatikan,timeout_sebelum_insisi.tanggal_steril,timeout_sebelum_insisi.petujuk_sterilisasi,"+
-                    "timeout_sebelum_insisi.verifikasi_preoperatif,timeout_sebelum_insisi.nip_perawat_ok,petugas.nama "+
+                    "timeout_sebelum_insisi.verifikasi_preoperatif,timeout_sebelum_insisi.nip_perawat_ok,petugas.nama,"+
+                    "timeout_sebelum_insisi.nip_asisten1,asisten1.nama as asisten1,timeout_sebelum_insisi.nip_asisten2,asisten2.nama as asisten2,timeout_sebelum_insisi.nip_instrumen,instrumen.nama as instrumen,timeout_sebelum_insisi.nip_sirkuler2,sirkuler2.nama as sirkuler2,timeout_sebelum_insisi.nip_sirkuler3,sirkuler3.nama as sirkuler3 "+
                     "from timeout_sebelum_insisi inner join reg_periksa on timeout_sebelum_insisi.no_rawat=reg_periksa.no_rawat "+
                     "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                     "inner join dokter as dokterbedah on dokterbedah.kd_dokter=timeout_sebelum_insisi.kd_dokter_bedah "+
                     "inner join dokter as dokteranestesi on dokteranestesi.kd_dokter=timeout_sebelum_insisi.kd_dokter_anestesi "+
                     "inner join petugas on petugas.nip=timeout_sebelum_insisi.nip_perawat_ok "+
+                    "inner join petugas as asisten1 on asisten1.nip=timeout_sebelum_insisi.nip_asisten1 "+
+                    "inner join petugas as asisten2 on asisten2.nip=timeout_sebelum_insisi.nip_asisten2 "+
+                    "inner join petugas as instrumen on instrumen.nip=timeout_sebelum_insisi.nip_instrumen "+
+                    "inner join petugas as sirkuler2 on sirkuler2.nip=timeout_sebelum_insisi.nip_sirkuler2 "+
+                    "inner join petugas as sirkuler3 on sirkuler3.nip=timeout_sebelum_insisi.nip_sirkuler3 "+
                     "where timeout_sebelum_insisi.tanggal between ? and ? order by timeout_sebelum_insisi.tanggal ");
             }else{
                 ps=koneksi.prepareStatement(
@@ -1939,12 +2413,18 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
                     "timeout_sebelum_insisi.penayangan_mri,timeout_sebelum_insisi.antibiotik_profilaks,timeout_sebelum_insisi.nama_antibiotik,"+
                     "timeout_sebelum_insisi.jam_pemberian,timeout_sebelum_insisi.antisipasi_kehilangan_darah,timeout_sebelum_insisi.hal_khusus,"+
                     "timeout_sebelum_insisi.hal_khusus_diperhatikan,timeout_sebelum_insisi.tanggal_steril,timeout_sebelum_insisi.petujuk_sterilisasi,"+
-                    "timeout_sebelum_insisi.verifikasi_preoperatif,timeout_sebelum_insisi.nip_perawat_ok,petugas.nama "+
+                    "timeout_sebelum_insisi.verifikasi_preoperatif,timeout_sebelum_insisi.nip_perawat_ok,petugas.nama,"+
+                    "timeout_sebelum_insisi.nip_asisten1,asisten1.nama as asisten1,timeout_sebelum_insisi.nip_asisten2,asisten2.nama as asisten2,timeout_sebelum_insisi.nip_instrumen,instrumen.nama as instrumen,timeout_sebelum_insisi.nip_sirkuler2,sirkuler2.nama as sirkuler2,timeout_sebelum_insisi.nip_sirkuler3,sirkuler3.nama as sirkuler3 "+
                     "from timeout_sebelum_insisi inner join reg_periksa on timeout_sebelum_insisi.no_rawat=reg_periksa.no_rawat "+
                     "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                     "inner join dokter as dokterbedah on dokterbedah.kd_dokter=timeout_sebelum_insisi.kd_dokter_bedah "+
                     "inner join dokter as dokteranestesi on dokteranestesi.kd_dokter=timeout_sebelum_insisi.kd_dokter_anestesi "+
                     "inner join petugas on petugas.nip=timeout_sebelum_insisi.nip_perawat_ok "+
+                    "inner join petugas as asisten1 on asisten1.nip=timeout_sebelum_insisi.nip_asisten1 "+
+                    "inner join petugas as asisten2 on asisten2.nip=timeout_sebelum_insisi.nip_asisten2 "+
+                    "inner join petugas as instrumen on instrumen.nip=timeout_sebelum_insisi.nip_instrumen "+
+                    "inner join petugas as sirkuler2 on sirkuler2.nip=timeout_sebelum_insisi.nip_sirkuler2 "+
+                    "inner join petugas as sirkuler3 on sirkuler3.nip=timeout_sebelum_insisi.nip_sirkuler3 "+
                     "where timeout_sebelum_insisi.tanggal between ? and ? and (reg_periksa.no_rawat like ? or pasien.no_rkm_medis like ? or "+
                     "pasien.nm_pasien like ? or dokterbedah.nm_dokter like ? or dokteranestesi.nm_dokter like ? or petugas.nama like ?) "+
                     "order by timeout_sebelum_insisi.tanggal ");
@@ -1975,7 +2455,8 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
                         rs.getString("penayangan_ctscan"),rs.getString("penayangan_mri"),rs.getString("antibiotik_profilaks"),rs.getString("nama_antibiotik"),
                         rs.getString("jam_pemberian"),rs.getString("antisipasi_kehilangan_darah"),rs.getString("hal_khusus"),rs.getString("hal_khusus_diperhatikan"),
                         rs.getString("tanggal_steril"),rs.getString("petujuk_sterilisasi"),rs.getString("verifikasi_preoperatif"),rs.getString("nip_perawat_ok"),
-                        rs.getString("nama")
+                        rs.getString("nama"),rs.getString("nip_asisten1"),rs.getString("asisten1"),rs.getString("nip_asisten2"),rs.getString("asisten2"),
+                        rs.getString("nip_instrumen"),rs.getString("instrumen"),rs.getString("nip_sirkuler2"),rs.getString("sirkuler2"),rs.getString("nip_sirkuler3"),rs.getString("sirkuler3")
                     });
                 }
             } catch (Exception e) {
@@ -2052,6 +2533,16 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
             VerifikasiOperatif.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(),28).toString());
             KdPetugasOK.setText(tbObat.getValueAt(tbObat.getSelectedRow(),29).toString());
             NmPetugasOK.setText(tbObat.getValueAt(tbObat.getSelectedRow(),30).toString());
+            KdAsisten1.setText(tbObat.getValueAt(tbObat.getSelectedRow(),31).toString());
+            NmAsisten1.setText(tbObat.getValueAt(tbObat.getSelectedRow(),32).toString());
+            KdAsisten2.setText(tbObat.getValueAt(tbObat.getSelectedRow(),33).toString());
+            NmAsisten2.setText(tbObat.getValueAt(tbObat.getSelectedRow(),34).toString());
+            KdInstrumen.setText(tbObat.getValueAt(tbObat.getSelectedRow(),35).toString());
+            NmInstrumen.setText(tbObat.getValueAt(tbObat.getSelectedRow(),36).toString());
+            KdSirkuler2.setText(tbObat.getValueAt(tbObat.getSelectedRow(),37).toString());
+            NmSirkuler2.setText(tbObat.getValueAt(tbObat.getSelectedRow(),38).toString());
+            KdSirkuler3.setText(tbObat.getValueAt(tbObat.getSelectedRow(),39).toString());
+            NmSirkuler3.setText(tbObat.getValueAt(tbObat.getSelectedRow(),40).toString());
             Valid.SetTgl2(Tanggal,tbObat.getValueAt(tbObat.getSelectedRow(),5).toString());
             Valid.SetTgl(TanggalSeteril,tbObat.getValueAt(tbObat.getSelectedRow(),26).toString());
         }
@@ -2094,7 +2585,7 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
         if(ChkInput.isSelected()==true){
             if(internalFrame1.getHeight()>538){
                 ChkInput.setVisible(false);
-                PanelInput.setPreferredSize(new Dimension(WIDTH,406));
+                PanelInput.setPreferredSize(new Dimension(WIDTH,465));
                 FormInput.setVisible(true);      
                 ChkInput.setVisible(true);
             }else{
@@ -2121,14 +2612,15 @@ public final class RMTimeOutSebelumInsisi extends javax.swing.JDialog {
     private void ganti() {
         Sequel.mengedit("timeout_sebelum_insisi","no_rawat=? and tanggal=?","no_rawat=?,tanggal=?,sncn=?,tindakan=?,kd_dokter_bedah=?,kd_dokter_anestesi=?,verbal_identitas=?,verbal_tindakan=?,"+
             "verbal_area_insisi=?,penandaan_area_operasi=?,lama_operasi=?,penayangan_radiologi=?,penayangan_ctscan=?,penayangan_mri=?,antibiotik_profilaks=?,nama_antibiotik=?,jam_pemberian=?,"+
-            "antisipasi_kehilangan_darah=?,hal_khusus=?,hal_khusus_diperhatikan=?,tanggal_steril=?,petujuk_sterilisasi=?,verifikasi_preoperatif=?,nip_perawat_ok=?",26,new String[]{
+            "antisipasi_kehilangan_darah=?,hal_khusus=?,hal_khusus_diperhatikan=?,tanggal_steril=?,petujuk_sterilisasi=?,verifikasi_preoperatif=?,nip_perawat_ok=?,nip_asisten1=?,nip_asisten2=?,nip_instrumen=?,nip_sirkuler2=?,nip_sirkuler3=?",31,new String[]{
                 TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Tanggal.getSelectedItem().toString().substring(11,19),SNCN.getText(),Tindakan.getText(),
                 KodeDokterBedah.getText(),KodeDokterAnestesi.getText(),VerbalIdentitas.getSelectedItem().toString(),VerbalTindakan.getSelectedItem().toString(),
                 VerbalArea.getSelectedItem().toString(),AreaOperasi.getSelectedItem().toString(),PerkiraanLama.getText(),PenayanganRadiologi.getSelectedItem().toString(),
                 PenayanganCTScan.getSelectedItem().toString(),PenayanganMRI.getSelectedItem().toString(),PemberianAntibiotik.getSelectedItem().toString(),
                 NamaAntibiotikDIberikan.getText(),JamPemberianAntibiotik.getText(),AntisipisasiKehialnganDarah.getText(),AdaHalKhusus.getSelectedItem().toString(),
                 HalKhususDiperhatikan.getText(),Valid.SetTgl(TanggalSeteril.getSelectedItem()+""),PetunjukSterilisasi.getSelectedItem().toString(),
-                VerifikasiOperatif.getSelectedItem().toString(),KdPetugasOK.getText(),tbObat.getValueAt(tbObat.getSelectedRow(),0).toString(),
+                VerifikasiOperatif.getSelectedItem().toString(),KdPetugasOK.getText(),KdAsisten1.getText(),KdAsisten2.getText(),KdInstrumen.getText(),KdSirkuler2.getText(),KdSirkuler3.getText(),
+                tbObat.getValueAt(tbObat.getSelectedRow(),0).toString(),
                 tbObat.getValueAt(tbObat.getSelectedRow(),5).toString()
         });
             

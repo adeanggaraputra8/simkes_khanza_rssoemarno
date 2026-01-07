@@ -332,6 +332,7 @@ public class DlgFrekuensiPenyakitRalan extends javax.swing.JDialog {
         ppGrafikTerbanyakPie = new javax.swing.JMenuItem();
         ppGrafikTerkecilBatang = new javax.swing.JMenuItem();
         ppGrafikTerkecilPie = new javax.swing.JMenuItem();
+        ppDetailData = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         scrollPane1 = new widget.ScrollPane();
         tbDokter = new widget.Table();
@@ -440,6 +441,22 @@ public class DlgFrekuensiPenyakitRalan extends javax.swing.JDialog {
             }
         });
         jPopupMenu1.add(ppGrafikTerkecilPie);
+
+        ppDetailData.setBackground(new java.awt.Color(255, 255, 254));
+        ppDetailData.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppDetailData.setForeground(new java.awt.Color(50, 50, 50));
+        ppDetailData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppDetailData.setText("Detail Data Ralan");
+        ppDetailData.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppDetailData.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppDetailData.setName("ppDetailData"); // NOI18N
+        ppDetailData.setPreferredSize(new java.awt.Dimension(300, 26));
+        ppDetailData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppDetailDataActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(ppDetailData);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -1710,7 +1727,7 @@ private void ppGrafikTerkecilPieActionPerformed(java.awt.event.ActionEvent evt) 
     }//GEN-LAST:event_BtnAllKeyPressed
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
-        tampil();
+            tampil();
     }//GEN-LAST:event_BtnCariActionPerformed
 
     private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCariKeyPressed
@@ -1834,6 +1851,17 @@ private void ppGrafikTerkecilPieActionPerformed(java.awt.event.ActionEvent evt) 
         kelurahan.setVisible(true);
     }//GEN-LAST:event_BtnSeek7ActionPerformed
 
+    private void ppDetailDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppDetailDataActionPerformed
+          if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+        }else{
+            for(i=0;i<tbDokter.getRowCount();i++){ 
+            Valid.panggilUrl("billing/DetailFrekuensiRalan.php?tanggal1="+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"&tanggal2="+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"&icd="+tbDokter.getValueAt(i,0).toString()+"&usere="+koneksiDB.USERHYBRIDWEB()+"&passwordte="+koneksiDB.PASHYBRIDWEB());                       
+      
+            }
+          }
+    }//GEN-LAST:event_ppDetailDataActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1890,6 +1918,7 @@ private void ppGrafikTerkecilPieActionPerformed(java.awt.event.ActionEvent evt) 
     private widget.TextBox nmpenjab;
     private widget.TextBox nmpoli;
     private widget.panelisi panelisi1;
+    private javax.swing.JMenuItem ppDetailData;
     private javax.swing.JMenuItem ppGrafikTerbanyakBatang;
     private javax.swing.JMenuItem ppGrafikTerbanyakPie;
     private javax.swing.JMenuItem ppGrafikTerkecilBatang;
@@ -2156,6 +2185,7 @@ private void ppGrafikTerkecilPieActionPerformed(java.awt.event.ActionEvent evt) 
         }
         this.setCursor(Cursor.getDefaultCursor());        
     }
+    
     
     public void isCek(){
         BtnPrint.setEnabled(akses.getpenyakit_ralan());

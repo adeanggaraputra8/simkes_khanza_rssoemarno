@@ -1146,6 +1146,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         BtnEditINACBG = new widget.Button();
         BtnImportIDRGtoINACBG = new widget.Button();
         BtnCarisep = new widget.Button();
+        nmJaminan = new widget.Label();
+        jLabel110 = new widget.Label();
         internalFrame3 = new widget.InternalFrame();
         scrollInput1 = new widget.ScrollPane();
         FormInput2 = new widget.PanelBiasa();
@@ -1303,8 +1305,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         tarifPlasma = new widget.TextBox();
         labelRP2 = new widget.Label();
         labeltarifPlasma = new widget.Label();
-        jLabel110 = new widget.Label();
-        nmJaminan = new widget.Label();
         jLabel70 = new widget.Label();
         cmbKelainan = new widget.ComboBox();
         labelnmIbu = new widget.Label();
@@ -1418,7 +1418,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         Popup2.add(ppHapusDelivery);
 
         tglDiagnosa.setEditable(false);
-        tglDiagnosa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025" }));
+        tglDiagnosa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-01-2026" }));
         tglDiagnosa.setDisplayFormat("dd-MM-yyyy");
         tglDiagnosa.setName("tglDiagnosa"); // NOI18N
         tglDiagnosa.setOpaque(false);
@@ -2484,7 +2484,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput.add(labelHRlm5);
         labelHRlm5.setBounds(735, 193, 80, 23);
 
-        tglIntubasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
+        tglIntubasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-01-2026 12:26:17" }));
         tglIntubasi.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tglIntubasi.setName("tglIntubasi"); // NOI18N
         tglIntubasi.setOpaque(false);
@@ -2498,7 +2498,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput.add(labelHRlm6);
         labelHRlm6.setBounds(960, 193, 65, 23);
 
-        tglEkstubasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
+        tglEkstubasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-01-2026 12:26:17" }));
         tglEkstubasi.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tglEkstubasi.setName("tglEkstubasi"); // NOI18N
         tglEkstubasi.setOpaque(false);
@@ -3193,7 +3193,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput4.add(labelHRlm22);
         labelHRlm22.setBounds(290, 8, 140, 23);
 
-        wktkelahiran.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
+        wktkelahiran.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-01-2026 12:26:17" }));
         wktkelahiran.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         wktkelahiran.setName("wktkelahiran"); // NOI18N
         wktkelahiran.setOpaque(false);
@@ -3456,6 +3456,21 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         });
         FormInput.add(BtnCarisep);
         BtnCarisep.setBounds(450, 140, 97, 23);
+
+        nmJaminan.setForeground(new java.awt.Color(0, 0, 0));
+        nmJaminan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        nmJaminan.setText("nmJaminan");
+        nmJaminan.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        nmJaminan.setName("nmJaminan"); // NOI18N
+        FormInput.add(nmJaminan);
+        nmJaminan.setBounds(880, 220, 280, 23);
+
+        jLabel110.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel110.setText("Jenis : ");
+        jLabel110.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel110.setName("jLabel110"); // NOI18N
+        FormInput.add(jLabel110);
+        jLabel110.setBounds(830, 220, 50, 23);
 
         scrollInput.setViewportView(FormInput);
 
@@ -4773,21 +4788,6 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput2.add(labeltarifPlasma);
         labeltarifPlasma.setBounds(780, 305, 160, 23);
 
-        jLabel110.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel110.setText("Jenis : ");
-        jLabel110.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel110.setName("jLabel110"); // NOI18N
-        FormInput2.add(jLabel110);
-        jLabel110.setBounds(932, 25, 50, 23);
-
-        nmJaminan.setForeground(new java.awt.Color(0, 0, 0));
-        nmJaminan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        nmJaminan.setText("nmJaminan");
-        nmJaminan.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        nmJaminan.setName("nmJaminan"); // NOI18N
-        FormInput2.add(nmJaminan);
-        nmJaminan.setBounds(986, 25, 420, 23);
-
         jLabel70.setForeground(new java.awt.Color(0, 0, 0));
         jLabel70.setText("Status Kelainan : ");
         jLabel70.setName("jLabel70"); // NOI18N
@@ -5077,7 +5077,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput2.add(labeljam3);
         labeljam3.setBounds(475, 193, 60, 23);
 
-        tglIntubasi1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
+        tglIntubasi1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-01-2026 12:26:17" }));
         tglIntubasi1.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tglIntubasi1.setName("tglIntubasi1"); // NOI18N
         tglIntubasi1.setOpaque(false);
@@ -5091,7 +5091,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         FormInput2.add(labeljam4);
         labeljam4.setBounds(475, 221, 60, 23);
 
-        tglEkstubasi1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-11-2025 04:02:44" }));
+        tglEkstubasi1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-01-2026 12:26:17" }));
         tglEkstubasi1.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tglEkstubasi1.setName("tglEkstubasi1"); // NOI18N
         tglEkstubasi1.setOpaque(false);
@@ -5310,8 +5310,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         } else {
             if (tabMode7.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "Hasil grouper belum ada, lakukan proses simpan & grouper klaim dulu,...!!");
-                BtnGruper2.requestFocus();
+                JOptionPane.showMessageDialog(null, "Maaf, Tidak Bisa Kirim Online selain pasien JKN");
+                //BtnGruper2.requestFocus();
             } else {
 //                tampilDiagnosa();
 //                tampilProsedur();
@@ -5329,7 +5329,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void BtnEditKlaimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditKlaimActionPerformed
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             if (tabMode2.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "Hasil grouper belum ada, lakukan proses simpan & grouper klaim dulu,...!!");
                 BtnSimpanData.requestFocus();
@@ -5367,7 +5367,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void BtnHapusKlaimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHapusKlaimActionPerformed
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             if (tabMode2.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "Hasil grouper belum ada, lakukan proses simpan & grouper klaim dulu,...!!");
                 BtnSimpanData.requestFocus();
@@ -5395,7 +5395,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void BtnFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnFinalActionPerformed
         //kalau kode payor 3 adalah JKN        
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             if (tabMode2.getRowCount() == 0) {
                 JOptionPane.showMessageDialog(null, "Lakukan proses simpan & grouper klaim dulu,...!!");
                 BtnSimpanData.requestFocus();
@@ -5456,7 +5456,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void ppDiagnosaBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppDiagnosaBtnPrintActionPerformed
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             if (norm.getText().equals("") || norawat.equals("")) {
                 JOptionPane.showMessageDialog(null, "Silahkan pilih dulu salah satu data pasiennya,...!!");
             } else {
@@ -7513,7 +7513,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void cekDATA() {
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             if (cmbMnt1App.getSelectedIndex() == 0) {
                 mnt1APP = "";
             } else {
@@ -8009,7 +8009,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         nmJaminan.setText(jnsKlaim);
         ibunya = nmIbu;
         tglREG = "";
-        tglSEP.setText("");
+        tglSEP.setText(tglsep);
 
         try {
             //kalau kode payor 3 adalah JKN
@@ -8047,22 +8047,26 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                             kls = rs.getString("klsrawat");
                         }
 
-                    } else {
-                        norm1.setText(rs.getString("no_rkm_medis"));
-                        nmPasien1.setText(rs.getString("nm_pasien"));
-                        jknyaCOVID = rs.getString("jkel");
-                        tgllhrnyaCOVID = rs.getString("tgl_lahir");
-                        tglLhr1.setText(rs.getString("tgllhir"));
+                    } else if(kodePayor.equals("5")) {
+                        norm.setText(rs.getString("no_rkm_medis"));
+                        nmPasien.setText(rs.getString("nm_pasien"));
+                        jknya = rs.getString("jkel");
+                        tgllhrnya = rs.getString("tgl_lahir");
+                        tglLhr.setText(rs.getString("tgllhir"));
+                        noPeserta.setText(rs.getString("no_peserta"));
                         jpel = rs.getString("jRawat");
+                        tglREG = rs.getString("tgl_registrasi");
+                        tglSEP.setText(rs.getString("tgl_registrasi"));
+                        kls = "3";
                         
-                        if (nmJaminan.getText().equals("JAMINAN BAYI BARU LAHIR")) {
-                            cmbID.setSelectedIndex(11);                            
-                            noID.setText(nosep);
-                            labelnmIbu.setText("Nama Ibu : " + nmIbu);
-                        } else {
-                            cmbID.setSelectedIndex(0);
-                            noID.setText(rs.getString("no_ktp"));
-                        }                        
+//                        if (nmJaminan.getText().equals("JAMINAN BAYI BARU LAHIR")) {
+//                            cmbID.setSelectedIndex(11);                            
+//                            noID.setText(nosep);
+//                            labelnmIbu.setText("Nama Ibu : " + nmIbu);
+//                        } else {
+//                            cmbID.setSelectedIndex(0);
+//                            noID.setText(rs.getString("no_ktp"));
+//                        }                        
                     }
                 }
             } catch (Exception e) {
@@ -8110,28 +8114,29 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
         } else {
             if (akses.getkode().equals("Admin Utama")) {
-                nmPetugas1.setText("Admin Utama");
-                nikPetugas1.setText("1");
+                nmPetugas.setText("Admin Utama");
+                nikPetugas.setText("1");
             } else {
-                nmPetugas1.setText(Sequel.cariIsi("select nama from petugas WHERE nip='" + akses.getkode() + "'"));
-                nikPetugas1.setText(Sequel.cariIsi("SELECT no_ik FROM inacbg_coder_nik WHERE nik='" + akses.getkode() + "'"));
+                nmPetugas.setText(Sequel.cariIsi("select nama from petugas WHERE nip='" + akses.getkode() + "'"));
+                nikPetugas.setText(Sequel.cariIsi("SELECT no_ik FROM inacbg_coder_nik WHERE nik='" + akses.getkode() + "'"));
             }
 
-            labelhasilG2.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim "
-                    + "where no_sep='" + Sequel.cariIsi("SELECT claim_number FROM eklaim_generate_claim where no_rawat='" + norw + "'") + "'"));
-            ta1.setText("0");
-            alkes1.setText("0");
-            okr1.setText("0");
-            bmhp1.setText("0");
-            pen1.setText("0");
-            pd1.setText("0");
-            oke1.setText("0");
-            sa1.setText("0");
+            labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + nosep + "'"));
+            labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                    + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + nosep + "'"));
+            ta.setText("0");
+            alkes.setText("0");
+            okr.setText("0");
+            bmhp.setText("0");
+            pen.setText("0");
+            pd.setText("0");
+            oke.setText("0");
+            sa.setText("0");
 
-            if (tabMode8.getRowCount() == 0) {
-                BtnGruperStage1.setEnabled(false);
+            if (tabMode3.getRowCount() == 0) {
+                BtnGruperStage.setEnabled(false);
             } else {
-                BtnGruperStage1.setEnabled(true);
+                BtnGruperStage.setEnabled(true);
             }
         }
         SetDataKlaim("baru", tglsep);
@@ -8154,10 +8159,10 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 jk.setText("PEREMPUAN");
             }
         } else {
-            if (jknyaCOVID.equals("1")) {
-                jk1.setText("LAKI-LAKI");
+            if (jknya.equals("1")) {
+                jk.setText("LAKI-LAKI");
             } else {
-                jk1.setText("PEREMPUAN");
+                jk.setText("PEREMPUAN");
             }
         }
 
@@ -8181,8 +8186,8 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
                 }
                 dataKlaimBaru();
             } else {
-                kls = "3";
-                labelhak1.setText("Kelas 3");
+                cmbKH.setSelectedIndex(0);
+               // labelhak1.setText("Kelas 3");
                 dataKlaimBaru();
             }
 
@@ -8195,7 +8200,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         diagnosaKlaim = null;
         diagnosaKlaimINADRG = null;
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             //diagnosa v5 -----------------------------------------
             Valid.tabelKosong(tabMode);
             try {
@@ -8360,7 +8365,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         diagnosaKlaim = null;
         diagnosaKlaimINADRG = null;
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             //diagnosa v5 -----------------------------------------
             Valid.tabelKosong(tabMode);
             try {
@@ -8448,7 +8453,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         prosedurKlaim = "";
         prosedurINADRG1="";
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             Valid.tabelKosong(tabMode1);
             try {
                 ps2 = koneksi.prepareStatement("SELECT pp.kode, i.deskripsi_panjang FROM prosedur_pasien pp "
@@ -8606,7 +8611,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         prosedurKlaim = "";
         prosedurINADRG1="";
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             Valid.tabelKosong(tabMode1);
             try {
                 ps2 = koneksi.prepareStatement("SELECT pp.kode, i.deskripsi_panjang FROM prosedur_pasien pp "
@@ -8799,6 +8804,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         ri.setText("");
         oke.setText("");
         sa.setText("");
+        nmJaminan.setText("-");
         labelTarifRS.setText("");
         labelhasilG.setText("Hasil Grouper : ");
         labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. 0");
@@ -8929,8 +8935,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         cmbIsolasi.setSelectedIndex(0);
         cmbKelainan.setSelectedIndex(0);
         tarifPlasma.setText("");
-        labeltarifPlasma.setText("");
-        nmJaminan.setText("-");
+        labeltarifPlasma.setText("");       
         labelnmIbu.setText("Nama Ibu : -");
         labelnmIbu.setVisible(false);
         ChkRawatIntensif1.setEnabled(false);
@@ -8966,7 +8971,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         nilaiPNB = 0;
 
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             pnb1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='PNB01')");
@@ -9027,7 +9032,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void hitungRI() {
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             nilaiRI = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar LIKE 'R.ICU%'  OR kd_kamar LIKE '%NICU%' OR kd_kamar LIKE '%HCA%' OR kd_kamar LIKE '%HCD%') AND no_rawat='" + NrawatTARIF + "'");
             ri.setText(Valid.SetAngka2(nilaiRI));
 
@@ -9055,7 +9060,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         nilaiKAM = 0;
 
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             kmr1 = Sequel.cariIsiAngka("SELECT SUM(ttl_biaya) biaya FROM kamar_inap WHERE (kd_kamar not LIKE 'ICU%' OR kd_kamar not LIKE '%NIC%') AND no_rawat='" + NrawatTARIF + "'");
             kmr2 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
@@ -9107,7 +9112,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void hitungTOTAL() {
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             nilaiTOTAL = nilaiPNB + nilaiRI + nilaiKAM + nilaiKON + nilaiKEP + nilaiREH
                     + nilaiRAD + nilaiLAB + nilaiOBAT + nilaiPB;
             labelTarifRS.setText(Valid.SetAngka2(nilaiTOTAL));
@@ -9135,7 +9140,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         nilaiKON = 0;
 
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             kon1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND "
                     + "(kp.kd_kategori='KST03')");
@@ -9199,7 +9204,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         nilaiKEP = 0;
 
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             kep1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') "
                     + "AND (kp.kd_kategori='KPR05')");
@@ -9264,7 +9269,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         nilaiREH = 0;
 
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             reh1 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
@@ -9328,7 +9333,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
         //kalau kode payor 3 adalah JKN
          private void hitungRAD() {
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             rad7 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Radiologi'");
             rad01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
@@ -9390,7 +9395,7 @@ public final class PengajuanKlaimINACBGrz extends javax.swing.JDialog {
 
     private void hitungLAB() {
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             lab7 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='" + NrawatTARIF + "' and status='Laborat'");
             lab01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
@@ -9459,7 +9464,7 @@ private void hitungOBAT() {
         nilaiOBAT = 0;
 
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             obt1 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Obat'");
             obt2 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Retur Obat'");
             obt3 = Sequel.cariIsiAngka("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') and status='Resep Pulang'");
@@ -9494,7 +9499,7 @@ private void hitungOBAT() {
         pb14=0;
         
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             pb01 = Sequel.cariIsiAngka("SELECT SUM(biayaoperator1+biayaoperator2+biayaoperator3+biayaasisten_operator1+biayaasisten_operator2+biayaasisten_operator3+ "
                     + "biayainstrumen+biayadokter_anak+biayaperawaat_resusitas+biayadokter_anestesi+biayaasisten_anestesi+biayaasisten_anestesi2+biayabidan+ "
                     + "biayabidan2+biayabidan3+biayaperawat_luar+biayaalat+biayasewaok+akomodasi+bagian_rs+biaya_omloop+biaya_omloop2+biaya_omloop3+biaya_omloop4+ "
@@ -9538,7 +9543,7 @@ private void hitungOBAT() {
             pb10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawa in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='PBD02')");
             pb11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
@@ -9577,7 +9582,7 @@ private void hitungOBAT() {
 
         
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             pd01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
@@ -9652,7 +9657,7 @@ private void hitungOBAT() {
 
         
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             ta01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
@@ -9696,7 +9701,7 @@ private void hitungOBAT() {
             ta10 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat= in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "') AND (kp.kd_kategori='TAH04')");
             ta11 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_jl_drpr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
@@ -9727,7 +9732,7 @@ private void hitungOBAT() {
 
         
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             al01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
@@ -9803,7 +9808,7 @@ private void hitungOBAT() {
 
         
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             sa01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
@@ -9878,7 +9883,7 @@ private void hitungOBAT() {
 
         
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             pen01 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
@@ -9910,7 +9915,7 @@ private void hitungOBAT() {
             pen7 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_dr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
-                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "')' AND (kp.kd_kategori='KP042')");
+                    + "WHERE ridr.no_rawat in ('" + NrawatTARIF + "', '" + norawatbayi + "') AND (kp.kd_kategori='KP042')");
             pen8 = Sequel.cariIsiAngka("SELECT sum(ridr.biaya_rawat) biaya FROM rawat_inap_pr ridr "
                     + "INNER JOIN jns_perawatan_inap jpi ON jpi.kd_jenis_prw=ridr.kd_jenis_prw "
                     + "INNER JOIN kategori_perawatan kp ON kp.kd_kategori=jpi.kd_kategori "
@@ -9938,7 +9943,7 @@ private void hitungOBAT() {
 
     private void tampilHG1() {
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             Valid.tabelKosong(tabMode2);
             try {
                 ps3 = koneksi.prepareStatement("SELECT 'CBG' komponen, eg.cbg_desc deskrip, eg.cbg_code kode, concat('Rp. ',format(eg.cbg_tarif,0)) nominal  FROM eklaim_grouping eg "
@@ -10138,21 +10143,14 @@ private void hitungOBAT() {
                         tglSEP.setText(rs5.getString("tglsep"));
 
                     } else {
-                        norm1.setText(rs5.getString("no_rkm_medis"));
-                        nmPasien1.setText(rs5.getString("nm_pasien"));
-                        jknyaCOVID = rs5.getString("jkel");
-                        tgllhrnyaCOVID = rs5.getString("tgl_lahir");
-                        tglLhr1.setText(rs5.getString("tgllhir"));
-                        jpel = rs5.getString("jRawat");
-                        
-                        if (nmJaminan.getText().equals("JAMINAN BAYI BARU LAHIR")) {
-                            cmbID.setSelectedIndex(11);
-                            noID.setText(noseP);
-                            labelnmIbu.setText("Nama Ibu : " + nmIbu);
-                        } else {
-                            cmbID.setSelectedIndex(0);
-                            noID.setText(rs5.getString("no_ktp"));
-                        }
+                        norm.setText(rs5.getString("no_rkm_medis"));
+                        nmPasien.setText(rs5.getString("nm_pasien"));
+                        jknya = rs5.getString("jkel");
+                        tgllhrnya = rs5.getString("tgl_lahir");
+                        tglLhr.setText(rs5.getString("tgllhr"));
+//                        tglREG = Sequel.cariIsi("select tgl_registrasi from reg_periksa where no_rawat='" + norW + "'");
+                        tglREG = rs5.getString("tgl_registrasi");
+                        tglSEP.setText(rs5.getString("tgl_registrasi"));
                     }
                 }
             } catch (Exception e) {
@@ -10198,30 +10196,30 @@ private void hitungOBAT() {
             sa.setText("0");
 
         } else {
-            if (akses.getkode().equals("Admin Utama")) {
-                nmPetugas1.setText("Admin Utama");
-                nikPetugas1.setText("1");
+             if (akses.getkode().equals("Admin Utama")) {
+                nmPetugas.setText("Admin Utama");
+                nikPetugas.setText("1");
             } else {
-                nmPetugas1.setText(Sequel.cariIsi("select nama from petugas WHERE nip='" + akses.getkode() + "'"));
-                nikPetugas1.setText(Sequel.cariIsi("SELECT no_ik FROM inacbg_coder_nik WHERE nik='" + akses.getkode() + "'"));
+                nmPetugas.setText(Sequel.cariIsi("select nama from petugas WHERE nip='" + akses.getkode() + "'"));
+                nikPetugas.setText(Sequel.cariIsi("SELECT no_ik FROM inacbg_coder_nik WHERE nik='" + akses.getkode() + "'"));
             }
 
-            labelhasilG2.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim "
-                    + "where no_sep='" + Sequel.cariIsi("SELECT claim_number FROM eklaim_generate_claim where no_rawat='" + norW + "'") + "'"));
-
-            if (tabMode8.getRowCount() == 0) {
-                BtnGruperStage1.setEnabled(false);
+            if (tabMode3.getRowCount() == 0) {
+                BtnGruperStage.setEnabled(false);
             } else {
-                BtnGruperStage1.setEnabled(true);
+                BtnGruperStage.setEnabled(true);
             }
-            ta1.setText("0");
-            alkes1.setText("0");
-            okr1.setText("0");
-            bmhp1.setText("0");
-            pen1.setText("0");
-            pd1.setText("0");
-            oke1.setText("0");
-            sa1.setText("0");
+            labelhasilG.setText("Hasil Grouper : " + Sequel.cariIsi("select if(klaim_final='Belum','',klaim_final) from eklaim_new_claim where no_sep='" + noseP + "'"));
+            labeltambahan.setText("Tambahan biaya yang dibayar pasien naik kelas : Rp. "
+                    + Sequel.cariIsi("SELECT format(ifnull(add_payment_amt,'0'),0) tambhn_biaya FROM eklaim_grouping WHERE no_sep='" + noseP + "'"));
+            ta.setText("0");
+            alkes.setText("0");
+            okr.setText("0");
+            bmhp.setText("0");
+            pen.setText("0");
+            pd.setText("0");
+            oke.setText("0");
+            sa.setText("0");
         }
 
         tampilDiagnosa();
@@ -10430,374 +10428,202 @@ private void hitungOBAT() {
             }
 
         } else {
-            cmbVentilator1.setEnabled(false);
-            cmbVentilator1.setSelectedIndex(1);
-            tglIntubasi1.setDate(new Date());
-            tglEkstubasi1.setDate(new Date());
-            tglIntubasi1.setEnabled(false);
-            tglEkstubasi1.setEnabled(false);
             
-            //kelengkapan meninggal
-            ChkSemuaPelengkap.setSelected(false);
-            ChkPemulasaran.setSelected(false);
-            ChkPlastik.setSelected(false);
-            ChkKantong.setSelected(false);
-            ChkDesinfekJen.setSelected(false);
-            ChkDesinfekMob.setSelected(false);
-            ChkPeti.setSelected(false);
-            ChkTranspot.setSelected(false);
-
-            ChkSemuaPelengkap.setEnabled(false);
-            ChkPemulasaran.setEnabled(false);
-            ChkPlastik.setEnabled(false);
-            ChkKantong.setEnabled(false);
-            ChkDesinfekJen.setEnabled(false);
-            ChkDesinfekMob.setEnabled(false);
-            ChkPeti.setEnabled(false);
-            ChkTranspot.setEnabled(false);
-
-            //faktor pengurang
-            ChkSemuaFaktor.setSelected(false);
-            ChkAsam.setSelected(false);
-            ChkKultur.setSelected(false);
-            ChkAPTT.setSelected(false);
-            ChkAnalisa.setSelected(false);
-            ChkProcal.setSelected(false);
-            ChkDimer.setSelected(false);
-            ChkWaktu.setSelected(false);
-            ChkAlbumin.setSelected(false);
-            ChkCRP.setSelected(false);
-            ChkPT.setSelected(false);
-            ChkAnti.setSelected(false);
-            ChkThorax.setSelected(false);
-            
-            ChkSemuaFaktor.setEnabled(true);
-            ChkAsam.setEnabled(true);
-            ChkKultur.setEnabled(true);
-            ChkAPTT.setEnabled(true);
-            ChkAnalisa.setEnabled(true);
-            ChkProcal.setEnabled(true);
-            ChkDimer.setEnabled(true);
-            ChkWaktu.setEnabled(true);
-            ChkAlbumin.setEnabled(true);
-            ChkCRP.setEnabled(true);
-            ChkPT.setEnabled(true);
-            ChkAnti.setEnabled(true);
-            ChkThorax.setEnabled(true);
-
-            //---------------------------------------------------
-            Valid.tabelKosong(tabMode4);
-            Valid.tabelKosong(tabMode9);
-            Valid.tabelKosong(tabMode10);
-            cmbUnggah.setSelectedIndex(0);
-            lokasiFile.setText("");
-            kirimEPISOD = "";
-            hari.setText("0");
-            cmbCO.setSelectedIndex(1);
-            cmbKomor.setSelectedIndex(0);
-            cmbStatus.setSelectedIndex(2);
-            cmbEpisod.setSelectedIndex(0);
-            cmbCrMasuk1.setSelectedIndex(0);
-            umur1.setText(Sequel.cariIsi("select concat(umurdaftar,' ','" + sts_umur_ok + "') from reg_periksa where no_rawat='" + norawat + "'"));
+            tarifPoliExe.setText("0");
+            labeltarif.setText("0");
+            losNaikKls.setText("0");
+            losIntensif.setText("0");
+            ventilator.setText("0");
+            ChkKelasEksekutif.setSelected(false);
+            ChkNaikTurun.setSelected(false);
+            ChkRawatIntensif.setSelected(false);
+            cmbKP.setSelectedIndex(0);
+            //cmbCrMasuk.setSelectedIndex(0);   
+            nilaiPembiayaan = Sequel.cariIsi("select ifnull(pembiayaan,'') from bridging_sep where no_sep='" + noSEP.getText() + "'");
+            umur.setText(Sequel.cariIsi("select concat(umurdaftar,' ','" + sts_umur_ok + "') from reg_periksa where no_rawat='" + norawat + "'"));
             cekBB = Sequel.cariIsi("select berat_badan from pasien_bayi where no_rkm_medis='" + norm.getText() + "'");
+            cmbVentilator.setEnabled(false);
+            cmbVentilator.setSelectedIndex(1);
+            tglIntubasi.setDate(new Date());
+            tglEkstubasi.setDate(new Date());
+            tglIntubasi.setEnabled(false);
+            tglEkstubasi.setEnabled(false);
+
+            ChkApgar.setSelected(false);
+            cmbMnt1App.setSelectedIndex(0);
+            cmbMnt1Pul.setSelectedIndex(0);
+            cmbMnt1Gri.setSelectedIndex(0);
+            cmbMnt1Act.setSelectedIndex(0);
+            cmbMnt1Res.setSelectedIndex(0);
+            cmbMnt5App.setSelectedIndex(0);
+            cmbMnt5Pul.setSelectedIndex(0);
+            cmbMnt5Gri.setSelectedIndex(0);
+            cmbMnt5Act.setSelectedIndex(0);
+            cmbMnt5Res.setSelectedIndex(0);
             
-            ChkRawatIntensif1.setEnabled(false);
-            ChkRawatIntensif1.setSelected(false);
-            losIntensif1.setEnabled(false);
-            losIntensif1.setText("0");
-            ventilator1.setEnabled(false);
-            ventilator1.setText("0");
-            cmbKelainan.setEnabled(false);
-            cmbKelainan.setSelectedIndex(0);
-            labelnmIbu.setVisible(false);
-            cmbID.setEnabled(true);
-            cmbID.setSelectedIndex(0);
-            noID.setEditable(true);
-            cmbIsolasi.setEnabled(true);
-            cmbIsolasi.setSelectedIndex(0);
-
-            cmbEpisod.setEnabled(true);
-            hari.setEnabled(true);
-            BtnAddEpisod.setEnabled(true);
-            BtnDelEpisod.setEnabled(true);
-            cmbStatus.setEnabled(true);
-            cmbStatus.setSelectedIndex(2);
-            cmbRS.setEnabled(true);
-            cmbRS.setSelectedIndex(1);
-            cmbKriteria.setEnabled(true);
-            cmbKriteria.setSelectedIndex(1);
-            cmbCO.setEnabled(true);
-            cmbKomor.setEnabled(true);
-
+            cmbDializer.setSelectedIndex(1);
+            TkntngDrh.setText("0");
+            
             if (cekBB.equals("")) {
-                brtlhr1.setText("0");
+                brtlhr.setText("0");
             } else if (!cekBB.equals("")) {
-                brtlhr1.setText(cekBB);
+                brtlhr.setText(cekBB);
             }
 
             //jns. pelayanan 1 (rawat inap)
             if (jpel.equals("1")) {
-                labelrwt1.setText("INAP");
-                noKlaim.setText(Sequel.cariIsi("SELECT claim_number FROM eklaim_generate_claim where no_rawat='" + norawat + "'"));
-                tampilTerupload();
-                cmbCO.setEnabled(true);
-                cmbRS.setEnabled(true);
-                cmbRS.setSelectedItem(1);                
-                tbEpisod.setEnabled(true);
-                wktMasuk1.setText(Sequel.cariIsi("select ifnull(concat(date_format(tgl_registrasi,'%d %b %Y'),' ',jam_reg),'') from reg_periksa where no_rawat='" + norawat + "'"));
-                wktPulang1.setText(Sequel.cariIsi("select concat(date_format(ki.tgl_keluar,'%d %b %Y'),' ',ki.jam_keluar) from kamar_inap ki "
+                labelrwt.setText("INAP");
+                ChkKelasEksekutif.setEnabled(false);
+                tarifPoliExe.setEnabled(false );
+                ChkNaikTurun.setEnabled(true);
+                cmbKP.setEnabled(false);
+                cmbPembiayaan.setEnabled(false);
+                losNaikKls.setEnabled(false);
+                ChkRawatIntensif.setEnabled(true);
+                losIntensif.setEnabled(false);
+                ventilator.setEnabled(false);
+                wktMasuk.setText(Sequel.cariIsi("select ifnull(concat(date_format(tgl_registrasi,'%d %b %Y'),' ',jam_reg),'') from reg_periksa where no_rawat='" + norawat + "'"));
+                wktPulang.setText(Sequel.cariIsi("select concat(date_format(ki.tgl_keluar,'%d %b %Y'),' ',ki.jam_keluar) from kamar_inap ki "
                         + "inner join reg_periksa rp on rp.no_rawat=ki.no_rawat where ki.no_rawat='" + norawat + "' and ki.stts_pulang not in ('-','pindah kamar')"));
-                tglmsk = Sequel.cariIsi("select concat(tgl_registrasi,' ',jam_reg) from reg_periksa where no_rawat='" + norawat + "'");
-                tglplg = Sequel.cariIsi("select concat(ki.tgl_keluar,' ',ki.jam_keluar) from kamar_inap ki inner join reg_periksa rp on rp.no_rawat=ki.no_rawat where "
+                tglmsk = Sequel.cariIsi("SELECT CONCAT(bs.tglsep,' ',rp.jam_reg) FROM reg_periksa rp "
+                        + "INNER JOIN bridging_sep bs ON bs.no_rawat=rp.no_rawat WHERE bs.no_rawat='" + norawat + "'");
+                tglplg = Sequel.cariIsi("SELECT if(bs.tglsep=ki.tgl_keluar,CONCAT(ki.tgl_keluar,' ',rp.jam_reg),CONCAT(ki.tgl_keluar,' ',ki.jam_keluar)) tgl_pulang "
+                        + "from kamar_inap ki inner join reg_periksa rp on rp.no_rawat=ki.no_rawat LEFT JOIN bridging_sep bs ON bs.no_rawat=rp.no_rawat WHERE "
                         + "ki.no_rawat='" + norawat + "' and ki.stts_pulang not in ('-','pindah kamar')");
-                cekstsPulang = Sequel.cariIsi("select stts_pulang from kamar_inap where no_rawat='" + norawat + "' and stts_pulang not in ('-','pindah kamar')");
-                dpjp1.setText(Sequel.cariIsi("select d.nm_dokter from dpjp_ranap dr inner join dokter d on d.kd_dokter=dr.kd_dokter where dr.no_rawat='" + norawat + "'"));
-                losNaikKls.setText("0");
-                labelLOS1.setText(Sequel.cariIsi("select DATEDIFF(k.tgl_keluar,r.tgl_registrasi)+1 from kamar_inap k "
+                dpjp.setText(Sequel.cariIsi("select d.nm_dokter from dpjp_ranap dr inner join dokter d on d.kd_dokter=dr.kd_dokter where dr.no_rawat='" + norawat + "'"));                
+                labelLOS.setText(Sequel.cariIsi("select DATEDIFF(k.tgl_keluar,r.tgl_registrasi)+1 from kamar_inap k "
                         + "inner join reg_periksa r on r.no_rawat = k.no_rawat where k.stts_pulang not in ('-','Pindah Kamar') and k.no_rawat = '" + norawat + "'"));
 
-                if (kodePayor.equals("73")) {
-                    ChkRawatIntensif1.setEnabled(true);
-                    ChkRawatIntensif1.setSelected(false);
-                    cmbKelainan.setEnabled(true);
-                    cmbKelainan.setSelectedIndex(0);
-                    labelnmIbu.setVisible(true);
-                    cmbID.setEnabled(false);
-                    cmbID.setSelectedIndex(11);
-                    noID.setEditable(false);
-                    BtnAddEpisod.setEnabled(false);
-                    BtnDelEpisod.setEnabled(false);
-                    cmbStatus.setEnabled(false);
-                    cmbRS.setEnabled(false);
-                    tarifPlasma.setEnabled(false);
-                    cmbIsolasi.setEnabled(false);
-                    cmbKriteria.setEnabled(false);
-                    cmbCO.setEnabled(false);
-                    cmbKomor.setEnabled(false);
-
-                    ChkSemuaFaktor.setEnabled(false);
-                    ChkAsam.setEnabled(false);
-                    ChkKultur.setEnabled(false);
-                    ChkAPTT.setEnabled(false);
-                    ChkAnalisa.setEnabled(false);
-                    ChkProcal.setEnabled(false);
-                    ChkDimer.setEnabled(false);
-                    ChkWaktu.setEnabled(false);
-                    ChkAlbumin.setEnabled(false);
-                    ChkCRP.setEnabled(false);
-                    ChkPT.setEnabled(false);
-                    ChkAnti.setEnabled(false);
-                    ChkThorax.setEnabled(false);
-
-                    ChkSemuaFaktor.setSelected(false);
-                    ChkAsam.setSelected(false);
-                    ChkKultur.setSelected(false);
-                    ChkAPTT.setSelected(false);
-                    ChkAnalisa.setSelected(false);
-                    ChkProcal.setSelected(false);
-                    ChkDimer.setSelected(false);
-                    ChkWaktu.setSelected(false);
-                    ChkAlbumin.setSelected(false);
-                    ChkCRP.setSelected(false);
-                    ChkPT.setSelected(false);
-                    ChkAnti.setSelected(false);
-                    ChkThorax.setSelected(false);
-                }
-                
-                if (kodePayor.equals("72") || kodePayor.equals("75")) {
-                    cmbCO.setEnabled(false);
-                    cmbKomor.setEnabled(false);
-                    ChkRawatIntensif1.setEnabled(true);
-                    ChkRawatIntensif1.setSelected(false);
-                    cmbKriteria.setEnabled(false);
-                    cmbIsolasi.setEnabled(false);
-                    cmbStatus.setEnabled(false);
-                    cmbRS.setEnabled(false);
-                    tarifPlasma.setEnabled(false); 
-                    BtnAddEpisod.setEnabled(false);
-                    BtnDelEpisod.setEnabled(false);
-                    
-                    ChkSemuaFaktor.setEnabled(false);
-                    ChkAsam.setEnabled(false);
-                    ChkKultur.setEnabled(false);
-                    ChkAPTT.setEnabled(false);
-                    ChkAnalisa.setEnabled(false);
-                    ChkProcal.setEnabled(false);
-                    ChkDimer.setEnabled(false);
-                    ChkWaktu.setEnabled(false);
-                    ChkAlbumin.setEnabled(false);
-                    ChkCRP.setEnabled(false);
-                    ChkPT.setEnabled(false);
-                    ChkAnti.setEnabled(false);
-                    ChkThorax.setEnabled(false);
-
-                    ChkSemuaFaktor.setSelected(false);
-                    ChkAsam.setSelected(false);
-                    ChkKultur.setSelected(false);
-                    ChkAPTT.setSelected(false);
-                    ChkAnalisa.setSelected(false);
-                    ChkProcal.setSelected(false);
-                    ChkDimer.setSelected(false);
-                    ChkWaktu.setSelected(false);
-                    ChkAlbumin.setSelected(false);
-                    ChkCRP.setSelected(false);
-                    ChkPT.setSelected(false);
-                    ChkAnti.setSelected(false);
-                    ChkThorax.setSelected(false);
-                }
-
-                if (cmbStatus.getSelectedIndex() == 2) {
-                    if (kodePayor.equals("73") || kodePayor.equals("72") || kodePayor.equals("75")) {
-                        tarifPlasma.setEnabled(false);
-                        tarifPlasma.setText("0");
-                    } else {
-                        tarifPlasma.setEnabled(true);
-                        tarifPlasma.setText("0");
-                    }
-                } else {
-                    tarifPlasma.setEnabled(false);
-                    tarifPlasma.setText("0");
-                }
-
-                if (cekstsPulang.equals("Dirujuk")) {
+                cekstsPulang = Sequel.cariIsi("select stts_pulang from kamar_inap where no_rawat='" + norawat + "' and stts_pulang not in ('-','pindah kamar')");
+                 if (cekstsPulang.equals("Rujuk")) {
                     kdPulang = "2";
-                    cmbcrPulang1.setSelectedIndex(1);
-                } else if (cekstsPulang.equals("APS")) {
+                    cmbcrPulang.setSelectedIndex(1);
+                } else if (cekstsPulang.equals("Atas Permintaan Sendiri")) {
                     kdPulang = "3";
-                    cmbcrPulang1.setSelectedIndex(2);
-                } else if (cekstsPulang.equals("Meninggal >= 48 Jam") || cekstsPulang.equals("Meninggal < 48 Jam")) {
+                    cmbcrPulang.setSelectedIndex(2);
+                } else if (cekstsPulang.equals("Meninggal > 48") || cekstsPulang.equals("Meninggal")) {
                     kdPulang = "4";
-                    cmbcrPulang1.setSelectedIndex(3);
-
-                    if (kodePayor.equals("73") || kodePayor.equals("72") || kodePayor.equals("75")) {
-                        ChkSemuaPelengkap.setEnabled(false);
-                        ChkPemulasaran.setEnabled(false);
-                        ChkPlastik.setEnabled(false);
-                        ChkKantong.setEnabled(false);
-                        ChkDesinfekJen.setEnabled(false);
-                        ChkDesinfekMob.setEnabled(false);
-                        ChkPeti.setEnabled(false);
-                        ChkTranspot.setEnabled(false);
-
-                        ChkSemuaPelengkap.setSelected(false);
-                        ChkPemulasaran.setSelected(false);
-                        ChkPlastik.setSelected(false);
-                        ChkKantong.setSelected(false);
-                        ChkDesinfekJen.setSelected(false);
-                        ChkDesinfekMob.setSelected(false);
-                        ChkPeti.setSelected(false);
-                        ChkTranspot.setSelected(false);
-                    } else {
-                        ChkSemuaPelengkap.setEnabled(true);
-                        ChkPemulasaran.setEnabled(true);
-                        ChkPlastik.setEnabled(true);
-                        ChkKantong.setEnabled(true);
-                        ChkDesinfekJen.setEnabled(true);
-                        ChkDesinfekMob.setEnabled(true);
-                        ChkPeti.setEnabled(true);
-                        ChkTranspot.setEnabled(true);
-                    }
-                } else if (cekstsPulang.equals("Sembuh/BLPL")) {
+                    cmbcrPulang.setSelectedIndex(3);
+                } else if (cekstsPulang.equals(" Atas Persetujuan Dokter")) {
                     kdPulang = "1";
-                    cmbcrPulang1.setSelectedIndex(4);
+                    cmbcrPulang.setSelectedIndex(4);
                 } else if (cekstsPulang.equals("Kabur")) {
                     kdPulang = "5";
-                    cmbcrPulang1.setSelectedIndex(5);
+                    cmbcrPulang.setSelectedIndex(5);
+                }
+                 
+                if (Sequel.cariInteger("SELECT no_rawat FROM reg_periksa WHERE no_rawat='"+norawat+"' and kd_poli IN ('IGDK','PPN')") > 0) {
+                    cmbCrMasuk.setSelectedIndex(3);
+                } else if (Sequel.cariInteger("SELECT no_rawat FROM reg_periksa WHERE no_rawat='"+norawat+"' and kd_poli NOT IN ('IGDK','PPN')") > 0) {
+                    cmbCrMasuk.setSelectedIndex(5);
+                } 
+                else {
+                     cmbCrMasuk.setSelectedIndex(5);
+                }
+                
+                //pembiayaan
+                if (nilaiPembiayaan.equals("")) {
+                    cmbPembiayaan.setSelectedIndex(0);
+                } else if (nilaiPembiayaan.equals("1")) {
+                    cmbPembiayaan.setSelectedIndex(1);
+                } else if (nilaiPembiayaan.equals("2")) {
+                    cmbPembiayaan.setSelectedIndex(2);
+                } else if (nilaiPembiayaan.equals("3")) {
+                    cmbPembiayaan.setSelectedIndex(3);
+                }
+                
+                //tekanan darah
+                if (Sequel.cariInteger("select count(-1) from pemeriksaan_ranap where no_rawat = '" + norawat + "'") > 0) {
+                    if (Sequel.cariIsi("select tensi from pemeriksaan_ranap where no_rawat = '" + norawat + "'").equals("")) {
+                        sistole.setText("0");
+                        diastole.setText("0");
+                    } else {
+                        sistole.setText(Sequel.cariIsi("select SUBSTRING_INDEX(tensi,'/',1) sistole from pemeriksaan_ranap where no_rawat = '" + norawat + "'"));
+                        diastole.setText(Sequel.cariIsi("select SUBSTRING_INDEX(tensi,'/',-1) diastole from pemeriksaan_ranap where no_rawat = '" + norawat + "'"));
+                    }
+
+                } else {
+                    sistole.setText("0");
+                    diastole.setText("0");
                 }
 
-                //jns. pelayanan 2 (rawat jalan)  
+            //jns. pelayanan 2 (rawat jalan)  
             } else if (jpel.equals("2")) {
-                labelrwt1.setText("JALAN");
-                noKlaim.setText(Sequel.cariIsi("SELECT claim_number FROM eklaim_generate_claim where no_rawat='" + norawat + "'"));
-                tampilTerupload();
-                tbEpisod.setEnabled(false);
-                wktMasuk1.setText(Sequel.cariIsi("select ifnull(concat(date_format(tgl_registrasi,'%d %b %Y'),' ',jam_reg),'') from reg_periksa where no_rawat='" + norawat + "'"));
-                wktPulang1.setText(wktMasuk1.getText());
-                tglmsk = Sequel.cariIsi("select concat(tgl_registrasi,' ',jam_reg) from reg_periksa where no_rawat='" + norawat + "'");
+                labelrwt.setText("JALAN");
+                ChkKelasEksekutif.setEnabled(true);
+                tarifPoliExe.setEnabled(false);
+                ChkNaikTurun.setEnabled(false);
+                cmbKP.setEnabled(false);
+                cmbPembiayaan.setEnabled(false);
+                losNaikKls.setEnabled(false);
+                ChkRawatIntensif.setEnabled(false);
+                losIntensif.setEnabled(false);
+                ventilator.setEnabled(false);
+                wktMasuk.setText(Sequel.cariIsi("select ifnull(concat(date_format(tgl_registrasi,'%d %b %Y'),' ',jam_reg),'') from reg_periksa where no_rawat='" + norawat + "'"));
+                wktPulang.setText(wktMasuk.getText());
+                tglmsk = Sequel.cariIsi("SELECT CONCAT(bs.tgl_kunjungan,' ',rp.jam_reg) FROM reg_periksa rp "
+                        + "INNER JOIN jamkeskinda_jaminan bs ON bs.no_rawat=rp.no_rawat WHERE bs.no_rawat='" + norawat + "'");
                 tglplg = tglmsk;
-                kdPulang = "1";
-                cmbcrPulang1.setSelectedIndex(4);
-                dpjp1.setText(Sequel.cariIsi("select d.nm_dokter from reg_periksa rp inner join dokter d on d.kd_dokter=rp.kd_dokter where rp.no_rawat='" + norawat + "'"));
-                labelLOS1.setText("1");
-
-                losIntensif1.setEnabled(false);
-                losIntensif1.setText("0");
-                ventilator1.setEnabled(false);
-                ventilator1.setText("0");
-                cmbKelainan.setEnabled(false);
-                cmbKelainan.setSelectedIndex(0);
-                labelnmIbu.setVisible(false);
-                cmbID.setEnabled(true);
-                noID.setEditable(true);
-                tarifPlasma.setEnabled(false);
-                tarifPlasma.setText("0");
-                BtnAddEpisod.setEnabled(false);
-                BtnDelEpisod.setEnabled(false);
+//                kdPulang = "1";
+//                cmbcrPulang.setSelectedIndex(4);
+                cekstsPulang = Sequel.cariIsi("SELECT stts FROM reg_periksa WHERE no_rawat='" + norawat + "' ");
+                if (cekstsPulang.equals("Dirujuk")) {
+                    kdPulang = "2";
+                    cmbcrPulang.setSelectedIndex(1);
+                } else if (cekstsPulang.equals("Pulang Paksa")) {
+                    kdPulang = "3";
+                    cmbcrPulang.setSelectedIndex(2);
+                } else if ( cekstsPulang.equals("Meninggal")) {
+                    kdPulang = "4";
+                    cmbcrPulang.setSelectedIndex(3);
+                } else if (cekstsPulang.equals("Sudah") || cekstsPulang.equals("Belum")) {
+                    kdPulang = "1";
+                    cmbcrPulang.setSelectedIndex(4);
+                } else {
+                    kdPulang = "1";
+                    cmbcrPulang.setSelectedIndex(4);
+                }
                 
-                if (kodePayor.equals("72")) {
-                    cmbCO.setEnabled(false);
-                    cmbKomor.setEnabled(false);
-                    cmbKriteria.setEnabled(false);
-                    cmbIsolasi.setEnabled(false);
-                    cmbStatus.setEnabled(false);
-                    cmbRS.setEnabled(false);
-                    tarifPlasma.setEnabled(false); 
-                    BtnAddEpisod.setEnabled(false);
-                    BtnDelEpisod.setEnabled(false);
-                    
-                    ChkSemuaFaktor.setEnabled(false);
-                    ChkAsam.setEnabled(false);
-                    ChkKultur.setEnabled(false);
-                    ChkAPTT.setEnabled(false);
-                    ChkAnalisa.setEnabled(false);
-                    ChkProcal.setEnabled(false);
-                    ChkDimer.setEnabled(false);
-                    ChkWaktu.setEnabled(false);
-                    ChkAlbumin.setEnabled(false);
-                    ChkCRP.setEnabled(false);
-                    ChkPT.setEnabled(false);
-                    ChkAnti.setEnabled(false);
-                    ChkThorax.setEnabled(false);
+                dpjp.setText(Sequel.cariIsi("select d.nm_dokter from reg_periksa rp inner join dokter d on d.kd_dokter=rp.kd_dokter where rp.no_rawat='" + norawat + "'"));
+                labelLOS.setText("1");
+                
+                if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND asal_rujukan='1. Faskes 1' AND noskdp='' AND tujuankunjungan='0' AND kdpolitujuan <> 'IGD' AND asesmenpelayanan = ''") > 0) {
+                    cmbCrMasuk.setSelectedIndex(0);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND asal_rujukan='2. Faskes 2(RS)'AND kdppkrujukan NOT IN ('1408R001')") > 0) {
+                    cmbCrMasuk.setSelectedIndex(1);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND tujuankunjungan='0' AND asesmenpelayanan = '2'") > 0) {
+                    cmbCrMasuk.setSelectedIndex(2);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_rawat='"+norawat+"' AND jnspelayanan='2' AND tujuankunjungan='2' AND asesmenpelayanan = '5'") > 0) {
+                    cmbCrMasuk.setSelectedIndex(3);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_sep='"+noSEP.getText()+"' AND jnspelayanan='2' AND asal_rujukan='2. Faskes 2(RS)'AND kdppkrujukan IN ('1408R001')") > 0) {
+                    cmbCrMasuk.setSelectedIndex(4);
+                } else if (Sequel.cariInteger("SELECT count(no_sep) FROM bridging_sep WHERE no_sep='"+noSEP.getText()+"' AND jnspelayanan='2' AND kdpolitujuan='IGD'") > 0) {
+                    cmbCrMasuk.setSelectedIndex(5);
+                } 
+                else {
+                     cmbCrMasuk.setSelectedIndex(3);
+                }
+                
+                if (Sequel.cariInteger("select count(-1) from pemeriksaan_ralan where no_rawat = '" + norawat + "'") > 0) {
+                    if (Sequel.cariIsi("select tensi from pemeriksaan_ralan where no_rawat = '" + norawat + "'").equals("")) {
+                        sistole.setText("0");
+                        diastole.setText("0");
+                    } else {
+                        sistole.setText(Sequel.cariIsi("select SUBSTRING_INDEX(tensi,'/',1) sistole from pemeriksaan_ralan where nip in (select nip from petugas ) and no_rawat = '" + norawat + "'"));
+                        diastole.setText(Sequel.cariIsi("select SUBSTRING_INDEX(tensi,'/',-1) diastole from pemeriksaan_ralan where nip in (select nip from petugas ) and no_rawat = '" + norawat + "'"));
+                    }
 
-                    ChkSemuaFaktor.setSelected(false);
-                    ChkAsam.setSelected(false);
-                    ChkKultur.setSelected(false);
-                    ChkAPTT.setSelected(false);
-                    ChkAnalisa.setSelected(false);
-                    ChkProcal.setSelected(false);
-                    ChkDimer.setSelected(false);
-                    ChkWaktu.setSelected(false);
-                    ChkAlbumin.setSelected(false);
-                    ChkCRP.setSelected(false);
-                    ChkPT.setSelected(false);
-                    ChkAnti.setSelected(false);
-                    ChkThorax.setSelected(false);
-             
-                    ChkSemuaPelengkap.setEnabled(false);
-                    ChkPemulasaran.setEnabled(false);
-                    ChkPlastik.setEnabled(false);
-                    ChkKantong.setEnabled(false);
-                    ChkDesinfekJen.setEnabled(false);
-                    ChkDesinfekMob.setEnabled(false);
-                    ChkPeti.setEnabled(false);
-                    ChkTranspot.setEnabled(false);
-
-                    ChkSemuaPelengkap.setSelected(false);
-                    ChkPemulasaran.setSelected(false);
-                    ChkPlastik.setSelected(false);
-                    ChkKantong.setSelected(false);
-                    ChkDesinfekJen.setSelected(false);
-                    ChkDesinfekMob.setSelected(false);
-                    ChkPeti.setSelected(false);
-                    ChkTranspot.setSelected(false);
-                }                
+                } else {
+                    sistole.setText("0");
+                    diastole.setText("0");
+                }
             }
         }
     }
 
     private void dataKlaimLama(String tglsep) {
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             try {
                 ps6 = koneksi.prepareStatement("SELECT enc.no_rawat, ifnull(DATE_FORMAT(esc.tgl_masuk,'%d %b %Y %H:%i:%S'),'') tglMasuk, DATE_FORMAT(esc.tgl_pulang,'%d %b %Y %H:%i:%S') tglPulang, "
                         + "DATEDIFF(esc.tgl_pulang,esc.tgl_masuk)+1 los, ifnull(esa.menit_1_appearance,'') menit_1_appearance, ifnull(esa.menit_1_pulse,'') menit_1_pulse, "
@@ -11889,7 +11715,7 @@ private void hitungOBAT() {
     
     private void tampilRespon() {
         //kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             Valid.tabelKosong(tabMode11);
             try {
                 ps11 = koneksi.prepareStatement("SELECT 'MDC' komponen, mdc_number kode, mdc_description deskripsi FROM eklaim_response_inagrouper "
@@ -12010,7 +11836,7 @@ private void hitungOBAT() {
         pros_inadrg2.setText("");        
 
         // kalau kode payor 3 adalah JKN
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             StringJoiner psidrg = new StringJoiner("#");
 
             for (i = 0; i < tbTindakanPasien2.getRowCount(); i++) {
@@ -12129,7 +11955,7 @@ private void hitungOBAT() {
                     Double.parseDouble(rad.getText().trim()),Double.parseDouble(lab.getText().trim()),
                     Double.parseDouble(pd.getText().trim()), Double.parseDouble(reh.getText().trim()),Double.parseDouble(kam.getText().trim()),Double.parseDouble(ri.getText().trim()),Double.parseDouble(obat.getText().trim()), okr.getText(), oke.getText(), alkes.getText(),Double.parseDouble(bmhp.getText().trim()), Double.parseDouble(sa.getText().trim()),
                     "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", trfPoliEx, dpjp.getText(),
-                    kodePayor, "JKN", cmbCOB.getSelectedItem().toString(), nikPetugas.getText(), "0", "#", "0", "0", pros_inadrg1.getText(), 
+                    kodePayor, nmJaminan.getText(), cmbCOB.getSelectedItem().toString(), nikPetugas.getText(), "0", "#", "0", "0", pros_inadrg1.getText(), 
                     diagnosaKlaimINADRG, caramasuk, nilaiPembiayaan, sistole.getText(), diastole.getText(), nilaiVenti, tglIntu, tglEkstu, dializer, 
                     TkntngDrh.getText(), mnt1APP, mnt1PUL, mnt1GRI, mnt1ACT, mnt1RES, mnt5APP, mnt5PUL, mnt5GRI, mnt5ACT, mnt5RES, TUsiaHml.getText(), 
                     Tgravida.getText(), Tpartus.getText(), Tabortus.getText(), onset, cekDeliveri, requestJson);  
@@ -12789,7 +12615,7 @@ private void hitungOBAT() {
     }
     
      public void total() {
-        if (kodePayor.equals("3")) {
+        if (kodePayor.equals("3")||kodePayor.equals("5")) {
             if(pnb.getText().equals("")||(ta.getText().equals(""))||(rad.getText().equals(""))||
                reh.getText().equals("")||(obat.getText().equals(""))||(pb.getText().equals(""))||
                kep.getText().equals("")||(lab.getText().equals(""))||(kam.getText().equals(""))||

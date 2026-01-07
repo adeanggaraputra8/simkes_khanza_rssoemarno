@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import org.apache.xmlgraphics.util.dijkstra.DijkstraAlgorithm;
 
 /**
  *
@@ -32,7 +33,8 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
     private ResultSet rs;
     private String norawat = "", noSEPnya = "";
     private Date tgl = new Date();
-     private ApiEKLAIM_inacbg mbak_eka = new ApiEKLAIM_inacbg();
+    private ApiEKLAIM_inacbg mbak_eka = new ApiEKLAIM_inacbg();
+    private int i=0;
 
     /**
      * Creates new form DlgSpesialis
@@ -47,35 +49,49 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
         this.setLocation(10, 10);
         setSize(459, 539);
 
-        Object[] row = {"No. SEP", "No. Rawat", "No. RM","Nama Pasien","Nama Unit","Tgl. Reg./Msk.","Tgl. Klr./Plg.","status_rwt"};
+        Object[] row = {"P","No. SEP", "No. Rawat", "No. RM","Nama Pasien","Nama Unit","Tgl. Reg./Msk.","Tgl. Klr./Plg.","status_rwt"};
         tabMode = new DefaultTableModel(null, row) {
-            @Override
-            public boolean isCellEditable(int rowIndex, int colIndex) {
-                return false;
-            }
+          
+            @Override public boolean isCellEditable(int rowIndex, int colIndex){
+                boolean a = false;
+                if (colIndex==0) {
+                    a=true;
+                }
+                return a;
+             }
+             Class[] types = new Class[] {
+                 java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, 
+                 java.lang.String.class,java.lang.String.class,java.lang.String.class,java.lang.String.class
+             };
+             @Override
+             public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+             }
         };
 
         tbData.setModel(tabMode);
         tbData.setPreferredScrollableViewportSize(new Dimension(500, 500));
         tbData.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             TableColumn column = tbData.getColumnModel().getColumn(i);
             if (i == 0) {
-                column.setPreferredWidth(130);
+                column.setPreferredWidth(20);
             } else if (i == 1) {
-                column.setPreferredWidth(105);
+                column.setPreferredWidth(130);
             } else if (i == 2) {
-                column.setPreferredWidth(55);
+                column.setPreferredWidth(105);
             } else if (i == 3) {
-                column.setPreferredWidth(270);
+                column.setPreferredWidth(55);
             } else if (i == 4) {
                 column.setPreferredWidth(270);
             } else if (i == 5) {
-                column.setPreferredWidth(85);
+                column.setPreferredWidth(270);
             } else if (i == 6) {
                 column.setPreferredWidth(85);
             } else if (i == 7) {
+                column.setPreferredWidth(85);
+            } else if (i == 8) {
 //                column.setPreferredWidth(200);
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
@@ -131,6 +147,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
         TCari = new widget.TextBox();
         BtnCari = new widget.Button();
         BtnAll = new widget.Button();
+        BtnKirim = new widget.Button();
         jLabel7 = new widget.Label();
         LCount = new widget.Label();
         BtnKeluar = new widget.Button();
@@ -271,6 +288,19 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
         });
         panelGlass9.add(BtnAll);
 
+        BtnKirim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/34.png"))); // NOI18N
+        BtnKirim.setMnemonic('K');
+        BtnKirim.setText("Kirim");
+        BtnKirim.setToolTipText("Alt+K");
+        BtnKirim.setName("BtnKirim"); // NOI18N
+        BtnKirim.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnKirim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnKirimActionPerformed(evt);
+            }
+        });
+        panelGlass9.add(BtnKirim);
+
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Record :");
         jLabel7.setName("jLabel7"); // NOI18N
@@ -310,7 +340,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
         jLabel8.setPreferredSize(new java.awt.Dimension(110, 23));
         panelGlass10.add(jLabel8);
 
-        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tgl1.setDisplayFormat("dd-MM-yyyy");
         tgl1.setName("tgl1"); // NOI18N
         tgl1.setOpaque(false);
@@ -324,7 +354,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
         jLabel21.setPreferredSize(new java.awt.Dimension(23, 23));
         panelGlass10.add(jLabel21);
 
-        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-09-2025" }));
+        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-11-2025" }));
         tgl2.setDisplayFormat("dd-MM-yyyy");
         tgl2.setName("tgl2"); // NOI18N
         tgl2.setOpaque(false);
@@ -419,9 +449,9 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
             diklaim.KlaimRAZA(norawat, noSEPnya, "JKN", "3");
             diklaim.setVisible(true);
             
-            if(tbData.getValueAt(tbData.getSelectedRow(),7).toString().equals("Ralan")){
+            if(tbData.getValueAt(tbData.getSelectedRow(),8).toString().equals("Ralan")){
                  Sequel.mengedit("vedika_ralan","no_rawat=? and no_sep=?","status='Verif',tgl=now(),kd_petugas='"+akses.getkode()+"' ",2,new String[]{norawat,noSEPnya});
-            }else if (tbData.getValueAt(tbData.getSelectedRow(),7).toString().equals("Ranap")){
+            }else if (tbData.getValueAt(tbData.getSelectedRow(),8).toString().equals("Ranap")){
                  Sequel.mengedit("vedika_ranap","no_rawat=? and no_sep=?","status='Verif',tgl=now(),kd_petugas='"+akses.getkode()+"' ",2,new String[]{norawat,noSEPnya});
             }
             
@@ -457,14 +487,92 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
             tbData.requestFocus();
         }  else {
             if (cmbJnsRawat.getSelectedIndex() == 0) {
-                mbak_eka.ambilDataDiagnosaDanProsedur(tbData.getValueAt(tbData.getSelectedRow(),0).toString(),tbData.getValueAt(tbData.getSelectedRow(),1).toString(),tbData.getValueAt(tbData.getSelectedRow(),2).toString());          
+                mbak_eka.ambilDataDiagnosaDanProsedur(tbData.getValueAt(tbData.getSelectedRow(),1).toString(),tbData.getValueAt(tbData.getSelectedRow(),2).toString(),tbData.getValueAt(tbData.getSelectedRow(),3).toString());          
             } else if (cmbJnsRawat.getSelectedIndex() == 1){
-                mbak_eka.ambilDataDiagnosaDanProsedur(tbData.getValueAt(tbData.getSelectedRow(),0).toString(),tbData.getValueAt(tbData.getSelectedRow(),1).toString(),tbData.getValueAt(tbData.getSelectedRow(),2).toString());
+                mbak_eka.ambilDataDiagnosaDanProsedur(tbData.getValueAt(tbData.getSelectedRow(),1).toString(),tbData.getValueAt(tbData.getSelectedRow(),2).toString(),tbData.getValueAt(tbData.getSelectedRow(),3).toString());
             } else if (cmbJnsRawat.getSelectedIndex() == 2){
-                mbak_eka.ambilDataDiagnosaDanProsedur(tbData.getValueAt(tbData.getSelectedRow(),0).toString(),tbData.getValueAt(tbData.getSelectedRow(),1).toString(),tbData.getValueAt(tbData.getSelectedRow(),2).toString());
+                mbak_eka.ambilDataDiagnosaDanProsedur(tbData.getValueAt(tbData.getSelectedRow(),1).toString(),tbData.getValueAt(tbData.getSelectedRow(),2).toString(),tbData.getValueAt(tbData.getSelectedRow(),3).toString());
             }
         }
     }//GEN-LAST:event_ppAmbilDataPsDxBtnPrintActionPerformed
+    private void BtnKirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKirimActionPerformed
+          int totalCeklist = 0;
+            int sukses = 0;
+            int gagal = 0;
+
+            for (int i = 0; i < tbData.getRowCount(); i++) {
+                if ("true".equals(tbData.getValueAt(i, 0).toString())) {
+                        INACBGDaftarKlaim diklaim = new INACBGDaftarKlaim(null, false);
+                        diklaim.setSize(internalFrame1.getWidth() - 40, internalFrame1.getHeight() - 40);
+                        diklaim.setLocationRelativeTo(internalFrame1);
+                        diklaim.setVisible(true);
+                    totalCeklist++;
+                    try {
+                        // Kirim data
+                        diklaim.verifData();
+                        diklaim.KlaimRAZASekalianBanyak(
+                            tbData.getValueAt(i, 2).toString(), 
+                            tbData.getValueAt(i, 1).toString(), 
+                            "JKN", 
+                            "3"
+                        );
+
+                        // Update status di DB
+                        String jenis = tbData.getValueAt(i, 8).toString();
+                        if ("Ralan".equals(jenis)) {
+                            Sequel.mengedit(
+                                "vedika_ralan", 
+                                "no_rawat=? and no_sep=?", 
+                                "status='Verif',tgl=now(),kd_petugas='" + akses.getkode() + "' ", 
+                                2, 
+                                new String[]{tbData.getValueAt(i, 2).toString(), tbData.getValueAt(i, 1).toString()}
+                            );
+                        } else if ("Ranap".equals(jenis)) {
+                            Sequel.mengedit(
+                                "vedika_ranap", 
+                                "no_rawat=? and no_sep=?", 
+                                "status='Verif',tgl=now(),kd_petugas='" + akses.getkode() + "' ", 
+                                2, 
+                                new String[]{tbData.getValueAt(i, 2).toString(), tbData.getValueAt(i, 1).toString()}
+                            );
+                        }
+
+                        sukses++;
+                    } catch (Exception e) {
+                        gagal++;
+                        System.out.println("Notifikasi : " + e);
+                        JOptionPane.showMessageDialog(null, 
+                            "Gagal mengirim data pada baris ke-" + (i + 1) + " : " + e.getMessage(), 
+                            "Error", 
+                            JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+
+            // Setelah semua proses kirim selesai, baru refresh tampilan
+            tampil();
+
+            // Tampilkan ringkasan hasil kirim
+            if (totalCeklist == 0) {
+                JOptionPane.showMessageDialog(null, 
+                    "⚠️ Tidak ada data yang diceklis untuk dikirim!", 
+                    "Peringatan", 
+                    JOptionPane.WARNING_MESSAGE);
+            } else if (gagal == 0) {
+                JOptionPane.showMessageDialog(null, 
+                    "Semua (" + sukses + ") data berhasil dikirim!", 
+                    "Sukses", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, 
+                    "⚠️ Dari " + totalCeklist + " data diceklis:\n" +
+                    " " + sukses + " berhasil dikirim\n" +
+                    " " + gagal + " gagal dikirim.\n\n" +
+                    "Silakan cek log atau koneksi jaringan.", 
+                    "Sebagian Gagal", 
+                    JOptionPane.WARNING_MESSAGE);
+            }
+    }//GEN-LAST:event_BtnKirimActionPerformed
 
     /**
      * @param args the command line arguments
@@ -487,6 +595,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
     private widget.Button BtnAll;
     private widget.Button BtnCari;
     private widget.Button BtnKeluar;
+    private widget.Button BtnKirim;
     private widget.Label LCount;
     private javax.swing.JMenuItem MnPengajuanKlaim;
     private javax.swing.JPopupMenu Popup1;
@@ -575,6 +684,7 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     tabMode.addRow(new Object[]{
+                        false,
                         rs.getString("no_sep"), 
                         rs.getString("no_rawat"), 
                         rs.getString("no_rkm_medis"),
@@ -631,8 +741,8 @@ public class INACBGjknBelumDiklaim extends javax.swing.JDialog {
         norawat = "";
         noSEPnya = "";
         if (tbData.getSelectedRow() != -1) {
-            norawat = tbData.getValueAt(tbData.getSelectedRow(), 1).toString();
-            noSEPnya = tbData.getValueAt(tbData.getSelectedRow(), 0).toString();
+            norawat = tbData.getValueAt(tbData.getSelectedRow(), 2).toString();
+            noSEPnya = tbData.getValueAt(tbData.getSelectedRow(), 1).toString();
         }
     }
 }

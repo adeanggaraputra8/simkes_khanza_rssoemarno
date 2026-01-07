@@ -4012,16 +4012,54 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
 
     private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHapusActionPerformed
         if(TabRawat.getSelectedIndex()==1){
-            if(tbDataSEP.getSelectedRow()!= -1){
-                Sequel.menyimpan("history_user","Now(),'"+TNoRw.getText()+"','"+akses.getkode()+"','Hapus SEP','Hapus',''");
+             String options[]={"Hapus SEP Vclaim dan SIMRS","Hapus SEP di SIMRS"};     
                 try {
-                    bodyWithDeleteRequest();
-                }catch (Exception ex) {
-                    System.out.println("Notifikasi Bridging : "+ex);
-                }
-            }else{
-                JOptionPane.showMessageDialog(null,"Silahkan pilih dulu data yang mau dihapus..!!");
-            } 
+                     i=JOptionPane.showOptionDialog(null,"Silahkan Pilih Jenis Hapus SEP..","Konfirmasi",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,null);
+                           if(i==JOptionPane.YES_OPTION){
+                                if(tbDataSEP.getSelectedRow()!= -1){
+                                    Sequel.menyimpan("history_user","Now(),'"+TNoRw.getText()+"','"+akses.getkode()+"','Hapus SEP','Hapus',''");
+                                    try {
+                                        bodyWithDeleteRequest();
+                                    }catch (Exception ex) {
+                                        System.out.println("Notifikasi Bridging : "+ex);
+                                    }
+                                }else{
+                                    JOptionPane.showMessageDialog(null,"Silahkan pilih dulu data yang mau dihapus..!!");
+                                }
+                   }else if(i==JOptionPane.NO_OPTION){
+                                if(tbDataSEP.getSelectedRow()!= -1){
+                                    Sequel.menyimpan("history_user","Now(),'"+TNoRw.getText()+"','"+akses.getkode()+"','Hapus SEP','Hapus',''");
+                                    try {
+                                        headers = new HttpHeaders();
+                                        headers.setContentType(MediaType.APPLICATION_JSON);
+                                        headers.add("X-Cons-ID",koneksiDB.CONSIDAPIBPJS());
+                                        utc=String.valueOf(api.GetUTCdatetimeAsString());
+                                        headers.add("X-Timestamp",utc);
+                                        headers.add("X-Signature",api.getHmac(utc));
+                                        headers.add("user_key",koneksiDB.USERKEYAPIBPJS());
+                                        requestEntity = new HttpEntity(headers);
+                                        URL=link+"/SEP/";
+                                        root = mapper.readTree(api.getRest().exchange(URL+tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString(), HttpMethod.GET, requestEntity, String.class).getBody());
+                                        nameNode = root.path("metaData");
+                                        System.out.println("code : "+nameNode.path("code").asText());
+                                        System.out.println("message : "+nameNode.path("message").asText());
+                                        if(nameNode.path("code").asText().equals("200")){
+                                            bodyWithDeleteRequest();
+                                        }else{
+                                            Sequel.meghapus("bridging_sep","no_sep",tbDataSEP.getValueAt(tbDataSEP.getSelectedRow(),0).toString());
+                                            tampil();
+                                            emptTeks();                                
+                                        }
+                                    }catch (Exception ex) {
+                                        System.out.println("Notifikasi Bridging : "+ex);
+                                    }
+                                }else{
+                                    JOptionPane.showMessageDialog(null,"Silahkan pilih dulu data yang mau dihapus..!!");
+                                }        
+                   }
+               } catch (Exception e) {
+               }
+                
         }else if(TabRawat.getSelectedIndex()==2){
             if(tbDataSEPInternal.getSelectedRow()!= -1){
                 try {

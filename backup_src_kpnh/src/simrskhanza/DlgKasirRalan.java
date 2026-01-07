@@ -6806,7 +6806,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
             }else if(evt.getKeyCode()==KeyEvent.VK_SHIFT){
                 TCari.setText("");
                 TCari.requestFocus();
-            }else if(evt.getKeyCode()==KeyEvent.VK_P){
+            }else if(evt.getKeyCode()==KeyEvent.VK_P || evt.getKeyCode()==KeyEvent.VK_C ){
                 if(Sequel.cariInteger("select no_rawat from m_status_tracer where no_rawat='"+TNoRw.getText()+"' and status not in ('Belum') ")>1){
                         ppMasukPoliBtnPrintActionPerformed(null);
                 }else{

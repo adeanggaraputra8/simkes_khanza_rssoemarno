@@ -1388,6 +1388,33 @@ public final class sekuel {
         return angka;
     }
     
+     public int cariInacbg(String norawat){
+        angka=0;
+        try {
+            ps=connect.prepareStatement(
+                    "select count(no_jaminan) from jamkeskinda_jaminan where no_jaminan=?");
+            try {
+                ps.setString(1,norawat);
+                rs=ps.executeQuery();
+                if(rs.next()){
+                    angka=rs.getInt(1);
+                }
+            } catch (Exception e) {
+                System.out.println("Notifikasi : "+e);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return angka;
+    }
+    
      public int cariRanapStatusPulang(String norawat){
         angka=0;
         try {

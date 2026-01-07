@@ -19,6 +19,7 @@ import fungsi.sekuel;
 import fungsi.validasi;
 import fungsi.akses;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -30,15 +31,22 @@ import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import kepegawaian.DlgCariDokter;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import widget.Button;
 
 /**
@@ -74,6 +82,10 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         initComponents();
         this.setLocation(10,2);
         setSize(656,250);
+        
+        
+        
+        
         tabModeResep=new DefaultTableModel(null,new Object[]{
                 "K","Jumlah","Aturan Pakai","Kode Barang","Nama Barang","Satuan",
                 "Komposisi","Harga(Rp)","Jenis Obat","I.F.","H.Beli","Stok"
@@ -99,29 +111,6 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
              }
         };
         tbResep.setModel(tabModeResep);
-//        tbResep.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "selectNextColumnCell");
-//        tbResep.getActionMap().put("selectNextColumnCell", new AbstractAction() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                int row = tbResep.getSelectedRow();
-//                int col = tbResep.getSelectedColumn();
-//
-//                // Cek apakah kolom masih dalam batas
-//                if (col < tbResep.getColumnCount() - 1) {
-//                    tbResep.changeSelection(row, col + 1, false, false);
-//                } else {
-//                    // Jika sudah di kolom terakhir, bisa pilih:
-//                    // Pindah ke kolom pertama baris berikutnya
-//                    if (row < tbResep.getRowCount() - 1) {
-//                        tbResep.changeSelection(row + 1, 0, false, false);
-//                    } else {
-//                        // Jika sudah di baris dan kolom terakhir, tetap di tempat
-//                        tbResep.changeSelection(row, col, false, false);
-//                    }
-//                }
-//            }
-//        });
-        //tbPenyakit.setDefaultRenderer(Object.class, new WarnaTable(panelJudul.getBackground(),tbPenyakit.getBackground()));
         tbResep.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbResep.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         for (i = 0; i < 12; i++) {
@@ -162,7 +151,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             }){
              @Override public boolean isCellEditable(int rowIndex, int colIndex){
                 boolean a = true;
-                if ((colIndex==0)||(colIndex==2)||(colIndex==3)) {
+                if ((colIndex==0)) {
                     a=false;
                 }
                 return a;
@@ -190,8 +179,52 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             }else if(i==2){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
+                //column.setPreferredWidth(150);
             }else if(i==3){
-                column.setPreferredWidth(100);
+                column.setPreferredWidth(150);
+//                List<MetodeRacik> metodeList = getListMetodeRacik();
+//                Valid.applyComboEditor(tbObatResepRacikan, 3, metodeList, 2);
+                List<MetodeRacik> metodeList = getListMetodeRacik();
+                JComboBox<MetodeRacik> combo = new JComboBox<>();
+                for (MetodeRacik m : metodeList) combo.addItem(m);
+
+                combo.setEditable(true);
+
+                // Autocomplete bawaan (PALING AMAN untuk macOS)
+                AutoCompleteDecorator.decorate(combo);
+
+                combo.addActionListener(e -> {
+                    int row = tbObatResepRacikan.getSelectedRow();
+                    Object val = combo.getSelectedItem();
+                    if (row != -1 && val instanceof MetodeRacik) {
+                        tbObatResepRacikan.setValueAt(((MetodeRacik) val).kd, row, 2);
+                    }
+                });
+
+                DefaultCellEditor cellEditor = new DefaultCellEditor(combo) {
+                    @Override
+                    public Object getCellEditorValue() {
+                        return combo.getSelectedItem();
+                    }
+
+                    @Override
+                    public Component getTableCellEditorComponent(
+                            JTable table, Object value, boolean isSelected, int row, int col) {
+
+                        if (value instanceof MetodeRacik) combo.setSelectedItem(value);
+                        else combo.setSelectedItem(null);
+
+                        // popup aman untuk macOS
+                        SwingUtilities.invokeLater(() -> {
+                            if (combo.isDisplayable() && combo.isShowing()) {
+                                combo.showPopup();
+                            }
+                        });
+
+                        return combo;
+                    }
+                };
+                tbObatResepRacikan.getColumnModel().getColumn(3).setCellEditor(cellEditor);
             }else if(i==4){
                 column.setPreferredWidth(60);
             }else if(i==5){
@@ -422,8 +455,11 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         } catch (Exception e) {
             RESEPRAJALKEPLAN="no";
         }
+        
     }    
-    
+  
+
+          
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -1064,7 +1100,8 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                if(ChkTampilObat.isSelected()==true){
                    tampilobatall();
                }else{
-                tampilobat();
+                //tampilobat();
+                tampilobatall();
                }
             }else{
                 tampilobatranap();
@@ -1468,7 +1505,8 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
     private void JeniskelasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_JeniskelasItemStateChanged
        if(status.equals("ralan")){
-            tampilobat();
+            //tampilobat();
+            tampilobatall();
         }else{
             tampilobatranap();
         }
@@ -1631,7 +1669,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
        if(status.equals("ralan")&&ChkTampilObat.isSelected()==false||Sequel.cariInteger("select count(no_rawat) from rujukan_internal_poli where no_rawat='"+TNoRw.getText()+"' ")>0){ 
            tampilobatall();
        }else if(status.equals("ralan")&&ChkTampilObat.isSelected()==true) {
-           tampilobat();
+           tampilobatall();
        }
     }//GEN-LAST:event_ChkTampilObatItemStateChanged
 
@@ -4726,4 +4764,65 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             }
         }               
     }
+    
+   private List<MetodeRacik> getListMetodeRacik() {
+        List<MetodeRacik> list = new ArrayList<>();
+        try {
+            Connection conn = koneksiDB.condb();
+            PreparedStatement ps = conn.prepareStatement(
+                "SELECT kd_racik, nm_racik FROM metode_racik ORDER BY nm_racik ASC"
+            );
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new MetodeRacik(
+                    rs.getString("kd_racik"),
+                    rs.getString("nm_racik")
+                ));
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("Error getListMetodeRacik : " + e);
+        }
+        return list;
+    }
+   
+     // di luar method, di dalam class form Anda (paling bawah sebelum "}" penutup)
+    public static class MetodeRacik {
+         public String kd;
+         public String nama;
+
+         public MetodeRacik(String kd, String nama) {
+             this.kd = kd;
+             this.nama = nama;
+         }
+         @Override
+         public String toString() {
+             return nama; // Penting untuk combo tampil nama
+         }
+         
+         public String getKd() {
+            return kd;
+        }
+     }
+
+    private class FilteredComboModel extends DefaultComboBoxModel<MetodeRacik> {
+         private final List<MetodeRacik> fullList;
+         public FilteredComboModel(List<MetodeRacik> fullList) {
+             this.fullList = fullList;
+             for(MetodeRacik m : fullList) addElement(m);
+         }
+
+         public void filter(String text) {
+             SwingUtilities.invokeLater(() -> {
+                 removeAllElements();
+                 for (MetodeRacik m : fullList) {
+                     if (m.nama.toLowerCase().contains(text.toLowerCase())) {
+                         addElement(m);
+                     }
+                 }
+             });
+         }
+     }
+    
 }
