@@ -28,15 +28,15 @@ public class InventoryRingkasanPenjualanBarangMedis extends javax.swing.JDialog 
     private final DefaultTableModel tabMode;
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
-    private PreparedStatement ps;
-    private ResultSet rs;
+    private PreparedStatement ps,ps1;
+    private ResultSet rs,rs1;
     private Connection koneksi=koneksiDB.condb();
     private int i=0;
     private double total=0;
     public  DlgCariPasien pasien=new DlgCariPasien(null,false);
     public  DlgCariPetugas petugas=new DlgCariPetugas(null,false);
     public  DlgBarang barang=new DlgBarang(null,false);
-    private String nofak="",mem="",ptg="",sat="",bar="",tanggal="",order="order by databarang.nama_brng";
+    private String nofak="",mem="",ptg="",sat="",bar="",tanggal="",tanggal1="",order="order by databarang.nama_brng";
     /** Creates new form DlgProgramStudi
      * @param parent
      * @param modal */
@@ -44,12 +44,13 @@ public class InventoryRingkasanPenjualanBarangMedis extends javax.swing.JDialog 
         super(parent, modal);
         initComponents();
 
-        Object[] row={"Kode Barang","Nama Barang","Satuan","Jenis","Jumlah","Total","Kode Sat"};
+        Object[] row={"Kode Barang","Nama Barang","Satuan","Jenis","Jumlah Jual","Jumlah Resep","Total Jumlah","Rata-Rata Obat Keluar","Kebutuhan","Kebutuhan Aman/ROP","Total Penjualan","Kode Sat"};
         tabMode=new DefaultTableModel(null,row){
              @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
              Class[] types = new Class[] {
                 java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, 
-                java.lang.Object.class, java.lang.Double.class, java.lang.Double.class,java.lang.Object.class
+                java.lang.Object.class, java.lang.Double.class, java.lang.Double.class,java.lang.Double.class, java.lang.Double.class,java.lang.Double.class,java.lang.Double.class,java.lang.Double.class,
+                java.lang.Object.class
              };
              /*Class[] types = new Class[] {
                 java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
@@ -64,7 +65,7 @@ public class InventoryRingkasanPenjualanBarangMedis extends javax.swing.JDialog 
         tbDokter.setPreferredScrollableViewportSize(new Dimension(800,800));
         tbDokter.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 7; i++) {
+        for (i = 0; i < 12; i++) {
             TableColumn column = tbDokter.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(95);
@@ -77,20 +78,32 @@ public class InventoryRingkasanPenjualanBarangMedis extends javax.swing.JDialog 
             }else if(i==4){
                 column.setPreferredWidth(70);
             }else if(i==5){
-                column.setPreferredWidth(110);
+                column.setPreferredWidth(70);
             }else if(i==6){
+                column.setPreferredWidth(110);
+            }else if(i==7){
+                column.setPreferredWidth(110);
+            }else if(i==8){
+                column.setPreferredWidth(110);
+            }else if(i==9){
+                column.setPreferredWidth(110);
+            }else if(i==10){
+                column.setPreferredWidth(110);
+            }else if(i==11){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
             }
         }
         tbDokter.setDefaultRenderer(Object.class, new WarnaTable());
-
+        
         NoNota.setDocument(new batasInput((byte)25).getKata(NoNota));
         kdmem.setDocument(new batasInput((byte)15).getKata(kdmem));
         nmmem.setDocument(new batasInput((byte)70).getKata(nmmem));
         kdptg.setDocument(new batasInput((byte)25).getKata(kdptg));
         kdbar.setDocument(new batasInput((byte)15).getKata(kdbar));
         kdsat.setDocument(new batasInput((byte)3).getKata(kdsat));
+        LeadTime.setDocument(new batasInput((byte)8).getOnlyAngka(LeadTime));
+        Hari.setDocument(new batasInput((byte)8).getOnlyAngka(Hari));
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));  
         
         if(koneksiDB.CARICEPAT().equals("aktif")){
@@ -304,6 +317,10 @@ public class InventoryRingkasanPenjualanBarangMedis extends javax.swing.JDialog 
         btnPetugas = new widget.Button();
         label18 = new widget.Label();
         Tgl2 = new widget.Tanggal();
+        label14 = new widget.Label();
+        LeadTime = new widget.TextBox();
+        label19 = new widget.Label();
+        Hari = new widget.TextBox();
         scrollPane1 = new widget.ScrollPane();
         tbDokter = new widget.Table();
 
@@ -825,6 +842,50 @@ public class InventoryRingkasanPenjualanBarangMedis extends javax.swing.JDialog 
         panelisi3.add(Tgl2);
         Tgl2.setBounds(200, 40, 100, 23);
 
+        label14.setText("Lead Time :");
+        label14.setName("label14"); // NOI18N
+        label14.setPreferredSize(new java.awt.Dimension(70, 23));
+        panelisi3.add(label14);
+        label14.setBounds(810, 10, 60, 23);
+
+        LeadTime.setText("0");
+        LeadTime.setName("LeadTime"); // NOI18N
+        LeadTime.setPreferredSize(new java.awt.Dimension(80, 23));
+        LeadTime.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeadTimeActionPerformed(evt);
+            }
+        });
+        LeadTime.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                LeadTimeKeyPressed(evt);
+            }
+        });
+        panelisi3.add(LeadTime);
+        LeadTime.setBounds(880, 10, 50, 23);
+
+        label19.setText("Jmlh Hari :");
+        label19.setName("label19"); // NOI18N
+        label19.setPreferredSize(new java.awt.Dimension(70, 23));
+        panelisi3.add(label19);
+        label19.setBounds(810, 40, 60, 23);
+
+        Hari.setText("30");
+        Hari.setName("Hari"); // NOI18N
+        Hari.setPreferredSize(new java.awt.Dimension(80, 23));
+        Hari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HariActionPerformed(evt);
+            }
+        });
+        Hari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                HariKeyPressed(evt);
+            }
+        });
+        panelisi3.add(Hari);
+        Hari.setBounds(880, 40, 50, 23);
+
         internalFrame1.add(panelisi3, java.awt.BorderLayout.PAGE_START);
 
         scrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
@@ -832,6 +893,7 @@ public class InventoryRingkasanPenjualanBarangMedis extends javax.swing.JDialog 
         scrollPane1.setName("scrollPane1"); // NOI18N
         scrollPane1.setOpaque(true);
 
+        tbDokter.setAutoCreateRowSorter(true);
         tbDokter.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -844,6 +906,7 @@ public class InventoryRingkasanPenjualanBarangMedis extends javax.swing.JDialog 
             }
         ));
         tbDokter.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
+        tbDokter.setColumnSelectionAllowed(true);
         tbDokter.setComponentPopupMenu(Popup1);
         tbDokter.setName("tbDokter"); // NOI18N
         scrollPane1.setViewportView(tbDokter);
@@ -1007,6 +1070,8 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         nmmem.setText("");
         kdptg.setText("");
         nmptg.setText("");
+        LeadTime.setText("0");
+        Hari.setText("0");
         tampil();
     }//GEN-LAST:event_BtnAllActionPerformed
 
@@ -1094,6 +1159,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         tampil();
+        emptTeks();
     }//GEN-LAST:event_formWindowOpened
 
     private void MnKodeBarangDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnKodeBarangDescActionPerformed
@@ -1156,6 +1222,22 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         tampil();
     }//GEN-LAST:event_MnJumlahDescActionPerformed
 
+    private void LeadTimeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_LeadTimeKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LeadTimeKeyPressed
+
+    private void HariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_HariKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HariKeyPressed
+
+    private void HariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_HariActionPerformed
+
+    private void LeadTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeadTimeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LeadTimeActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1177,7 +1259,9 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
     private widget.Button BtnCari;
     private widget.Button BtnKeluar;
     private widget.Button BtnPrint;
+    private widget.TextBox Hari;
     private widget.Label LTotal;
+    private widget.TextBox LeadTime;
     private javax.swing.JMenuItem MnJumlahAsc;
     private javax.swing.JMenuItem MnJumlahDesc;
     private javax.swing.JMenuItem MnKategoriAsc;
@@ -1208,10 +1292,12 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
     private widget.Label label10;
     private widget.Label label11;
     private widget.Label label13;
+    private widget.Label label14;
     private widget.Label label15;
     private widget.Label label16;
     private widget.Label label17;
     private widget.Label label18;
+    private widget.Label label19;
     private widget.Label label24;
     private widget.Label label9;
     private widget.TextBox nmbar;
@@ -1227,6 +1313,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
 
     private void tampil() {
         tanggal="  penjualan.tgl_jual between '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' ";
+        tanggal1=" detail_pemberian_obat.tgl_perawatan between '"+Valid.SetTgl(Tgl1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(Tgl2.getSelectedItem()+"")+"' ";
         nofak="";mem="";ptg="";sat="";bar="";
         if(!NoNota.getText().equals("")){
             nofak=" and penjualan.nota_jual='"+NoNota.getText()+"' ";
@@ -1242,6 +1329,23 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         }
         if(!nmbar.getText().equals("")){
             bar=" and databarang.nama_brng='"+nmbar.getText()+"' ";
+        }
+        long selisih = (Tgl2.getDate().getTime() - Tgl1.getDate().getTime()) / (1000 * 60 * 60 * 24) + 1;
+        double jumlahHari = selisih;
+        
+        double hariRencana = 0;
+        double leadTime = 0;
+
+        try{
+            hariRencana = Double.parseDouble(Hari.getText().trim());
+        }catch(Exception e){
+            hariRencana = 0;
+        }
+
+        try{
+            leadTime = Double.parseDouble(LeadTime.getText().trim());
+        }catch(Exception e){
+            leadTime = 0;
         }
 
         Valid.tabelKosong(tabMode);
@@ -1267,11 +1371,48 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                 rs=ps.executeQuery();
                 total=0;
                 while(rs.next()){                    
-                    total=total+rs.getDouble("total");
-                    tabMode.addRow(new Object[]{
-                        rs.getString("kode_brng"),rs.getString("nama_brng"),rs.getString("satuan"),rs.getString("namajenis"),rs.getDouble("jumlah"),rs.getDouble("total"),rs.getString("kode_sat")
-                    });  
-                }    
+                    total=total+rs.getDouble("total"); 
+                     ps1=koneksi.prepareStatement("select sum(detail_pemberian_obat.jml) as jumlah from detail_pemberian_obat where detail_pemberian_obat.kode_brng = '"+rs.getString("kode_brng")+"'"
+                             + " and "+tanggal1+" ");
+                             try {
+                                rs1=ps1.executeQuery();
+                                while(rs1.next()){   
+                                   double penjualan = rs.getDouble("jumlah");
+
+                                double pemakaian = rs1.getDouble("jumlah");
+                                if(rs1.wasNull()){
+                                    pemakaian = 0;
+                                }
+
+                                double totalPakai = penjualan + pemakaian;
+
+                                double rata = 0;
+                                if(jumlahHari > 0){
+                                    rata = totalPakai / jumlahHari;
+                                }
+
+                                double kebutuhan = rata * hariRencana;
+                                double safetyStock = rata * leadTime;
+                                double kebutuhanAman = kebutuhan + safetyStock;
+
+                                double rop = (rata * leadTime) + kebutuhanAman;
+                                    tabMode.addRow(new Object[]{
+                                        rs.getString("kode_brng"),rs.getString("nama_brng"),rs.getString("satuan"),rs.getString("namajenis"),rs.getDouble("jumlah"),
+                                        rs1.getDouble("jumlah"),rs.getDouble("jumlah")+rs1.getDouble("jumlah"),rata,kebutuhan,rop,rs.getDouble("total"),rs.getString("kode_sat")
+                                    });  
+                                } 
+                                } catch (Exception e) {
+                                         System.out.println("Notifikasi : "+e);
+                                } finally{
+                                    if(rs1!=null){
+                                        rs1.close();
+                                    }
+                                    if(ps1!=null){
+                                        ps1.close();
+                                    }
+                                } 
+                } 
+                             
             } catch (Exception e) {
                 System.out.println("Notifikasi : "+e);
             } finally{
@@ -1288,11 +1429,14 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         }        
     }
     
+    
     public void emptTeks() {
         kdbar.setText("");
         nmbar.setText("");
         kdsat.setText("");
-        kdbar.requestFocus();        
+        kdbar.requestFocus(); 
+        LeadTime.setText("0");
+        Hari.setText("30");
     }   
     
     public void isCek(){

@@ -1368,6 +1368,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel6 = new widget.Label();
         TCari = new widget.TextBox();
         BtnCari = new widget.Button();
+        jLabelUser = new widget.Label();
         panelGlass8 = new widget.panelisi();
         jLabel14 = new widget.Label();
         CrDokter = new widget.TextBox();
@@ -6215,7 +6216,7 @@ public final class DlgReg extends javax.swing.JDialog {
         panelBiasa7.setLayout(null);
 
         DTPcari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPcari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-12-2025" }));
+        DTPcari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-03-2026" }));
         DTPcari1.setDisplayFormat("dd-MM-yyyy");
         DTPcari1.setName("DTPcari1"); // NOI18N
         DTPcari1.setOpaque(false);
@@ -6262,7 +6263,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel39.setBounds(176, 10, 20, 23);
 
         DTPcari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPcari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-12-2025" }));
+        DTPcari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-03-2026" }));
         DTPcari2.setDisplayFormat("dd-MM-yyyy");
         DTPcari2.setName("DTPcari2"); // NOI18N
         DTPcari2.setOpaque(false);
@@ -6548,7 +6549,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(60, 23));
         panelGlass7.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-12-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-03-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -6561,7 +6562,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass7.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-12-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-03-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -6598,6 +6599,10 @@ public final class DlgReg extends javax.swing.JDialog {
             }
         });
         panelGlass7.add(BtnCari);
+
+        jLabelUser.setName("jLabelUser"); // NOI18N
+        jLabelUser.setPreferredSize(new java.awt.Dimension(158, 23));
+        panelGlass7.add(jLabelUser);
 
         jPanel2.add(panelGlass7, java.awt.BorderLayout.CENTER);
 
@@ -6732,7 +6737,7 @@ public final class DlgReg extends javax.swing.JDialog {
         FormInput.add(jLabel9);
         jLabel9.setBounds(165, 72, 36, 23);
 
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "23-12-2025" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-03-2026" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -15101,6 +15106,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private widget.Label jLabel6;
     private widget.Label jLabel8;
     private widget.Label jLabel9;
+    private widget.Label jLabelUser;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -15802,6 +15808,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
             kdpnj.setText(tbPetugas.getValueAt(tbPetugas.getSelectedRow(),24).toString()); 
             Sequel.cariIsi("select perujuk from rujuk_masuk where no_rawat=?", AsalRujukan,tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString());
             CmbJnsPasien.setSelectedItem(Sequel.cariIsi("select jenis_pasien from jns_pasien where no_rkm_medis='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),7).toString()+"' "));
+            jLabelUser.setText(Sequel.cariIsi("SELECT p.nama FROM petugas p INNER JOIN history_user hu ON p.nip=hu.id_user WHERE hu.no_rawat='"+tbPetugas.getValueAt(tbPetugas.getSelectedRow(),2).toString()+"' "));
             JnsnoID.setSelectedIndex(0);
              if(nmpnj.getText().equals("JAMKESKINDA")){
                 tampilinfo2(NoKa.getText());

@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,8 +47,8 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
     private Connection koneksi=koneksiDB.condb();
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
-    private PreparedStatement ps;
-    private ResultSet rs;
+    private PreparedStatement ps,pslab,psrad,psttv;
+    private ResultSet rs,rslab,rsrad,rsttv;
     private int i=0;
     private DlgCariDokter dokter=new DlgCariDokter(null,false);
     private StringBuilder htmlContent;
@@ -404,6 +405,7 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
         jLabel82 = new widget.Label();
         scrollPane11 = new widget.ScrollPane();
         Penunjang = new widget.TextArea();
+        BtnTarikData = new widget.Button();
         internalFrame3 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -615,7 +617,7 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
         TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
         FormInput.add(TPasien);
-        TPasien.setBounds(309, 10, 260, 23);
+        TPasien.setBounds(309, 10, 230, 23);
 
         TNoRM.setEditable(false);
         TNoRM.setHighlighter(null);
@@ -1358,7 +1360,7 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
         label11.setBounds(380, 40, 52, 23);
 
         TglAsuhan.setForeground(new java.awt.Color(50, 70, 50));
-        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-05-2022 08:07:12" }));
+        TglAsuhan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-02-2026 02:07:24" }));
         TglAsuhan.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglAsuhan.setName("TglAsuhan"); // NOI18N
         TglAsuhan.setOpaque(false);
@@ -1482,6 +1484,18 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
         FormInput.add(scrollPane11);
         scrollPane11.setBounds(594, 970, 260, 63);
 
+        BtnTarikData.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/refresh.png"))); // NOI18N
+        BtnTarikData.setMnemonic('3');
+        BtnTarikData.setToolTipText("ALt+3");
+        BtnTarikData.setName("BtnTarikData"); // NOI18N
+        BtnTarikData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnTarikDataActionPerformed(evt);
+            }
+        });
+        FormInput.add(BtnTarikData);
+        BtnTarikData.setBounds(550, 10, 28, 23);
+
         scrollInput.setViewportView(FormInput);
 
         internalFrame2.add(scrollInput, java.awt.BorderLayout.CENTER);
@@ -1523,7 +1537,7 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-05-2022" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-02-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1537,7 +1551,7 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-05-2022" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-02-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2210,6 +2224,10 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
         Valid.pindah2(evt,Radiologi,Diagnosis);
     }//GEN-LAST:event_PenunjangKeyPressed
 
+    private void BtnTarikDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTarikDataActionPerformed
+        TarikData();
+    }//GEN-LAST:event_BtnTarikDataActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -2240,6 +2258,7 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
     private widget.Button BtnKeluar;
     private widget.Button BtnPrint;
     private widget.Button BtnSimpan;
+    private widget.Button BtnTarikData;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
     private widget.TextArea Diagnosis;
@@ -2621,5 +2640,167 @@ public final class RMPenilaianAwalMedisRanapDewasa extends javax.swing.JDialog {
                emptTeks();
                TabRawat.setSelectedIndex(1);
         }
+    }
+    
+    private void TarikData() {
+        //ambil data assesmen medis igd
+        try {
+            ps=koneksi.prepareStatement(
+                    "SELECT pmi.keluhan_utama,pmi.rps,pmi.rpd,pmi.rpk,pmi.rpo,pmi.alergi,pmi.tata,pmi.ket_fisik,pmi.ket_lokalis,pmi.diagnosis FROM penilaian_medis_igd pmi WHERE no_rawat= ? ORDER BY pmi.tanggal DESC LIMIT 1");
+            try {
+                ps.setString(1,TNoRw.getText());
+                rs=ps.executeQuery();
+                if(rs.next()){
+                    KeluhanUtama.setText(rs.getString("keluhan_utama"));
+                    RPS.setText(rs.getString("rps"));
+                    RPD.setText(rs.getString("rpd"));
+                    RPK.setText(rs.getString("rpk"));
+                    RPO.setText(rs.getString("rpo"));
+                    Alergi.setText(rs.getString("alergi"));
+                    Tatalaksana.setText(rs.getString("tata"));
+                    KetFisik.setText(rs.getString("ket_fisik"));
+                    KetLokalis.setText(rs.getString("ket_lokalis"));
+                    Diagnosis.setText(rs.getString("diagnosis"));
+                    
+                }
+            } catch (Exception e) {
+                System.out.println("Notif : "+e);
+            } finally{
+                if(rs!=null){
+                    rs.close();
+                }
+                if(ps!=null){
+                    ps.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notif : "+e);
+        }
+        
+        //ambil ttv ranap pertama
+        try {
+            psttv=koneksi.prepareStatement(
+                "SELECT pr.tensi,pr.nadi,pr.gcs,pr.tinggi,pr.respirasi,pr.berat,pr.suhu_tubuh,pr.spo2,pr.kesadaran FROM pemeriksaan_ranap pr "+
+                "WHERE pr.no_rawat= ? " +
+                "AND (pr.nip IN (SELECT kd_dokter FROM dokter) OR pr.nip IN (SELECT nip FROM petugas)) " +
+                "ORDER BY CASE WHEN pr.nip IN (SELECT kd_dokter FROM dokter) THEN 1 " +
+                "ELSE 2 END, pr.tgl_perawatan ASC LIMIT 1");
+            try {
+                psttv.setString(1,TNoRw.getText());
+                rsttv=psttv.executeQuery();
+                if(rsttv.next()){
+                    GCS.setText(rsttv.getString("gcs"));
+                    Kesadaran.setSelectedItem(rsttv.getString("kesadaran"));
+                    TD.setText(rsttv.getString("tensi"));
+                    Nadi.setText(rsttv.getString("nadi"));
+                    RR.setText(rsttv.getString("respirasi"));
+                    Suhu.setText(rsttv.getString("suhu_tubuh"));
+                    SPO.setText(rsttv.getString("spo2"));
+                    BB.setText(rsttv.getString("berat"));
+                    TB.setText(rsttv.getString("tinggi"));
+                    
+                }
+            } catch (Exception e) {
+                System.out.println("Notif : "+e);
+            } finally{
+                if(rsttv!=null){
+                    rsttv.close();
+                }
+                if(psttv!=null){
+                    psttv.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notif : "+e);
+        }
+        
+        //ambil hasil expertise radiologi
+        try {
+            psrad=koneksi.prepareStatement(
+                "SELECT hr.hasil FROM hasil_radiologi hr WHERE hr.no_rawat= ? ORDER BY hr.tgl_periksa, hr.jam DESC LIMIT 1");
+            try {
+                psrad.setString(1,TNoRw.getText());
+                rsrad=psrad.executeQuery();
+                if(rsrad.next()){
+                    Radiologi.setText(rsrad.getString("hasil"));                    
+                }
+            } catch (Exception e) {
+                System.out.println("Notif : "+e);
+            } finally{
+                if(rsrad!=null){
+                    rsrad.close();
+                }
+                if(psrad!=null){
+                    psrad.close();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Notif : "+e);
+        }
+        
+        //ambil hasil lab
+        try {
+            pslab = koneksi.prepareStatement(
+                "SELECT DISTINCT pl.tgl_periksa, pl.jam, jl.nm_perawatan, dpl.nilai, tl.satuan " +
+                "FROM periksa_lab pl " +
+                "INNER JOIN detail_periksa_lab dpl ON pl.no_rawat = dpl.no_rawat " +
+                "AND pl.kd_jenis_prw = dpl.kd_jenis_prw " +
+                "AND pl.tgl_periksa = dpl.tgl_periksa " +
+                "AND pl.jam = dpl.jam " +
+                "INNER JOIN jns_perawatan_lab jl ON pl.kd_jenis_prw = jl.kd_jenis_prw " +
+                "INNER JOIN template_laboratorium tl ON dpl.id_template = tl.id_template " +
+                "WHERE pl.no_rawat = ? " +
+                "AND pl.kategori <> 'PA' " +
+                "AND dpl.nilai IS NOT NULL " +
+                "AND dpl.nilai <> '' " +
+                "AND (pl.tgl_periksa, pl.jam) = (SELECT tgl_periksa, jam FROM periksa_lab WHERE no_rawat = ? AND kategori <> 'PA' ORDER BY tgl_periksa DESC, jam DESC LIMIT 1 ) " +
+                "ORDER BY tl.urut"
+            );
+        try{
+            pslab.setString(1, TNoRw.getText());
+            pslab.setString(2, TNoRw.getText());
+            rslab = pslab.executeQuery();
+
+            String lastTanggal = "";
+            String lastJam = "";
+
+            StringBuilder hasilLab = new StringBuilder();
+        
+            while (rslab.next()) {
+                String tgl = rslab.getString("tgl_periksa");
+                String jam = rslab.getString("jam");
+
+                if (!tgl.equals(lastTanggal) || !jam.equals(lastJam)) {
+                    // tampilkan tanggal sekali
+                    hasilLab.append(
+                        "\n" + tgl + " " + jam + "\n"
+                    );
+                    lastTanggal = tgl;
+                    lastJam = jam;
+                }
+
+                hasilLab.append(
+                    rslab.getString("nm_perawatan") +
+                    " : " + rslab.getString("nilai") + " " +
+                    rslab.getString("satuan") + "\n"
+                );
+            }
+
+            Laborat.setText(hasilLab.toString());
+
+        } catch (Exception e) {
+            System.out.println("Notif : " + e);
+        } finally {
+            if(rslab!=null){
+                    rslab.close();
+                }
+                if(pslab!=null){
+                    pslab.close();
+                }
+            }
+        }catch (Exception e) {
+            System.out.println("Notif : "+e);
+        }
+
     }
 }

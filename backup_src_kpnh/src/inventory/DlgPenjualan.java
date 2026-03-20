@@ -177,6 +177,7 @@ public class DlgPenjualan extends javax.swing.JDialog {
         }
         warna.kolom=0;
         tbObat.setDefaultRenderer(Object.class,warnapj);
+        tbObat.setDefaultRenderer(Double.class, warnapj);
 
         tabModeObatRacikan=new DefaultTableModel(null,new Object[]{
                 "No","Nama Racikan","Kode Racik","Metode Racik","Jml.Racik",

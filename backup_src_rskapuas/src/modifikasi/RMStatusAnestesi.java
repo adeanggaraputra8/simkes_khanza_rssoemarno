@@ -917,7 +917,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
                     } else if (TabRawat.getSelectedIndex() == 4) {
                         NIP6.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(), 0).toString());
                         NamaPegawai6.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(), 1).toString());
-                    }   else if (TabRawat.getSelectedIndex() == 7) {
+                    }   else if (TabRawat.getSelectedIndex() == 5) {
                         NIP9.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(), 0).toString());
                         NamaPegawai9.setText(pegawai.getTable().getValueAt(pegawai.getTable().getSelectedRow(), 1).toString());
                     }
@@ -1500,7 +1500,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
         FormInput.add(jLabel91);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-12-2025" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-12-2025" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -1642,7 +1642,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
         label12.setBounds(0, 70, 70, 23);
 
         TglOperasi.setForeground(new java.awt.Color(50, 70, 50));
-        TglOperasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-12-2025 03:46:24" }));
+        TglOperasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-12-2025 04:43:48" }));
         TglOperasi.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglOperasi.setName("TglOperasi"); // NOI18N
         TglOperasi.setOpaque(false);
@@ -2328,7 +2328,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
         label24.setBounds(240, 10, 52, 23);
 
         TglPremedikasi.setForeground(new java.awt.Color(50, 70, 50));
-        TglPremedikasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-12-2025 03:46:24" }));
+        TglPremedikasi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-12-2025 04:43:48" }));
         TglPremedikasi.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglPremedikasi.setName("TglPremedikasi"); // NOI18N
         TglPremedikasi.setOpaque(false);
@@ -2764,7 +2764,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
         label31.setBounds(10, 10, 52, 23);
 
         TglPrainduksi.setForeground(new java.awt.Color(50, 70, 50));
-        TglPrainduksi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-12-2025 03:46:24" }));
+        TglPrainduksi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-12-2025 04:43:48" }));
         TglPrainduksi.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglPrainduksi.setName("TglPrainduksi"); // NOI18N
         TglPrainduksi.setOpaque(false);
@@ -3225,7 +3225,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
         label32.setBounds(-20, 20, 52, 23);
 
         TglTeknikAnestesiUmum.setForeground(new java.awt.Color(50, 70, 50));
-        TglTeknikAnestesiUmum.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-12-2025 03:46:24" }));
+        TglTeknikAnestesiUmum.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-12-2025 04:43:48" }));
         TglTeknikAnestesiUmum.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglTeknikAnestesiUmum.setName("TglTeknikAnestesiUmum"); // NOI18N
         TglTeknikAnestesiUmum.setOpaque(false);
@@ -3616,7 +3616,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
         label33.setBounds(10, 10, 52, 23);
 
         TglBlokadeRegional.setForeground(new java.awt.Color(50, 70, 50));
-        TglBlokadeRegional.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-12-2025 03:46:24" }));
+        TglBlokadeRegional.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-12-2025 04:43:48" }));
         TglBlokadeRegional.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TglBlokadeRegional.setName("TglBlokadeRegional"); // NOI18N
         TglBlokadeRegional.setOpaque(false);
@@ -3947,7 +3947,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
         panelGlass18.add(jLabel129);
         jLabel129.setBounds(260, 10, 50, 23);
 
-        Airway2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Face mask", "LMA", "Single lumen spiral ETT", "Double Lumen ETT (R/L)" }));
+        Airway2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Face mask", "LMA", "Single lumen spiral ETT", "Double Lumen ETT (R/L)", "Nasal Canule", "Non Air" }));
         Airway2.setName("Airway2"); // NOI18N
         panelGlass18.add(Airway2);
         Airway2.setBounds(320, 10, 150, 20);
@@ -4330,7 +4330,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
         panelGlass10.add(jLabel26);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-12-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-12-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -4344,7 +4344,7 @@ public final class RMStatusAnestesi extends javax.swing.JDialog {
         panelGlass10.add(jLabel84);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-12-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-12-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);

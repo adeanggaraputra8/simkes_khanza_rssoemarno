@@ -1392,7 +1392,7 @@ public final class sekuel {
         angka=0;
         try {
             ps=connect.prepareStatement(
-                    "select count(no_jaminan) from jamkeskinda_jaminan where no_jaminan=?");
+                    "select count(no_sep) from eklaim_new_claim where no_sep=?");
             try {
                 ps.setString(1,norawat);
                 rs=ps.executeQuery();
@@ -1419,7 +1419,7 @@ public final class sekuel {
         angka=0;
         try {
             ps=connect.prepareStatement(
-                    "select count(kamar.no_rawat) from kamar_inap where kamar_inap.no_rawat=? and kamar_inap.tgl_keluar <> '0000-00-00' and kamar_inap.jam_keluar <> '00:00:00' ");
+                    "select count(kamar_inap.no_rawat) from kamar_inap where kamar_inap.no_rawat=? and kamar_inap.tgl_keluar <> '0000-00-00' and kamar_inap.jam_keluar <> '00:00:00' AND stts_pulang <> 'Pindah Kamar' ");
             try {
                 ps.setString(1,norawat);
                 rs=ps.executeQuery();
@@ -2397,4 +2397,6 @@ public final class sekuel {
         }
         return angka;
     }
+   
+
 }

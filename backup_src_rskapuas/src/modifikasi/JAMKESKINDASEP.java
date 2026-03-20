@@ -1,8 +1,6 @@
 package modifikasi;
 
 import bridging.*;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -288,6 +286,7 @@ public class JAMKESKINDASEP extends javax.swing.JDialog {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         MnSurat = new javax.swing.JMenuItem();
         MnKirimINACBG = new javax.swing.JMenuItem();
+        MnResume = new javax.swing.JMenuItem();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -383,6 +382,23 @@ public class JAMKESKINDASEP extends javax.swing.JDialog {
             }
         });
         jPopupMenu1.add(MnKirimINACBG);
+
+        MnResume.setBackground(new java.awt.Color(255, 255, 254));
+        MnResume.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnResume.setForeground(new java.awt.Color(50, 50, 50));
+        MnResume.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnResume.setText("Resume Ralan");
+        MnResume.setActionCommand("Cetak Jaminan");
+        MnResume.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnResume.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnResume.setName("MnResume"); // NOI18N
+        MnResume.setPreferredSize(new java.awt.Dimension(200, 26));
+        MnResume.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnResumeActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(MnResume);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -559,7 +575,7 @@ public class JAMKESKINDASEP extends javax.swing.JDialog {
         jLabel8.setPreferredSize(new java.awt.Dimension(70, 23));
         panelGlass10.add(jLabel8);
 
-        DTPTgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-01-2026" }));
+        DTPTgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-02-2026" }));
         DTPTgl1.setDisplayFormat("dd-MM-yyyy");
         DTPTgl1.setName("DTPTgl1"); // NOI18N
         DTPTgl1.setOpaque(false);
@@ -582,7 +598,7 @@ public class JAMKESKINDASEP extends javax.swing.JDialog {
         jLabel23.setPreferredSize(new java.awt.Dimension(25, 23));
         panelGlass10.add(jLabel23);
 
-        DTPTgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-01-2026" }));
+        DTPTgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-02-2026" }));
         DTPTgl2.setDisplayFormat("dd-MM-yyyy");
         DTPTgl2.setName("DTPTgl2"); // NOI18N
         DTPTgl2.setOpaque(false);
@@ -697,7 +713,7 @@ public class JAMKESKINDASEP extends javax.swing.JDialog {
         NoKartu.setBounds(300, 10, 110, 23);
 
         DTPReg.setForeground(new java.awt.Color(50, 70, 50));
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-01-2026" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-02-2026" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -1324,6 +1340,8 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         } else if (NoRawat.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Klik dulu salah satu nama pasiennya pada tabel...!!!!");
             tbObat.requestFocus();
+        } else if(Sequel.cariInacbg(tbObat.getValueAt(tbObat.getSelectedRow(),0).toString())>0){
+                    JOptionPane.showMessageDialog(rootPane,"Data sudah masuk dalan pengajuan klaim..!!");              
         } else {
             INACBGDaftarKlaim diklaim = new INACBGDaftarKlaim(null, false);
             diklaim.isCek();
@@ -1331,11 +1349,48 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
             diklaim.setLocationRelativeTo(internalFrame1);
             diklaim.verifData();
             diklaim.KlaimRAZA(tbObat.getValueAt(tbObat.getSelectedRow(),2).toString(), tbObat.getValueAt(tbObat.getSelectedRow(),0).toString(), "JAMKESKINDA", "5");
-            diklaim.setVisible(true);
-           
-            
+            diklaim.setVisible(true);   
         }
     }//GEN-LAST:event_MnKirimINACBGActionPerformed
+
+    private void MnResumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnResumeActionPerformed
+         if (tabMode.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Maaf, tabel masih kosong...!!!!");
+            TCari.requestFocus();
+        } else if (NoRawat.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Centang dulu data pada tabel...!!!!");
+            tbObat.requestFocus();
+        } else {
+                 if (JenisPelayanan.getSelectedIndex() == 1) {
+                    Map<String, Object> param = new HashMap<>(); 
+                      param.put("namars",akses.getnamars());
+                      param.put("alamatrs",akses.getalamatrs());
+                      param.put("kotars",akses.getkabupatenrs());
+                      param.put("propinsirs",akses.getpropinsirs());
+                      param.put("kontakrs",akses.getkontakrs());
+                      param.put("logo",Sequel.cariGambar("select bpjs from gambar"));
+                      param.put("logo2",Sequel.cariGambar("select logo from setting"));
+                      param.put("norawat",tbObat.getValueAt(tbObat.getSelectedRow(),2).toString());
+                      param.put("pro1",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and b.prioritas='1'"));
+                      param.put("pro2",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and b.prioritas='2'"));    
+                      param.put("pro3",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and b.prioritas='3'")); 
+                      param.put("pro4",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and b.prioritas='4'")); 
+                      param.put("pro5",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and b.prioritas='5'")); 
+                      param.put("pro6",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and b.prioritas='6'")); 
+                      param.put("pro7",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and b.prioritas='7'")); 
+                      param.put("pro8",Sequel.cariIsiBanyak("SELECT concat(b.kode,' ',a.deskripsi_panjang) FROM icd9 a INNER JOIN prosedur_pasien b ON a.kode=b.kode WHERE b.no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and b.prioritas='8'"));
+                      param.put("ttlobat",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and status='Obat'"));
+                      param.put("tarifrs",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' and status in ('Ralan Dokter','Ralan Paramedis','Ralan Dokter Paramedis')"));
+                      param.put("carapulang",Sequel.cariIsiBanyak("SELECT IF(stts='Sudah','Atas Persetujuan Dokter',IF(stts='Dirujuk','Rujuk',IF(stts='Dirawat','MRS',''))) FROM reg_periksa WHERE no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' "));
+                      param.put("nojaminan",tbObat.getValueAt(tbObat.getSelectedRow(),0).toString());
+                      param.put("nourut",Sequel.cariIsi("SELECT no_reg FROM reg_periksa WHERE no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"' AND no_rawat NOT IN (SELECT no_rawat FROM kamar_inap WHERE no_rawat='"+tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()+"')"));
+                      param.put("petugas",Sequel.cariIsi("select nama from pegawai where nik ='"+akses.getkode()+"' ")); 
+                      Valid.saveToPDF("rptJamkeskindaResume.jasper","report",tbObat.getValueAt(tbObat.getSelectedRow(),0).toString()+"-1rsumjkd",param);
+              } 
+                                     
+       }  
+                 
+    }//GEN-LAST:event_MnResumeActionPerformed
 
     /**
     * @param args the command line arguments
@@ -1380,6 +1435,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.TextBox Keterangan;
     private widget.Label LCount;
     private javax.swing.JMenuItem MnKirimINACBG;
+    private javax.swing.JMenuItem MnResume;
     private javax.swing.JMenuItem MnSurat;
     private widget.TextBox NmBangsal;
     private widget.TextBox NmDokter;
@@ -1631,8 +1687,11 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         Calendar cal = Calendar.getInstance();
         cal.setTime(tglReg);
 
-        String bulan = String.format("%02d", cal.get(Calendar.MONTH) + 1);
-        String tahun = String.valueOf(cal.get(Calendar.YEAR));
+//        String bulan = String.format("%02d", cal.get(Calendar.MONTH) + 1);
+//        String tahun = String.valueOf(cal.get(Calendar.YEAR));
+        
+        String bulan = Valid.SetTgl(DTPReg.getSelectedItem().toString()).substring(5, 7);
+        String tahun = Valid.SetTgl(DTPReg.getSelectedItem().toString()).substring(0, 4);
 
         String status = (JenisPelayanan.getSelectedIndex() == 0) ? "RI" : "RJ";
         String prefix = kdppkkemenkes + bulan + tahun ;

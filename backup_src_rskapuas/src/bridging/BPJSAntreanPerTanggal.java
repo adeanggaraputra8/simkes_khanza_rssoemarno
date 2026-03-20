@@ -43,7 +43,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
     private int i=0,tot_belum=0,tot_selesai=0,jkn_capaian_angka=0,mjkn_capaian_angka=0;
     private double jkn_capaian,mjkn_capaian,jkn_belum,jkn_selesai,mjkn_belum,mjkn_selesai,umum_belum,umum_selesai,sep;
     private ApiMobileJKN api=new ApiMobileJKN();
-    private String URL="",link="",utc="";
+    private String URL="",link="",utc="",requestJson="";
     private HttpHeaders headers;
     private HttpEntity requestEntity;
     private ObjectMapper mapper = new ObjectMapper();
@@ -130,6 +130,16 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         jPopupMenu1 = new javax.swing.JPopupMenu();
         MnCekKodeBooking = new javax.swing.JMenuItem();
         MnTaskidBelumDilayani = new javax.swing.JMenuItem();
+        ppBatal = new javax.swing.JMenuItem();
+        DlgBatal = new javax.swing.JDialog();
+        internalFrame5 = new widget.InternalFrame();
+        panelBiasa4 = new widget.PanelBiasa();
+        jLabel37 = new widget.Label();
+        BtnKeluar4 = new widget.Button();
+        kdbooking = new widget.TextBox();
+        keterangan = new widget.TextBox();
+        jLabel24 = new widget.Label();
+        BtnBatal = new widget.Button();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbJnsPerawatan = new widget.Table();
@@ -201,6 +211,93 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         });
         jPopupMenu1.add(MnTaskidBelumDilayani);
 
+        ppBatal.setBackground(new java.awt.Color(255, 255, 254));
+        ppBatal.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppBatal.setForeground(new java.awt.Color(50, 50, 50));
+        ppBatal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppBatal.setText("Pembatalan MJKN");
+        ppBatal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppBatal.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppBatal.setName("ppBatal"); // NOI18N
+        ppBatal.setPreferredSize(new java.awt.Dimension(200, 25));
+        ppBatal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppBatalBtnPrintActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(ppBatal);
+
+        DlgBatal.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        DlgBatal.setName("DlgBatal"); // NOI18N
+        DlgBatal.setUndecorated(true);
+        DlgBatal.setResizable(false);
+
+        internalFrame5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Pembatalan MJKN ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(50, 70, 50))); // NOI18N
+        internalFrame5.setName("internalFrame5"); // NOI18N
+        internalFrame5.setLayout(new java.awt.BorderLayout(1, 1));
+
+        panelBiasa4.setName("panelBiasa4"); // NOI18N
+        panelBiasa4.setLayout(null);
+
+        jLabel37.setText("Kode Booking :");
+        jLabel37.setName("jLabel37"); // NOI18N
+        panelBiasa4.add(jLabel37);
+        jLabel37.setBounds(10, 10, 140, 23);
+
+        BtnKeluar4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/exit.png"))); // NOI18N
+        BtnKeluar4.setMnemonic('K');
+        BtnKeluar4.setText("Keluar");
+        BtnKeluar4.setToolTipText("Alt+K");
+        BtnKeluar4.setName("BtnKeluar4"); // NOI18N
+        BtnKeluar4.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnKeluar4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnKeluar4ActionPerformed(evt);
+            }
+        });
+        panelBiasa4.add(BtnKeluar4);
+        BtnKeluar4.setBounds(300, 80, 100, 30);
+
+        kdbooking.setEditable(false);
+        kdbooking.setHighlighter(null);
+        kdbooking.setName("kdbooking"); // NOI18N
+        panelBiasa4.add(kdbooking);
+        kdbooking.setBounds(150, 10, 220, 23);
+
+        keterangan.setName("keterangan"); // NOI18N
+        keterangan.setPreferredSize(new java.awt.Dimension(300, 23));
+        panelBiasa4.add(keterangan);
+        keterangan.setBounds(150, 40, 340, 23);
+
+        jLabel24.setText("Alasan/Keterangan :");
+        jLabel24.setName("jLabel24"); // NOI18N
+        jLabel24.setPreferredSize(new java.awt.Dimension(60, 23));
+        panelBiasa4.add(jLabel24);
+        jLabel24.setBounds(7, 40, 140, 23);
+
+        BtnBatal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/stop_f2.png"))); // NOI18N
+        BtnBatal.setMnemonic('H');
+        BtnBatal.setText("Batal");
+        BtnBatal.setToolTipText("Alt+H");
+        BtnBatal.setName("BtnBatal"); // NOI18N
+        BtnBatal.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnBatal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBatalActionPerformed(evt);
+            }
+        });
+        BtnBatal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                BtnBatalKeyPressed(evt);
+            }
+        });
+        panelBiasa4.add(BtnBatal);
+        BtnBatal.setBounds(120, 80, 100, 30);
+
+        internalFrame5.add(panelBiasa4, java.awt.BorderLayout.CENTER);
+
+        DlgBatal.getContentPane().add(internalFrame5, java.awt.BorderLayout.CENTER);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
@@ -267,7 +364,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-06-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-08-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -281,7 +378,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-06-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "02-08-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -552,6 +649,65 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
         sep.setVisible(true);
     }//GEN-LAST:event_MnTaskidBelumDilayaniActionPerformed
 
+    private void BtnKeluar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluar4ActionPerformed
+        DlgBatal.dispose();
+    }//GEN-LAST:event_BtnKeluar4ActionPerformed
+
+    private void BtnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBatalActionPerformed
+        try {
+            headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.add("x-cons-id",koneksiDB.CONSIDAPIMOBILEJKN());
+            utc=String.valueOf(api.GetUTCdatetimeAsString());
+            headers.add("x-timestamp",utc);
+            headers.add("x-signature",api.getHmac(utc));
+            headers.add("user_key",koneksiDB.USERKEYAPIMOBILEJKN());
+            requestJson ="{" +
+            "\"kodebooking\": \""+kdbooking.getText()+"\"," +
+            "\"keterangan\": \""+keterangan.getText()+"\"" +
+            "}";
+            requestEntity = new HttpEntity(requestJson,headers);
+            URL = link+"/antrean/batal";
+            System.out.println("URL : "+URL);
+            //System.out.println(api.getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
+            root = mapper.readTree(api.getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
+            nameNode = root.path("metadata");
+            if(nameNode.path("code").asText().equals("200")){
+                if(tbJnsPerawatan.getSelectedRow()!= -1){
+                    if(Sequel.mengedittf("referensi_mobilejkn_bpjs","nobooking=?","status='Batal',validasi=now()",1,new String[]{
+                        tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(),0).toString()
+                    })==true){
+                        Sequel.menyimpan2("referensi_mobilejkn_bpjs_batal","?,?,?,now(),?,?,?",6,new String[]{
+                            tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(),8).toString(),"",
+                            tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(),10).toString(),keterangan.getText(),"Belum",tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(),0).toString()
+                        });
+                    }
+                }
+                tampi2();
+                DlgBatal.dispose();
+            }
+        }catch (Exception ex) {
+            System.out.println("Notifikasi Bridging : "+ex);
+        }
+    }//GEN-LAST:event_BtnBatalActionPerformed
+
+    private void BtnBatalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnBatalKeyPressed
+
+    }//GEN-LAST:event_BtnBatalKeyPressed
+
+    private void ppBatalBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppBatalBtnPrintActionPerformed
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        if(tbJnsPerawatan.getSelectedRow()!= -1){
+            DlgBatal.setSize(507,144);
+            DlgBatal.setLocationRelativeTo(internalFrame1);
+            DlgBatal.setVisible(true);
+            kdbooking.setText(tbJnsPerawatan.getValueAt(tbJnsPerawatan.getSelectedRow(),0).toString());
+        }else{
+            JOptionPane.showMessageDialog(null,"Maaf, silahkan pilih data pada tabel...!!!!");
+        }
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_ppBatalBtnPrintActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -595,12 +751,15 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private widget.Button BtnBatal;
     private widget.Button BtnCari;
     private widget.Button BtnCari1;
     private widget.Button BtnKeluar1;
+    private widget.Button BtnKeluar4;
     private widget.Button BtnSimpan;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
+    private javax.swing.JDialog DlgBatal;
     private widget.Label JknBelum;
     private widget.Label JknCapaian;
     private widget.Label JknSelesai;
@@ -617,6 +776,7 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
     private widget.Label TotBelum;
     private widget.Label TotSelesai;
     private widget.InternalFrame internalFrame1;
+    private widget.InternalFrame internalFrame5;
     private widget.Label jLabel10;
     private widget.Label jLabel11;
     private widget.Label jLabel12;
@@ -626,13 +786,19 @@ public final class BPJSAntreanPerTanggal extends javax.swing.JDialog {
     private widget.Label jLabel16;
     private widget.Label jLabel19;
     private widget.Label jLabel21;
+    private widget.Label jLabel24;
+    private widget.Label jLabel37;
     private widget.Label jLabel7;
     private widget.Label jLabel8;
     private widget.Label jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
+    private widget.TextBox kdbooking;
+    private widget.TextBox keterangan;
+    private widget.PanelBiasa panelBiasa4;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
+    private javax.swing.JMenuItem ppBatal;
     private widget.Table tbJnsPerawatan;
     // End of variables declaration//GEN-END:variables
 

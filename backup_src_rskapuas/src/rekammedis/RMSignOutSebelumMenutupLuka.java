@@ -68,7 +68,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
             "No.Rawat","No.RM","Nama Pasien","Tgl.Lahir","J.K.","Tanggal","SN/CN","Tindakan","Kode Dokter Bedah","Nama Dokter Bedah",
             "Kode Dokter Anest","Nama Dokter Anestesi","Verbal Tindakan","Verbal Kasa","Verbal Instrumen","Verbal Alat Tajam","Kelengkapan Spesimen Label",
             "Kelengkapan Spesimen Formulir","P.K.Dokter Bedah","P.K.Dokter Anestesi","P.K.Perawat OK","Perhatian Utama Fase Pemulihan",
-            "NIP OK","Petugas Ruang OK"
+            "NIP OK","Petugas Ruang OK","Isian Jarum","Big Hus","Catatan"
         }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -78,7 +78,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         tbObat.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbObat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 24; i++) {
+        for (i = 0; i < 27; i++) {
             TableColumn column = tbObat.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(105);
@@ -128,6 +128,12 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
                 column.setPreferredWidth(90);
             }else if(i==23){
                 column.setPreferredWidth(150);
+            }else if(i==24){
+                column.setPreferredWidth(120);
+            }else if(i==25){
+                column.setPreferredWidth(120);
+            }else if(i==26){
+                column.setPreferredWidth(120);
             }
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
@@ -311,7 +317,6 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         jLabel28 = new widget.Label();
         VerbalTindakan = new widget.ComboBox();
         jLabel30 = new widget.Label();
-        VerbalKasa = new widget.ComboBox();
         jLabel31 = new widget.Label();
         VerbalInstrumen = new widget.ComboBox();
         jLabel32 = new widget.Label();
@@ -331,6 +336,13 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         jLabel57 = new widget.Label();
         jLabel58 = new widget.Label();
         PerhatianUtamaFasePemulihan = new widget.TextBox();
+        VerbalKasa = new widget.TextBox();
+        IsianJarum = new widget.TextBox();
+        BigHus = new widget.TextBox();
+        Catatan = new widget.TextBox();
+        jLabel37 = new widget.Label();
+        jLabel38 = new widget.Label();
+        jLabel39 = new widget.Label();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -521,7 +533,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-01-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-02-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -535,7 +547,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-01-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-02-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -684,7 +696,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         TglLahir.setBounds(689, 10, 100, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-01-2023 19:06:59" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-02-2026 03:09:16" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -802,18 +814,18 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         jLabel26.setText("Perawat Kamar Operasi");
         jLabel26.setName("jLabel26"); // NOI18N
         FormInput.add(jLabel26);
-        jLabel26.setBounds(21, 310, 130, 23);
+        jLabel26.setBounds(20, 410, 130, 23);
 
         KdPetugasOK.setEditable(false);
         KdPetugasOK.setHighlighter(null);
         KdPetugasOK.setName("KdPetugasOK"); // NOI18N
         FormInput.add(KdPetugasOK);
-        KdPetugasOK.setBounds(147, 310, 110, 23);
+        KdPetugasOK.setBounds(150, 410, 110, 23);
 
         NmPetugasOK.setEditable(false);
         NmPetugasOK.setName("NmPetugasOK"); // NOI18N
         FormInput.add(NmPetugasOK);
-        NmPetugasOK.setBounds(259, 310, 300, 23);
+        NmPetugasOK.setBounds(260, 410, 300, 23);
 
         btnPetugasOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnPetugasOK.setMnemonic('2');
@@ -830,7 +842,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
             }
         });
         FormInput.add(btnPetugasOK);
-        btnPetugasOK.setBounds(561, 310, 28, 23);
+        btnPetugasOK.setBounds(560, 410, 28, 23);
 
         jLabel5.setText(":");
         jLabel5.setName("jLabel5"); // NOI18N
@@ -868,7 +880,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         jLabel27.setText(":");
         jLabel27.setName("jLabel27"); // NOI18N
         FormInput.add(jLabel27);
-        jLabel27.setBounds(0, 310, 143, 23);
+        jLabel27.setBounds(0, 410, 143, 23);
 
         jLabel54.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel54.setText("Perawat Melakukan Konfirmasi Secara Verbal :");
@@ -891,20 +903,10 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         FormInput.add(VerbalTindakan);
         VerbalTindakan.setBounds(131, 140, 80, 23);
 
-        jLabel30.setText("Kelengkapan Kasa :");
+        jLabel30.setText(" Kasa :");
         jLabel30.setName("jLabel30"); // NOI18N
         FormInput.add(jLabel30);
-        jLabel30.setBounds(237, 140, 110, 23);
-
-        VerbalKasa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ya", "Tidak" }));
-        VerbalKasa.setName("VerbalKasa"); // NOI18N
-        VerbalKasa.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                VerbalKasaKeyPressed(evt);
-            }
-        });
-        FormInput.add(VerbalKasa);
-        VerbalKasa.setBounds(351, 140, 80, 23);
+        jLabel30.setBounds(237, 140, 50, 23);
 
         jLabel31.setText("Instrumen :");
         jLabel31.setName("jLabel31"); // NOI18N
@@ -978,10 +980,10 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         FormInput.add(jLabel56);
         jLabel56.setBounds(40, 220, 290, 23);
 
-        jLabel34.setText("Dokter Bedah :");
+        jLabel34.setText("Catatan :");
         jLabel34.setName("jLabel34"); // NOI18N
         FormInput.add(jLabel34);
-        jLabel34.setBounds(47, 240, 100, 23);
+        jLabel34.setBounds(90, 370, 110, 23);
 
         PeninjauanKembaliDokterBedah.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Ya", "Tidak" }));
         PeninjauanKembaliDokterBedah.setName("PeninjauanKembaliDokterBedah"); // NOI18N
@@ -1044,6 +1046,56 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         FormInput.add(PerhatianUtamaFasePemulihan);
         PerhatianUtamaFasePemulihan.setBounds(213, 270, 576, 23);
 
+        VerbalKasa.setHighlighter(null);
+        VerbalKasa.setName("VerbalKasa"); // NOI18N
+        FormInput.add(VerbalKasa);
+        VerbalKasa.setBounds(290, 140, 170, 23);
+
+        IsianJarum.setHighlighter(null);
+        IsianJarum.setName("IsianJarum"); // NOI18N
+        IsianJarum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IsianJarumActionPerformed(evt);
+            }
+        });
+        FormInput.add(IsianJarum);
+        IsianJarum.setBounds(210, 310, 580, 23);
+
+        BigHus.setHighlighter(null);
+        BigHus.setName("BigHus"); // NOI18N
+        BigHus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BigHusActionPerformed(evt);
+            }
+        });
+        FormInput.add(BigHus);
+        BigHus.setBounds(210, 340, 580, 23);
+
+        Catatan.setHighlighter(null);
+        Catatan.setName("Catatan"); // NOI18N
+        Catatan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CatatanActionPerformed(evt);
+            }
+        });
+        FormInput.add(Catatan);
+        Catatan.setBounds(210, 370, 580, 23);
+
+        jLabel37.setText("Dokter Bedah :");
+        jLabel37.setName("jLabel37"); // NOI18N
+        FormInput.add(jLabel37);
+        jLabel37.setBounds(47, 240, 100, 23);
+
+        jLabel38.setText("Isian Jarum :");
+        jLabel38.setName("jLabel38"); // NOI18N
+        FormInput.add(jLabel38);
+        jLabel38.setBounds(90, 310, 110, 23);
+
+        jLabel39.setText("Big Hus :");
+        jLabel39.setName("jLabel39"); // NOI18N
+        FormInput.add(jLabel39);
+        jLabel39.setBounds(90, 340, 110, 23);
+
         scrollInput.setViewportView(FormInput);
 
         PanelInput.add(scrollInput, java.awt.BorderLayout.CENTER);
@@ -1080,12 +1132,13 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         }else if(SNCN.getText().trim().equals("")){
             Valid.textKosong(SNCN,"SN/CN");
         }else{
-            if(Sequel.menyimpantf("signout_sebelum_menutup_luka","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","Data",17,new String[]{
+            if(Sequel.menyimpantf("signout_sebelum_menutup_luka","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","Data",20,new String[]{
                 TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Tanggal.getSelectedItem().toString().substring(11,19),SNCN.getText(),Tindakan.getText(),
-                KodeDokterBedah.getText(),KodeDokterAnestesi.getText(),VerbalTindakan.getSelectedItem().toString(),VerbalKasa.getSelectedItem().toString(), 
+                KodeDokterBedah.getText(),KodeDokterAnestesi.getText(),VerbalTindakan.getSelectedItem().toString(),VerbalKasa.getText(), 
                 VerbalInstrumen.getSelectedItem().toString(),VerbalAlatTajam.getSelectedItem().toString(),KelengkapanSpesimenLabel.getSelectedItem().toString(), 
                 KelengkapanSpesimenFormulir.getSelectedItem().toString(),PeninjauanKembaliDokterBedah.getSelectedItem().toString(),PeninjauanKembaliDokterAnestesi.getSelectedItem().toString(), 
-                PeninjauanKembaliPerawatKamarOK.getSelectedItem().toString(),PerhatianUtamaFasePemulihan.getText(),KdPetugasOK.getText()
+                PeninjauanKembaliPerawatKamarOK.getSelectedItem().toString(),PerhatianUtamaFasePemulihan.getText(),KdPetugasOK.getText(),
+                IsianJarum.getText(),BigHus.getText(),Catatan.getText()
             })==true){
                 tampil();
                 emptTeks();
@@ -1200,7 +1253,8 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
                         "signout_sebelum_menutup_luka.kelengkapan_specimen_label,signout_sebelum_menutup_luka.kelengkapan_specimen_formulir,"+
                         "signout_sebelum_menutup_luka.peninjauan_kegiatan_dokter_bedah,signout_sebelum_menutup_luka.peninjauan_kegiatan_dokter_anestesi,"+
                         "signout_sebelum_menutup_luka.peninjauan_kegiatan_perawat_kamar_ok,signout_sebelum_menutup_luka.perhatian_utama_fase_pemulihan,"+
-                        "signout_sebelum_menutup_luka.nip_perawat_ok,petugas.nama from signout_sebelum_menutup_luka inner join reg_periksa "+
+                        "signout_sebelum_menutup_luka.nip_perawat_ok,petugas.nama,signout_sebelum_menutup_luka.isian_jarum,signout_sebelum_menutup_luka.big_hus,signout_sebelum_menutup_luka.catatan "+
+                        "from signout_sebelum_menutup_luka inner join reg_periksa "+
                         "on signout_sebelum_menutup_luka.no_rawat=reg_periksa.no_rawat inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                         "inner join dokter as dokterbedah on dokterbedah.kd_dokter=signout_sebelum_menutup_luka.kd_dokter_bedah "+
                         "inner join dokter as dokteranestesi on dokteranestesi.kd_dokter=signout_sebelum_menutup_luka.kd_dokter_anestesi "+
@@ -1215,7 +1269,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
                         "signout_sebelum_menutup_luka.kelengkapan_specimen_label,signout_sebelum_menutup_luka.kelengkapan_specimen_formulir,"+
                         "signout_sebelum_menutup_luka.peninjauan_kegiatan_dokter_bedah,signout_sebelum_menutup_luka.peninjauan_kegiatan_dokter_anestesi,"+
                         "signout_sebelum_menutup_luka.peninjauan_kegiatan_perawat_kamar_ok,signout_sebelum_menutup_luka.perhatian_utama_fase_pemulihan,"+
-                        "signout_sebelum_menutup_luka.nip_perawat_ok,petugas.nama from signout_sebelum_menutup_luka inner join reg_periksa "+
+                        "signout_sebelum_menutup_luka.nip_perawat_ok,petugas.nama,signout_sebelum_menutup_luka.isian_jarum,signout_sebelum_menutup_luka.big_hus,signout_sebelum_menutup_luka.catatan from signout_sebelum_menutup_luka inner join reg_periksa "+
                         "on signout_sebelum_menutup_luka.no_rawat=reg_periksa.no_rawat inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                         "inner join dokter as dokterbedah on dokterbedah.kd_dokter=signout_sebelum_menutup_luka.kd_dokter_bedah "+
                         "inner join dokter as dokteranestesi on dokteranestesi.kd_dokter=signout_sebelum_menutup_luka.kd_dokter_anestesi "+
@@ -1267,6 +1321,9 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
                             "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Perhatian Utama Fase Pemulihan</b></td>"+
                             "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>NIP OK</b></td>"+
                             "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Petugas Ruang OK</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Isisan Jarum</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Big Hus</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Catatan</b></td>"+
                         "</tr>"
                     );
                     while(rs.next()){
@@ -1296,6 +1353,9 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
                                "<td valign='top'>"+rs.getString("perhatian_utama_fase_pemulihan")+"</td>"+
                                "<td valign='top'>"+rs.getString("nip_perawat_ok")+"</td>"+
                                "<td valign='top'>"+rs.getString("nama")+"</td>"+
+                               "<td valign='top'>"+rs.getString("isian_jarum")+"</td>"+
+                               "<td valign='top'>"+rs.getString("big_hus")+"</td>"+
+                               "<td valign='top'>"+rs.getString("catatan")+"</td>"+
                             "</tr>");
                     }
                     LoadHTML.setText(
@@ -1516,10 +1576,6 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         Valid.pindah(evt,btnDokterAnestesi,VerbalKasa);
     }//GEN-LAST:event_VerbalTindakanKeyPressed
 
-    private void VerbalKasaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_VerbalKasaKeyPressed
-        Valid.pindah(evt,VerbalTindakan,VerbalInstrumen);
-    }//GEN-LAST:event_VerbalKasaKeyPressed
-
     private void VerbalInstrumenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_VerbalInstrumenKeyPressed
         Valid.pindah(evt,VerbalTindakan,VerbalAlatTajam);
     }//GEN-LAST:event_VerbalInstrumenKeyPressed
@@ -1552,6 +1608,18 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         Valid.pindah(evt,PeninjauanKembaliPerawatKamarOK,btnPetugasOK);
     }//GEN-LAST:event_PerhatianUtamaFasePemulihanKeyPressed
 
+    private void IsianJarumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IsianJarumActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IsianJarumActionPerformed
+
+    private void BigHusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BigHusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BigHusActionPerformed
+
+    private void CatatanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CatatanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CatatanActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1569,6 +1637,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private widget.TextBox BigHus;
     private widget.Button BtnAll;
     private widget.Button BtnBatal;
     private widget.Button BtnCari;
@@ -1577,10 +1646,12 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
     private widget.Button BtnKeluar;
     private widget.Button BtnPrint;
     private widget.Button BtnSimpan;
+    private widget.TextBox Catatan;
     private widget.CekBox ChkInput;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
     private widget.PanelBiasa FormInput;
+    private widget.TextBox IsianJarum;
     private widget.TextBox KdPetugasOK;
     private widget.ComboBox KelengkapanSpesimenFormulir;
     private widget.ComboBox KelengkapanSpesimenLabel;
@@ -1608,7 +1679,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
     private widget.TextBox Tindakan;
     private widget.ComboBox VerbalAlatTajam;
     private widget.ComboBox VerbalInstrumen;
-    private widget.ComboBox VerbalKasa;
+    private widget.TextBox VerbalKasa;
     private widget.ComboBox VerbalTindakan;
     private widget.Button btnDokterAnestesi;
     private widget.Button btnDokterBedah;
@@ -1633,6 +1704,9 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
     private widget.Label jLabel34;
     private widget.Label jLabel35;
     private widget.Label jLabel36;
+    private widget.Label jLabel37;
+    private widget.Label jLabel38;
+    private widget.Label jLabel39;
     private widget.Label jLabel4;
     private widget.Label jLabel5;
     private widget.Label jLabel54;
@@ -1667,7 +1741,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
                     "signout_sebelum_menutup_luka.kelengkapan_specimen_label,signout_sebelum_menutup_luka.kelengkapan_specimen_formulir,"+
                     "signout_sebelum_menutup_luka.peninjauan_kegiatan_dokter_bedah,signout_sebelum_menutup_luka.peninjauan_kegiatan_dokter_anestesi,"+
                     "signout_sebelum_menutup_luka.peninjauan_kegiatan_perawat_kamar_ok,signout_sebelum_menutup_luka.perhatian_utama_fase_pemulihan,"+
-                    "signout_sebelum_menutup_luka.nip_perawat_ok,petugas.nama from signout_sebelum_menutup_luka inner join reg_periksa "+
+                    "signout_sebelum_menutup_luka.nip_perawat_ok,petugas.nama,signout_sebelum_menutup_luka.isian_jarum,signout_sebelum_menutup_luka.big_hus,signout_sebelum_menutup_luka.catatan from signout_sebelum_menutup_luka inner join reg_periksa "+
                     "on signout_sebelum_menutup_luka.no_rawat=reg_periksa.no_rawat inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                     "inner join dokter as dokterbedah on dokterbedah.kd_dokter=signout_sebelum_menutup_luka.kd_dokter_bedah "+
                     "inner join dokter as dokteranestesi on dokteranestesi.kd_dokter=signout_sebelum_menutup_luka.kd_dokter_anestesi "+
@@ -1682,7 +1756,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
                     "signout_sebelum_menutup_luka.kelengkapan_specimen_label,signout_sebelum_menutup_luka.kelengkapan_specimen_formulir,"+
                     "signout_sebelum_menutup_luka.peninjauan_kegiatan_dokter_bedah,signout_sebelum_menutup_luka.peninjauan_kegiatan_dokter_anestesi,"+
                     "signout_sebelum_menutup_luka.peninjauan_kegiatan_perawat_kamar_ok,signout_sebelum_menutup_luka.perhatian_utama_fase_pemulihan,"+
-                    "signout_sebelum_menutup_luka.nip_perawat_ok,petugas.nama from signout_sebelum_menutup_luka inner join reg_periksa "+
+                    "signout_sebelum_menutup_luka.nip_perawat_ok,petugas.nama,signout_sebelum_menutup_luka.isian_jarum,signout_sebelum_menutup_luka.big_hus,signout_sebelum_menutup_luka.catatan from signout_sebelum_menutup_luka inner join reg_periksa "+
                     "on signout_sebelum_menutup_luka.no_rawat=reg_periksa.no_rawat inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                     "inner join dokter as dokterbedah on dokterbedah.kd_dokter=signout_sebelum_menutup_luka.kd_dokter_bedah "+
                     "inner join dokter as dokteranestesi on dokteranestesi.kd_dokter=signout_sebelum_menutup_luka.kd_dokter_anestesi "+
@@ -1716,7 +1790,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
                         rs.getString("verbal_instrumen"),rs.getString("verbal_alat_tajam"),rs.getString("kelengkapan_specimen_label"),
                         rs.getString("kelengkapan_specimen_formulir"),rs.getString("peninjauan_kegiatan_dokter_bedah"),rs.getString("peninjauan_kegiatan_dokter_anestesi"),
                         rs.getString("peninjauan_kegiatan_perawat_kamar_ok"),rs.getString("perhatian_utama_fase_pemulihan"),rs.getString("nip_perawat_ok"),
-                        rs.getString("nama")
+                        rs.getString("nama"),rs.getString("isian_jarum"),rs.getString("big_hus"),rs.getString("catatan")
                     });
                 }
             } catch (Exception e) {
@@ -1744,7 +1818,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         NamaDokterAnestesi.setText("");
         Tanggal.setDate(new Date());
         VerbalTindakan.setSelectedIndex(0);
-        VerbalKasa.setSelectedIndex(0);
+        VerbalKasa.setText("");
         VerbalInstrumen.setSelectedIndex(0);
         VerbalAlatTajam.setSelectedIndex(0);
         KelengkapanSpesimenLabel.setSelectedIndex(0);
@@ -1753,6 +1827,9 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         PeninjauanKembaliDokterAnestesi.setSelectedIndex(0);
         PeninjauanKembaliPerawatKamarOK.setSelectedIndex(0);
         PerhatianUtamaFasePemulihan.setText("");
+        IsianJarum.setText("");
+        BigHus.setText("");
+        Catatan.setText("");
         SNCN.requestFocus();
     } 
 
@@ -1769,7 +1846,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
             KodeDokterAnestesi.setText(tbObat.getValueAt(tbObat.getSelectedRow(),10).toString());
             NamaDokterAnestesi.setText(tbObat.getValueAt(tbObat.getSelectedRow(),11).toString());
             VerbalTindakan.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(),12).toString());
-            VerbalKasa.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(),13).toString());
+            VerbalKasa.setText(tbObat.getValueAt(tbObat.getSelectedRow(),13).toString());
             VerbalInstrumen.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(),14).toString());
             VerbalAlatTajam.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(),15).toString());
             KelengkapanSpesimenLabel.setSelectedItem(tbObat.getValueAt(tbObat.getSelectedRow(),16).toString());
@@ -1780,6 +1857,9 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
             PerhatianUtamaFasePemulihan.setText(tbObat.getValueAt(tbObat.getSelectedRow(),21).toString());
             KdPetugasOK.setText(tbObat.getValueAt(tbObat.getSelectedRow(),22).toString());
             NmPetugasOK.setText(tbObat.getValueAt(tbObat.getSelectedRow(),23).toString());
+            IsianJarum.setText(tbObat.getValueAt(tbObat.getSelectedRow(),24).toString());
+            BigHus.setText(tbObat.getValueAt(tbObat.getSelectedRow(),25).toString());
+            Catatan.setText(tbObat.getValueAt(tbObat.getSelectedRow(),26).toString());
             Valid.SetTgl2(Tanggal,tbObat.getValueAt(tbObat.getSelectedRow(),5).toString());
         }
     }
@@ -1821,7 +1901,7 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         if(ChkInput.isSelected()==true){
             if(internalFrame1.getHeight()>538){
                 ChkInput.setVisible(false);
-                PanelInput.setPreferredSize(new Dimension(WIDTH,366));
+                PanelInput.setPreferredSize(new Dimension(WIDTH,470));
                 FormInput.setVisible(true);      
                 ChkInput.setVisible(true);
             }else{
@@ -1849,12 +1929,12 @@ public final class RMSignOutSebelumMenutupLuka extends javax.swing.JDialog {
         Sequel.mengedit("signout_sebelum_menutup_luka","no_rawat=? and tanggal=?","no_rawat=?,tanggal=?,sncn=?,tindakan=?,kd_dokter_bedah=?,kd_dokter_anestesi=?,"+
                 "verbal_tindakan=?,verbal_kelengkapan_kasa=?,verbal_instrumen=?,verbal_alat_tajam=?,kelengkapan_specimen_label=?,kelengkapan_specimen_formulir=?,"+
                 "peninjauan_kegiatan_dokter_bedah=?,peninjauan_kegiatan_dokter_anestesi=?,peninjauan_kegiatan_perawat_kamar_ok=?,perhatian_utama_fase_pemulihan=?,"+
-                "nip_perawat_ok=?",19,new String[]{
+                "nip_perawat_ok=?,isian_jarum=?,big_hus=?,catatan=?",22,new String[]{
                 TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Tanggal.getSelectedItem().toString().substring(11,19),SNCN.getText(),Tindakan.getText(),
-                KodeDokterBedah.getText(),KodeDokterAnestesi.getText(),VerbalTindakan.getSelectedItem().toString(),VerbalKasa.getSelectedItem().toString(), 
+                KodeDokterBedah.getText(),KodeDokterAnestesi.getText(),VerbalTindakan.getSelectedItem().toString(),VerbalKasa.getText(), 
                 VerbalInstrumen.getSelectedItem().toString(),VerbalAlatTajam.getSelectedItem().toString(),KelengkapanSpesimenLabel.getSelectedItem().toString(), 
                 KelengkapanSpesimenFormulir.getSelectedItem().toString(),PeninjauanKembaliDokterBedah.getSelectedItem().toString(),PeninjauanKembaliDokterAnestesi.getSelectedItem().toString(), 
-                PeninjauanKembaliPerawatKamarOK.getSelectedItem().toString(),PerhatianUtamaFasePemulihan.getText(),KdPetugasOK.getText(),
+                PeninjauanKembaliPerawatKamarOK.getSelectedItem().toString(),PerhatianUtamaFasePemulihan.getText(),KdPetugasOK.getText(),IsianJarum.getText(),BigHus.getText(),Catatan.getText(),
                 tbObat.getValueAt(tbObat.getSelectedRow(),0).toString(),tbObat.getValueAt(tbObat.getSelectedRow(),5).toString()
         });
             

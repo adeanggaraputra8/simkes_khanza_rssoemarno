@@ -62,8 +62,8 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
             "Asal Ruang Rawat / Poliklinik","Ruang Rawat Selanjutnya","Metode Pemindahan","Diagnosa Utama","Diagnosa Sekunder","Prosedur Yang Sudah Dilakukan",
             "Obat Yang Telah Diberikan","Pemeriksaan Penunjang Yang Sudah Dilakukan","Peralatan Yang Menyertai","Keterangan Peralatan Menyertai",
             "Menyetujui Pemindahan","Nama Keluarga/Penanggung Jawab","Hubungan","Keadaan Umum SbT","TD SbT","Nadi SbT","RR SbT","Suhu Sbt",
-            "Keluhan Utama Sebelum Transfer","Keadaan Umum StT","TD StT","Nadi StT","RR StT","Suhu Stt","Keluhan Utama Setelah Transfer","NIP Menyerahkan",
-            "Petugas Yang Menyerahkan","NIP Menerima","Petugas Yang Menerima"
+            "Keluhan Utama Sebelum Transfer","Keadaan Umum StT","TD StT","Nadi StT","RR StT","Suhu StT","Keluhan Utama Setelah Transfer","NIP Menyerahkan",
+            "Petugas Yang Menyerahkan","NIP Menerima","Petugas Yang Menerima","Spo2 SbT","Spo2 StT","Riwayat Alergi"
         }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -72,7 +72,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         tbObat.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbObat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 38; i++) {
+        for (i = 0; i < 41; i++) {
             TableColumn column = tbObat.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(105);
@@ -150,6 +150,12 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                 column.setPreferredWidth(95);
             }else if(i==37){
                 column.setPreferredWidth(150);
+            }else if(i==38){
+                column.setPreferredWidth(50);
+            }else if(i==39){
+                column.setPreferredWidth(50);
+            }else if(i==40){
+                column.setPreferredWidth(125);
             }
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
@@ -157,7 +163,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         TNoRw.setDocument(new batasInput((byte)17).getKata(TNoRw));
         AsalRuang.setDocument(new batasInput((byte)30).getKata(AsalRuang));
         RuangSelanjutnya.setDocument(new batasInput((byte)30).getKata(RuangSelanjutnya));
-        DiagnosaUtama.setDocument(new batasInput((int)50).getKata(DiagnosaUtama));
+        DiagnosaUtama.setDocument(new batasInput((int)800).getKata(DiagnosaUtama));
         DiagnosaSekunder.setDocument(new batasInput((int)100).getKata(DiagnosaSekunder));
         KeteranganIndikasiPindahRuang.setDocument(new batasInput((int)50).getKata(KeteranganIndikasiPindahRuang));
         ProsedurDilakukan.setDocument(new batasInput((int)800).getKata(ProsedurDilakukan));
@@ -379,6 +385,15 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         NmPetugasMenerima = new widget.TextBox();
         BtnMenerima = new widget.Button();
         label16 = new widget.Label();
+        jLabel53 = new widget.Label();
+        SpO2SebelumTransfer = new widget.TextBox();
+        jLabel54 = new widget.Label();
+        jLabel55 = new widget.Label();
+        SpO2SetelahTransfer = new widget.TextBox();
+        jLabel56 = new widget.Label();
+        scrollPane7 = new widget.ScrollPane();
+        RiwayatAlergi = new widget.TextArea();
+        label17 = new widget.Label();
         internalFrame3 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -564,8 +579,9 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
 
         FormInput.setBackground(new java.awt.Color(255, 255, 255));
         FormInput.setBorder(null);
+        FormInput.setDoubleBuffered(false);
         FormInput.setName("FormInput"); // NOI18N
-        FormInput.setPreferredSize(new java.awt.Dimension(870, 663));
+        FormInput.setPreferredSize(new java.awt.Dimension(954, 715));
         FormInput.setLayout(null);
 
         jSeparator14.setBackground(new java.awt.Color(239, 244, 234));
@@ -646,7 +662,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         jLabel11.setBounds(740, 10, 30, 23);
 
         TanggalMasuk.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalMasuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-04-2023 11:05:53" }));
+        TanggalMasuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-01-2026 18:44:50" }));
         TanggalMasuk.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalMasuk.setName("TanggalMasuk"); // NOI18N
         TanggalMasuk.setOpaque(false);
@@ -665,7 +681,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         label12.setBounds(201, 40, 55, 23);
 
         TanggalPindah.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalPindah.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-04-2023 11:05:53" }));
+        TanggalPindah.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-01-2026 18:44:50" }));
         TanggalPindah.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         TanggalPindah.setName("TanggalPindah"); // NOI18N
         TanggalPindah.setOpaque(false);
@@ -1317,6 +1333,71 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         FormInput.add(label16);
         label16.setBounds(46, 630, 90, 23);
 
+        jLabel53.setText("SpO2 :");
+        jLabel53.setName("jLabel53"); // NOI18N
+        FormInput.add(jLabel53);
+        jLabel53.setBounds(273, 470, 40, 23);
+
+        SpO2SebelumTransfer.setFocusTraversalPolicyProvider(true);
+        SpO2SebelumTransfer.setName("SpO2SebelumTransfer"); // NOI18N
+        SpO2SebelumTransfer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                SpO2SebelumTransferKeyPressed(evt);
+            }
+        });
+        FormInput.add(SpO2SebelumTransfer);
+        SpO2SebelumTransfer.setBounds(317, 470, 60, 23);
+
+        jLabel54.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel54.setText("%");
+        jLabel54.setName("jLabel54"); // NOI18N
+        FormInput.add(jLabel54);
+        jLabel54.setBounds(380, 470, 50, 23);
+
+        jLabel55.setText("SpO2 :");
+        jLabel55.setName("jLabel55"); // NOI18N
+        FormInput.add(jLabel55);
+        jLabel55.setBounds(273, 580, 40, 23);
+
+        SpO2SetelahTransfer.setFocusTraversalPolicyProvider(true);
+        SpO2SetelahTransfer.setName("SpO2SetelahTransfer"); // NOI18N
+        SpO2SetelahTransfer.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                SpO2SetelahTransferKeyPressed(evt);
+            }
+        });
+        FormInput.add(SpO2SetelahTransfer);
+        SpO2SetelahTransfer.setBounds(317, 580, 60, 23);
+
+        jLabel56.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel56.setText("%");
+        jLabel56.setName("jLabel56"); // NOI18N
+        FormInput.add(jLabel56);
+        jLabel56.setBounds(380, 580, 50, 23);
+
+        scrollPane7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane7.setName("scrollPane7"); // NOI18N
+
+        RiwayatAlergi.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        RiwayatAlergi.setColumns(20);
+        RiwayatAlergi.setRows(5);
+        RiwayatAlergi.setName("RiwayatAlergi"); // NOI18N
+        RiwayatAlergi.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                RiwayatAlergiKeyPressed(evt);
+            }
+        });
+        scrollPane7.setViewportView(RiwayatAlergi);
+
+        FormInput.add(scrollPane7);
+        scrollPane7.setBounds(145, 673, 480, 30);
+
+        label17.setText("Riwayat Alergi :");
+        label17.setName("label17"); // NOI18N
+        label17.setPreferredSize(new java.awt.Dimension(70, 23));
+        FormInput.add(label17);
+        label17.setBounds(50, 670, 90, 23);
+
         scrollInput.setViewportView(FormInput);
 
         internalFrame2.add(scrollInput, java.awt.BorderLayout.CENTER);
@@ -1357,7 +1438,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-04-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-01-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1371,7 +1452,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-04-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-01-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -1700,7 +1781,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                             "transfer_pasien_antar_ruang.keadaan_umum_sesudah_transfer,transfer_pasien_antar_ruang.td_sesudah_transfer,"+
                             "transfer_pasien_antar_ruang.nadi_sesudah_transfer,transfer_pasien_antar_ruang.rr_sesudah_transfer,transfer_pasien_antar_ruang.suhu_sesudah_transfer,"+
                             "transfer_pasien_antar_ruang.nip_menyerahkan,petugasmenyerahkan.nama as petugasmenyerahkan,transfer_pasien_antar_ruang.nip_menerima,"+
-                            "petugasmenerima.nama as petugasmenerima "+
+                            "petugasmenerima.nama as petugasmenerima, transfer_pasien_antar_ruang.spo2_sebelum_transfer,transfer_pasien_antar_ruang.spo2_sesudah_transfer,transfer_pasien_antar_ruang.riwayat_alergi "+
                             "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                             "inner join transfer_pasien_antar_ruang on reg_periksa.no_rawat=transfer_pasien_antar_ruang.no_rawat "+
                             "inner join petugas as petugasmenyerahkan on transfer_pasien_antar_ruang.nip_menyerahkan=petugasmenyerahkan.nip "+
@@ -1722,7 +1803,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                             "transfer_pasien_antar_ruang.keadaan_umum_sesudah_transfer,transfer_pasien_antar_ruang.td_sesudah_transfer,"+
                             "transfer_pasien_antar_ruang.nadi_sesudah_transfer,transfer_pasien_antar_ruang.rr_sesudah_transfer,transfer_pasien_antar_ruang.suhu_sesudah_transfer,"+
                             "transfer_pasien_antar_ruang.nip_menyerahkan,petugasmenyerahkan.nama as petugasmenyerahkan,transfer_pasien_antar_ruang.nip_menerima,"+
-                            "petugasmenerima.nama as petugasmenerima "+
+                            "petugasmenerima.nama as petugasmenerima,transfer_pasien_antar_ruang.spo2_sebelum_transfer,transfer_pasien_antar_ruang.spo2_sesudah_transfer,transfer_pasien_antar_ruang.riwayat_alergi "+
                             "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                             "inner join transfer_pasien_antar_ruang on reg_periksa.no_rawat=transfer_pasien_antar_ruang.no_rawat "+
                             "inner join petugas as petugasmenyerahkan on transfer_pasien_antar_ruang.nip_menyerahkan=petugasmenyerahkan.nip "+
@@ -1786,6 +1867,9 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                             "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Petugas Yang Menyerahkan</b></td>"+
                             "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>NIP Menerima</b></td>"+
                             "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Petugas Yang Menerima</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>SpO2 Sebelum Transfer</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>SpO2 Sesudah Transfer</b></td>"+
+                            "<td valign='middle' bgcolor='#FFFAF8' align='center'><b>Riwayat Alergi</b></td>"+
                         "</tr>"
                     );
                     while(rs.next()){
@@ -1829,6 +1913,9 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                                "<td valign='top'>"+rs.getString("petugasmenyerahkan")+"</td>"+
                                "<td valign='top'>"+rs.getString("nip_menerima")+"</td>"+
                                "<td valign='top'>"+rs.getString("petugasmenerima")+"</td>"+
+                               "<td valign='top'>"+rs.getString("spo2_sebelum_transfer")+"</td>"+
+                               "<td valign='top'>"+rs.getString("spo2_sesudah_transfer")+"</td>"+
+                               "<td valign='top'>"+rs.getString("riwayat_alergi")+"</td>"+
                             "</tr>");
                     }
                     LoadHTML.setText(
@@ -2152,6 +2239,18 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_BtnRefreshPhoto1ActionPerformed
 
+    private void SpO2SebelumTransferKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SpO2SebelumTransferKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SpO2SebelumTransferKeyPressed
+
+    private void SpO2SetelahTransferKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_SpO2SetelahTransferKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SpO2SetelahTransferKeyPressed
+
+    private void RiwayatAlergiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RiwayatAlergiKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RiwayatAlergiKeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -2217,9 +2316,12 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
     private widget.TextArea ProsedurDilakukan;
     private widget.TextBox RRSebelumTransfer;
     private widget.TextBox RRSetelahTransfer;
+    private widget.TextArea RiwayatAlergi;
     private widget.TextBox RuangSelanjutnya;
     private widget.ScrollPane Scroll;
     private widget.ScrollPane Scroll5;
+    private widget.TextBox SpO2SebelumTransfer;
+    private widget.TextBox SpO2SetelahTransfer;
     private widget.TextBox SuhuSebelumTransfer;
     private widget.TextBox SuhuSetelahTransfer;
     private widget.TextBox TCari;
@@ -2278,6 +2380,10 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
     private widget.Label jLabel50;
     private widget.Label jLabel51;
     private widget.Label jLabel52;
+    private widget.Label jLabel53;
+    private widget.Label jLabel54;
+    private widget.Label jLabel55;
+    private widget.Label jLabel56;
     private widget.Label jLabel57;
     private widget.Label jLabel6;
     private widget.Label jLabel7;
@@ -2295,6 +2401,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
     private widget.Label label14;
     private widget.Label label15;
     private widget.Label label16;
+    private widget.Label label17;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private widget.ScrollPane scrollInput;
@@ -2304,6 +2411,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
     private widget.ScrollPane scrollPane4;
     private widget.ScrollPane scrollPane5;
     private widget.ScrollPane scrollPane6;
+    private widget.ScrollPane scrollPane7;
     private widget.Table tbObat;
     // End of variables declaration//GEN-END:variables
 
@@ -2326,7 +2434,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                         "transfer_pasien_antar_ruang.keadaan_umum_sesudah_transfer,transfer_pasien_antar_ruang.td_sesudah_transfer,"+
                         "transfer_pasien_antar_ruang.nadi_sesudah_transfer,transfer_pasien_antar_ruang.rr_sesudah_transfer,transfer_pasien_antar_ruang.suhu_sesudah_transfer,"+
                         "transfer_pasien_antar_ruang.nip_menyerahkan,petugasmenyerahkan.nama as petugasmenyerahkan,transfer_pasien_antar_ruang.nip_menerima,"+
-                        "petugasmenerima.nama as petugasmenerima "+
+                        "petugasmenerima.nama as petugasmenerima,transfer_pasien_antar_ruang.spo2_sebelum_transfer,transfer_pasien_antar_ruang.spo2_sesudah_transfer,transfer_pasien_antar_ruang.riwayat_alergi "+
                         "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                         "inner join transfer_pasien_antar_ruang on reg_periksa.no_rawat=transfer_pasien_antar_ruang.no_rawat "+
                         "inner join petugas as petugasmenyerahkan on transfer_pasien_antar_ruang.nip_menyerahkan=petugasmenyerahkan.nip "+
@@ -2348,7 +2456,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                         "transfer_pasien_antar_ruang.keadaan_umum_sesudah_transfer,transfer_pasien_antar_ruang.td_sesudah_transfer,"+
                         "transfer_pasien_antar_ruang.nadi_sesudah_transfer,transfer_pasien_antar_ruang.rr_sesudah_transfer,transfer_pasien_antar_ruang.suhu_sesudah_transfer,"+
                         "transfer_pasien_antar_ruang.nip_menyerahkan,petugasmenyerahkan.nama as petugasmenyerahkan,transfer_pasien_antar_ruang.nip_menerima,"+
-                        "petugasmenerima.nama as petugasmenerima "+
+                        "petugasmenerima.nama as petugasmenerima,transfer_pasien_antar_ruang.spo2_sebelum_transfer,transfer_pasien_antar_ruang.spo2_sesudah_transfer,transfer_pasien_antar_ruang.riwayat_alergi "+
                         "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                         "inner join transfer_pasien_antar_ruang on reg_periksa.no_rawat=transfer_pasien_antar_ruang.no_rawat "+
                         "inner join petugas as petugasmenyerahkan on transfer_pasien_antar_ruang.nip_menyerahkan=petugasmenyerahkan.nip "+
@@ -2380,7 +2488,8 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                         rs.getString("nama_menyetujui"),rs.getString("hubungan_menyetujui"),rs.getString("keadaan_umum_sebelum_transfer"),rs.getString("td_sebelum_transfer"),rs.getString("nadi_sebelum_transfer"),
                         rs.getString("rr_sebelum_transfer"),rs.getString("suhu_sebelum_transfer"),rs.getString("keluhan_utama_sebelum_transfer"),rs.getString("keadaan_umum_sesudah_transfer"),
                         rs.getString("td_sesudah_transfer"),rs.getString("nadi_sesudah_transfer"),rs.getString("rr_sesudah_transfer"),rs.getString("suhu_sesudah_transfer"),rs.getString("keluhan_utama_sesudah_transfer"),
-                        rs.getString("nip_menyerahkan"),rs.getString("petugasmenyerahkan"),rs.getString("nip_menerima"),rs.getString("petugasmenerima")
+                        rs.getString("nip_menyerahkan"),rs.getString("petugasmenyerahkan"),rs.getString("nip_menerima"),rs.getString("petugasmenerima"),rs.getString("spo2_sebelum_transfer"),rs.getString("spo2_sesudah_transfer"),
+                        rs.getString("riwayat_alergi")
                     });
                 }
             } catch (Exception e) {
@@ -2430,6 +2539,9 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
         RRSetelahTransfer.setText("");
         SuhuSetelahTransfer.setText("");
         KeluhanUtamaSetelahTransfer.setText("");
+        SpO2SebelumTransfer.setText("");
+        SpO2SetelahTransfer.setText("");
+        RiwayatAlergi.setText("");
         TabRawat.setSelectedIndex(0);
         IndikasiPindah.requestFocus();
     } 
@@ -2471,7 +2583,11 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
             KdPetugasMenyerahkan.setText(tbObat.getValueAt(tbObat.getSelectedRow(),34).toString()); 
             NmPetugasMenyerahkan.setText(tbObat.getValueAt(tbObat.getSelectedRow(),35).toString()); 
             KdPetugasMenerima.setText(tbObat.getValueAt(tbObat.getSelectedRow(),36).toString()); 
-            NmPetugasMenerima.setText(tbObat.getValueAt(tbObat.getSelectedRow(),37).toString()); 
+            NmPetugasMenerima.setText(tbObat.getValueAt(tbObat.getSelectedRow(),37).toString());
+            SpO2SebelumTransfer.setText(tbObat.getValueAt(tbObat.getSelectedRow(),38).toString());
+            SpO2SetelahTransfer.setText(tbObat.getValueAt(tbObat.getSelectedRow(),39).toString());
+            RiwayatAlergi.setText(tbObat.getValueAt(tbObat.getSelectedRow(),40).toString());
+              
             
             Valid.SetTgl2(TanggalMasuk,tbObat.getValueAt(tbObat.getSelectedRow(),5).toString());
             Valid.SetTgl2(TanggalPindah,tbObat.getValueAt(tbObat.getSelectedRow(),6).toString());
@@ -2545,7 +2661,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                 "peralatan_yang_menyertai=?,keterangan_peralatan_yang_menyertai=?,pemeriksaan_penunjang_yang_dilakukan=?,pasien_keluarga_menyetujui=?,nama_menyetujui=?,hubungan_menyetujui=?,"+
                 "keluhan_utama_sebelum_transfer=?,keadaan_umum_sebelum_transfer=?,td_sebelum_transfer=?,nadi_sebelum_transfer=?,rr_sebelum_transfer=?,suhu_sebelum_transfer=?,"+
                 "keluhan_utama_sesudah_transfer=?,keadaan_umum_sesudah_transfer=?,td_sesudah_transfer=?,nadi_sesudah_transfer=?,rr_sesudah_transfer=?,suhu_sesudah_transfer=?,"+
-                "nip_menyerahkan=?,nip_menerima=?",34,new String[]{
+                "nip_menyerahkan=?,nip_menerima=?,spo2_sebelum_transfer=?,spo2_sesudah_transfer=?,riwayat_alergi=?",37,new String[]{
                 TNoRw.getText(),Valid.SetTgl(TanggalMasuk.getSelectedItem()+"")+" "+TanggalMasuk.getSelectedItem().toString().substring(11,19),
                 Valid.SetTgl(TanggalPindah.getSelectedItem()+"")+" "+TanggalPindah.getSelectedItem().toString().substring(11,19),AsalRuang.getText(), 
                 RuangSelanjutnya.getText(),DiagnosaUtama.getText(),DiagnosaSekunder.getText(),IndikasiPindah.getSelectedItem().toString(),KeteranganIndikasiPindahRuang.getText(), 
@@ -2554,8 +2670,8 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                 HubunganMenyetujui.getSelectedItem().toString(),KeluhanUtamaSebelumTransfer.getText(),KeadaanUmumSebelumTransfer.getSelectedItem().toString(),
                 TDSebelumTransfer.getText(),NadiSebelumTransfer.getText(),RRSebelumTransfer.getText(),SuhuSebelumTransfer.getText(),KeluhanUtamaSetelahTransfer.getText(),
                 KeadaanUmumSetelahTransfer.getSelectedItem().toString(),TDSetelahTransfer.getText(),NadiSetelahTransfer.getText(),RRSetelahTransfer.getText(), 
-                SuhuSetelahTransfer.getText(),KdPetugasMenyerahkan.getText(),KdPetugasMenerima.getText(),tbObat.getValueAt(tbObat.getSelectedRow(),0).toString(),
-                tbObat.getValueAt(tbObat.getSelectedRow(),5).toString()
+                SuhuSetelahTransfer.getText(),KdPetugasMenyerahkan.getText(),KdPetugasMenerima.getText(),SpO2SebelumTransfer.getText(),SpO2SetelahTransfer.getText(),RiwayatAlergi.getText(),
+                tbObat.getValueAt(tbObat.getSelectedRow(),0).toString(), tbObat.getValueAt(tbObat.getSelectedRow(),5).toString()
             })==true){
                 tbObat.setValueAt(TNoRw.getText(),tbObat.getSelectedRow(),0);
                 tbObat.setValueAt(TNoRM.getText(),tbObat.getSelectedRow(),1);
@@ -2595,13 +2711,16 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                 tbObat.setValueAt(NmPetugasMenyerahkan.getText(),tbObat.getSelectedRow(),35);
                 tbObat.setValueAt(KdPetugasMenerima.getText(),tbObat.getSelectedRow(),36);
                 tbObat.setValueAt(NmPetugasMenerima.getText(),tbObat.getSelectedRow(),37);
+                tbObat.setValueAt(SpO2SebelumTransfer.getText(),tbObat.getSelectedRow(),38);
+                tbObat.setValueAt(SpO2SetelahTransfer.getText(),tbObat.getSelectedRow(),39);
+                tbObat.setValueAt(RiwayatAlergi.getText(),tbObat.getSelectedRow(),40);
                 emptTeks();
                 TabRawat.setSelectedIndex(1);
         }
     }
 
     private void simpan() {
-        if(Sequel.menyimpantf("transfer_pasien_antar_ruang","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat & Tanggal Masuk",32,new String[]{
+        if(Sequel.menyimpantf("transfer_pasien_antar_ruang","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat & Tanggal Masuk",35,new String[]{
                 TNoRw.getText(),Valid.SetTgl(TanggalMasuk.getSelectedItem()+"")+" "+TanggalMasuk.getSelectedItem().toString().substring(11,19),
                 Valid.SetTgl(TanggalPindah.getSelectedItem()+"")+" "+TanggalPindah.getSelectedItem().toString().substring(11,19),AsalRuang.getText(), 
                 RuangSelanjutnya.getText(),DiagnosaUtama.getText(),DiagnosaSekunder.getText(),IndikasiPindah.getSelectedItem().toString(),KeteranganIndikasiPindahRuang.getText(), 
@@ -2610,7 +2729,7 @@ public final class RMTransferPasienAntarRuang extends javax.swing.JDialog {
                 HubunganMenyetujui.getSelectedItem().toString(),KeluhanUtamaSebelumTransfer.getText(),KeadaanUmumSebelumTransfer.getSelectedItem().toString(),
                 TDSebelumTransfer.getText(),NadiSebelumTransfer.getText(),RRSebelumTransfer.getText(),SuhuSebelumTransfer.getText(),KeluhanUtamaSetelahTransfer.getText(),
                 KeadaanUmumSetelahTransfer.getSelectedItem().toString(),TDSetelahTransfer.getText(),NadiSetelahTransfer.getText(),RRSetelahTransfer.getText(), 
-                SuhuSetelahTransfer.getText(),KdPetugasMenyerahkan.getText(),KdPetugasMenerima.getText()
+                SuhuSetelahTransfer.getText(),KdPetugasMenyerahkan.getText(),KdPetugasMenerima.getText(),SpO2SebelumTransfer.getText(),SpO2SetelahTransfer.getText(),RiwayatAlergi.getText()
             })==true){
                 emptTeks();
         }

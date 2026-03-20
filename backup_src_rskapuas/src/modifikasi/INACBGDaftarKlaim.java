@@ -2045,6 +2045,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
 
     private void tampilSEP() {
         nilaiRWT = "";
+        String jnsjaminan="";
         Valid.tabelKosong(tabMode);
         if (cmbJnsRawat.getSelectedItem().equals("INAP")) {
             nilaiRWT = "%ranap%";
@@ -2052,6 +2053,14 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
             nilaiRWT = "%ralan%";
         } else {
             nilaiRWT = "%%";
+        }
+        
+        if (cmbJnsKlaim.getSelectedItem().equals("JKN")||cmbJnsKlaim.getSelectedItem().equals("-")) {
+            jnsjaminan = " not like '%JMA%'";
+        } else if (cmbJnsKlaim.getSelectedItem().equals("JAMKESKINDA")) {
+            jnsjaminan = " like '%JMA%'";
+        } else {
+            jnsjaminan = " like '%%'";
         }
         
         try {
@@ -2066,15 +2075,15 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                         + "LEFT JOIN eklaim_set_claim esc ON esc.no_sep=enc.no_sep LEFT JOIN eklaim_grouping eg ON eg.no_sep=enc.no_sep LEFT JOIN eklaim_online_status eos ON eos.no_sep=enc.no_sep "
                         + "LEFT JOIN inacbg_coder_nik koder ON koder.no_ik=esc.coder_nik LEFT JOIN pegawai p ON p.nik=koder.nik LEFT JOIN eklaim_covid19_data ecd ON ecd.no_sep=enc.no_sep "
                         + "LEFT JOIN reg_periksa rp on rp.no_rawat=enc.no_rawat LEFT JOIN poliklinik pl ON pl.kd_poli=rp.kd_poli WHERE "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.no_rawat like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and esc.payor_cd like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.no_sep like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.nm_pasien like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.klaim_final like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and p.nama like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.no_rm like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ',(SELECT b.nm_bangsal FROM kamar_inap ki "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.no_rawat like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and esc.payor_cd like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.no_sep like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.nm_pasien like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.klaim_final like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and p.nama like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.no_rm like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ',(SELECT b.nm_bangsal FROM kamar_inap ki "
                         + "INNER JOIN kamar k ON k.kd_kamar=ki.kd_kamar INNER JOIN bangsal b ON b.kd_bangsal=k.kd_bangsal WHERE ki.no_rawat=rp.no_rawat AND ki.stts_pulang<>'Pindah Kamar'))) like ? "
                         + "order by enc.tglsep desc limit " + cmbLimit.getSelectedItem().toString() + "");
             } else {
@@ -2088,15 +2097,15 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                         + "LEFT JOIN eklaim_set_claim esc ON esc.no_sep=enc.no_sep LEFT JOIN eklaim_grouping eg ON eg.no_sep=enc.no_sep LEFT JOIN eklaim_online_status eos ON eos.no_sep=enc.no_sep "
                         + "LEFT JOIN inacbg_coder_nik koder ON koder.no_ik=esc.coder_nik LEFT JOIN pegawai p ON p.nik=koder.nik LEFT JOIN eklaim_covid19_data ecd ON ecd.no_sep=enc.no_sep "
                         + "LEFT JOIN reg_periksa rp on rp.no_rawat=enc.no_rawat LEFT JOIN poliklinik pl ON pl.kd_poli=rp.kd_poli WHERE "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.no_rawat like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and esc.payor_cd like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.no_sep like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.nm_pasien like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.klaim_final like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and p.nama like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and enc.no_rm like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and enc.tglsep BETWEEN ? AND ? and IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ',(SELECT b.nm_bangsal FROM kamar_inap ki "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.no_rawat like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and esc.payor_cd like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.no_sep like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.nm_pasien like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.klaim_final like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and p.nama like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and enc.no_rm like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and enc.tglsep BETWEEN ? AND ? and IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ',(SELECT b.nm_bangsal FROM kamar_inap ki "
                         + "INNER JOIN kamar k ON k.kd_kamar=ki.kd_kamar INNER JOIN bangsal b ON b.kd_bangsal=k.kd_bangsal WHERE ki.no_rawat=rp.no_rawat AND ki.stts_pulang<>'Pindah Kamar'))) like ? "
                         + "order by enc.tglsep desc");
             }
@@ -2494,6 +2503,7 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
     
     private void tampilKLAIM() {
         nilaiRWT = "";
+        String jnsjaminan="";
         Valid.tabelKosong(tabMode);
         if (cmbJnsRawat.getSelectedItem().equals("INAP")) {
             nilaiRWT = "%ranap%";
@@ -2501,6 +2511,14 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
             nilaiRWT = "%ralan%";
         } else {
             nilaiRWT = "%%";
+        }
+        
+        if (cmbJnsKlaim.getSelectedItem().equals("JKN")||cmbJnsKlaim.getSelectedItem().equals("-")) {
+            jnsjaminan = " not like '%JMA%'";
+        } else if (cmbJnsKlaim.getSelectedItem().equals("JAMKESKINDA")) {
+            jnsjaminan = " like '%JMA%'";
+        } else {
+            jnsjaminan = " like '%%'";
         }
         
         try {
@@ -2515,15 +2533,15 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                         + "LEFT JOIN eklaim_set_claim esc ON esc.no_sep=enc.no_sep LEFT JOIN eklaim_grouping eg ON eg.no_sep=enc.no_sep LEFT JOIN eklaim_online_status eos ON eos.no_sep=enc.no_sep "
                         + "LEFT JOIN inacbg_coder_nik koder ON koder.no_ik=esc.coder_nik LEFT JOIN pegawai p ON p.nik=koder.nik LEFT JOIN eklaim_covid19_data ecd ON ecd.no_sep=enc.no_sep "
                         + "LEFT JOIN reg_periksa rp on rp.no_rawat=enc.no_rawat LEFT JOIN poliklinik pl ON pl.kd_poli=rp.kd_poli WHERE "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_rawat like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and esc.payor_cd like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_sep like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.nm_pasien like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.klaim_final like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and p.nama like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_rm like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ',(SELECT b.nm_bangsal FROM kamar_inap ki "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_rawat like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and esc.payor_cd like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_sep like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.nm_pasien like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.klaim_final like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and p.nama like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_rm like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ',(SELECT b.nm_bangsal FROM kamar_inap ki "
                         + "INNER JOIN kamar k ON k.kd_kamar=ki.kd_kamar INNER JOIN bangsal b ON b.kd_bangsal=k.kd_bangsal WHERE ki.no_rawat=rp.no_rawat AND ki.stts_pulang<>'Pindah Kamar'))) like ? "
                         + "order by enc.tgl_input desc limit " + cmbLimit.getSelectedItem().toString() + "");
 
@@ -2538,15 +2556,15 @@ public class INACBGDaftarKlaim extends javax.swing.JDialog {
                         + "LEFT JOIN eklaim_set_claim esc ON esc.no_sep=enc.no_sep LEFT JOIN eklaim_grouping eg ON eg.no_sep=enc.no_sep LEFT JOIN eklaim_online_status eos ON eos.no_sep=enc.no_sep "
                         + "LEFT JOIN inacbg_coder_nik koder ON koder.no_ik=esc.coder_nik LEFT JOIN pegawai p ON p.nik=koder.nik LEFT JOIN eklaim_covid19_data ecd ON ecd.no_sep=enc.no_sep "
                         + "LEFT JOIN reg_periksa rp on rp.no_rawat=enc.no_rawat LEFT JOIN poliklinik pl ON pl.kd_poli=rp.kd_poli WHERE "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_rawat like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and esc.payor_cd like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_sep like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.nm_pasien like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.klaim_final like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and p.nama like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_rm like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') like ? or "
-                        + "rp.status_lanjut like '" + nilaiRWT + "' and DATE(enc.tgl_input) BETWEEN ? AND ? and IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ',(SELECT b.nm_bangsal FROM kamar_inap ki "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_rawat like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and esc.payor_cd like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_sep like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.nm_pasien like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.klaim_final like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and p.nama like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and enc.no_rm like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and if(eos.kemkes_dc_status='sent','Sudah Terkirim ke Kemenkes','Belum Terkirim') like ? or "
+                        + "rp.status_lanjut like '" + nilaiRWT + "' and rp.kd_pj " + jnsjaminan + " and DATE(enc.tgl_input) BETWEEN ? AND ? and IF(rp.status_lanjut='Ralan',CONCAT('Inst./Poli ',pl.nm_poli),CONCAT('Rg. ',(SELECT b.nm_bangsal FROM kamar_inap ki "
                         + "INNER JOIN kamar k ON k.kd_kamar=ki.kd_kamar INNER JOIN bangsal b ON b.kd_bangsal=k.kd_bangsal WHERE ki.no_rawat=rp.no_rawat AND ki.stts_pulang<>'Pindah Kamar'))) like ? "
                         + "order by enc.tgl_input desc");
             }

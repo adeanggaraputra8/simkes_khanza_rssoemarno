@@ -339,7 +339,6 @@ public class DlgReturJual extends javax.swing.JDialog {
         Kd2 = new widget.TextBox();
         Popup = new javax.swing.JPopupMenu();
         ppCetakNota = new javax.swing.JMenuItem();
-        Persen = new widget.TextBox();
         internalFrame1 = new widget.InternalFrame();
         scrollPane1 = new widget.ScrollPane();
         tbDokter = new widget.Table();
@@ -371,7 +370,6 @@ public class DlgReturJual extends javax.swing.JDialog {
         label23 = new widget.Label();
         total = new widget.TextBox();
         label29 = new widget.Label();
-        label28 = new widget.Label();
         panelisiBeli = new widget.panelisi();
         label15 = new widget.Label();
         NoRetur = new widget.TextBox();
@@ -415,14 +413,6 @@ public class DlgReturJual extends javax.swing.JDialog {
             }
         });
         Popup.add(ppCetakNota);
-
-        Persen.setName("Persen"); // NOI18N
-        Persen.setPreferredSize(new java.awt.Dimension(80, 23));
-        Persen.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                PersenKeyPressed(evt);
-            }
-        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -731,13 +721,6 @@ public class DlgReturJual extends javax.swing.JDialog {
         label29.setPreferredSize(new java.awt.Dimension(90, 23));
         panelisi4.add(label29);
         label29.setBounds(540, 40, 100, 23);
-
-        label28.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        label28.setText("  - 28%  =");
-        label28.setName("label28"); // NOI18N
-        label28.setPreferredSize(new java.awt.Dimension(90, 23));
-        panelisi4.add(label28);
-        label28.setBounds(730, 40, 60, 23);
 
         jPanel1.add(panelisi4, java.awt.BorderLayout.CENTER);
 
@@ -1291,10 +1274,6 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         }
     }//GEN-LAST:event_NoFakturKeyPressed
 
-    private void PersenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PersenKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PersenKeyPressed
-
     /**
     * @param args the command line arguments
     */
@@ -1334,7 +1313,6 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private widget.TextBox NoFaktur;
     private widget.TextBox NoNota;
     private widget.TextBox NoRetur;
-    private widget.TextBox Persen;
     private javax.swing.JPopupMenu Popup;
     private widget.TextBox Satuanbar;
     private widget.TextBox Subtotal;
@@ -1355,7 +1333,6 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private widget.Label label25;
     private widget.Label label26;
     private widget.Label label27;
-    private widget.Label label28;
     private widget.Label label29;
     private widget.Label label32;
     private widget.Label label9;
@@ -1436,19 +1413,18 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private void isHitung(){
         if((!Jmlretur.getText().equals(""))&&(!Hargaretur.getText().equals(""))){
             total.setText(Double.toString(
-                    Double.parseDouble(Jmlretur.getText())*
                     Double.parseDouble(Hargaretur.getText())
             ));
-            Persen.setText(Double.toString(
-                    Double.parseDouble(total.getText())*28/100
-            ));
+//            Persen.setText(Double.toString(
+//                    Double.parseDouble(total.getText())*28/100
+//            ));
              Subtotal.setText(Double.toString(
-                    Double.parseDouble(total.getText())-Double.parseDouble(Persen.getText())
+                    Double.parseDouble(Jmlretur.getText())*
+                    Double.parseDouble(Hargaretur.getText())
             ));
         }else{
             Subtotal.setText("0");
             total.setText("0");
-            Persen.setText("0");
         }            
     }
     

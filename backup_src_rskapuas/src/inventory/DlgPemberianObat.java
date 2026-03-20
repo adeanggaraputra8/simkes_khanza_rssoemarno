@@ -1716,7 +1716,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         WindowBayarObat.setUndecorated(true);
         WindowBayarObat.setResizable(false);
 
-        internalFrame8.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Bayar Obat ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Liberation Sans", 0, 15), new java.awt.Color(70, 70, 70))); // NOI18N
+        internalFrame8.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Bayar Obat ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(70, 70, 70))); // NOI18N
         internalFrame8.setName("internalFrame8"); // NOI18N
         internalFrame8.setPreferredSize(new java.awt.Dimension(1250, 437));
         internalFrame8.setLayout(null);
@@ -1741,7 +1741,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         internalFrame8.add(Nmpetugas);
         Nmpetugas.setBounds(200, 80, 180, 24);
 
-        DTPBayar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-04-2024" }));
+        DTPBayar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
         DTPBayar.setDisplayFormat("dd-MM-yyyy");
         DTPBayar.setName("DTPBayar"); // NOI18N
         DTPBayar.setOpaque(false);
@@ -1756,7 +1756,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
             }
         });
         internalFrame8.add(DTPBayar);
-        DTPBayar.setBounds(360, 50, 110, 24);
+        DTPBayar.setBounds(360, 50, 119, 24);
 
         btncaripetugas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btncaripetugas.setMnemonic('3');
@@ -1865,7 +1865,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         });
         panelGlass3.add(BtnPrint1);
 
-        DTPtanggalkembali1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-04-2024" }));
+        DTPtanggalkembali1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
         DTPtanggalkembali1.setDisplayFormat("dd-MM-yyyy");
         DTPtanggalkembali1.setName("DTPtanggalkembali1"); // NOI18N
         DTPtanggalkembali1.setOpaque(false);
@@ -1885,7 +1885,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         jLabel44.setName("jLabel44"); // NOI18N
         panelGlass3.add(jLabel44);
 
-        DTPtanggalkembali2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-04-2024" }));
+        DTPtanggalkembali2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
         DTPtanggalkembali2.setDisplayFormat("dd-MM-yyyy");
         DTPtanggalkembali2.setName("DTPtanggalkembali2"); // NOI18N
         DTPtanggalkembali2.setOpaque(false);
@@ -2033,7 +2033,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
 
         Tanggal.setEditable(false);
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-04-2024" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -2214,7 +2214,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
 
         DTPCari1.setEditable(false);
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-04-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -2228,7 +2228,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
 
         DTPCari2.setEditable(false);
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-04-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2395,7 +2395,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
 
         DTPBeri.setEditable(false);
         DTPBeri.setForeground(new java.awt.Color(50, 70, 50));
-        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-04-2024" }));
+        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
         DTPBeri.setDisplayFormat("dd-MM-yyyy");
         DTPBeri.setName("DTPBeri"); // NOI18N
         DTPBeri.setOpaque(false);
@@ -5458,8 +5458,9 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                 + " INNER JOIN kamar k ON k.kd_kamar=ki.kd_kamar "
                 + " INNER JOIN bangsal b on b.kd_bangsal=k.kd_bangsal "
                 + " INNER JOIN databarang db ON db.kode_brng=dpo.kode_brng "
+                + " INNER JOIN golongan_barang ON db.kode_golongan=golongan_barang.kode "
                 + " WHERE dpo.tgl_perawatan BETWEEN '" + Valid.SetTgl(DTPCari1.getSelectedItem() + "") + "' AND '" + Valid.SetTgl(DTPCari2.getSelectedItem() + "") + "' "
-                + " AND db.kdjns='J010' GROUP BY db.nama_brng, b.nm_bangsal "
+                + " AND golongan_barang.kode in ('G73','G74','G78','G79','G80','G81','G82','G83','G84','G19','G184') GROUP BY db.nama_brng, b.nm_bangsal "
                 + " ORDER BY b.nm_bangsal ASC, db.nama_brng ASC", param);
    this.setCursor(Cursor.getDefaultCursor());      
     }//GEN-LAST:event_jMenuRanapAntibiotikActionPerformed
@@ -5480,8 +5481,9 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         + " INNER JOIN detail_pemberian_obat ON detail_pemberian_obat.no_rawat=reg_periksa.no_rawat "
         + " INNER JOIN poliklinik ON poliklinik.kd_poli=reg_periksa.kd_poli "
         + " INNER JOIN databarang ON databarang.kode_brng=detail_pemberian_obat.kode_brng "
+        + " INNER JOIN golongan_barang ON databarang.kode_golongan=golongan_barang.kode "
         + " WHERE detail_pemberian_obat.tgl_perawatan BETWEEN '" + Valid.SetTgl(DTPCari1.getSelectedItem() + "") + "' AND '" + Valid.SetTgl(DTPCari2.getSelectedItem() + "") + "' "
-        + " AND databarang.kdjns='J010' GROUP BY databarang.nama_brng, poliklinik.nm_poli "
+        + " AND golongan_barang.kode in ('G73','G74','G78','G79','G80','G81','G82','G83','G84','G19','G184') GROUP BY databarang.nama_brng, poliklinik.nm_poli "
         + " ORDER BY poliklinik.nm_poli ASC, databarang.nama_brng ASC ", param);
     this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_JMenuRalanAntibiotikActionPerformed
@@ -5497,12 +5499,12 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         param.put("logo", Sequel.cariGambar("select logo from setting"));
         param.put("periode", "Periode Tgl. " + DTPCari1.getSelectedItem() + " s.d " + DTPCari2.getSelectedItem());
         Valid.MyReportqry("rptgenerik1.jasper", "report", "::[ Laporan Generik Ranap ]::",
-                " SELECT CONCAT(db.nama_brng,' ',db.kode_sat) Generik, SUM(dpo.jml) jumlah "
+                " SELECT CONCAT(db.nama_brng,' ',db.kode_sat) Generik, CEILING(SUM(dpo.jml)) jumlah "
                 + " FROM detail_pemberian_obat dpo INNER JOIN kamar_inap ki ON dpo.no_rawat=ki.no_rawat "
                 + " INNER JOIN kamar k ON k.kd_kamar=ki.kd_kamar "
                 + " INNER JOIN databarang db ON db.kode_brng=dpo.kode_brng "
                 + " WHERE dpo.tgl_perawatan BETWEEN '" + Valid.SetTgl(DTPCari1.getSelectedItem() + "") + "' AND '" + Valid.SetTgl(DTPCari2.getSelectedItem() + "") + "' "
-                + " AND db.kode_golongan='G01' GROUP BY db.nama_brng "
+                + " AND db.kode_kategori='K98' GROUP BY db.nama_brng "
                 + " ORDER BY db.nama_brng ASC", param);
    this.setCursor(Cursor.getDefaultCursor()); 
     }//GEN-LAST:event_JmenuRanapGenerikActionPerformed
@@ -5518,12 +5520,12 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         param.put("logo", Sequel.cariGambar("select logo from setting"));
         param.put("periode", "Periode Tgl. " + DTPCari1.getSelectedItem() + " s.d " + DTPCari2.getSelectedItem());
         Valid.MyReportqry("rptgenerik2.jasper", "report", "::[ Laporan Generik Ralan ]::",
-          " SELECT CONCAT(databarang.nama_brng,' ',databarang.kode_sat) Generik, SUM(detail_pemberian_obat.jml) jumlah "
+          " SELECT CONCAT(databarang.nama_brng,' ',databarang.kode_sat) Generik, CEILING(SUM(detail_pemberian_obat.jml)) jumlah "
         + " FROM reg_periksa "
         + " INNER JOIN detail_pemberian_obat ON detail_pemberian_obat.no_rawat=reg_periksa.no_rawat "
         + " INNER JOIN databarang ON databarang.kode_brng=detail_pemberian_obat.kode_brng "
         + " WHERE detail_pemberian_obat.tgl_perawatan BETWEEN '" + Valid.SetTgl(DTPCari1.getSelectedItem() + "") + "' AND '" + Valid.SetTgl(DTPCari2.getSelectedItem() + "") + "' "
-        + " AND databarang.kode_golongan='G01' GROUP BY databarang.nama_brng "
+        + " AND databarang.kode_kategori='K98' GROUP BY databarang.nama_brng "
         + " ORDER BY  databarang.nama_brng ASC ", param);
     this.setCursor(Cursor.getDefaultCursor());    
     }//GEN-LAST:event_jMenuRalanGenerikActionPerformed
@@ -5542,14 +5544,15 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         " select CONCAT(databarang.nama_brng,' ',databarang.kode_sat) Antibiotik, detail_pemberian_obat.tgl_perawatan,detail_pemberian_obat.jam, "
       + " detail_pemberian_obat.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,diagnosa_pasien.kd_penyakit, penyakit.nm_penyakit, " 
       + " detail_pemberian_obat.jml,detail_pemberian_obat.status from detail_pemberian_obat inner join "
-      + " reg_periksa inner join pasien inner join databarang INNER JOIN diagnosa_pasien INNER JOIN penyakit " 
+      + " reg_periksa inner join pasien inner join databarang INNER JOIN diagnosa_pasien INNER JOIN penyakit INNER JOIN golongan_barang " 
       + " on detail_pemberian_obat.no_rawat=reg_periksa.no_rawat " 
       + " and reg_periksa.no_rkm_medis=pasien.no_rkm_medis " 
       + " and detail_pemberian_obat.kode_brng=databarang.kode_brng " 
       + " and detail_pemberian_obat.no_rawat=diagnosa_pasien.no_rawat " 
+      + " and databarang.kode_golongan=golongan_barang.kode "
       + " and diagnosa_pasien.kd_penyakit=penyakit.kd_penyakit " 
       + " where detail_pemberian_obat.tgl_perawatan between '" + Valid.SetTgl(DTPCari1.getSelectedItem() + "") + "' AND '" + Valid.SetTgl(DTPCari2.getSelectedItem() + "") + "' " 
-      + " and databarang.kdjns='J010' and diagnosa_pasien.prioritas='1' order by databarang.nama_brng ASC, detail_pemberian_obat.tgl_perawatan,detail_pemberian_obat.jam ", param);
+      + " and golongan_barang.kode in ('G73','G74','G78','G79','G80','G81','G82','G83','G84','G19','G184') and diagnosa_pasien.prioritas='1' order by databarang.nama_brng ASC, detail_pemberian_obat.tgl_perawatan,detail_pemberian_obat.jam ", param);
     this.setCursor(Cursor.getDefaultCursor());          
     }//GEN-LAST:event_jMenuAntibiotikAllActionPerformed
 

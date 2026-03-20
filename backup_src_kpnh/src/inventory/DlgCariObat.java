@@ -215,6 +215,7 @@ public final class DlgCariObat extends javax.swing.JDialog {
         }
         warna.kolom=1;
         tbObat.setDefaultRenderer(Object.class,warnapo);
+        tbObat.setDefaultRenderer(Double.class,warnapo);
         
         tabModeObatRacikan=new DefaultTableModel(null,new Object[]{
                 "No","Nama Racikan","Kode Racik","Metode Racik","Jml.Racik",

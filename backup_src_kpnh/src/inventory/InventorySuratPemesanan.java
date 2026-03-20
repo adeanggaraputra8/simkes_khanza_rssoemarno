@@ -21,8 +21,12 @@ import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
@@ -30,6 +34,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import keuangan.Jurnal;
 import kepegawaian.DlgCariPegawai;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class InventorySuratPemesanan extends javax.swing.JDialog {
     private final DefaultTableModel tabMode;
@@ -47,7 +52,7 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
     private int jml=0,i=0,row=0,index=0,pilihan=1;
     private String[] kodebarang,namabarang,satuan,satuanbeli;
     private double[] harga,jumlah,subtotal,diskon,besardiskon,jmltotal,jmlstok,isi,isibesar;
-    public boolean tampilkan=true;
+    public boolean tampilkan=true,dariDaruratStok = false;;
     private boolean sukses=true;    
     private DlgCariDataKonversi datakonversi=new DlgCariDataKonversi(null,false);
     private File file;
@@ -71,7 +76,7 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
             }){
              @Override public boolean isCellEditable(int rowIndex, int colIndex){
                boolean a = false;
-               if ((colIndex==0)||(colIndex==5)||(colIndex==7)||(colIndex==8)) {
+               if ((colIndex==0)||(colIndex==1)||(colIndex==5)||(colIndex==7)||(colIndex==8)) {
                    a=true;
                }
                return a;
@@ -98,6 +103,33 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
                 column.setPreferredWidth(42);
             }else if(i==1){
                 column.setPreferredWidth(65);
+                List<String> aturanList = getListSatuan();
+                JComboBox<String> comboAturan = new JComboBox<>(aturanList.toArray(new String[0]));
+                comboAturan.setEditable(true);
+                AutoCompleteDecorator.decorate(comboAturan);
+                comboAturan.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
+
+                comboAturan.getEditor().getEditorComponent().addFocusListener(new java.awt.event.FocusAdapter() {
+                    @Override
+                    public void focusGained(java.awt.event.FocusEvent e) {
+                        comboAturan.showPopup();
+                    }
+                });
+
+                // 🔧 Custom editor supaya JTable tidak menutup editor saat mengetik
+                DefaultCellEditor customEditor = new DefaultCellEditor(comboAturan) {
+                    @Override
+                    public boolean stopCellEditing() {
+                        Object item = comboAturan.getEditor().getItem();
+                        if (item != null && comboAturan.isPopupVisible()) {
+                            // Jangan hentikan editing saat user masih memilih
+                            return false;
+                        }
+                        return super.stopCellEditing();
+                    }
+                };
+
+                tbDokter.getColumnModel().getColumn(1).setCellEditor(customEditor);
             }else if(i==2){
                 column.setPreferredWidth(85);
             }else if(i==3){
@@ -976,7 +1008,7 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_btnPetugasActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if(tampilkan==true){
+       if(tampilkan==true && !dariDaruratStok){
             try {
                 if(Valid.daysOld("./cache/suratpemesananobat.iyem")<8){
                     tampil2();
@@ -985,7 +1017,7 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 }
             } catch (Exception e) {
             }
-        }            
+        }      
     }//GEN-LAST:event_formWindowOpened
 
     private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKeyPressed
@@ -1567,7 +1599,7 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 for(JsonNode list:response){
                     if(list.path("KodeBarang").asText().toLowerCase().contains(TCari.getText().toLowerCase())||list.path("NamaBarang").asText().toLowerCase().contains(TCari.getText().toLowerCase())){
                         tabMode.addRow(new Object[]{
-                            "",list.path("SatuanBeli").asText(),list.path("KodeBarang").asText(),list.path("NamaBarang").asText(),list.path("Satuan").asText(),list.path("Harga").asDouble(),0,0,0,0,0,list.path("Isi").asDouble(),1
+                            "","",list.path("KodeBarang").asText(),list.path("NamaBarang").asText(),list.path("Satuan").asText(),list.path("Harga").asDouble(),0,0,0,0,0,list.path("Isi").asDouble(),1
                         });
                     }
                 }
@@ -1578,6 +1610,46 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
         
     }
+    
+    public void tambahObat(String kodeobat, String kdsupp, String nmsupp) {
+            kdsup.setText(kdsupp);
+            nmsup.setText(nmsupp);
+
+            try{
+                ps = koneksi.prepareStatement(
+                    "SELECT databarang.kode_brng, databarang.nama_brng, databarang.kode_satbesar, " +
+                    "(databarang.h_beli*databarang.isi) AS harga, databarang.kode_sat, databarang.isi " +
+                    "FROM databarang " +
+                    "WHERE databarang.status='1' AND databarang.kode_brng=?"
+                );
+
+                ps.setString(1, kodeobat);
+                rs = ps.executeQuery();
+
+                while(rs.next()){
+                    tabMode.addRow(new Object[]{
+                        "",
+                        "",
+                        rs.getString("kode_brng"),
+                        rs.getString("nama_brng"),
+                        rs.getString("kode_sat"),
+                        rs.getDouble("harga"),
+                        0,0,0,0,0,
+                        rs.getDouble("isi"),
+                        1
+                    });
+                }
+
+            } catch(Exception e){
+                System.out.println("Notifikasi tambahObat : "+e);
+            } finally{
+                try{
+                    if(rs!=null) rs.close();
+                    if(ps!=null) ps.close();
+                } catch(Exception e){}
+            }
+        }
+
     
     private void getData(){        
         row=tbDokter.getSelectedRow();
@@ -1705,5 +1777,26 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             System.out.println("Notifikasi : "+e);
         }
         getData();
+    }
+    
+    public void setDariDaruratStok(boolean status){
+        this.dariDaruratStok = status;
+    }
+    
+    private List<String> getListSatuan() {
+        List<String> list = new ArrayList<>();
+        try {
+            Connection conn = koneksiDB.condb();
+            PreparedStatement ps = conn.prepareStatement("SELECT kode_sat FROM kodesatuan ORDER BY kode_sat asc");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("Error getListSatuan : " + e);
+        }
+        return list;
     }
 }

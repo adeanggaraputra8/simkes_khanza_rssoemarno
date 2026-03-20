@@ -190,11 +190,11 @@ public class DlgKamarInap extends javax.swing.JDialog {
     private Properties prop = new Properties();
     private String now=dateFormat.format(date),kmr="",key="",tglmasuk,jammasuk,kd_pj,
             hariawal="",pilihancetak="",aktifkan_hapus_data_salah="";
-    private PreparedStatement ps,pssetjam,pscaripiutang,psdiagnosa,psibu,psanak,pstarif,psdpjp,pscariumur;
-    private ResultSet rs,rs2,rssetjam;
+    private PreparedStatement ps,pssetjam,pscaripiutang,psdiagnosa,psibu,psanak,pstarif,psdpjp,pscariumur,psdx,pspd;;
+    private ResultSet rs,rs2,rssetjam,rsdx,rspd;
     private int i,row=0;
     private double lama=0,persenbayi=0,hargakamar=0;
-    private String gabungkan="",norawatgabung="",kamaryangdigabung="",dokterranap="",bangsal="",diagnosa_akhir="",namakamar="",umur="0",sttsumur="Th",order="order by bangsal.nm_bangsal,kamar_inap.tgl_masuk,kamar_inap.jam_masuk",namadokter="";
+    private String gabungkan="",norawatgabung="",kamaryangdigabung="",dokterranap="",bangsal="",diagnosa_akhir="",namakamar="",umur="0",sttsumur="Th",order="order by bangsal.nm_bangsal,kamar_inap.tgl_masuk,kamar_inap.jam_masuk",namadokter="",dxranap="",pdranap="";
 
     /** Creates new form DlgKamarInap
      * @param parent
@@ -1032,6 +1032,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnUrutKamarAsc = new javax.swing.JMenuItem();
         MnUrutTanggalMasukAsc = new javax.swing.JMenuItem();
         MnUrutTanggalMasukDesc = new javax.swing.JMenuItem();
+        MnTampilDiagnosa = new javax.swing.JMenuItem();
         buttonGroup1 = new javax.swing.ButtonGroup();
         JamMasuk = new widget.TextBox();
         WindowPindahKamar = new javax.swing.JDialog();
@@ -5055,6 +5056,22 @@ public class DlgKamarInap extends javax.swing.JDialog {
 
         jPopupMenu1.add(MnUrut);
 
+        MnTampilDiagnosa.setBackground(new java.awt.Color(255, 255, 254));
+        MnTampilDiagnosa.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnTampilDiagnosa.setForeground(new java.awt.Color(50, 50, 50));
+        MnTampilDiagnosa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnTampilDiagnosa.setText("Tampilkan Diagnosa dan Prosedur");
+        MnTampilDiagnosa.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnTampilDiagnosa.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnTampilDiagnosa.setName("MnTampilDiagnosa"); // NOI18N
+        MnTampilDiagnosa.setPreferredSize(new java.awt.Dimension(220, 26));
+        MnTampilDiagnosa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnTampilDiagnosaActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(MnTampilDiagnosa);
+
         JamMasuk.setEditable(false);
         JamMasuk.setForeground(new java.awt.Color(255, 255, 255));
         JamMasuk.setHighlighter(null);
@@ -5901,7 +5918,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         R2.setPreferredSize(new java.awt.Dimension(90, 23));
         panelCari.add(R2);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24-11-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-02-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -5924,7 +5941,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel22.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel22);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24-11-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-02-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -5950,7 +5967,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         R3.setPreferredSize(new java.awt.Dimension(75, 23));
         panelCari.add(R3);
 
-        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24-11-2025" }));
+        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-02-2026" }));
         DTPCari3.setDisplayFormat("dd-MM-yyyy");
         DTPCari3.setName("DTPCari3"); // NOI18N
         DTPCari3.setOpaque(false);
@@ -5973,7 +5990,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         jLabel25.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel25);
 
-        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "24-11-2025" }));
+        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-02-2026" }));
         DTPCari4.setDisplayFormat("dd-MM-yyyy");
         DTPCari4.setName("DTPCari4"); // NOI18N
         DTPCari4.setOpaque(false);
@@ -6964,6 +6981,8 @@ public class DlgKamarInap extends javax.swing.JDialog {
                 } 
             }else if(evt.getKeyCode()==KeyEvent.VK_J){
                 tampilkanjamkeskinda();
+            } else if(evt.getKeyCode()==KeyEvent.VK_T){
+                MnTampilDiagnosaActionPerformed(null);
             }
        }
 }//GEN-LAST:event_tbKamInKeyPressed
@@ -16831,6 +16850,57 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         } 
     }//GEN-LAST:event_MnDataPemberianInjeksiActionPerformed
 
+    private void MnTampilDiagnosaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnTampilDiagnosaActionPerformed
+        if(R3.isSelected()==true){
+                row=tbKamIn.getRowCount();
+                for(i=0;i<row;i++){
+                    try{
+                        psdx=koneksi.prepareStatement("SELECT dp.kd_penyakit  FROM  diagnosa_pasien dp WHERE  dp.no_rawat=? AND  dp.status='Ranap' ORDER BY  dp.prioritas desc ");
+                        dxranap="";
+                        try {
+                            psdx.setString(1,tbKamIn.getValueAt(i,0).toString());
+                            rsdx=psdx.executeQuery();
+                            while(rsdx.next()){
+                                dxranap=rsdx.getString("kd_penyakit")+", "+dxranap;
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Notifikasi : "+e);
+                        } finally{
+                            if(rsdx!=null){
+                                rsdx.close();
+                            }
+                        }
+                        tbKamIn.setValueAt(dxranap,i,10);
+                    } catch(Exception e){
+                        System.out.println("Notifikasi : "+e);
+                    }
+//            try{
+//                pspd=koneksi.prepareStatement("SELECT pp.kode  FROM  prosedur_pasien pp  WHERE  pp.no_rawat=? AND  pp.status='Ralan' ORDER BY  pp.prioritas desc ");
+//                pdralan="";
+//                try {
+//                    pspd.setString(1,tbKasirRalan.getValueAt(i,11).toString());
+//                    rspd=pspd.executeQuery();
+//                    while(rspd.next()){
+//                        pdralan=rspd.getString("kode")+", "+pdralan;
+//                    }
+//                } catch (Exception e) {
+//                    System.out.println("Notifikasi : "+e);
+//                } finally{
+//                    if(rspd!=null){
+//                        rspd.close();
+//                    }
+//                }
+//                tbKasirRalan.setValueAt(pdralan,i,8);
+//            } catch(Exception e){
+//                System.out.println("Notifikasi : "+e);
+//            }
+                }
+        } else {
+             JOptionPane.showMessageDialog(null, "Pilih tanggal pulang terlebih dahulu. . . !");
+         }
+        
+    }//GEN-LAST:event_MnTampilDiagnosaActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -17071,6 +17141,7 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JMenuItem MnSuratJaminanPelayanan;
     private javax.swing.JMenuItem MnSuratKeteranganRawatInap;
     private javax.swing.JMenuItem MnSuratKontrol;
+    private javax.swing.JMenuItem MnTampilDiagnosa;
     private javax.swing.JMenuItem MnTeridentifikasiTB;
     private javax.swing.JMenuItem MnTimeOutSebelumInsisi;
     private javax.swing.JMenu MnTindakan;

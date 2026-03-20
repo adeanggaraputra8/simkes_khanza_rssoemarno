@@ -622,6 +622,7 @@ public class DlgBarang extends javax.swing.JDialog {
         BtnCari = new widget.Button();
         label10 = new widget.Label();
         LCount = new widget.Label();
+        cmbStatusExpiredObat = new widget.ComboBox();
         panelisi1 = new widget.panelisi();
         BtnSimpan = new widget.Button();
         BtnBatal = new widget.Button();
@@ -720,6 +721,9 @@ public class DlgBarang extends javax.swing.JDialog {
         K_terapi = new widget.TextBox();
         label49 = new widget.Label();
         BtnKelasTerapi = new widget.Button();
+        label50 = new widget.Label();
+        scrollPane3 = new widget.ScrollPane();
+        Tnm_supp = new widget.TextArea();
         ChkInput = new widget.CekBox();
 
         Popup.setName("Popup"); // NOI18N
@@ -902,6 +906,11 @@ public class DlgBarang extends javax.swing.JDialog {
         LCount.setName("LCount"); // NOI18N
         LCount.setPreferredSize(new java.awt.Dimension(60, 23));
         panelisi2.add(LCount);
+
+        cmbStatusExpiredObat.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Semua", "<= 30", "< 0" }));
+        cmbStatusExpiredObat.setName("cmbStatusExpiredObat"); // NOI18N
+        cmbStatusExpiredObat.setPreferredSize(new java.awt.Dimension(120, 23));
+        panelisi2.add(cmbStatusExpiredObat);
 
         jPanel2.add(panelisi2, java.awt.BorderLayout.PAGE_START);
 
@@ -1533,7 +1542,7 @@ public class DlgBarang extends javax.swing.JDialog {
         karyawan.setBounds(630, 222, 110, 23);
 
         DTPExpired.setForeground(new java.awt.Color(50, 70, 50));
-        DTPExpired.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "01-11-2024" }));
+        DTPExpired.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03-02-2026" }));
         DTPExpired.setDisplayFormat("dd-MM-yyyy");
         DTPExpired.setName("DTPExpired"); // NOI18N
         DTPExpired.setOpaque(false);
@@ -1887,11 +1896,11 @@ public class DlgBarang extends javax.swing.JDialog {
         FormInput.add(status_bayar);
         status_bayar.setBounds(850, 80, 90, 23);
 
-        label43.setText(" Status : ");
+        label43.setText(" Supp : ");
         label43.setName("label43"); // NOI18N
         label43.setPreferredSize(new java.awt.Dimension(65, 23));
         FormInput.add(label43);
-        label43.setBounds(770, 80, 80, 23);
+        label43.setBounds(1050, 110, 40, 23);
 
         label44.setText("Letak Barang :");
         label44.setName("label44"); // NOI18N
@@ -2026,7 +2035,7 @@ public class DlgBarang extends javax.swing.JDialog {
         scrollPane2.setViewportView(TRetriksi);
 
         FormInput.add(scrollPane2);
-        scrollPane2.setBounds(1070, 20, 210, 90);
+        scrollPane2.setBounds(1070, 20, 210, 70);
 
         label48.setText("Retriksi :");
         label48.setName("label48"); // NOI18N
@@ -2092,6 +2101,29 @@ public class DlgBarang extends javax.swing.JDialog {
         FormInput.add(BtnKelasTerapi);
         BtnKelasTerapi.setBounds(1030, 250, 25, 23);
 
+        label50.setText(" Status : ");
+        label50.setName("label50"); // NOI18N
+        label50.setPreferredSize(new java.awt.Dimension(65, 23));
+        FormInput.add(label50);
+        label50.setBounds(770, 80, 80, 23);
+
+        scrollPane3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane3.setName("scrollPane3"); // NOI18N
+
+        Tnm_supp.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        Tnm_supp.setColumns(20);
+        Tnm_supp.setRows(5);
+        Tnm_supp.setName("Tnm_supp"); // NOI18N
+        Tnm_supp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Tnm_suppKeyPressed(evt);
+            }
+        });
+        scrollPane3.setViewportView(Tnm_supp);
+
+        FormInput.add(scrollPane3);
+        scrollPane3.setBounds(1090, 110, 190, 50);
+
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
         ChkInput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/143.png"))); // NOI18N
@@ -2153,8 +2185,9 @@ public class DlgBarang extends javax.swing.JDialog {
     private void tbDokterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDokterMouseClicked
         if (tabMode.getRowCount() != 0) {
             try {
+                tampilsupllier();
                 getData();
-                isHitung();
+                isHitung();      
             } catch (java.lang.NullPointerException e) {
             }
         }
@@ -2334,8 +2367,7 @@ public class DlgBarang extends javax.swing.JDialog {
                         + " databarang.status='1' and kategori_barang.nama like '%" + TCari.getText().trim() + "%' or "
                         + " databarang.status='1' and golongan_barang.nama like '%" + TCari.getText().trim() + "%' or "
                         + " databarang.status='1' and industrifarmasi.nama_industri like '%" + TCari.getText().trim() + "%' order by databarang.nama_brng", param);
-            }
-                
+            }              
         }
         this.setCursor(Cursor.getDefaultCursor());
 }//GEN-LAST:event_BtnPrintActionPerformed
@@ -2848,8 +2880,9 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
         if (tabMode.getRowCount() != 0) {
             if ((evt.getKeyCode() == KeyEvent.VK_ENTER) || (evt.getKeyCode() == KeyEvent.VK_UP) || (evt.getKeyCode() == KeyEvent.VK_DOWN)) {
                 try {
+                    tampilsupllier();
                     getData();
-                    isHitung();
+                    isHitung();    
                 } catch (java.lang.NullPointerException e) {
                 }
             }
@@ -3114,6 +3147,10 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
         maping.setVisible(true);
     }//GEN-LAST:event_MnMappingObatLangsungActionPerformed
 
+    private void Tnm_suppKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Tnm_suppKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Tnm_suppKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -3167,8 +3204,10 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
     private javax.swing.JPopupMenu Popup;
     private widget.TextBox TCari;
     private widget.TextArea TRetriksi;
+    private widget.TextArea Tnm_supp;
     private widget.TextBox beli;
     private widget.TextBox beliluar;
+    private widget.ComboBox cmbStatusExpiredObat;
     private widget.TextBox dasar;
     private widget.TextBox grosir;
     private widget.ComboBox highalert;
@@ -3220,6 +3259,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
     private widget.Label label47;
     private widget.Label label48;
     private widget.Label label49;
+    private widget.Label label50;
     private widget.Label label9;
     private widget.ComboBox lasal;
     private widget.ComboBox lifesaving;
@@ -3241,6 +3281,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
     private widget.TextBox ralan;
     private widget.ScrollPane scrollPane1;
     private widget.ScrollPane scrollPane2;
+    private widget.ScrollPane scrollPane3;
     private widget.ComboBox status_bayar;
     private widget.TextBox stok_minimal;
     private widget.Table tbDokter;
@@ -3249,6 +3290,15 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
     // End of variables declaration//GEN-END:variables
 
     private void tampil() {
+        String filterExpired = "";
+
+        String status = cmbStatusExpiredObat.getSelectedItem().toString();
+        if (status.equals("<= 30")) {
+            filterExpired = " AND DATEDIFF(databarang.expire, CURDATE()) BETWEEN 0 AND 30 ";
+        } else if (status.equals("< 0")) {
+            filterExpired = " AND DATEDIFF(databarang.expire, CURDATE()) < 0 ";
+        }
+        
         Valid.tabelKosong(tabMode);
         if(aktifkanbatch.equals("no")){
             try {
@@ -3268,7 +3318,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             + " inner join industrifarmasi on databarang.kode_industri=industrifarmasi.kode_industri "
                             + " inner join golongan_barang on databarang.kode_golongan=golongan_barang.kode "
                             + " inner join kategori_barang on databarang.kode_kategori=kategori_barang.kode "
-                            + " where databarang.status='1' order by databarang.nama_brng");
+                            + " where databarang.status='1' "+filterExpired+" order by databarang.nama_brng");
                 }else{
                     ps = koneksi.prepareStatement(
                             "select databarang.kode_brng, databarang.nama_brng,databarang.kode_satbesar,satuanbesar.satuan as satuanbesar, "
@@ -3285,26 +3335,26 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             + " inner join industrifarmasi on databarang.kode_industri=industrifarmasi.kode_industri "
                             + " inner join golongan_barang on databarang.kode_golongan=golongan_barang.kode "
                             + " inner join kategori_barang on databarang.kode_kategori=kategori_barang.kode "
-                            + " where databarang.status='1' and databarang.kode_brng like ? or "
-                            + " databarang.status='1' and databarang.nama_brng like ? or "
-                            + " databarang.status='1' and databarang.kode_sat like ? or "
-                            + " databarang.status='1' and kodesatuan.satuan like ? or "
-                            + " databarang.status='1' and databarang.kode_satbesar like ? or "
-                            + " databarang.status='1' and satuanbesar.satuan like ? or "
-                            + " databarang.status='1' and databarang.letak_barang like ? or "
-                            + " databarang.status='1' and databarang.kdjns like ? or "
-                            + " databarang.status='1' and kategori_barang.nama like ? or "
-                            + " databarang.status='1' and golongan_barang.nama like ? or "
-                            + " databarang.status='1' and jenis.nama like ? or "
-                            + " databarang.status='1' and databarang.kode_industri like ? or "
-                            + " databarang.status='1' and industrifarmasi.nama_industri like ? or "
-                            + " databarang.status='1' and databarang.lasal like ? or "
-                            + " databarang.status='1' and databarang.lifesaving like ? or "
-                            + " databarang.status='1' and databarang.highalert like ? or "
-                            + " databarang.status='1' and databarang.tempat like ? or "
-                            + " databarang.status='1' and databarang.status_bayar like ? or "
-                            + " databarang.status='1' and databarang.kelas_terapi like ? or "
-                            + " databarang.status='1' and databarang.retriksi like ? "
+                            + " where databarang.status='1' "+filterExpired+" and databarang.kode_brng like ? or "
+                            + " databarang.status='1' "+filterExpired+" and  databarang.nama_brng like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.kode_sat like ? or "
+                            + " databarang.status='1' "+filterExpired+" and kodesatuan.satuan like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.kode_satbesar like ? or "
+                            + " databarang.status='1' "+filterExpired+" and satuanbesar.satuan like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.letak_barang like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.kdjns like ? or "
+                            + " databarang.status='1' "+filterExpired+" and kategori_barang.nama like ? or "
+                            + " databarang.status='1' "+filterExpired+" and golongan_barang.nama like ? or "
+                            + " databarang.status='1' "+filterExpired+" and jenis.nama like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.kode_industri like ? or "
+                            + " databarang.status='1' "+filterExpired+" and industrifarmasi.nama_industri like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.lasal like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.lifesaving like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.highalert like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.tempat like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.status_bayar like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.kelas_terapi like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.retriksi like ? "
                             + " order by databarang.nama_brng");
                 }
                     
@@ -3517,8 +3567,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
             } catch (Exception e) {
                 System.out.println("Notifikasi : " + e);
             }
-        }
-            
+        }          
     }
 
     private void tampil2() {
@@ -4100,6 +4149,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
         K_terapi.setText("");
         KdIF.setText("");
         NmIF.setText("");
+        Tnm_supp.setText("");
         Kd.requestFocus();
         Valid.autoNomer3("select ifnull(MAX(CONVERT(RIGHT(kode_brng,4),signed)),0)  from databarang ", "B", 9, Kd);
         //Valid.autoNomer("databarang","B",9,Kd);
@@ -4472,5 +4522,58 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                 }
             }
           }
+     }
+          
+        private void tampilsupllier(){        
+            int row = tbDokter.getSelectedRow();
+
+            // ⛔ reset PAKSA, sebelum kondisi apa pun
+            Tnm_supp.setText("");
+            dxralan = "";
+
+            if(row == -1) return;
+
+            try{
+                String kodeBrng = tbDokter.getValueAt(row, 1).toString().trim();
+
+                psdx = koneksi.prepareStatement(
+                    "SELECT DISTINCT ds.nama_suplier " +
+                    "FROM detailpesan dp " +
+                    "JOIN pemesanan p ON p.no_faktur = dp.no_faktur " +
+                    "JOIN datasuplier ds ON ds.kode_suplier = p.kode_suplier " +
+                    "WHERE TRIM(dp.kode_brng) = ? " +
+                    "ORDER BY ds.nama_suplier"
+                );
+
+                psdx.setString(1, kodeBrng);
+                rsdx = psdx.executeQuery();
+
+                boolean ada = false;
+                while(rsdx.next()){
+                    ada = true;
+                    dxralan += rsdx.getString("nama_suplier") + ", ";
+                }
+
+                if(ada){
+                    dxralan = dxralan.substring(0, dxralan.length()-2);
+                    Tnm_supp.setText(dxralan);
+                } else {
+                    Tnm_supp.setText(""); // ⬅️ PAKSA kosong
+                }
+
+            } catch(Exception e){
+                System.out.println("Notifikasi tampilsupllier : " + e);
+            } finally{
+                try{
+                    if(rsdx != null) rsdx.close();
+                    if(psdx != null) psdx.close();
+                } catch(Exception e){}
+            }
+        }
+
+
+    
+           
+           
     }
-}
+

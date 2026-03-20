@@ -16,8 +16,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -195,6 +197,16 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
         MnRingkasanPelayananRanap = new javax.swing.JMenuItem();
         ppPilihSemua = new javax.swing.JMenuItem();
         ppBersihkan = new javax.swing.JMenuItem();
+        ppGantiNoSep = new javax.swing.JMenuItem();
+        WindowGantiSEP = new javax.swing.JDialog();
+        internalFrame7 = new widget.InternalFrame();
+        panelBiasa5 = new widget.PanelBiasa();
+        BtnUpdateSEP = new widget.Button();
+        BtnKeluar5 = new widget.Button();
+        jLabel42 = new widget.Label();
+        cmbNoSEP = new widget.ComboBox();
+        TNoRW = new widget.TextBox();
+        jLabel43 = new widget.Label();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbData = new widget.Table();
@@ -463,6 +475,99 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
         });
         Popup1.add(ppBersihkan);
 
+        ppGantiNoSep.setBackground(new java.awt.Color(255, 255, 254));
+        ppGantiNoSep.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppGantiNoSep.setForeground(new java.awt.Color(50, 50, 50));
+        ppGantiNoSep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppGantiNoSep.setText("Ganti No. Sep");
+        ppGantiNoSep.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppGantiNoSep.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppGantiNoSep.setName("ppGantiNoSep"); // NOI18N
+        ppGantiNoSep.setPreferredSize(new java.awt.Dimension(150, 26));
+        ppGantiNoSep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppGantiNoSepActionPerformed(evt);
+            }
+        });
+        Popup1.add(ppGantiNoSep);
+
+        WindowGantiSEP.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        WindowGantiSEP.setName("WindowGantiSEP"); // NOI18N
+        WindowGantiSEP.setUndecorated(true);
+        WindowGantiSEP.setResizable(false);
+
+        internalFrame7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Ganti No.SEP ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(50, 70, 50))); // NOI18N
+        internalFrame7.setName("internalFrame7"); // NOI18N
+        internalFrame7.setLayout(new java.awt.BorderLayout(1, 1));
+
+        panelBiasa5.setName("panelBiasa5"); // NOI18N
+        panelBiasa5.setLayout(null);
+
+        BtnUpdateSEP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16i.png"))); // NOI18N
+        BtnUpdateSEP.setMnemonic('T');
+        BtnUpdateSEP.setText("Update");
+        BtnUpdateSEP.setToolTipText("Alt+T");
+        BtnUpdateSEP.setName("BtnUpdateSEP"); // NOI18N
+        BtnUpdateSEP.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnUpdateSEP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnUpdateSEPActionPerformed(evt);
+            }
+        });
+        panelBiasa5.add(BtnUpdateSEP);
+        BtnUpdateSEP.setBounds(80, 90, 100, 30);
+
+        BtnKeluar5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/exit.png"))); // NOI18N
+        BtnKeluar5.setMnemonic('K');
+        BtnKeluar5.setText("Keluar");
+        BtnKeluar5.setToolTipText("Alt+K");
+        BtnKeluar5.setName("BtnKeluar5"); // NOI18N
+        BtnKeluar5.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnKeluar5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnKeluar5ActionPerformed(evt);
+            }
+        });
+        panelBiasa5.add(BtnKeluar5);
+        BtnKeluar5.setBounds(200, 90, 100, 30);
+
+        jLabel42.setText("No. Rawat :");
+        jLabel42.setName("jLabel42"); // NOI18N
+        panelBiasa5.add(jLabel42);
+        jLabel42.setBounds(0, 20, 100, 23);
+
+        cmbNoSEP.setForeground(new java.awt.Color(0, 0, 0));
+        cmbNoSEP.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-" }));
+        cmbNoSEP.setName("cmbNoSEP"); // NOI18N
+        cmbNoSEP.setPreferredSize(new java.awt.Dimension(130, 23));
+        cmbNoSEP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbNoSEPActionPerformed(evt);
+            }
+        });
+        cmbNoSEP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cmbNoSEPKeyPressed(evt);
+            }
+        });
+        panelBiasa5.add(cmbNoSEP);
+        cmbNoSEP.setBounds(110, 50, 250, 23);
+
+        TNoRW.setEditable(false);
+        TNoRW.setName("TNoRW"); // NOI18N
+        TNoRW.setPreferredSize(new java.awt.Dimension(120, 23));
+        panelBiasa5.add(TNoRW);
+        TNoRW.setBounds(110, 20, 250, 23);
+
+        jLabel43.setText("No. SEP :");
+        jLabel43.setName("jLabel43"); // NOI18N
+        panelBiasa5.add(jLabel43);
+        jLabel43.setBounds(0, 50, 100, 23);
+
+        internalFrame7.add(panelBiasa5, java.awt.BorderLayout.CENTER);
+
+        WindowGantiSEP.getContentPane().add(internalFrame7, java.awt.BorderLayout.CENTER);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
@@ -637,7 +742,7 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
         panelGlass10.add(jLabel8);
 
         tgl1.setEditable(false);
-        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-11-2025" }));
+        tgl1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-03-2026" }));
         tgl1.setDisplayFormat("dd-MM-yyyy");
         tgl1.setName("tgl1"); // NOI18N
         tgl1.setOpaque(false);
@@ -652,7 +757,7 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
         panelGlass10.add(jLabel21);
 
         tgl2.setEditable(false);
-        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-11-2025" }));
+        tgl2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "21-03-2026" }));
         tgl2.setDisplayFormat("dd-MM-yyyy");
         tgl2.setName("tgl2"); // NOI18N
         tgl2.setOpaque(false);
@@ -1067,7 +1172,7 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
     }//GEN-LAST:event_MnRevisiBtnPrintActionPerformed
 
     private void MnCetakResumeBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCetakResumeBtnPrintActionPerformed
-          if (tabMode.getRowCount() == 0) {
+        if (tabMode.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Maaf, tabel masih kosong...!!!!");
             TCari.requestFocus();
         } else if (norawat.equals("")) {
@@ -1104,6 +1209,7 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
                                                 param.put("kontrol",Sequel.cariIsiBanyak("SELECT tgl_rencana FROM bridging_surat_kontrol_bpjs WHERE no_sep='"+tbData.getValueAt(i,1).toString()+"'"));
                                                 if(tbData.getValueAt(i,12).toString().equals("MAT")){ 
                                                     Valid.saveToPDF("rptBridgingResumeMata.jasper","report",tbData.getValueAt(i,1).toString()+"-1rsum",param);
+                                                    Valid.saveToPDF("rptBridgingResumeMataNonSEP.jasper","report",tbData.getValueAt(i,1).toString()+"-1rsumnonsep",param);
                                                 }else {
                                                      Valid.saveToPDF("rptBridgingResume1.jasper","report",tbData.getValueAt(i,1).toString()+"-1rsum",param);
                                                 }
@@ -3460,6 +3566,44 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_ppBersihkanActionPerformed
 
+    private void BtnUpdateSEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnUpdateSEPActionPerformed
+       if (TNoRW.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Maaf,No. Rawat Tidak boleh kosong...!!!!");
+        } else {
+                 if (cmbJnsRawat.getSelectedIndex() == 0) { 
+                        Sequel.mengedit("vedika_ralan","no_rawat='"+TNoRW.getText()+"'","no_sep='"+cmbNoSEP.getSelectedItem().toString()+"' ");
+                         tampil();
+                         WindowGantiSEP.dispose();
+                } else if (cmbJnsRawat.getSelectedIndex() == 1){
+                        Sequel.mengedit("vedika_ranap","no_rawat='"+TNoRW.getText()+"'","no_sep='"+cmbNoSEP.getSelectedItem().toString()+"' ");
+                         tampil();
+                         WindowGantiSEP.dispose();
+                }
+        }
+    }//GEN-LAST:event_BtnUpdateSEPActionPerformed
+
+    private void BtnKeluar5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluar5ActionPerformed
+        WindowGantiSEP.dispose();
+    }//GEN-LAST:event_BtnKeluar5ActionPerformed
+
+    private void cmbNoSEPKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbNoSEPKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbNoSEPKeyPressed
+
+    private void cmbNoSEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNoSEPActionPerformed
+//        cmbNoSEP.removeAllItems();
+//        Sequel.cariIsiComboDB("select no_sep from bridging_sep where no_rawat ='"+TNoRW.getText()+"' ",cmbNoSEP);
+    }//GEN-LAST:event_cmbNoSEPActionPerformed
+
+    private void ppGantiNoSepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppGantiNoSepActionPerformed
+        WindowGantiSEP.setLocationRelativeTo(internalFrame1);
+        cmbNoSEP.removeAllItems();
+        TNoRW.setText(tbData.getValueAt(tbData.getSelectedRow(),2).toString());
+        Sequel.cariIsiComboDB("select no_sep from bridging_sep where no_rawat ='"+TNoRW.getText()+"' ",cmbNoSEP);
+        WindowGantiSEP.setSize(400,150);
+        WindowGantiSEP.setVisible(true);
+    }//GEN-LAST:event_ppGantiNoSepActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3482,6 +3626,8 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
     private widget.Button BtnCari;
     private widget.Button BtnCariPoli;
     private widget.Button BtnKeluar;
+    private widget.Button BtnKeluar5;
+    private widget.Button BtnUpdateSEP;
     private widget.TextBox CrPoli;
     private widget.Label LCount;
     private javax.swing.JMenuItem MnBersihkanceklis;
@@ -3500,21 +3646,29 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
     private javax.swing.JPopupMenu Popup1;
     private widget.ScrollPane Scroll;
     private widget.TextBox TCari;
+    private widget.TextBox TNoRW;
+    private javax.swing.JDialog WindowGantiSEP;
     public widget.ComboBox cmbJnsPoli;
     public widget.ComboBox cmbJnsRawat;
+    public widget.ComboBox cmbNoSEP;
     public widget.ComboBox cmbStatus;
     private widget.InternalFrame internalFrame1;
+    private widget.InternalFrame internalFrame7;
     private widget.Label jLabel16;
     private widget.Label jLabel21;
     private widget.Label jLabel23;
     private widget.Label jLabel24;
     private widget.Label jLabel25;
+    private widget.Label jLabel42;
+    private widget.Label jLabel43;
     private widget.Label jLabel6;
     private widget.Label jLabel7;
     private widget.Label jLabel8;
+    private widget.PanelBiasa panelBiasa5;
     private widget.panelisi panelGlass10;
     private widget.panelisi panelGlass9;
     private javax.swing.JMenuItem ppBersihkan;
+    private javax.swing.JMenuItem ppGantiNoSep;
     private javax.swing.JMenuItem ppPilihSemua;
     private widget.Table tbData;
     private widget.Tanggal tgl1;
@@ -3750,6 +3904,11 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
 //       }else {
 //         MnPengajuanKlaim.setEnabled(false);
 //       }
+        if(akses.getkode().equals("Admin Utama")){
+         ppGantiNoSep.setEnabled(true);                                    
+       }else {
+         ppGantiNoSep.setEnabled(false);
+       }
     }
         //MnPengajuanKlaim.setEnabled(var.getjkn_belum_diproses_klaim());
     
@@ -3769,4 +3928,5 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
             tbData.setValueAt(false,i,0);
         }
     }
+    
 }
