@@ -8276,7 +8276,7 @@ private void BtnDokterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 dokter2.setPoli(TPoli.getText());
                 dokter2.isCek();                 
                 dokter2.SetHari(DTPReg.getDate());
-                dokter2.tampil();
+                dokter2.tampil3();
                 dokter2.TCari.requestFocus();
                 dokter2.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                 dokter2.setLocationRelativeTo(internalFrame1);
@@ -8314,7 +8314,7 @@ private void BtnUnitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
             }else{
                 poli2.isCek();  
                 poli2.SetHari(DTPReg.getDate());
-                poli2.tampil(); 
+                poli2.tampil3();
                 poli2.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                 poli2.setLocationRelativeTo(internalFrame1);
                 poli2.setVisible(true);
@@ -8444,7 +8444,7 @@ private void MnPemberianObatActionPerformed(java.awt.event.ActionEvent evt) {//G
                     dlgrwinap.setLocationRelativeTo(internalFrame1);
                     dlgrwinap.isCek();
                     dlgrwinap.setNoRm(TNoRw.getText(),DTPCari1.getDate(),DTPCari2.getDate(),"ralan");
-                    dlgrwinap.tampilPO();
+                    dlgrwinap.tampilPO3();
                     dlgrwinap.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }     
@@ -8898,7 +8898,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                     resep.emptTeks();
                     resep.isCek();
                     resep.setNoRm(TNoRw.getText(),DTPCari1.getDate(),DTPCari2.getDate(),CmbJam.getSelectedItem().toString(),CmbMenit.getSelectedItem().toString(),CmbDetik.getSelectedItem().toString(),"ralan");
-                    resep.tampil();
+                    resep.tampil2();
                     resep.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }    
@@ -10514,7 +10514,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                         tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),4).toString(),
                         tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),5).toString()
                     );
-                    dlgrwinap.tampilPO();
+                    dlgrwinap.tampilPO3();
                     dlgrwinap.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }
@@ -10570,7 +10570,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                         tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),4).toString(),
                         tbPetugas2.getValueAt(tbPetugas2.getSelectedRow(),5).toString(),"ralan"
                     );
-                    resep.tampil();
+                    resep.tampil2();
                     resep.setVisible(true);
                     this.setCursor(Cursor.getDefaultCursor());
                 }

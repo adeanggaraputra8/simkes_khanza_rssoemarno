@@ -745,19 +745,19 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 @Override
                 public void insertUpdate(DocumentEvent e) {
                     if(TCari.getText().length()>2){
-                        tampilsuhu();
+                        TabRawatMouseClicked(null);
                     }
                 }
                 @Override
                 public void removeUpdate(DocumentEvent e) {
                     if(TCari.getText().length()>2){
-                        tampilsuhu();
+                        TabRawatMouseClicked(null);
                     }
                 }
                 @Override
                 public void changedUpdate(DocumentEvent e) {
                     if(TCari.getText().length()>2){
-                        tampilsuhu();
+                        TabRawatMouseClicked(null);
                     }
                 }
             });
@@ -821,6 +821,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
         jLabel16 = new widget.Label();
         TCari = new widget.TextBox();
         BtnCari = new widget.Button();
+        ChkBelumTerkirim = new widget.CekBox();
         TabRawat = new javax.swing.JTabbedPane();
         Scroll = new widget.ScrollPane();
         tbSuhu = new widget.Table();
@@ -997,7 +998,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(85, 23));
         panelGlass9.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-12-2022" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1010,7 +1011,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass9.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-12-2022" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -1047,6 +1048,27 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             }
         });
         panelGlass9.add(BtnCari);
+
+        ChkBelumTerkirim.setBorder(null);
+        ChkBelumTerkirim.setText("Data belum terkirim");
+        ChkBelumTerkirim.setBorderPainted(true);
+        ChkBelumTerkirim.setBorderPaintedFlat(true);
+        ChkBelumTerkirim.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ChkBelumTerkirim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkBelumTerkirim.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ChkBelumTerkirim.setIconTextGap(2);
+        ChkBelumTerkirim.setName("ChkBelumTerkirim"); // NOI18N
+        ChkBelumTerkirim.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ChkBelumTerkirimItemStateChanged(evt);
+            }
+        });
+        ChkBelumTerkirim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkBelumTerkirimActionPerformed(evt);
+            }
+        });
+        panelGlass9.add(ChkBelumTerkirim);
 
         jPanel3.add(panelGlass9, java.awt.BorderLayout.PAGE_START);
 
@@ -1232,6 +1254,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                           "</table>"+
                         "</html>"
                     );
+                    htmlContent=null;
 
                     File g = new File("file2.css");            
                     BufferedWriter bg = new BufferedWriter(new FileWriter(g));
@@ -2145,9 +2168,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvsuhu","?,?,?,?,?","Observation Suhu",5,new String[]{
+                                if(Sequel.menyimpantf2("satu_sehat_observationttvsuhu","?,?,?,?,?","Observation Suhu",5,new String[]{
                                     tbSuhu.getValueAt(i,2).toString(),tbSuhu.getValueAt(i,13).toString(),tbSuhu.getValueAt(i,14).toString(),tbSuhu.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbSuhu.setValueAt(response.asText(),i,15);
+                                    tbSuhu.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2157,7 +2183,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilsuhu();
         }else if(TabRawat.getSelectedIndex()==1){
             for(i=0;i<tbRespirasi.getRowCount();i++){
                 if(tbRespirasi.getValueAt(i,0).toString().equals("true")&&(!tbRespirasi.getValueAt(i,5).toString().equals(""))&&(!tbRespirasi.getValueAt(i,12).toString().equals(""))&&tbRespirasi.getValueAt(i,15).toString().equals("")){
@@ -2219,9 +2244,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvrespirasi","?,?,?,?,?","Observation Respirasi",5,new String[]{
+                                if(Sequel.menyimpantf2("satu_sehat_observationttvrespirasi","?,?,?,?,?","Observation Respirasi",5,new String[]{
                                     tbRespirasi.getValueAt(i,2).toString(),tbRespirasi.getValueAt(i,13).toString(),tbRespirasi.getValueAt(i,14).toString(),tbRespirasi.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbRespirasi.setValueAt(response.asText(),i,15);
+                                    tbRespirasi.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2231,7 +2259,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilrespirasi();
         }else if(TabRawat.getSelectedIndex()==2){
             for(i=0;i<tbNadi.getRowCount();i++){
                 if(tbNadi.getValueAt(i,0).toString().equals("true")&&(!tbNadi.getValueAt(i,5).toString().equals(""))&&(!tbNadi.getValueAt(i,12).toString().equals(""))&&tbNadi.getValueAt(i,15).toString().equals("")){
@@ -2293,9 +2320,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvnadi","?,?,?,?,?","Observation Nadi",5,new String[]{
+                                if(Sequel.menyimpantf2("satu_sehat_observationttvnadi","?,?,?,?,?","Observation Nadi",5,new String[]{
                                     tbNadi.getValueAt(i,2).toString(),tbNadi.getValueAt(i,13).toString(),tbNadi.getValueAt(i,14).toString(),tbNadi.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbNadi.setValueAt(response.asText(),i,15);
+                                    tbNadi.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2305,7 +2335,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilnadi();
         }else if(TabRawat.getSelectedIndex()==3){
             for(i=0;i<tbSpO2.getRowCount();i++){
                 if(tbSpO2.getValueAt(i,0).toString().equals("true")&&(!tbSpO2.getValueAt(i,5).toString().equals(""))&&(!tbSpO2.getValueAt(i,12).toString().equals(""))&&tbSpO2.getValueAt(i,15).toString().equals("")){
@@ -2367,9 +2396,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvspo2","?,?,?,?,?","Observation SpO2",5,new String[]{
+                                if(Sequel.menyimpantf2("satu_sehat_observationttvspo2","?,?,?,?,?","Observation SpO2",5,new String[]{
                                     tbSpO2.getValueAt(i,2).toString(),tbSpO2.getValueAt(i,13).toString(),tbSpO2.getValueAt(i,14).toString(),tbSpO2.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbSpO2.setValueAt(response.asText(),i,15);
+                                    tbSpO2.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2379,7 +2411,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilspo2();
         }else if(TabRawat.getSelectedIndex()==4){
             for(i=0;i<tbGCS.getRowCount();i++){
                 if(tbGCS.getValueAt(i,0).toString().equals("true")&&(!tbGCS.getValueAt(i,5).toString().equals(""))&&(!tbGCS.getValueAt(i,12).toString().equals(""))&&tbGCS.getValueAt(i,15).toString().equals("")){
@@ -2440,9 +2471,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvgcs","?,?,?,?,?","Observation GCS",5,new String[]{
+                                if(Sequel.menyimpantf("satu_sehat_observationttvgcs","?,?,?,?,?","Observation GCS",5,new String[]{
                                     tbGCS.getValueAt(i,2).toString(),tbGCS.getValueAt(i,13).toString(),tbGCS.getValueAt(i,14).toString(),tbGCS.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbGCS.setValueAt(response.asText(),i,15);
+                                    tbGCS.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2452,7 +2486,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilgcs();
         }else if(TabRawat.getSelectedIndex()==5){
             for(i=0;i<tbKesadaran.getRowCount();i++){
                 if(tbKesadaran.getValueAt(i,0).toString().equals("true")&&(!tbKesadaran.getValueAt(i,5).toString().equals(""))&&(!tbKesadaran.getValueAt(i,12).toString().equals(""))&&tbKesadaran.getValueAt(i,15).toString().equals("")){
@@ -2511,9 +2544,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvkesadaran","?,?,?,?,?","Observation Kesadaran",5,new String[]{
+                                if(Sequel.menyimpantf2("satu_sehat_observationttvkesadaran","?,?,?,?,?","Observation Kesadaran",5,new String[]{
                                     tbKesadaran.getValueAt(i,2).toString(),tbKesadaran.getValueAt(i,13).toString(),tbKesadaran.getValueAt(i,14).toString(),tbKesadaran.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbKesadaran.setValueAt(response.asText(),i,15);
+                                    tbKesadaran.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2523,7 +2559,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilkesadaran();
         }else if(TabRawat.getSelectedIndex()==6){
             for(i=0;i<tbTensi.getRowCount();i++){
                 if(tbTensi.getValueAt(i,0).toString().equals("true")&&(!tbTensi.getValueAt(i,5).toString().equals(""))&&(!tbTensi.getValueAt(i,12).toString().equals(""))&&tbTensi.getValueAt(i,15).toString().equals("")){
@@ -2633,9 +2668,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvtensi","?,?,?,?,?","Observation Tensi",5,new String[]{
+                                if(Sequel.menyimpantf2("satu_sehat_observationttvtensi","?,?,?,?,?","Observation Tensi",5,new String[]{
                                     tbTensi.getValueAt(i,2).toString(),tbTensi.getValueAt(i,13).toString(),tbTensi.getValueAt(i,14).toString(),tbTensi.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbTensi.setValueAt(response.asText(),i,15);
+                                    tbTensi.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2645,7 +2683,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampiltensi();
         }else if(TabRawat.getSelectedIndex()==7){
             for(i=0;i<tbTB.getRowCount();i++){
                 if(tbTB.getValueAt(i,0).toString().equals("true")&&(!tbTB.getValueAt(i,5).toString().equals(""))&&(!tbTB.getValueAt(i,12).toString().equals(""))&&tbTB.getValueAt(i,15).toString().equals("")){
@@ -2707,9 +2744,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvtb","?,?,?,?,?","Observation TB",5,new String[]{
+                                if(Sequel.menyimpantf2("satu_sehat_observationttvtb","?,?,?,?,?","Observation TB",5,new String[]{
                                     tbTB.getValueAt(i,2).toString(),tbTB.getValueAt(i,13).toString(),tbTB.getValueAt(i,14).toString(),tbTB.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbTB.setValueAt(response.asText(),i,15);
+                                    tbTB.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2719,7 +2759,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampiltb();
         }else if(TabRawat.getSelectedIndex()==8){
             for(i=0;i<tbBB.getRowCount();i++){
                 if(tbBB.getValueAt(i,0).toString().equals("true")&&(!tbBB.getValueAt(i,5).toString().equals(""))&&(!tbBB.getValueAt(i,12).toString().equals(""))&&tbBB.getValueAt(i,15).toString().equals("")){
@@ -2781,9 +2820,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvbb","?,?,?,?,?","Observation BB",5,new String[]{
+                                if(Sequel.menyimpantf2("satu_sehat_observationttvbb","?,?,?,?,?","Observation BB",5,new String[]{
                                     tbBB.getValueAt(i,2).toString(),tbBB.getValueAt(i,13).toString(),tbBB.getValueAt(i,14).toString(),tbBB.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbBB.setValueAt(response.asText(),i,15);
+                                    tbBB.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2793,7 +2835,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilbb();
         }else if(TabRawat.getSelectedIndex()==9){
             for(i=0;i<tbLP.getRowCount();i++){
                 if(tbLP.getValueAt(i,0).toString().equals("true")&&(!tbLP.getValueAt(i,5).toString().equals(""))&&(!tbLP.getValueAt(i,12).toString().equals(""))&&tbLP.getValueAt(i,15).toString().equals("")){
@@ -2855,9 +2896,12 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             root = mapper.readTree(json);
                             response = root.path("id");
                             if(!response.asText().equals("")){
-                                Sequel.menyimpan("satu_sehat_observationttvlp","?,?,?,?,?","Observation LP",5,new String[]{
+                                if(Sequel.menyimpantf2("satu_sehat_observationttvlp","?,?,?,?,?","Observation LP",5,new String[]{
                                     tbLP.getValueAt(i,2).toString(),tbLP.getValueAt(i,13).toString(),tbLP.getValueAt(i,14).toString(),tbLP.getValueAt(i,7).toString(),response.asText()
-                                });
+                                })==true){
+                                    tbLP.setValueAt(response.asText(),i,15);
+                                    tbLP.setValueAt(false,i,0);
+                                }
                             }
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
@@ -2867,7 +2911,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampillp();
         }
     }//GEN-LAST:event_BtnKirimActionPerformed
 
@@ -3025,6 +3068,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbSuhu.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbSuhu.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3033,7 +3077,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilsuhu();
         }else if(TabRawat.getSelectedIndex()==1){
             for(i=0;i<tbRespirasi.getRowCount();i++){
                 if(tbRespirasi.getValueAt(i,0).toString().equals("true")&&(!tbRespirasi.getValueAt(i,5).toString().equals(""))&&(!tbRespirasi.getValueAt(i,12).toString().equals(""))&&(!tbRespirasi.getValueAt(i,15).toString().equals(""))){
@@ -3093,6 +3136,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbRespirasi.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbRespirasi.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3101,7 +3145,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilrespirasi();
         }else if(TabRawat.getSelectedIndex()==2){
             for(i=0;i<tbNadi.getRowCount();i++){
                 if(tbNadi.getValueAt(i,0).toString().equals("true")&&(!tbNadi.getValueAt(i,5).toString().equals(""))&&(!tbNadi.getValueAt(i,12).toString().equals(""))&&(!tbNadi.getValueAt(i,15).toString().equals(""))){
@@ -3161,6 +3204,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbNadi.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbNadi.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3169,7 +3213,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilnadi();
         }else if(TabRawat.getSelectedIndex()==3){
             for(i=0;i<tbSpO2.getRowCount();i++){
                 if(tbSpO2.getValueAt(i,0).toString().equals("true")&&(!tbSpO2.getValueAt(i,5).toString().equals(""))&&(!tbSpO2.getValueAt(i,12).toString().equals(""))&&(!tbSpO2.getValueAt(i,15).toString().equals(""))){
@@ -3229,6 +3272,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbSpO2.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbSpO2.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3237,7 +3281,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilspo2();
         }else if(TabRawat.getSelectedIndex()==4){
             for(i=0;i<tbGCS.getRowCount();i++){
                 if(tbGCS.getValueAt(i,0).toString().equals("true")&&(!tbGCS.getValueAt(i,5).toString().equals(""))&&(!tbGCS.getValueAt(i,12).toString().equals(""))&&(!tbGCS.getValueAt(i,15).toString().equals(""))){
@@ -3296,6 +3339,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbGCS.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbGCS.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3304,7 +3348,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilgcs();
         }else if(TabRawat.getSelectedIndex()==5){
             for(i=0;i<tbKesadaran.getRowCount();i++){
                 if(tbKesadaran.getValueAt(i,0).toString().equals("true")&&(!tbKesadaran.getValueAt(i,5).toString().equals(""))&&(!tbKesadaran.getValueAt(i,12).toString().equals(""))&&(!tbKesadaran.getValueAt(i,15).toString().equals(""))){
@@ -3361,6 +3404,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbKesadaran.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbKesadaran.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3369,7 +3413,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilkesadaran();
         }else if(TabRawat.getSelectedIndex()==6){
             for(i=0;i<tbTensi.getRowCount();i++){
                 if(tbTensi.getValueAt(i,0).toString().equals("true")&&(!tbTensi.getValueAt(i,5).toString().equals(""))&&(!tbTensi.getValueAt(i,12).toString().equals(""))&&(!tbTensi.getValueAt(i,15).toString().equals(""))){
@@ -3460,6 +3503,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbTensi.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbTensi.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3468,7 +3512,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampiltensi();
         }else if(TabRawat.getSelectedIndex()==7){
             for(i=0;i<tbTB.getRowCount();i++){
                 if(tbTB.getValueAt(i,0).toString().equals("true")&&(!tbTB.getValueAt(i,5).toString().equals(""))&&(!tbTB.getValueAt(i,12).toString().equals(""))&&(!tbTB.getValueAt(i,15).toString().equals(""))){
@@ -3528,6 +3571,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbTB.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbTB.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3536,7 +3580,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampiltb();
         }else if(TabRawat.getSelectedIndex()==8){
             for(i=0;i<tbBB.getRowCount();i++){
                 if(tbBB.getValueAt(i,0).toString().equals("true")&&(!tbBB.getValueAt(i,5).toString().equals(""))&&(!tbBB.getValueAt(i,12).toString().equals(""))&&(!tbBB.getValueAt(i,15).toString().equals(""))){
@@ -3596,6 +3639,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbBB.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbBB.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3604,7 +3648,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampilbb();
         }else if(TabRawat.getSelectedIndex()==9){
             for(i=0;i<tbLP.getRowCount();i++){
                 if(tbLP.getValueAt(i,0).toString().equals("true")&&(!tbLP.getValueAt(i,5).toString().equals(""))&&(!tbLP.getValueAt(i,12).toString().equals(""))&&(!tbLP.getValueAt(i,15).toString().equals(""))){
@@ -3664,6 +3707,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                             requestEntity = new HttpEntity(json,headers);
                             json=api.getRest().exchange(link+"/Observation/"+tbLP.getValueAt(i,15).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                             System.out.println("Result JSON : "+json);
+                            tbLP.setValueAt(false,i,0);
                         }catch(Exception e){
                             System.out.println("Notifikasi Bridging : "+e);
                         }
@@ -3672,7 +3716,6 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                     }
                 }
             }
-            tampillp();
         }
     }//GEN-LAST:event_BtnUpdateActionPerformed
 
@@ -3721,11 +3764,21 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void BtnAll1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnAll1KeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             TCari.setText("");
-            tampilsuhu();
+            TabRawatMouseClicked(null);
         }else{
             Valid.pindah(evt, BtnPrint, BtnKeluar);
         }
     }//GEN-LAST:event_BtnAll1KeyPressed
+
+    private void ChkBelumTerkirimItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimItemStateChanged
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        TabRawatMouseClicked(null);
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_ChkBelumTerkirimItemStateChanged
+
+    private void ChkBelumTerkirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChkBelumTerkirimActionPerformed
 
     /**
     * @param args the command line arguments
@@ -3750,6 +3803,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private widget.Button BtnKirim;
     private widget.Button BtnPrint;
     private widget.Button BtnUpdate;
+    private widget.CekBox ChkBelumTerkirim;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
     private widget.Label LCount;
@@ -3792,19 +3846,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampilsuhu() {
         Valid.tabelKosong(tabModeSuhu);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvsuhu.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.suhu_tubuh, "+
                    "ifnull(satu_sehat_observationttvsuhu.id_observation,'') as satu_sehat_observationttvsuhu from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvsuhu on satu_sehat_observationttvsuhu.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvsuhu.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvsuhu.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvsuhu.status='Ralan' where pemeriksaan_ralan.suhu_tubuh<>'' and nota_jalan.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvsuhu.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.suhu_tubuh<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -3838,17 +3898,17 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_inap.tanggal,' ',nota_inap.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.suhu_tubuh, "+
                    "ifnull(satu_sehat_observationttvsuhu.id_observation,'') as satu_sehat_observationttvsuhu from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ranap on pemeriksaan_ranap.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ranap.nip=pegawai.nik left join satu_sehat_observationttvsuhu on satu_sehat_observationttvsuhu.no_rawat=pemeriksaan_ranap.no_rawat "+
                    "and satu_sehat_observationttvsuhu.tgl_perawatan=pemeriksaan_ranap.tgl_perawatan and satu_sehat_observationttvsuhu.jam_rawat=pemeriksaan_ranap.jam_rawat "+
-                   "and satu_sehat_observationttvsuhu.status='Ranap' where pemeriksaan_ranap.suhu_tubuh<>'' and nota_inap.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvsuhu.status='Ranap' where "+belumterkirim+" pemeriksaan_ranap.suhu_tubuh<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -3865,7 +3925,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 while(rs.next()){
                     tabModeSuhu.addRow(new Object[]{
                         false,rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
-                        rs.getString("no_ktp"),rs.getString("stts"),"Ralan",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("suhu_tubuh"),
+                        rs.getString("no_ktp"),rs.getString("stts"),"Ranap",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("suhu_tubuh"),
                         rs.getString("nama"),rs.getString("ktppraktisi"),rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("satu_sehat_observationttvsuhu")
                     });
                 }
@@ -3888,19 +3948,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampilrespirasi() {
         Valid.tabelKosong(tabModeRespirasi);
         try{
+            String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvrespirasi.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.respirasi, "+
                    "ifnull(satu_sehat_observationttvrespirasi.id_observation,'') as satu_sehat_observationttvrespirasi from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvrespirasi on satu_sehat_observationttvrespirasi.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvrespirasi.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvrespirasi.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvrespirasi.status='Ralan' where pemeriksaan_ralan.respirasi<>'' and nota_jalan.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvrespirasi.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.respirasi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -3934,17 +4000,17 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_inap.tanggal,' ',nota_inap.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.respirasi, "+
                    "ifnull(satu_sehat_observationttvrespirasi.id_observation,'') as satu_sehat_observationttvrespirasi from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ranap on pemeriksaan_ranap.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ranap.nip=pegawai.nik left join satu_sehat_observationttvrespirasi on satu_sehat_observationttvrespirasi.no_rawat=pemeriksaan_ranap.no_rawat "+
                    "and satu_sehat_observationttvrespirasi.tgl_perawatan=pemeriksaan_ranap.tgl_perawatan and satu_sehat_observationttvrespirasi.jam_rawat=pemeriksaan_ranap.jam_rawat "+
-                   "and satu_sehat_observationttvrespirasi.status='Ranap' where pemeriksaan_ranap.respirasi<>'' and nota_inap.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvrespirasi.status='Ranap' where "+belumterkirim+" pemeriksaan_ranap.respirasi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -3961,7 +4027,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 while(rs.next()){
                     tabModeRespirasi.addRow(new Object[]{
                         false,rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
-                        rs.getString("no_ktp"),rs.getString("stts"),"Ralan",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("respirasi"),
+                        rs.getString("no_ktp"),rs.getString("stts"),"Ranap",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("respirasi"),
                         rs.getString("nama"),rs.getString("ktppraktisi"),rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("satu_sehat_observationttvrespirasi")
                     });
                 }
@@ -3984,19 +4050,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampilnadi() {
         Valid.tabelKosong(tabModeNadi);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvnadi.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.nadi, "+
                    "ifnull(satu_sehat_observationttvnadi.id_observation,'') as satu_sehat_observationttvnadi from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvnadi on satu_sehat_observationttvnadi.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvnadi.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvnadi.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvnadi.status='Ralan' where pemeriksaan_ralan.nadi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
-                   (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or nota_jalan.tanggal like ? or "+
+                   "and satu_sehat_observationttvnadi.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.nadi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
+                   (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.tgl_registrasi like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4030,17 +4102,17 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_inap.tanggal,' ',nota_inap.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.nadi, "+
                    "ifnull(satu_sehat_observationttvnadi.id_observation,'') as satu_sehat_observationttvnadi from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ranap on pemeriksaan_ranap.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ranap.nip=pegawai.nik left join satu_sehat_observationttvnadi on satu_sehat_observationttvnadi.no_rawat=pemeriksaan_ranap.no_rawat "+
                    "and satu_sehat_observationttvnadi.tgl_perawatan=pemeriksaan_ranap.tgl_perawatan and satu_sehat_observationttvnadi.jam_rawat=pemeriksaan_ranap.jam_rawat "+
-                   "and satu_sehat_observationttvnadi.status='Ranap' where pemeriksaan_ranap.nadi<>'' and nota_inap.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvnadi.status='Ranap' where "+belumterkirim+" pemeriksaan_ranap.nadi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4057,7 +4129,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 while(rs.next()){
                     tabModeNadi.addRow(new Object[]{
                         false,rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
-                        rs.getString("no_ktp"),rs.getString("stts"),"Ralan",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("nadi"),
+                        rs.getString("no_ktp"),rs.getString("stts"),"Ranap",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("nadi"),
                         rs.getString("nama"),rs.getString("ktppraktisi"),rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("satu_sehat_observationttvnadi")
                     });
                 }
@@ -4080,19 +4152,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampilspo2() {
         Valid.tabelKosong(tabModeSpO2);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvspo2.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.spo2, "+
                    "ifnull(satu_sehat_observationttvspo2.id_observation,'') as satu_sehat_observationttvspo2 from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvspo2 on satu_sehat_observationttvspo2.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvspo2.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvspo2.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvspo2.status='Ralan' where pemeriksaan_ralan.spo2<>'' and nota_jalan.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvspo2.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.spo2<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4126,17 +4204,17 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_inap.tanggal,' ',nota_inap.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.spo2, "+
                    "ifnull(satu_sehat_observationttvspo2.id_observation,'') as satu_sehat_observationttvspo2 from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ranap on pemeriksaan_ranap.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ranap.nip=pegawai.nik left join satu_sehat_observationttvspo2 on satu_sehat_observationttvspo2.no_rawat=pemeriksaan_ranap.no_rawat "+
                    "and satu_sehat_observationttvspo2.tgl_perawatan=pemeriksaan_ranap.tgl_perawatan and satu_sehat_observationttvspo2.jam_rawat=pemeriksaan_ranap.jam_rawat "+
-                   "and satu_sehat_observationttvspo2.status='Ranap' where pemeriksaan_ranap.spo2<>'' and nota_inap.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvspo2.status='Ranap' where "+belumterkirim+" pemeriksaan_ranap.spo2<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4153,7 +4231,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 while(rs.next()){
                     tabModeSpO2.addRow(new Object[]{
                         false,rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
-                        rs.getString("no_ktp"),rs.getString("stts"),"Ralan",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("spo2"),
+                        rs.getString("no_ktp"),rs.getString("stts"),"Ranap",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("spo2"),
                         rs.getString("nama"),rs.getString("ktppraktisi"),rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("satu_sehat_observationttvspo2")
                     });
                 }
@@ -4176,19 +4254,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampilgcs() {
         Valid.tabelKosong(tabModeGCS);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvgcs.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.gcs, "+
                    "ifnull(satu_sehat_observationttvgcs.id_observation,'') as satu_sehat_observationttvgcs from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvgcs on satu_sehat_observationttvgcs.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvgcs.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvgcs.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvgcs.status='Ralan' where pemeriksaan_ralan.gcs<>'' and nota_jalan.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvgcs.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.gcs<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4222,17 +4306,17 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_inap.tanggal,' ',nota_inap.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.gcs, "+
                    "ifnull(satu_sehat_observationttvgcs.id_observation,'') as satu_sehat_observationttvgcs from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ranap on pemeriksaan_ranap.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ranap.nip=pegawai.nik left join satu_sehat_observationttvgcs on satu_sehat_observationttvgcs.no_rawat=pemeriksaan_ranap.no_rawat "+
                    "and satu_sehat_observationttvgcs.tgl_perawatan=pemeriksaan_ranap.tgl_perawatan and satu_sehat_observationttvgcs.jam_rawat=pemeriksaan_ranap.jam_rawat "+
-                   "and satu_sehat_observationttvgcs.status='Ranap' where pemeriksaan_ranap.gcs<>'' and nota_inap.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvgcs.status='Ranap' where "+belumterkirim+" pemeriksaan_ranap.gcs<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4249,7 +4333,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 while(rs.next()){
                     tabModeGCS.addRow(new Object[]{
                         false,rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
-                        rs.getString("no_ktp"),rs.getString("stts"),"Ralan",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("gcs"),
+                        rs.getString("no_ktp"),rs.getString("stts"),"Ranap",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("gcs"),
                         rs.getString("nama"),rs.getString("ktppraktisi"),rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("satu_sehat_observationttvgcs")
                     });
                 }
@@ -4272,19 +4356,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampilkesadaran() {
         Valid.tabelKosong(tabModeKesadaran);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvkesadaran.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.kesadaran, "+
                    "ifnull(satu_sehat_observationttvkesadaran.id_observation,'') as satu_sehat_observationttvkesadaran from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvkesadaran on satu_sehat_observationttvkesadaran.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvkesadaran.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvkesadaran.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvkesadaran.status='Ralan' where pemeriksaan_ralan.kesadaran<>'' and nota_jalan.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvkesadaran.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.kesadaran<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4318,17 +4408,17 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_inap.tanggal,' ',nota_inap.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.kesadaran, "+
                    "ifnull(satu_sehat_observationttvkesadaran.id_observation,'') as satu_sehat_observationttvkesadaran from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ranap on pemeriksaan_ranap.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ranap.nip=pegawai.nik left join satu_sehat_observationttvkesadaran on satu_sehat_observationttvkesadaran.no_rawat=pemeriksaan_ranap.no_rawat "+
                    "and satu_sehat_observationttvkesadaran.tgl_perawatan=pemeriksaan_ranap.tgl_perawatan and satu_sehat_observationttvkesadaran.jam_rawat=pemeriksaan_ranap.jam_rawat "+
-                   "and satu_sehat_observationttvkesadaran.status='Ranap' where pemeriksaan_ranap.kesadaran<>'' and nota_inap.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvkesadaran.status='Ranap' where "+belumterkirim+" pemeriksaan_ranap.kesadaran<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4345,7 +4435,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 while(rs.next()){
                     tabModeKesadaran.addRow(new Object[]{
                         false,rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
-                        rs.getString("no_ktp"),rs.getString("stts"),"Ralan",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("kesadaran"),
+                        rs.getString("no_ktp"),rs.getString("stts"),"Ranap",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("kesadaran"),
                         rs.getString("nama"),rs.getString("ktppraktisi"),rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("satu_sehat_observationttvkesadaran")
                     });
                 }
@@ -4368,19 +4458,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampiltensi() {
         Valid.tabelKosong(tabModeTensi);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvtensi.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.tensi, "+
                    "ifnull(satu_sehat_observationttvtensi.id_observation,'') as satu_sehat_observationttvtensi from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvtensi on satu_sehat_observationttvtensi.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvtensi.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvtensi.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvtensi.status='Ralan' where pemeriksaan_ralan.tensi<>'' and nota_jalan.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvtensi.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.tensi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4414,17 +4510,17 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_inap.tanggal,' ',nota_inap.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.tensi, "+
                    "ifnull(satu_sehat_observationttvtensi.id_observation,'') as satu_sehat_observationttvtensi from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ranap on pemeriksaan_ranap.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ranap.nip=pegawai.nik left join satu_sehat_observationttvtensi on satu_sehat_observationttvtensi.no_rawat=pemeriksaan_ranap.no_rawat "+
                    "and satu_sehat_observationttvtensi.tgl_perawatan=pemeriksaan_ranap.tgl_perawatan and satu_sehat_observationttvtensi.jam_rawat=pemeriksaan_ranap.jam_rawat "+
-                   "and satu_sehat_observationttvtensi.status='Ranap' where pemeriksaan_ranap.tensi<>'' and nota_inap.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvtensi.status='Ranap' where "+belumterkirim+" pemeriksaan_ranap.tensi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4441,7 +4537,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 while(rs.next()){
                     tabModeTensi.addRow(new Object[]{
                         false,rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
-                        rs.getString("no_ktp"),rs.getString("stts"),"Ralan",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("tensi"),
+                        rs.getString("no_ktp"),rs.getString("stts"),"Ranap",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("tensi"),
                         rs.getString("nama"),rs.getString("ktppraktisi"),rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("satu_sehat_observationttvtensi")
                     });
                 }
@@ -4464,19 +4560,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampiltb() {
         Valid.tabelKosong(tabModeTB);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvtb.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.tinggi, "+
                    "ifnull(satu_sehat_observationttvtb.id_observation,'') as satu_sehat_observationttvtb from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvtb on satu_sehat_observationttvtb.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvtb.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvtb.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvtb.status='Ralan' where pemeriksaan_ralan.tinggi<>'' and nota_jalan.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvtb.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.tinggi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4510,17 +4612,17 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_inap.tanggal,' ',nota_inap.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.tinggi, "+
                    "ifnull(satu_sehat_observationttvtb.id_observation,'') as satu_sehat_observationttvtb from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ranap on pemeriksaan_ranap.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ranap.nip=pegawai.nik left join satu_sehat_observationttvtb on satu_sehat_observationttvtb.no_rawat=pemeriksaan_ranap.no_rawat "+
                    "and satu_sehat_observationttvtb.tgl_perawatan=pemeriksaan_ranap.tgl_perawatan and satu_sehat_observationttvtb.jam_rawat=pemeriksaan_ranap.jam_rawat "+
-                   "and satu_sehat_observationttvtb.status='Ranap' where pemeriksaan_ranap.tinggi<>'' and nota_inap.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvtb.status='Ranap' where "+belumterkirim+" pemeriksaan_ranap.tinggi<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4537,7 +4639,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 while(rs.next()){
                     tabModeTB.addRow(new Object[]{
                         false,rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
-                        rs.getString("no_ktp"),rs.getString("stts"),"Ralan",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("tinggi"),
+                        rs.getString("no_ktp"),rs.getString("stts"),"Ranap",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("tinggi"),
                         rs.getString("nama"),rs.getString("ktppraktisi"),rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("satu_sehat_observationttvtb")
                     });
                 }
@@ -4560,19 +4662,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampilbb() {
         Valid.tabelKosong(tabModeBB);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvbb.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.berat, "+
                    "ifnull(satu_sehat_observationttvbb.id_observation,'') as satu_sehat_observationttvbb from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvbb on satu_sehat_observationttvbb.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvbb.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvbb.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvbb.status='Ralan' where pemeriksaan_ralan.berat<>'' and nota_jalan.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvbb.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.berat<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4606,17 +4714,17 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_inap.tanggal,' ',nota_inap.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.berat, "+
                    "ifnull(satu_sehat_observationttvbb.id_observation,'') as satu_sehat_observationttvbb from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ranap on pemeriksaan_ranap.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ranap.nip=pegawai.nik left join satu_sehat_observationttvbb on satu_sehat_observationttvbb.no_rawat=pemeriksaan_ranap.no_rawat "+
                    "and satu_sehat_observationttvbb.tgl_perawatan=pemeriksaan_ranap.tgl_perawatan and satu_sehat_observationttvbb.jam_rawat=pemeriksaan_ranap.jam_rawat "+
-                   "and satu_sehat_observationttvbb.status='Ranap' where pemeriksaan_ranap.berat<>'' and nota_inap.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvbb.status='Ranap' where "+belumterkirim+" pemeriksaan_ranap.berat<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4633,7 +4741,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
                 while(rs.next()){
                     tabModeBB.addRow(new Object[]{
                         false,rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"),rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
-                        rs.getString("no_ktp"),rs.getString("stts"),"Ralan",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("berat"),
+                        rs.getString("no_ktp"),rs.getString("stts"),"Ranap",rs.getString("pulang"),rs.getString("id_encounter"),rs.getString("berat"),
                         rs.getString("nama"),rs.getString("ktppraktisi"),rs.getString("tgl_perawatan"),rs.getString("jam_rawat"),rs.getString("satu_sehat_observationttvbb")
                     });
                 }
@@ -4656,19 +4764,25 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     private void tampillp() {
         Valid.tabelKosong(tabModeLP);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_observationttvlp.id_observation IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,concat(nota_jalan.tanggal,' ',nota_jalan.jam) as pulang,satu_sehat_encounter.id_encounter,"+
+                   "reg_periksa.stts,concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) as pulang,satu_sehat_encounter.id_encounter,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.lingkar_perut, "+
                    "ifnull(satu_sehat_observationttvlp.id_observation,'') as satu_sehat_observationttvlp from reg_periksa inner join pasien "+
-                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join pemeriksaan_ralan on pemeriksaan_ralan.no_rawat=reg_periksa.no_rawat "+
                    "inner join pegawai on pemeriksaan_ralan.nip=pegawai.nik left join satu_sehat_observationttvlp on satu_sehat_observationttvlp.no_rawat=pemeriksaan_ralan.no_rawat "+
                    "and satu_sehat_observationttvlp.tgl_perawatan=pemeriksaan_ralan.tgl_perawatan and satu_sehat_observationttvlp.jam_rawat=pemeriksaan_ralan.jam_rawat "+
-                   "and satu_sehat_observationttvlp.status='Ralan' where pemeriksaan_ralan.lingkar_perut<>'' and nota_jalan.tanggal between ? and ? "+
+                   "and satu_sehat_observationttvlp.status='Ralan' where "+belumterkirim+" pemeriksaan_ralan.lingkar_perut<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.no_ktp like ? or pegawai.nama like ? or "+
-                   "reg_periksa.stts like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
+                   "reg_periksa.stts like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -4707,6 +4821,7 @@ public final class SatuSehatKirimObservationTTV extends javax.swing.JDialog {
     
     public void isCek(){
         BtnKirim.setEnabled(akses.getsatu_sehat_kirim_observationttv());
+        BtnUpdate.setEnabled(akses.getsatu_sehat_kirim_observationttv());
         BtnPrint.setEnabled(akses.getsatu_sehat_kirim_observationttv());
     }
     

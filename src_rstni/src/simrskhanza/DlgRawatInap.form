@@ -332,7 +332,7 @@
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="01-10-2023"/>
+                        <StringItem index="0" value="18-05-2026"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -360,7 +360,7 @@
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="01-10-2023"/>
+                        <StringItem index="0" value="18-05-2026"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -1364,21 +1364,6 @@
                             </Constraint>
                           </Constraints>
                         </Component>
-                        <Component class="widget.TextBox" name="TNadi">
-                          <Properties>
-                            <Property name="focusTraversalPolicyProvider" type="boolean" value="true"/>
-                            <Property name="name" type="java.lang.String" value="TNadi" noResource="true"/>
-                          </Properties>
-                          <Events>
-                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TNadiActionPerformed"/>
-                            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TNadiKeyPressed"/>
-                          </Events>
-                          <Constraints>
-                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="378" y="190" width="55" height="23"/>
-                            </Constraint>
-                          </Constraints>
-                        </Component>
                         <Component class="widget.Label" name="jLabel24">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="Nadi (/menit) :"/>
@@ -1438,7 +1423,7 @@
                           </Events>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                              <AbsoluteConstraints x="543" y="10" width="360" height="23"/>
+                              <AbsoluteConstraints x="543" y="10" width="320" height="23"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -1923,6 +1908,40 @@
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                               <AbsoluteConstraints x="405" y="40" width="28" height="23"/>
+                            </Constraint>
+                          </Constraints>
+                        </Component>
+                        <Component class="widget.Button" name="BtnCariAlergi">
+                          <Properties>
+                            <Property name="icon" type="javax.swing.Icon" noResource="true" editor="org.netbeans.modules.form.editors2.IconEditor">
+                              <Image iconType="3" name="/picture/190.png"/>
+                            </Property>
+                            <Property name="mnemonic" type="int" value="52"/>
+                            <Property name="toolTipText" type="java.lang.String" value="ALt+4"/>
+                            <Property name="name" type="java.lang.String" value="BtnCariAlergi" noResource="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnCariAlergiActionPerformed"/>
+                          </Events>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="880" y="10" width="28" height="23"/>
+                            </Constraint>
+                          </Constraints>
+                        </Component>
+                        <Component class="widget.TextBox" name="TNadi">
+                          <Properties>
+                            <Property name="highlighter" type="javax.swing.text.Highlighter" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                              <ComponentRef name="null"/>
+                            </Property>
+                            <Property name="name" type="java.lang.String" value="TNadi" noResource="true"/>
+                          </Properties>
+                          <Events>
+                            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="TNadiKeyPressed"/>
+                          </Events>
+                          <Constraints>
+                            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                              <AbsoluteConstraints x="378" y="190" width="55" height="23"/>
                             </Constraint>
                           </Constraints>
                         </Component>
@@ -3439,7 +3458,7 @@
                 </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="1">
-                    <StringItem index="0" value="01-10-2023"/>
+                    <StringItem index="0" value="18-05-2026"/>
                   </StringArray>
                 </Property>
                 <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>

@@ -31,7 +31,11 @@ import java.awt.event.WindowListener;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -47,7 +51,6 @@ public final class BPJSCekSuplesiJasaRaharja extends javax.swing.JDialog {
     private validasi Valid=new validasi();
     private sekuel Sequel=new sekuel();
     private int i=0;
-    private DlgCariPasien pasien=new DlgCariPasien(null,false);
     private ApiBPJS api=new ApiBPJS();
     private String URL="",link="",utc="";
     private HttpHeaders headers ;
@@ -56,6 +59,8 @@ public final class BPJSCekSuplesiJasaRaharja extends javax.swing.JDialog {
     private JsonNode root;
     private JsonNode nameNode;
     private JsonNode response;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private volatile boolean ceksukses = false;
         
     /** Creates new form DlgKamar
      * @param parent
@@ -97,48 +102,7 @@ public final class BPJSCekSuplesiJasaRaharja extends javax.swing.JDialog {
         }
         
         tbKamar.setDefaultRenderer(Object.class, new WarnaTable());
-        pasien.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(akses.getform().equals("DlgBPJSCekSuplesiJasaRaharja")){
-                    if(pasien.getTable().getSelectedRow()!= -1){                   
-                        if(pasien.getTable().getValueAt(pasien.getTable().getSelectedRow(),19).toString().equals("")){
-                            JOptionPane.showMessageDialog(rootPane,"Maaf pasien tidak punya Nomor Kartu...!");
-                        }else{
-                            NoKartu.setText(pasien.getTable().getValueAt(pasien.getTable().getSelectedRow(),19).toString());
-                            NamaPasien.setText(pasien.getTable().getValueAt(pasien.getTable().getSelectedRow(),1).toString());
-                        }                            
-                    }  
-                }
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
         
-        pasien.getTable().addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {}
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(akses.getform().equals("DlgBPJSCekSuplesiJasaRaharja")){
-                    if(e.getKeyCode()==KeyEvent.VK_SPACE){
-                        pasien.dispose();
-                    }
-                }
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {}
-        }); 
         try {
             link=koneksiDB.URLAPIBPJS();
         } catch (Exception e) {
@@ -233,7 +197,7 @@ public final class BPJSCekSuplesiJasaRaharja extends javax.swing.JDialog {
         jLabel18.setPreferredSize(new java.awt.Dimension(60, 23));
         panelGlass6.add(jLabel18);
 
-        DTPTanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-11-2021" }));
+        DTPTanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-01-2024" }));
         DTPTanggal.setDisplayFormat("dd-MM-yyyy");
         DTPTanggal.setName("DTPTanggal"); // NOI18N
         DTPTanggal.setOpaque(false);
@@ -343,25 +307,12 @@ public final class BPJSCekSuplesiJasaRaharja extends javax.swing.JDialog {
         }        
     }//GEN-LAST:event_BtnPrintActionPerformed
 
-    private void btnPasienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasienActionPerformed
-        akses.setform("DlgBPJSCekSuplesiJasaRaharja");
-        pasien.emptTeks();
-        pasien.isCek();
-        pasien.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        pasien.setLocationRelativeTo(internalFrame1);
-        pasien.setVisible(true);
-    }//GEN-LAST:event_btnPasienActionPerformed
-
-    private void btnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPasienKeyPressed
-        Valid.pindah(evt,NoKartu,BtnPrint);
-    }//GEN-LAST:event_btnPasienKeyPressed
-
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         if(NoKartu.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"No.Kartu masih kosong...!!");
         }else{
-            tampil(NoKartu.getText().trim());
+            runBackground(() ->tampil(NoKartu.getText().trim()));
         }
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_BtnCariActionPerformed
@@ -373,6 +324,62 @@ public final class BPJSCekSuplesiJasaRaharja extends javax.swing.JDialog {
             Valid.pindah(evt,NoKartu,BtnPrint);
         }
     }//GEN-LAST:event_BtnCariKeyPressed
+
+    private void btnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPasienKeyPressed
+        Valid.pindah(evt,NoKartu,BtnPrint);
+    }//GEN-LAST:event_btnPasienKeyPressed
+
+    private void btnPasienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasienActionPerformed
+        akses.setform("DlgBPJSCekSuplesiJasaRaharja");
+        DlgCariPasien pasien=new DlgCariPasien(null,false);
+        pasien.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(akses.getform().equals("DlgBPJSCekSuplesiJasaRaharja")){
+                    if(pasien.getTable().getSelectedRow()!= -1){                   
+                        if(pasien.getTable().getValueAt(pasien.getTable().getSelectedRow(),19).toString().equals("")){
+                            JOptionPane.showMessageDialog(rootPane,"Maaf pasien tidak punya Nomor Kartu...!");
+                        }else{
+                            NoKartu.setText(pasien.getTable().getValueAt(pasien.getTable().getSelectedRow(),19).toString());
+                            NamaPasien.setText(pasien.getTable().getValueAt(pasien.getTable().getSelectedRow(),1).toString());
+                        }                            
+                    }  
+                }
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
+        
+        pasien.getTable().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(akses.getform().equals("DlgBPJSCekSuplesiJasaRaharja")){
+                    if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                        pasien.dispose();
+                    }
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        }); 
+        pasien.emptTeks();
+        pasien.isCek();
+        pasien.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        pasien.setLocationRelativeTo(internalFrame1);
+        pasien.setVisible(true);
+    }//GEN-LAST:event_btnPasienActionPerformed
 
     /**
     * @param args the command line arguments
@@ -450,5 +457,40 @@ public final class BPJSCekSuplesiJasaRaharja extends javax.swing.JDialog {
         NamaPasien.setText(namapasien);
         DTPTanggal.setDate(tanggal);
     }
+    
+    public JTable getTable(){
+        return tbKamar;
+    }
  
+    private void runBackground(Runnable task) {
+        if (ceksukses) return;
+        if (executor.isShutdown() || executor.isTerminated()) return;
+        if (!isDisplayable()) return;
+
+        ceksukses = true;
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        try {
+            executor.submit(() -> {
+                try {
+                    task.run();
+                } finally {
+                    ceksukses = false;
+                    SwingUtilities.invokeLater(() -> {
+                        if (isDisplayable()) {
+                            setCursor(Cursor.getDefaultCursor());
+                        }
+                    });
+                }
+            });
+        } catch (RejectedExecutionException ex) {
+            ceksukses = false;
+        }
+    }
+    
+    @Override
+    public void dispose() {
+        executor.shutdownNow();
+        super.dispose();
+    }
 }

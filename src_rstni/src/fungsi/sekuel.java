@@ -12,6 +12,8 @@
 
 package fungsi;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -60,6 +63,10 @@ public final class sekuel {
     private Date tanggal=new Date();
     private boolean bool=false;
     private final DecimalFormat df2 = new DecimalFormat("####");
+     private SimpleDateFormat formattanggal = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private Date waktumulai,kegiatan;
+    private long bedawaktu=0;
+    
     public sekuel(){
         super();
     }
@@ -391,6 +398,69 @@ public final class sekuel {
         } catch (Exception e) {
             System.out.println("Notifikasi : "+e);   
         }            
+    }
+    
+       public boolean menyimpantf(String table,String isisimpan,String isiedit,String acuan_field){
+        bool=true;
+        try{            
+            ps=connect.prepareStatement("insert into "+table+" values("+isisimpan+")");
+            ps.executeUpdate();   
+            if(ps != null){
+                ps.close();
+            }  
+            SimpanTrack("insert into "+table+" values("+isisimpan+")");
+            bool=true;
+        }catch(Exception e){
+            if(e.toString().toLowerCase().contains("duplicate")){
+                try {
+                    ps=connect.prepareStatement("update "+table+" set "+isiedit+" where "+acuan_field);
+                    ps.executeUpdate();
+                    if(ps != null){
+                        ps.close();
+                    }  
+                    SimpanTrack("update "+table+" set "+isiedit+" where "+acuan_field);
+                    bool=true;
+                } catch (Exception ex) {
+                    bool=false;
+                    System.out.println("Notifikasi Edit : "+ex);
+                }
+            }else{
+               bool=false; 
+            }
+        }
+        return bool;
+    }
+       
+    public boolean mengedittf2(String table,String acuan_field,String update,int i,String[] a){
+        bool=true;
+        try {
+            ps=connect.prepareStatement("update "+table+" set "+update+" where "+acuan_field);
+            try{
+                for(angka=1;angka<=i;angka++){
+                    ps.setString(angka,a[angka-1]);
+                } 
+                ps.executeUpdate();       
+                bool=true;
+             }catch(Exception e){
+                bool=false;
+                System.out.println("Notifikasi : "+e);
+             }finally{
+                if(ps != null){
+                    ps.close();
+                }
+            }
+            if(AKTIFKANTRACKSQL.equals("yes")){
+                dicari="";
+                for(angka=1;angka<=i;angka++){
+                    dicari=dicari+"|"+a[angka-1];
+                }
+            }
+            SimpanTrack("update "+table+" set "+update+" "+dicari+" where "+acuan_field);
+        } catch (Exception e) {
+            bool=false;
+            System.out.println("Notifikasi : "+e);
+        }   
+        return bool;
     }
     
     public void menyimpanignore(String table,String value,int i,String[] a){
@@ -1258,6 +1328,48 @@ public final class sekuel {
             System.out.println("Notifikasi : "+e);
         }   
     }
+    
+    public boolean cekTanggalRegistrasi(String tanggalregistrasi,String tanggalinputdata){
+        bool=false;
+        try {
+            waktumulai = formattanggal.parse(tanggalregistrasi);
+            kegiatan = formattanggal.parse(tanggalinputdata);
+            bedawaktu = (kegiatan.getTime()-waktumulai.getTime())/1000;
+            if(bedawaktu<0){
+                bool=false;
+                JOptionPane.showMessageDialog(null,"Maaf, jam input data / perubahan data minimal di jam "+tanggalregistrasi+" !");
+            }else{
+                bool=true;
+            }
+        } catch (Exception ex) {
+            bool=false;
+            System.out.println("Notif : "+ex);
+        }
+        return bool;
+    }
+    
+    public boolean cekTanggal48jam(String tanggalmulai,String tanggalinputdata){
+        bool=false;
+        try {
+            waktumulai = formattanggal.parse(tanggalmulai);
+            kegiatan = formattanggal.parse(tanggalinputdata);
+            bedawaktu = (kegiatan.getTime()-waktumulai.getTime())/1000;
+            if(bedawaktu>172800){
+                bool=false;
+                JOptionPane.showMessageDialog(null,"Maaf, perubahan data / penghapusan data tidak boleh lebih dari 2 x 24 jam !");
+            }else{
+                bool=true;
+            }
+        } catch (Exception ex) {
+            bool=false;
+            System.out.println("Notif : "+ex);
+        }
+        return bool;
+    }
+    
+    public String ambiltanggalsekarang(){
+        return formattanggal.format(new Date());
+    }
 
     public void cariIsi(String sql,JDateTimePicker dtp){
         try {
@@ -1947,6 +2059,326 @@ public final class sekuel {
         return dicari;
     }
 
+    public String CariDokter(String kode) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj=null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/dokter.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("dokter");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("KodeDokter").asText().equalsIgnoreCase(kode)){
+                        iyem=list.path("NamaDokter").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select dokter.nm_dokter from dokter where dokter.kd_dokter=?",kode);
+        }
+        return iyem;
+    }
+    
+    public String CariPetugas(String kode) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj=null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/petugas.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("petugas");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("NIP").asText().equalsIgnoreCase(kode)){
+                        iyem=list.path("NamaPetugas").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select petugas.nama from petugas where petugas.nip=?",kode);
+        }
+        return iyem;
+    }
+    
+    public String CariPegawai(String kode) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj = null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/pegawai.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("pegawai");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("NIP").asText().equalsIgnoreCase(kode)){
+                        iyem=list.path("Nama").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select pegawai.nama from pegawai where pegawai.nik=?",kode);
+        }
+        return iyem;
+    }
+    
+    public String CariJabatanPegawai(String kode) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj=null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/pegawai.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("pegawai");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("NIP").asText().toLowerCase().equals(kode)){
+                        iyem=list.path("Jabatan").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select pegawai.jbtn from pegawai where pegawai.nik=?",kode);
+        }
+        return iyem;
+    }
+    
+    public String CariDepartemenPegawai(String kode) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj=null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/pegawai.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("pegawai");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("NIP").asText().toLowerCase().equals(kode)){
+                        iyem=list.path("Departemen").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select pegawai.departemen from pegawai where pegawai.nik=?",kode);
+        }
+        return iyem;
+    }
+    
+    public String CariBangsal(String kode) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj=null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/bangsal.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("bangsal");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("KodeKamar").asText().equalsIgnoreCase(kode)){
+                        iyem=list.path("NamaKamar").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select bangsal.nm_bangsal from bangsal where bangsal.kd_bangsal=?",kode);
+        }
+        return iyem;
+    }
+    
+    public String CariKodePropinsi(String nama) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj=null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/masterpropinsi.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("masterpropinsi");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("NamaProp").asText().toLowerCase().equals(nama)){
+                        iyem=list.path("KodeProp").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select propinsi.kd_prop from propinsi where propinsi.nm_prop=?",nama);
+        }
+        return iyem;
+    }
+    
+    public String CariKodeKabupaten(String nama) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj=null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/masterkabupaten.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("masterkabupaten");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("NamaKab").asText().toLowerCase().equals(nama)){
+                        iyem=list.path("KodeKab").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select kabupaten.kd_kab from kabupaten where kabupaten.nm_kab=?",nama);
+        }
+        return iyem;
+    }
+    
+    public String CariKodeKecamatan(String nama) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj=null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/masterkecamatan.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("masterkecamatan");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("NamaKec").asText().toLowerCase().equals(nama)){
+                        iyem=list.path("KodeKec").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select kecamatan.kd_kec from kecamatan where kecamatan.nm_kec=?",nama);
+        }
+        return iyem;
+    }
+    
+    public String CariKodeKelurahan(String nama) {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root;
+        JsonNode response;
+        FileReader myObj=null;
+        String iyem="";
+        try {
+            myObj = new FileReader("./cache/masterkelurahan.iyem");
+            root = mapper.readTree(myObj);
+            response = root.path("masterkelurahan");
+            if(response.isArray()){
+                for(JsonNode list:response){
+                    if(list.path("NamaKel").asText().toLowerCase().equals(nama)){
+                        iyem=list.path("KodeKel").asText();
+                        break;
+                    }
+                }
+            }
+            myObj.close();
+        } catch (Exception ex) {
+            System.out.println("Notifikasi : "+ex);
+        }finally {
+            if (myObj != null) try { myObj.close(); } catch (Exception e) {}
+            response = null;
+            root = null;
+        }
+        if(iyem.equals("")){
+            iyem=cariIsi("select kelurahan.kd_kel from kelurahan where kelurahan.nm_kel=?",nama);
+        }
+        return iyem;
+    }
+    
     private String gambar(String id) {
         return folder + File.separator + id.trim() + ".jpg";
     }

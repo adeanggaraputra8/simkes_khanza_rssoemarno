@@ -285,6 +285,20 @@ public final class validasi {
         }
     }
     
+        public void autoNomer7(String nomorterakhir,String strAwal,Integer pnj,javax.swing.JTextField teks){
+        try {
+            s=Integer.toString(Integer.parseInt(nomorterakhir)+1);
+            j=s.length();
+            s1="";
+            for(i = 1;i<=pnj-j;i++){
+                s1=s1+"0";
+            }
+            teks.setText(strAwal+s1+s);
+        } catch (Exception e) {
+            System.out.println("Notifikasi : "+e);
+        }
+    }
+    
     public String autoNomer(String tabel,String strAwal,Integer pnj){
         try {
             auto="";
@@ -679,6 +693,45 @@ public final class validasi {
         }
     }
     
+     @SuppressWarnings("empty-statement")
+    public void MyReportPDF2(String reportName,String reportDirName,String judul,Map parameters){
+        Properties systemProp = System.getProperties();
+
+        // Ambil current dir
+        String currentDir = systemProp.getProperty("user.dir");
+
+        File dir = new File(currentDir);
+
+        File fileRpt;
+        String fullPath = "";
+        if (dir.isDirectory()) {
+            String[] isiDir = dir.list();
+            for (String iDir : isiDir) {
+                fileRpt = new File(currentDir + File.separatorChar + iDir + File.separatorChar + reportDirName + File.separatorChar + reportName);
+                if (fileRpt.isFile()) { // Cek apakah file RptMaster.jasper ada
+                    fullPath = fileRpt.toString();
+                    System.out.println("Found Report File at : " + fullPath);
+                } // end if
+            } // end for i
+        } // end if
+
+        try {
+            try (Statement stm = connect.createStatement()) {
+                try {
+                    File f = new File("./"+reportDirName+"/"+reportName.replaceAll("jasper","pdf")); 
+                    String namafile="./"+reportDirName+"/"+reportName;
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(namafile, parameters, connect);
+                    JasperExportManager.exportReportToPdfFile(jasperPrint,"./"+reportDirName+"/"+reportName.replaceAll("jasper","pdf"));
+                } catch (Exception rptexcpt) {
+                    System.out.println("Report Can't view because : " + rptexcpt);
+                    JOptionPane.showMessageDialog(null,"Report Can't view because : "+ rptexcpt);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
     @SuppressWarnings("empty-statement")
     public void MyReport2(String reportName,String reportDirName,String judul,Map parameters){
         Properties systemProp = System.getProperties();
@@ -865,7 +918,15 @@ public final class validasi {
         }
     }
     
-    public void pindah2(java.awt.event.KeyEvent evt,JTextField kiri,JTextField kanan){
+     public void pindah2(java.awt.event.KeyEvent evt,JTextField kiri,JTextField kanan){
+        if(evt.getKeyCode()==KeyEvent.VK_TAB){
+            kanan.requestFocus();
+        }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
+            kiri.requestFocus();
+        }
+    }
+    
+    public void pindah2(KeyEvent evt, Button kiri, Button kanan) {
         if(evt.getKeyCode()==KeyEvent.VK_TAB){
             kanan.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
@@ -1000,6 +1061,7 @@ public final class validasi {
             kiri.requestFocus();
         }
     }
+    
     
     public void pindah(java.awt.event.KeyEvent evt,JTextField kiri,JTextArea kanan) {
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
@@ -1238,6 +1300,16 @@ public final class validasi {
         s = "";
         try {
             s=original.substring(8,10)+"-"+original.substring(5,7)+"-"+original.substring(0,4);
+        }catch (Exception e) {
+        }   
+        return s;
+    }
+    
+    public String SetTgl5(String original){
+        original=original.replaceAll("'","");
+        s = "";
+        try {
+            s=original.substring(8,10)+"-"+original.substring(5,7)+"-"+original.substring(0,4)+" "+original.substring(11,19);
         }catch (Exception e) {
         }   
         return s;
@@ -1574,4 +1646,88 @@ public final class validasi {
         }
         return a;
     }
+      
+      public String saveToPDFWA(String reportName, String reportDirName, String judul, Map parameters) {
+        String a = "";
+        try {
+            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+            String saveDir = prop.getProperty("FOLDERPDF");
+
+            File d = new File(saveDir);
+            boolean cek = d.isDirectory();
+
+            if (cek == false) {
+                Files.createDirectories(Paths.get(saveDir));
+            }
+
+            try (Statement stm = connect.createStatement()) {
+                try {
+                    File f = new File("./" + reportDirName + "/" + reportName.replaceAll("jasper", "pdf"));
+                    String namafile = "./" + reportDirName + "/" + reportName;
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(namafile, parameters, connect);
+//                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + reportName.replaceAll("jasper", "pdf"));
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + judul.replaceAll("/", "") + ".pdf");
+                    
+                    a = saveDir + "/" + judul.replaceAll("/", "") + ".pdf";
+//                    Desktop.getDesktop().open(f);
+                    JOptionPane.showMessageDialog(null, "Berhasil Menyiapkan File PDF. Klik Ok untuk melanjutkan,..!!");
+                } catch (Exception rptexcpt) {
+
+                    System.out.println("Report Can't view because : " + rptexcpt);
+                    JOptionPane.showMessageDialog(null, "Report Can't view because : " + rptexcpt);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return a;
+    }
+      
+     public String saveToPDFWAqry(String reportName, String reportDirName, String judul, String qry, Map parameters) {
+            String a = "";
+            try {
+                prop.loadFromXML(new FileInputStream("setting/database.xml"));
+                String saveDir = prop.getProperty("FOLDERPDF");
+
+                File d = new File(saveDir);
+                if (!d.isDirectory()) {
+                    Files.createDirectories(Paths.get(saveDir));
+                }
+
+                // 🔹 Tambahan: gunakan query SQL seperti MyReportqrypdf()
+                ps = connect.prepareStatement(qry);
+                rs = ps.executeQuery();
+                JRResultSetDataSource rsdt = new JRResultSetDataSource(rs);
+
+                try {
+                    // lokasi file jasper
+                    String namafile = "./" + reportDirName + "/" + reportName;
+
+                    // nama file PDF hasil
+                    String outputFile = saveDir + "/" + judul.replaceAll("/", "") + ".pdf";
+
+                    // isi report dengan data dari query (rsdt)
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(namafile, parameters, rsdt);
+
+                    // ekspor ke PDF
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
+
+                    a = outputFile;
+
+                    JOptionPane.showMessageDialog(null, 
+                        "Berhasil Menyiapkan File PDF. Klik Ok untuk menlanjutkan,..!!");
+
+                } catch (Exception rptexcpt) {
+                    System.out.println("Report Can't view because : " + rptexcpt);
+                    JOptionPane.showMessageDialog(null, "Report Can't view because : " + rptexcpt);
+                } finally {
+                    if (rs != null) rs.close();
+                    if (ps != null) ps.close();
+                }
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return a;
+        }
 }

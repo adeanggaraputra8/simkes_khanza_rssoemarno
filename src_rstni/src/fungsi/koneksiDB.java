@@ -971,6 +971,16 @@ public class koneksiDB {
         return var;
     }
     
+    public static String TAMPILKANCOPYRESEPDOKTERLAIN(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("TAMPILKANCOPYRESEPDOKTERLAIN");
+        }catch(Exception e){
+            var="no"; 
+        }
+        return var;
+    }
+    
     public static String HPPTOKO(){
         try{
             prop.loadFromXML(new FileInputStream("setting/database.xml"));
@@ -1255,12 +1265,32 @@ public class koneksiDB {
         return var;
     }
     
+       public static String JADIKANBOOKINGSURATKONTROL(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("JADIKANBOOKINGSURATKONTROL");
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
     public static String JADIKANBOOKINGSURATKONTROLAPIBPJS(){
         try{
             prop.loadFromXML(new FileInputStream("setting/database.xml"));
             var=prop.getProperty("JADIKANBOOKINGSURATKONTROLAPIBPJS");
         }catch(Exception e){
             var=""; 
+        }
+        return var;
+    }
+    
+     public static String AKTIFKANRESEPITERDOKTER(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("AKTIFKANRESEPITERDOKTER");
+        }catch(Exception e){
+            var="no"; 
         }
         return var;
     }
@@ -1362,6 +1392,326 @@ public class koneksiDB {
             var = prop.getProperty("KODEPPKAPOTEKBPJS");
         } catch (Exception e) {
             var = "";
+        }
+        return var;
+    }
+    
+     public static String TANGGALMUNDUR(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("TANGGALMUNDUR");
+        }catch(Exception e){
+            var="yes"; 
+        }
+        return var;
+    }
+    
+    public static String URLMOBILEJKNFKTP(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("URLMOBILEJKNFKTP");
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SECRETKEYMOBILEJKNFKTP(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SECRETKEYMOBILEJKNFKTP"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String CONSIDMOBILEJKNFKTP(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("CONSIDMOBILEJKNFKTP"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String USERKEYMOBILEJKNFKTP(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("USERKEYMOBILEJKNFKTP"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String PASSMOBILEJKNFKTP(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("PASSMOBILEJKNFKTP"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String USERMOBILEJKNFKTP(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("USERMOBILEJKNFKTP"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPMANDIRIPATHPEMBAYARANPIHAKKETIGA(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPMANDIRIPATHPEMBAYARANPIHAKKETIGA"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPMANDIRIPATHPEMBAYARANPAJAK(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPMANDIRIPATHPEMBAYARANPAJAK"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPMANDIRIPATHPEMBAYARANVIRTUALACCOUNT(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPMANDIRIPATHPEMBAYARANVIRTUALACCOUNT"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPMANDIRIPATHACK(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPMANDIRIPATHACK"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPMANDIRIPATHMT940(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPMANDIRIPATHMT940"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPMANDIRIHOST(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPMANDIRIHOST"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPMANDIRIPORT(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPMANDIRIPORT"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPMANDIRIUSER(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPMANDIRIUSER"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPMANDIRIPAS(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPMANDIRIPAS"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String KUNCIDOKTERRANAP(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("KUNCIDOKTERRANAP"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String ADDANTRIANAPIMOBILEJKNFKTP(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("ADDANTRIANAPIMOBILEJKNFKTP");
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String URLAPIESIGN(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("URLAPIESIGN");
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String USERNAMEAPIESIGN(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("USERNAMEAPIESIGN"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String PASSAPIESIGN(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("PASSAPIESIGN"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPFILEESIGNHOST(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPFILEESIGNHOST"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPFILEESIGNPORT(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPFILEESIGNPORT"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPFILEESIGNUSER(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPFILEESIGNUSER"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPFILEESIGNPAS(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPFILEESIGNPAS"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String SFTPFILEESIGNFOLDER(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("SFTPFILEESIGNFOLDER"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String URLAKSESFILEESIGN(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("URLAKSESFILEESIGN");
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String URLAPISERTISIGN(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("URLAPISERTISIGN");
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String APIKEYSERTISIGN(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=EnkripsiAES.decrypt(prop.getProperty("APIKEYSERTISIGN"));
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String URLDOKUMENSERTISIGN(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("URLDOKUMENSERTISIGN");
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String URLAPIWAAPI(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("URLAPIWAAPI");
+        }catch(Exception e){
+            var=""; 
+        }
+        return var;
+    }
+    
+    public static String TOKENWA(){
+        try (FileInputStream fis = new FileInputStream("setting/database.xml")) {
+            prop.loadFromXML(fis);
+            var=prop.getProperty("TOKENWA");
+        }catch(Exception e){
+            var=""; 
         }
         return var;
     }

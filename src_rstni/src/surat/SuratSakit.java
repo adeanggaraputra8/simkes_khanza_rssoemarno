@@ -9,7 +9,6 @@
 
 package surat;
 
-import digitalsignature.DlgTTEFile;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
@@ -25,8 +24,12 @@ import java.sql.ResultSet;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -45,7 +48,8 @@ public final class SuratSakit extends javax.swing.JDialog {
     private ResultSet rs;
     private int i=0;
     private String tgl,finger="",kodedokter="",namadokter="";
-    private  DlgTTEFile ttefile=new DlgTTEFile (null,false);
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private volatile boolean ceksukses = false;
     /** Creates new form DlgRujuk
      * @param parent
      * @param modal */
@@ -90,28 +94,6 @@ public final class SuratSakit extends javax.swing.JDialog {
         TNoRw.setDocument(new batasInput((byte)17).getKata(TNoRw));  
         LamaSakit.setDocument(new batasInput((byte)20).getKata(LamaSakit));         
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));           
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-            });
-        }
         ChkInput.setSelected(false);
         isForm();
     }
@@ -248,6 +230,11 @@ public final class SuratSakit extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Data Surat Keterangan Sakit ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
@@ -422,7 +409,7 @@ public final class SuratSakit extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-01-2022" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-02-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -436,7 +423,7 @@ public final class SuratSakit extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-01-2022" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-02-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -540,7 +527,7 @@ public final class SuratSakit extends javax.swing.JDialog {
         TPasien.setBounds(355, 10, 365, 23);
 
         TanggalAkhir.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalAkhir.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-01-2022" }));
+        TanggalAkhir.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-02-2026" }));
         TanggalAkhir.setDisplayFormat("dd-MM-yyyy");
         TanggalAkhir.setName("TanggalAkhir"); // NOI18N
         TanggalAkhir.setOpaque(false);
@@ -595,7 +582,7 @@ public final class SuratSakit extends javax.swing.JDialog {
         jLabel18.setBounds(540, 40, 70, 23);
 
         TanggalAwal.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalAwal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-01-2022" }));
+        TanggalAwal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-02-2026" }));
         TanggalAwal.setDisplayFormat("dd-MM-yyyy");
         TanggalAwal.setName("TanggalAwal"); // NOI18N
         TanggalAwal.setOpaque(false);
@@ -676,7 +663,7 @@ public final class SuratSakit extends javax.swing.JDialog {
             if(Sequel.menyimpantf("suratsakit","?,?,?,?,?","No.Surat Sakit",5,new String[]{
                     NoSurat.getText(),TNoRw.getText(),Valid.SetTgl(TanggalAwal.getSelectedItem()+""),Valid.SetTgl(TanggalAkhir.getSelectedItem()+""),LamaSakit.getText()
                 })==true){
-                tabMode.addRow(new String[]{
+                tabMode.addRow(new Object[]{
                     NoSurat.getText(),TNoRw.getText(),TNoRM.getText(),TPasien.getText(),Valid.SetTgl(TanggalAwal.getSelectedItem()+""),Valid.SetTgl(TanggalAkhir.getSelectedItem()+""),LamaSakit.getText()
                 });
                 LCount.setText(""+tabMode.getRowCount());
@@ -825,7 +812,7 @@ public final class SuratSakit extends javax.swing.JDialog {
 }//GEN-LAST:event_TCariKeyPressed
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
-        tampil();
+        runBackground(() ->tampil());
 }//GEN-LAST:event_BtnCariActionPerformed
 
     private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCariKeyPressed
@@ -838,12 +825,12 @@ public final class SuratSakit extends javax.swing.JDialog {
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
         TCari.setText("");
-        tampil();
+        runBackground(() ->tampil());
 }//GEN-LAST:event_BtnAllActionPerformed
 
     private void BtnAllKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnAllKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
-            tampil();
+            runBackground(() ->tampil());
             TCari.setText("");
         }else{
             Valid.pindah(evt, BtnCari, TPasien);
@@ -904,8 +891,7 @@ public final class SuratSakit extends javax.swing.JDialog {
     }//GEN-LAST:event_TanggalAwalKeyPressed
 
     private void MnCetakSuratSakitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCetakSuratSakitActionPerformed
-      String data="";
-        if(TPasien.getText().trim().equals("")){
+       if(TPasien.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
         }else{
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -936,7 +922,6 @@ public final class SuratSakit extends javax.swing.JDialog {
                               "and pasien.perusahaan_pasien=perusahaan_pasien.kode_perusahaan and pasien.kd_kec=kecamatan.kd_kec and pasien.kd_kab=kabupaten.kd_kab "+
                               "where reg_periksa.no_rawat='"+TNoRw.getText()+"' ",param);
                 this.setCursor(Cursor.getDefaultCursor());  
-                 
        }
     }//GEN-LAST:event_MnCetakSuratSakitActionPerformed
 
@@ -1041,7 +1026,6 @@ public final class SuratSakit extends javax.swing.JDialog {
     }//GEN-LAST:event_MnCetakSuratSakit4ActionPerformed
 
     private void MnCetakSuratSakit5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnCetakSuratSakit5ActionPerformed
-        String data ="";
         if(TPasien.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
         }else{
@@ -1056,8 +1040,7 @@ public final class SuratSakit extends javax.swing.JDialog {
             param.put("kotars",akses.getkabupatenrs());
             param.put("propinsirs",akses.getpropinsirs());
             param.put("kontakrs",akses.getkontakrs());
-            param.put("emailrs",akses.getemailrs());
-            param.put("bsre",Sequel.cariGambar("select bsre from gambar"));
+            param.put("emailrs",akses.getemailrs());  
             param.put("penyakit",Sequel.cariIsi("select concat(diagnosa_pasien.kd_penyakit,' ',penyakit.nm_penyakit) from diagnosa_pasien inner join reg_periksa inner join penyakit "+
                 "on diagnosa_pasien.no_rawat=reg_periksa.no_rawat and diagnosa_pasien.kd_penyakit=penyakit.kd_penyakit "+
                 "where diagnosa_pasien.no_rawat=? and diagnosa_pasien.prioritas='1'",TNoRw.getText()));
@@ -1066,20 +1049,41 @@ public final class SuratSakit extends javax.swing.JDialog {
             namadokter=Sequel.cariIsi("select dokter.nm_dokter from dokter where dokter.kd_dokter=?",kodedokter);
             finger=Sequel.cariIsi("select sha1(sidikjari.sidikjari) from sidikjari inner join pegawai on pegawai.id=sidikjari.id where pegawai.nik=?",kodedokter);
             param.put("finger","Dikeluarkan di "+akses.getnamars()+", Kabupaten/Kota "+akses.getkabupatenrs()+"\nDitandatangani secara elektronik oleh "+namadokter+"\nID "+(finger.equals("")?kodedokter:finger)+"\n"+Sequel.cariIsi("select DATE_FORMAT(reg_periksa.tgl_registrasi,'%d-%m-%Y') from reg_periksa where reg_periksa.no_rawat=?",TNoRw.getText()));  
-            data = Valid.saveToPDFTteQry("rptSuratSakit4.jasper","report",TNoRw.getText(),
+            Valid.MyReportqry("rptSuratSakit4.jasper","report","::[ Surat Sakit ]::",
                       "select reg_periksa.no_rawat,dokter.nm_dokter,pasien.keluarga,pasien.namakeluarga,pasien.tgl_lahir,pasien.jk,DATE_FORMAT(reg_periksa.tgl_registrasi,'%d-%m-%Y')as tgl_registrasi," +
                       " pasien.nm_pasien,concat(reg_periksa.umurdaftar,' ',reg_periksa.sttsumur)as umur,pasien.pekerjaan,concat(pasien.alamat,', ',kelurahan.nm_kel,', ',kecamatan.nm_kec,', ',kabupaten.nm_kab) as alamat" +
                       " from reg_periksa inner join pasien inner join dokter inner join kelurahan inner join kecamatan inner join kabupaten" +
                       " on reg_periksa.no_rkm_medis=pasien.no_rkm_medis and reg_periksa.kd_dokter=dokter.kd_dokter and pasien.kd_kel=kelurahan.kd_kel "+
                       " and pasien.kd_kec=kecamatan.kd_kec and pasien.kd_kab=kabupaten.kd_kab "+
                       "where reg_periksa.no_rawat='"+TNoRw.getText()+"' ",param);
-            this.setCursor(Cursor.getDefaultCursor()); 
-                 ttefile.isCek(data, TNoRM.getText(), TNoRw.getText(), kodedokter);
-                 ttefile.setSize(540, 185);
-                 ttefile.setLocationRelativeTo(internalFrame1);
-                 ttefile.setVisible(true);
+            this.setCursor(Cursor.getDefaultCursor());  
         }
     }//GEN-LAST:event_MnCetakSuratSakit5ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+            });
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
     * @param args the command line arguments
@@ -1172,7 +1176,7 @@ public final class SuratSakit extends javax.swing.JDialog {
             try {
                 rs=ps.executeQuery();
                 while(rs.next()){
-                    tabMode.addRow(new String[]{
+                    tabMode.addRow(new Object[]{
                         rs.getString(1),rs.getString(2),rs.getString(3),
                         rs.getString(4),rs.getString(5),rs.getString(6),
                         rs.getString(7)
@@ -1238,6 +1242,7 @@ public final class SuratSakit extends javax.swing.JDialog {
         isPsien(); 
         ChkInput.setSelected(true);
         isForm();
+        runBackground(() ->tampil());
     }
     private void isForm(){
         if(ChkInput.isSelected()==true){
@@ -1258,6 +1263,38 @@ public final class SuratSakit extends javax.swing.JDialog {
         BtnSimpan.setEnabled(akses.getsurat_sakit());
         BtnHapus.setEnabled(akses.getsurat_sakit());
         BtnEdit.setEnabled(akses.getsurat_sakit());
+    }
+    
+    private void runBackground(Runnable task) {
+        if (ceksukses) return;
+        if (executor.isShutdown() || executor.isTerminated()) return;
+        if (!isDisplayable()) return;
+
+        ceksukses = true;
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        try {
+            executor.submit(() -> {
+                try {
+                    task.run();
+                } finally {
+                    ceksukses = false;
+                    SwingUtilities.invokeLater(() -> {
+                        if (isDisplayable()) {
+                            setCursor(Cursor.getDefaultCursor());
+                        }
+                    });
+                }
+            });
+        } catch (RejectedExecutionException ex) {
+            ceksukses = false;
+        }
+    }
+    
+    @Override
+    public void dispose() {
+        executor.shutdownNow();
+        super.dispose();
     }
 }
 

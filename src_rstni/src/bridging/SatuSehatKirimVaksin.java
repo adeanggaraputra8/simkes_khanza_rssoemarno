@@ -25,7 +25,11 @@ import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
@@ -55,7 +59,9 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
     private JsonNode root;
     private JsonNode response;
     private SatuSehatCekNIK cekViaSatuSehat=new SatuSehatCekNIK();   
-    private StringBuilder htmlContent;   
+    private StringBuilder htmlContent; 
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private volatile boolean ceksukses = false;  
     
     /** Creates new form DlgKamar
      * @param parent
@@ -167,29 +173,6 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
         
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
         
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-            });
-        } 
-        
         try {
             link=koneksiDB.URLFHIRSATUSEHAT();
         } catch (Exception e) {
@@ -250,6 +233,7 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
         jLabel16 = new widget.Label();
         TCari = new widget.TextBox();
         BtnCari = new widget.Button();
+        ChkBelumTerkirim = new widget.CekBox();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -293,6 +277,11 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
         setIconImages(null);
         setUndecorated(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Pengiriman Data Imunisasi Satu Sehat ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
@@ -415,7 +404,7 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(85, 23));
         panelGlass9.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-06-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03-04-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -428,7 +417,7 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass9.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-06-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03-04-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -465,6 +454,27 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
             }
         });
         panelGlass9.add(BtnCari);
+
+        ChkBelumTerkirim.setBorder(null);
+        ChkBelumTerkirim.setText("Data belum terkirim");
+        ChkBelumTerkirim.setBorderPainted(true);
+        ChkBelumTerkirim.setBorderPaintedFlat(true);
+        ChkBelumTerkirim.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ChkBelumTerkirim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkBelumTerkirim.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ChkBelumTerkirim.setIconTextGap(2);
+        ChkBelumTerkirim.setName("ChkBelumTerkirim"); // NOI18N
+        ChkBelumTerkirim.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ChkBelumTerkirimItemStateChanged(evt);
+            }
+        });
+        ChkBelumTerkirim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkBelumTerkirimActionPerformed(evt);
+            }
+        });
+        panelGlass9.add(ChkBelumTerkirim);
 
         jPanel3.add(panelGlass9, java.awt.BorderLayout.PAGE_START);
 
@@ -564,6 +574,7 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                       "</table>"+
                     "</html>"
                 );
+                htmlContent=null;
 
                 File g = new File("file2.css");            
                 BufferedWriter bg = new BufferedWriter(new FileWriter(g));
@@ -590,7 +601,7 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                                         "<font size='4' face='Tahoma'>"+akses.getnamars()+"</font><br>"+
                                         akses.getalamatrs()+", "+akses.getkabupatenrs()+", "+akses.getpropinsirs()+"<br>"+
                                         akses.getkontakrs()+", E-mail : "+akses.getemailrs()+"<br><br>"+
-                                        "<font size='2' face='Tahoma'>DATA PENGIRIMAN SATU SEHAT IMUNISASIbr><br></font>"+        
+                                        "<font size='2' face='Tahoma'>DATA PENGIRIMAN SATU SEHAT IMUNISAS<br><br></font>"+        
                                     "</td>"+
                                "</tr>"+
                             "</table>")
@@ -618,7 +629,7 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        tampil();
+        runBackground(() ->tampil());
         this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_BtnCariActionPerformed
 
@@ -659,10 +670,12 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                                         "\"reference\": \"Encounter/"+tbObat.getValueAt(i,8).toString()+"\"" +
                                     "}," +
                                     "\"occurrenceDateTime\": \""+tbObat.getValueAt(i,20).toString()+"\"," +
+                                    "\"expirationDate\": \""+Sequel.cariIsi("SELECT data_batch.tgl_kadaluarsa FROM data_batch WHERE data_batch.no_batch='"+tbObat.getValueAt(i,19).toString()+"' and data_batch.kode_brng='"+tbObat.getValueAt(i,11).toString()+"' and data_batch.no_faktur='"+tbObat.getValueAt(i,28).toString()+"'")+"\"," +
                                     "\"recorded\": \""+tbObat.getValueAt(i,20).toString()+"\"," +
                                     "\"primarySource\": true," +
                                     "\"location\": {" +
-                                        "\"reference\": \"Location/"+tbObat.getValueAt(i,23).toString()+"\"" +
+                                        "\"reference\": \"Location/"+tbObat.getValueAt(i,23).toString()+"\"," +
+                                        "\"display\": \""+tbObat.getValueAt(i,24).toString()+"\"" +
                                     "}," +
                                     "\"lotNumber\": \""+tbObat.getValueAt(i,19).toString()+"\"," +
                                     "\"route\": {" +
@@ -682,12 +695,36 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                                     "}," +
                                     "\"performer\": [" +
                                         "{" +
+                                            "\"function\": {" +
+                                                "\"coding\": [" +
+                                                    "{" +
+                                                        "\"system\": \"http://terminology.hl7.org/CodeSystem/v2-0443\"," +
+                                                        "\"code\": \"AP\"," +
+                                                        "\"display\": \"Administering Provider\"" +
+                                                    "}" +
+                                                "]" +
+                                            "},"+
                                             "\"actor\": {" +
                                                 "\"reference\": \"Practitioner/"+iddokter+"\"" +
                                             "}" +
                                         "}" +
-                                    "]" +
-                                    (tbObat.getValueAt(i,22).toString().equals("")?"":",\"protocolApplied\" : [{\"doseNumberPositiveInt\" : "+tbObat.getValueAt(i,22).toString().toLowerCase().replaceAll("dosis","").replaceAll(" ","")+"}]")+
+                                    "],"+
+                                    "\"reasonCode\": [" +
+                                        "{" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://terminology.kemkes.go.id/CodeSystem/immunization-reason\"," +
+                                                    "\"code\": \"IM-Program\"," +
+                                                    "\"display\" : \"Imunisasi Program\"" +
+                                                "}" +
+                                            "]" +
+                                        "}" +
+                                    "]," +
+                                    "\"protocolApplied\" : ["+
+                                        "{"+
+                                            "\"doseNumberPositiveInt\" : "+tbObat.getValueAt(i,22).toString().replaceAll("[^0-9.]", "")+
+                                        "}"+
+                                    "]"+
                                 "}";
                         System.out.println("URL : "+link+"/Immunization");
                         System.out.println("Request JSON : "+json);
@@ -697,10 +734,13 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                         root = mapper.readTree(json);
                         response = root.path("id");
                         if(!response.asText().equals("")){
-                            Sequel.menyimpan("satu_sehat_immunization","?,?,?,?,?,?,?","Imunisasi/Vaksin",7,new String[]{
+                            if(Sequel.menyimpantf2("satu_sehat_immunization","?,?,?,?,?,?,?","Imunisasi/Vaksin",7,new String[]{
                                 tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,20).toString().substring(0,10),tbObat.getValueAt(i,20).toString().substring(11,19), 
                                 tbObat.getValueAt(i,11).toString(),tbObat.getValueAt(i,19).toString(),tbObat.getValueAt(i,28).toString(),response.asText()
-                            });
+                            })==true){
+                                tbObat.setValueAt(response.asText(),i,27);
+                                tbObat.setValueAt(false,i,0);
+                            }
                         }
                     }catch(Exception e){
                         System.out.println("Notifikasi Bridging : "+e);
@@ -710,7 +750,6 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                 }
             }
         }
-        tampil();
     }//GEN-LAST:event_BtnKirimActionPerformed
 
     private void ppPilihSemuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppPilihSemuaActionPerformed
@@ -730,6 +769,7 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
             if(tbObat.getValueAt(i,0).toString().equals("true")&&(!tbObat.getValueAt(i,5).toString().equals(""))&&(!tbObat.getValueAt(i,8).toString().equals(""))&&(!tbObat.getValueAt(i,27).toString().equals(""))){
                 try {
                     idpasien=cekViaSatuSehat.tampilIDPasien(tbObat.getValueAt(i,5).toString());
+                    iddokter=cekViaSatuSehat.tampilIDParktisi(tbObat.getValueAt(i,26).toString());
                     try{
                         headers = new HttpHeaders();
                         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -754,10 +794,12 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                                         "\"reference\": \"Encounter/"+tbObat.getValueAt(i,8).toString()+"\"" +
                                     "}," +
                                     "\"occurrenceDateTime\": \""+tbObat.getValueAt(i,20).toString()+"\"," +
+                                    "\"expirationDate\": \""+Sequel.cariIsi("SELECT data_batch.tgl_kadaluarsa FROM data_batch WHERE data_batch.no_batch='"+tbObat.getValueAt(i,19).toString()+"' and data_batch.kode_brng='"+tbObat.getValueAt(i,11).toString()+"' and data_batch.no_faktur='"+tbObat.getValueAt(i,28).toString()+"'")+"\"," +
                                     "\"recorded\": \""+tbObat.getValueAt(i,20).toString()+"\"," +
                                     "\"primarySource\": true," +
                                     "\"location\": {" +
-                                        "\"reference\": \"Location/"+tbObat.getValueAt(i,23).toString()+"\"" +
+                                        "\"reference\": \"Location/"+tbObat.getValueAt(i,23).toString()+"\"," +
+                                        "\"display\": \""+tbObat.getValueAt(i,24).toString()+"\"" +
                                     "}," +
                                     "\"lotNumber\": \""+tbObat.getValueAt(i,19).toString()+"\"," +
                                     "\"route\": {" +
@@ -777,18 +819,43 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                                     "}," +
                                     "\"performer\": [" +
                                         "{" +
+                                            "\"function\": {" +
+                                                "\"coding\": [" +
+                                                    "{" +
+                                                        "\"system\": \"http://terminology.hl7.org/CodeSystem/v2-0443\"," +
+                                                        "\"code\": \"AP\"," +
+                                                        "\"display\": \"Administering Provider\"" +
+                                                    "}" +
+                                                "]" +
+                                            "},"+
                                             "\"actor\": {" +
                                                 "\"reference\": \"Practitioner/"+iddokter+"\"" +
                                             "}" +
                                         "}" +
-                                    "]" +
-                                    (tbObat.getValueAt(i,22).toString().equals("")?"":",\"protocolApplied\" : [{\"doseNumberPositiveInt\" : "+tbObat.getValueAt(i,22).toString().toLowerCase().replaceAll("dosis","").replaceAll(" ","")+"}]")+
+                                    "],"+
+                                    "\"reasonCode\": [" +
+                                        "{" +
+                                            "\"coding\": [" +
+                                                "{" +
+                                                    "\"system\": \"http://terminology.kemkes.go.id/CodeSystem/immunization-reason\"," +
+                                                    "\"code\": \"IM-Program\"," +
+                                                    "\"display\" : \"Imunisasi Program\"" +
+                                                "}" +
+                                            "]" +
+                                        "}" +
+                                    "]," +
+                                    "\"protocolApplied\" : ["+
+                                        "{"+
+                                            "\"doseNumberPositiveInt\" : "+tbObat.getValueAt(i,22).toString().replaceAll("[^0-9.]", "")+
+                                        "}"+
+                                    "]"+
                                 "}";
                         System.out.println("URL : "+link+"/Immunization/"+tbObat.getValueAt(i,27).toString());
                         System.out.println("Request JSON : "+json);
                         requestEntity = new HttpEntity(json,headers);
                         json=api.getRest().exchange(link+"/Immunization/"+tbObat.getValueAt(i,27).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                         System.out.println("Result JSON : "+json);
+                        tbObat.setValueAt(false,i,0);
                     }catch(Exception e){
                         System.out.println("Notifikasi Bridging : "+e);
                     }
@@ -797,22 +864,56 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                 }
             }
         }
-        tampil();
     }//GEN-LAST:event_BtnUpdateActionPerformed
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
         TCari.setText("");
-        tampil();
+        runBackground(() ->tampil());
     }//GEN-LAST:event_BtnAllActionPerformed
 
     private void BtnAllKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnAllKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             TCari.setText("");
-            tampil();
+            runBackground(() ->tampil());
         }else{
             Valid.pindah(evt, BtnPrint, BtnKeluar);
         }
     }//GEN-LAST:event_BtnAllKeyPressed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+            });
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void ChkBelumTerkirimItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimItemStateChanged
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        tampil();
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_ChkBelumTerkirimItemStateChanged
+
+    private void ChkBelumTerkirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChkBelumTerkirimActionPerformed
 
     /**
     * @param args the command line arguments
@@ -837,6 +938,7 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
     private widget.Button BtnKirim;
     private widget.Button BtnPrint;
     private widget.Button BtnUpdate;
+    private widget.CekBox ChkBelumTerkirim;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
     private widget.Label LCount;
@@ -860,6 +962,13 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
     private void tampil() {
         Valid.tabelKosong(tabMode);
         try{
+            
+              String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_immunization.id_immunization IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
                    "reg_periksa.stts,reg_periksa.status_lanjut,satu_sehat_encounter.id_encounter,satu_sehat_mapping_vaksin.vaksin_code,satu_sehat_mapping_vaksin.vaksin_system,"+
@@ -876,14 +985,13 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                    "inner join satu_sehat_mapping_lokasi_ralan on satu_sehat_mapping_lokasi_ralan.kd_poli=reg_periksa.kd_poli "+
                    "inner join poliklinik on poliklinik.kd_poli=satu_sehat_mapping_lokasi_ralan.kd_poli "+
                    "inner join pegawai on reg_periksa.kd_dokter=pegawai.nik "+
-                   "inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
                    "left join satu_sehat_immunization on satu_sehat_immunization.no_rawat=detail_pemberian_obat.no_rawat and satu_sehat_immunization.tgl_perawatan=detail_pemberian_obat.tgl_perawatan and "+
                    "satu_sehat_immunization.jam=detail_pemberian_obat.jam and satu_sehat_immunization.kode_brng=detail_pemberian_obat.kode_brng and "+
                    "satu_sehat_immunization.no_batch=detail_pemberian_obat.no_batch and satu_sehat_immunization.no_faktur=detail_pemberian_obat.no_faktur "+
-                   "where detail_pemberian_obat.no_batch<>'' and nota_jalan.tanggal between ? and ? "+
+                   "where "+belumterkirim+" detail_pemberian_obat.no_batch<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or satu_sehat_mapping_vaksin.kode_brng like ? or satu_sehat_mapping_vaksin.vaksin_display like ? or "+
-                   "reg_periksa.stts like ? or reg_periksa.status_lanjut like ?)")+" order by detail_pemberian_obat.tgl_perawatan,detail_pemberian_obat.jam");
+                   "reg_periksa.stts like ? or reg_periksa.status_lanjut like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -935,14 +1043,13 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
                    "inner join satu_sehat_mapping_lokasi_ralan on satu_sehat_mapping_lokasi_ralan.kd_poli=reg_periksa.kd_poli "+
                    "inner join poliklinik on poliklinik.kd_poli=satu_sehat_mapping_lokasi_ralan.kd_poli "+
                    "inner join pegawai on reg_periksa.kd_dokter=pegawai.nik "+
-                   "inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
                    "left join satu_sehat_immunization on satu_sehat_immunization.no_rawat=detail_pemberian_obat.no_rawat and satu_sehat_immunization.tgl_perawatan=detail_pemberian_obat.tgl_perawatan and "+
                    "satu_sehat_immunization.jam=detail_pemberian_obat.jam and satu_sehat_immunization.kode_brng=detail_pemberian_obat.kode_brng and "+
                    "satu_sehat_immunization.no_batch=detail_pemberian_obat.no_batch and satu_sehat_immunization.no_faktur=detail_pemberian_obat.no_faktur "+
-                   "where detail_pemberian_obat.no_batch<>'' and nota_inap.tanggal between ? and ? "+
+                   "where "+belumterkirim+" detail_pemberian_obat.no_batch<>'' and reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or satu_sehat_mapping_vaksin.kode_brng like ? or satu_sehat_mapping_vaksin.vaksin_display like ? or "+
-                   "reg_periksa.stts like ? or reg_periksa.status_lanjut like ?)")+" order by detail_pemberian_obat.tgl_perawatan,detail_pemberian_obat.jam");
+                   "reg_periksa.stts like ? or reg_periksa.status_lanjut like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -985,10 +1092,43 @@ public final class SatuSehatKirimVaksin extends javax.swing.JDialog {
 
     public void isCek(){
         BtnKirim.setEnabled(akses.getsatu_sehat_kirim_Immunization());
+        BtnUpdate.setEnabled(akses.getsatu_sehat_kirim_Immunization());
         BtnPrint.setEnabled(akses.getsatu_sehat_kirim_Immunization());
     }
     
     public JTable getTable(){
         return tbObat;
+    }
+    
+    private void runBackground(Runnable task) {
+        if (ceksukses) return;
+        if (executor.isShutdown() || executor.isTerminated()) return;
+        if (!isDisplayable()) return;
+
+        ceksukses = true;
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        try {
+            executor.submit(() -> {
+                try {
+                    task.run();
+                } finally {
+                    ceksukses = false;
+                    SwingUtilities.invokeLater(() -> {
+                        if (isDisplayable()) {
+                            setCursor(Cursor.getDefaultCursor());
+                        }
+                    });
+                }
+            });
+        } catch (RejectedExecutionException ex) {
+            ceksukses = false;
+        }
+    }
+    
+    @Override
+    public void dispose() {
+        executor.shutdownNow();
+        super.dispose();
     }
 }

@@ -17,6 +17,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedWriter;
@@ -29,9 +30,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -53,8 +59,11 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
     private PreparedStatement ps;
     private ResultSet rs;
     private int i=0;    
-    private DlgCariPetugas petugas=new DlgCariPetugas(null,false);
+    private DlgCariPetugas petugas;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private volatile boolean ceksukses = false;
     private StringBuilder htmlContent;
+    private String TANGGALMUNDUR="yes";
     /** Creates new form DlgRujuk
      * @param parent
      * @param modal */
@@ -152,55 +161,6 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         KdPetugas.setDocument(new batasInput((byte)20).getKata(KdPetugas));
         TCari.setDocument(new batasInput((int)100).getKata(TCari));
         
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-            });
-        }
-        
-        petugas.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {}
-            @Override
-            public void windowClosed(WindowEvent e) {
-                if(petugas.getTable().getSelectedRow()!= -1){                   
-                    KdPetugas.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
-                    NmPetugas.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
-                }  
-                KdPetugas.requestFocus();
-            }
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-            
-        }); 
-        
-        
-        
         HTMLEditorKit kit = new HTMLEditorKit();
         LoadHTML.setEditable(true);
         LoadHTML.setEditorKit(kit);
@@ -222,6 +182,12 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         ChkInput.setSelected(false);
         isForm();
         jam();
+        
+        try {
+            TANGGALMUNDUR=koneksiDB.TANGGALMUNDUR();
+        } catch (Exception e) {
+            TANGGALMUNDUR="yes";
+        }
     }
 
 
@@ -239,6 +205,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         JK = new widget.TextBox();
         Umur = new widget.TextBox();
         LoadHTML = new widget.editorpane();
+        TanggalRegistrasi = new widget.TextBox();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -276,7 +243,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         jLabel18 = new widget.Label();
         NmPetugas = new widget.TextBox();
         KdPetugas = new widget.TextBox();
-        btnPetugas = new widget.Button();
+        BtnPetugas = new widget.Button();
         jLabel8 = new widget.Label();
         TglLahir = new widget.TextBox();
         jLabel14 = new widget.Label();
@@ -352,9 +319,17 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         LoadHTML.setBorder(null);
         LoadHTML.setName("LoadHTML"); // NOI18N
 
+        TanggalRegistrasi.setHighlighter(null);
+        TanggalRegistrasi.setName("TanggalRegistrasi"); // NOI18N
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         internalFrame1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(240, 245, 235)), "::[ Data Pemantauan MEOWS Obstetri ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(50, 50, 50))); // NOI18N
         internalFrame1.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
@@ -523,7 +498,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-05-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -537,7 +512,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-05-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -633,7 +608,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         TPasien.setBounds(336, 10, 285, 23);
 
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-05-2023" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-02-2026" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -722,22 +697,22 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         FormInput.add(KdPetugas);
         KdPetugas.setBounds(474, 40, 94, 23);
 
-        btnPetugas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnPetugas.setMnemonic('2');
-        btnPetugas.setToolTipText("ALt+2");
-        btnPetugas.setName("btnPetugas"); // NOI18N
-        btnPetugas.addActionListener(new java.awt.event.ActionListener() {
+        BtnPetugas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        BtnPetugas.setMnemonic('2');
+        BtnPetugas.setToolTipText("ALt+2");
+        BtnPetugas.setName("BtnPetugas"); // NOI18N
+        BtnPetugas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPetugasActionPerformed(evt);
+                BtnPetugasActionPerformed(evt);
             }
         });
-        btnPetugas.addKeyListener(new java.awt.event.KeyAdapter() {
+        BtnPetugas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnPetugasKeyPressed(evt);
+                BtnPetugasKeyPressed(evt);
             }
         });
-        FormInput.add(btnPetugas);
-        btnPetugas.setBounds(761, 40, 28, 23);
+        FormInput.add(BtnPetugas);
+        BtnPetugas.setBounds(761, 40, 28, 23);
 
         jLabel8.setText("Tgl.Lahir :");
         jLabel8.setName("jLabel8"); // NOI18N
@@ -1191,37 +1166,16 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         }else if(Skor10.getText().trim().equals("")){
             Valid.textKosong(Skor10,"Skor 10");    
         }else{
-            isCombo1();
-            isCombo2();
-            isCombo3();
-            isCombo4();
-            isCombo5();
-            isCombo6();
-            isCombo7();
-            isCombo8();
-            isCombo9();
-            isCombo10();
-            isjml();
-            isHitung();
-            if(Sequel.menyimpantf("pemantauan_meows_obstetri","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","Data",26,new String[]{
-                TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Jam.getSelectedItem()+":"+Menit.getSelectedItem()+":"+Detik.getSelectedItem(),
-                cmbSkor1.getSelectedItem().toString(),Skor1.getText(),cmbSkor2.getSelectedItem().toString(),Skor2.getText(),
-                cmbSkor3.getSelectedItem().toString(),Skor3.getText(),cmbSkor4.getSelectedItem().toString(),Skor4.getText(),
-                cmbSkor5.getSelectedItem().toString(),Skor5.getText(),cmbSkor6.getSelectedItem().toString(),Skor6.getText(),
-                cmbSkor7.getSelectedItem().toString(),Skor7.getText(),cmbSkor8.getSelectedItem().toString(),Skor8.getText(),
-                cmbSkor9.getSelectedItem().toString(),Skor9.getText(),cmbSkor10.getSelectedItem().toString(),Skor10.getText(),
-                TotalSkor.getText(),ParameterSkor.getText(),cmbCodeBlue.getSelectedItem().toString(),KdPetugas.getText()
-            })==true){
-                tabMode.addRow(new String[]{
-                   TNoRw.getText(),TNoRM.getText(),TPasien.getText(),Umur.getText(),JK.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Jam.getSelectedItem()+":"+Menit.getSelectedItem()+":"+Detik.getSelectedItem(),
-                    cmbSkor1.getSelectedItem().toString(),Skor1.getText(),cmbSkor2.getSelectedItem().toString(),Skor2.getText(),cmbSkor3.getSelectedItem().toString(),Skor3.getText(),cmbSkor4.getSelectedItem().toString(),Skor4.getText(),
-                    cmbSkor5.getSelectedItem().toString(),Skor5.getText(),cmbSkor6.getSelectedItem().toString(),Skor6.getText(),cmbSkor7.getSelectedItem().toString(),Skor7.getText(),cmbSkor8.getSelectedItem().toString(),Skor8.getText(),
-                    cmbSkor9.getSelectedItem().toString(),Skor9.getText(),cmbSkor10.getSelectedItem().toString(),Skor10.getText(),TotalSkor.getText(),ParameterSkor.getText(),cmbCodeBlue.getSelectedItem().toString(),
-                    KdPetugas.getText(),NmPetugas.getText(),TglLahir.getText()
-                });
-                LCount.setText(""+tabMode.getRowCount());
-                emptTeks();
-            }   
+            if(akses.getkode().equals("Admin Utama")){
+                simpan();
+            }else{
+                if(TanggalRegistrasi.getText().equals("")){
+                    TanggalRegistrasi.setText(Sequel.cariIsi("select concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) from reg_periksa where reg_periksa.no_rawat=?",TNoRw.getText()));
+                }
+                if(Sequel.cekTanggalRegistrasi(TanggalRegistrasi.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Jam.getSelectedItem()+":"+Menit.getSelectedItem()+":"+Detik.getSelectedItem())==true){
+                    simpan();
+                }
+            }
         }
 }//GEN-LAST:event_BtnSimpanActionPerformed
 
@@ -1251,7 +1205,9 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
                 hapus();
             }else{
                 if(KdPetugas.getText().equals(tbObat.getValueAt(tbObat.getSelectedRow(),29).toString())){
-                    hapus();
+                    if(Sequel.cekTanggal48jam(tbObat.getValueAt(tbObat.getSelectedRow(),5).toString(),Sequel.ambiltanggalsekarang())==true){
+                        hapus();
+                    }
                 }else{
                     JOptionPane.showMessageDialog(null,"Hanya bisa dihapus oleh petugas yang bersangkutan..!!");
                 }
@@ -1270,7 +1226,6 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
 }//GEN-LAST:event_BtnHapusKeyPressed
 
     private void BtnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluarActionPerformed
-        petugas.dispose();
         dispose();
 }//GEN-LAST:event_BtnKeluarActionPerformed
 
@@ -1392,7 +1347,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
                                         "<font size='4' face='Tahoma'>"+akses.getnamars()+"</font><br>"+
                                         akses.getalamatrs()+", "+akses.getkabupatenrs()+", "+akses.getpropinsirs()+"<br>"+
                                         akses.getkontakrs()+", E-mail : "+akses.getemailrs()+"<br><br>"+
-                                        "<font size='2' face='Tahoma'>DATA PENILAIAN MEOWS<br><br></font>"+        
+                                        "<font size='2' face='Tahoma'>DATA PENGKAJIAN MEOWS<br><br></font>"+        
                                     "</td>"+
                                "</tr>"+
                             "</table>")
@@ -1415,7 +1370,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
 }//GEN-LAST:event_BtnPrintKeyPressed
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
-        tampil();
+        runBackground(() ->tampil());
 }//GEN-LAST:event_BtnCariActionPerformed
 
     private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCariKeyPressed
@@ -1428,13 +1383,13 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
          TCari.setText("");
-        tampil();
+        runBackground(() ->tampil());
 }//GEN-LAST:event_BtnAllActionPerformed
 
     private void BtnAllKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnAllKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
-            tampil();
             TCari.setText("");
+            runBackground(() ->tampil());
         }else{
             Valid.pindah(evt, BtnCari, TPasien);
         }
@@ -1481,30 +1436,54 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
     }//GEN-LAST:event_MenitKeyPressed
 
     private void DetikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DetikKeyPressed
-        Valid.pindah(evt,Menit,btnPetugas);
+        Valid.pindah(evt,Menit,BtnPetugas);
     }//GEN-LAST:event_DetikKeyPressed
 
     private void KdPetugasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KdPetugasKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
-            NmPetugas.setText(petugas.tampil3(KdPetugas.getText()));
+            NmPetugas.setText(Sequel.CariPetugas(KdPetugas.getText()));
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
             Detik.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_UP){
-            btnPetugasActionPerformed(null);
+            BtnPetugasActionPerformed(null);
         }
     }//GEN-LAST:event_KdPetugasKeyPressed
 
-    private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPetugasActionPerformed
-        petugas.emptTeks();
-        petugas.isCek();
-        petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        petugas.setLocationRelativeTo(internalFrame1);
-        petugas.setVisible(true);
-    }//GEN-LAST:event_btnPetugasActionPerformed
+    private void BtnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPetugasActionPerformed
+        if (petugas == null || !petugas.isDisplayable()) {
+            petugas=new DlgCariPetugas(null,false);
+            petugas.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            petugas.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    if(petugas.getTable().getSelectedRow()!= -1){                   
+                        KdPetugas.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),0).toString());
+                        NmPetugas.setText(petugas.getTable().getValueAt(petugas.getTable().getSelectedRow(),1).toString());
+                    }  
+                    BtnPetugas.requestFocus();
+                    petugas=null;
+                }
+            });
 
-    private void btnPetugasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPetugasKeyPressed
+            petugas.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            petugas.setLocationRelativeTo(internalFrame1);
+        }
+        if (petugas == null) return;
+        if (!petugas.isVisible()) {
+            petugas.isCek();    
+            petugas.emptTeks();
+        }
+        
+        if (petugas.isVisible()) {
+            petugas.toFront();
+            return;
+        }
+        petugas.setVisible(true); 
+    }//GEN-LAST:event_BtnPetugasActionPerformed
+
+    private void BtnPetugasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnPetugasKeyPressed
         Valid.pindah(evt,Detik,cmbSkor1);
-    }//GEN-LAST:event_btnPetugasKeyPressed
+    }//GEN-LAST:event_BtnPetugasKeyPressed
 
     private void MnPemantauanMEOWSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnPemantauanMEOWSActionPerformed
         if(tbObat.getSelectedRow()>-1){
@@ -1535,7 +1514,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
     }//GEN-LAST:event_MnPemantauanMEOWSActionPerformed
 
     private void cmbSkor1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbSkor1KeyPressed
-        Valid.pindah(evt,btnPetugas,cmbSkor2);
+        Valid.pindah(evt,BtnPetugas,cmbSkor2);
     }//GEN-LAST:event_cmbSkor1KeyPressed
 
     private void cmbSkor2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbSkor2KeyPressed
@@ -1603,7 +1582,14 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
                     ganti();
                 }else{
                     if(KdPetugas.getText().equals(tbObat.getValueAt(tbObat.getSelectedRow(),29).toString())){
-                        ganti();
+                        if(Sequel.cekTanggal48jam(tbObat.getValueAt(tbObat.getSelectedRow(),5).toString(),Sequel.ambiltanggalsekarang())==true){
+                            if(TanggalRegistrasi.getText().equals("")){
+                                TanggalRegistrasi.setText(Sequel.cariIsi("select concat(reg_periksa.tgl_registrasi,' ',reg_periksa.jam_reg) from reg_periksa where reg_periksa.no_rawat=?",TNoRw.getText()));
+                            }
+                            if(Sequel.cekTanggalRegistrasi(TanggalRegistrasi.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Jam.getSelectedItem()+":"+Menit.getSelectedItem()+":"+Detik.getSelectedItem())==true){
+                                ganti();
+                            }
+                        }
                     }else{
                         JOptionPane.showMessageDialog(null,"Hanya bisa diganti oleh petugas yang bersangkutan..!!");
                     }
@@ -1696,6 +1682,31 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         Valid.pindah(evt, cmbSkor9,BtnSimpan);
     }//GEN-LAST:event_cmbSkor10KeyPressed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+            });
+        }
+    }//GEN-LAST:event_formWindowOpened
+
     /**
     * @param args the command line arguments
     */
@@ -1719,6 +1730,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
     private widget.Button BtnEdit;
     private widget.Button BtnHapus;
     private widget.Button BtnKeluar;
+    private widget.Button BtnPetugas;
     private widget.Button BtnPrint;
     private widget.Button BtnSimpan;
     private widget.CekBox ChkInput;
@@ -1753,10 +1765,10 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
     private widget.TextBox TNoRw;
     private widget.TextBox TPasien;
     private widget.Tanggal Tanggal;
+    private widget.TextBox TanggalRegistrasi;
     private widget.TextBox TglLahir;
     private widget.TextBox TotalSkor;
     private widget.TextBox Umur;
-    private widget.Button btnPetugas;
     private widget.ComboBox cmbCodeBlue;
     private widget.ComboBox cmbSkor1;
     private widget.ComboBox cmbSkor10;
@@ -1862,7 +1874,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
                     
                 rs=ps.executeQuery();
                 while(rs.next()){
-                    tabMode.addRow(new String[]{
+                    tabMode.addRow(new Object[]{
                         rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),rs.getString("umurdaftar")+" "+rs.getString("sttsumur"),rs.getString("jk"),
                         rs.getString("tanggal"),rs.getString("parameter_pernapasan"),rs.getString("skor_pernapasan"),rs.getString("parameter_saturasi"),rs.getString("skor_saturasi"),
                         rs.getString("parameter_temperatur"),rs.getString("skor_temperatur"),rs.getString("parameter_tekanan_darah_sistole"),rs.getString("skor_tekanan_darah_sistole"),
@@ -2184,7 +2196,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         try {
             ps=koneksi.prepareStatement(
                     "select reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.jk,pasien.tgl_lahir,reg_periksa.tgl_registrasi,reg_periksa.umurdaftar,"+
-                    "reg_periksa.sttsumur from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis where reg_periksa.no_rawat=?");
+                    "reg_periksa.sttsumur,reg_periksa.jam_reg from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis where reg_periksa.no_rawat=?");
             try {
                 ps.setString(1,TNoRw.getText());
                 rs=ps.executeQuery();
@@ -2195,6 +2207,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
                     JK.setText(rs.getString("jk"));
                     Umur.setText(rs.getString("umurdaftar")+" "+rs.getString("sttsumur"));
                     TglLahir.setText(rs.getString("tgl_lahir"));
+                    TanggalRegistrasi.setText(rs.getString("tgl_registrasi")+" "+rs.getString("jam_reg"));
                 }
             } catch (Exception e) {
                 System.out.println("Notif : "+e);
@@ -2218,6 +2231,7 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         isRawat(); 
         ChkInput.setSelected(true);
         isForm();
+        runBackground(() ->tampil());
     }
     
     private void isForm(){
@@ -2241,15 +2255,25 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         BtnPrint.setEnabled(akses.getpemantauan_meows_obstetri()); 
         if(akses.getjml2()>=1){
             KdPetugas.setEditable(false);
-            btnPetugas.setEnabled(false);
+            BtnPetugas.setEnabled(false);
             KdPetugas.setText(akses.getkode());
-            NmPetugas.setText(petugas.tampil3(KdPetugas.getText()));
+            NmPetugas.setText(Sequel.CariPetugas(KdPetugas.getText()));
             if(NmPetugas.getText().equals("")){
                 KdPetugas.setText("");
                 JOptionPane.showMessageDialog(null,"User login bukan petugas...!!");
             }
         }            
     
+        if(TANGGALMUNDUR.equals("no")){
+            if(!akses.getkode().equals("Admin Utama")){
+                Tanggal.setEditable(false);
+                Tanggal.setEnabled(false);
+                ChkKejadian.setEnabled(false);
+                Jam.setEnabled(false);
+                Menit.setEnabled(false);
+                Detik.setEnabled(false);
+            }
+        }
     }
     private void jam(){
         ActionListener taskPerformer = new ActionListener(){
@@ -2377,6 +2401,72 @@ public final class RMPemantauanMEOWS extends javax.swing.JDialog {
         }else{
             JOptionPane.showMessageDialog(null,"Gagal menghapus..!!");
         }
+    }
+
+    private void simpan() {
+        isCombo1();
+        isCombo2();
+        isCombo3();
+        isCombo4();
+        isCombo5();
+        isCombo6();
+        isCombo7();
+        isCombo8();
+        isCombo9();
+        isCombo10();
+        isjml();
+        isHitung();
+        if(Sequel.menyimpantf("pemantauan_meows_obstetri","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","Data",26,new String[]{
+            TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Jam.getSelectedItem()+":"+Menit.getSelectedItem()+":"+Detik.getSelectedItem(),
+            cmbSkor1.getSelectedItem().toString(),Skor1.getText(),cmbSkor2.getSelectedItem().toString(),Skor2.getText(),
+            cmbSkor3.getSelectedItem().toString(),Skor3.getText(),cmbSkor4.getSelectedItem().toString(),Skor4.getText(),
+            cmbSkor5.getSelectedItem().toString(),Skor5.getText(),cmbSkor6.getSelectedItem().toString(),Skor6.getText(),
+            cmbSkor7.getSelectedItem().toString(),Skor7.getText(),cmbSkor8.getSelectedItem().toString(),Skor8.getText(),
+            cmbSkor9.getSelectedItem().toString(),Skor9.getText(),cmbSkor10.getSelectedItem().toString(),Skor10.getText(),
+            TotalSkor.getText(),ParameterSkor.getText(),cmbCodeBlue.getSelectedItem().toString(),KdPetugas.getText()
+        })==true){
+            tabMode.addRow(new Object[]{
+               TNoRw.getText(),TNoRM.getText(),TPasien.getText(),Umur.getText(),JK.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+Jam.getSelectedItem()+":"+Menit.getSelectedItem()+":"+Detik.getSelectedItem(),
+                cmbSkor1.getSelectedItem().toString(),Skor1.getText(),cmbSkor2.getSelectedItem().toString(),Skor2.getText(),cmbSkor3.getSelectedItem().toString(),Skor3.getText(),cmbSkor4.getSelectedItem().toString(),Skor4.getText(),
+                cmbSkor5.getSelectedItem().toString(),Skor5.getText(),cmbSkor6.getSelectedItem().toString(),Skor6.getText(),cmbSkor7.getSelectedItem().toString(),Skor7.getText(),cmbSkor8.getSelectedItem().toString(),Skor8.getText(),
+                cmbSkor9.getSelectedItem().toString(),Skor9.getText(),cmbSkor10.getSelectedItem().toString(),Skor10.getText(),TotalSkor.getText(),ParameterSkor.getText(),cmbCodeBlue.getSelectedItem().toString(),
+                KdPetugas.getText(),NmPetugas.getText(),TglLahir.getText()
+            });
+            LCount.setText(""+tabMode.getRowCount());
+            emptTeks();
+        }   
+    }
+    
+    private void runBackground(Runnable task) {
+        if (ceksukses) return;
+        if (executor.isShutdown() || executor.isTerminated()) return;
+        if (!isDisplayable()) return;
+
+        ceksukses = true;
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        try {
+            executor.submit(() -> {
+                try {
+                    task.run();
+                } finally {
+                    ceksukses = false;
+                    SwingUtilities.invokeLater(() -> {
+                        if (isDisplayable()) {
+                            setCursor(Cursor.getDefaultCursor());
+                        }
+                    });
+                }
+            });
+        } catch (RejectedExecutionException ex) {
+            ceksukses = false;
+        }
+    }
+    
+    @Override
+    public void dispose() {
+        executor.shutdownNow();
+        super.dispose();
     }
 }
 

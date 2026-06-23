@@ -4831,15 +4831,15 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                     if(!response.path("kdStatusKecelakaan").asText().equals("")){
                         LakaLantas.setSelectedIndex(1);
                         KdKecamatan.setText(response.path("lokasiKejadian").path("kdKec").asText());
-                        NmKecamatan.setText(kecamatan.tampilKan(response.path("lokasiKejadian").path("kdKec").asText(),KdKabupaten.getText()));
+                        NmKecamatan.setText(api.tampilKecamatan(response.path("lokasiKejadian").path("kdKec").asText(),KdKabupaten.getText()));
                         KdKabupaten.setText(response.path("lokasiKejadian").path("kdKab").asText());
-                        NmKabupaten.setText(kabupaten.tampilKan(response.path("lokasiKejadian").path("kdKab").asText(),KdPropinsi.getText()));
+                        NmKabupaten.setText(api.tampilKabupaten(response.path("lokasiKejadian").path("kdKab").asText(),KdPropinsi.getText()));
                         KdPropinsi.setText(response.path("lokasiKejadian").path("kdProp").asText());
-                        NmPropinsi.setText(propinsi.tampilKan(response.path("lokasiKejadian").path("kdProp").asText()));
+                        NmPropinsi.setText(api.tampilPropinsi(response.path("lokasiKejadian").path("kdProp").asText()));
                         Keterangan.setText(response.path("lokasiKejadian").path("ketKejadian").asText());
                         Valid.SetTgl(TanggalKKL,response.path("lokasiKejadian").path("tglKejadian").asText());
                     }
-                    KdDPJPLayanan.setText(response.path("dpjp").path("kdDPJP").asText());
+                    KdDPJPLayanan.setText((response.path("dpjp").path("kdDPJP").asText().equals("0")?"":response.path("dpjp").path("kdDPJP").asText()));
                     NmDPJPLayanan.setText(response.path("dpjp").path("nmDPJP").asText());
                     JenisPeserta.setText(response.path("peserta").path("jnsPeserta").asText());
                     KdDPJP.setText(response.path("kontrol").path("kdDokter").asText());
@@ -4848,6 +4848,7 @@ public final class BPJSDataSEP extends javax.swing.JDialog {
                     
                     Valid.SetTgl(TanggalSEP,response.path("tglSep").asText());
                 }else {
+                    NoSEP.setText("");
                     JOptionPane.showMessageDialog(null,nameNode.path("message").asText());                
                 }   
             } catch (Exception ex) {

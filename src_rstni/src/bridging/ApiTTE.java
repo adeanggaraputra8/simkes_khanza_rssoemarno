@@ -151,6 +151,52 @@ public class ApiTTE {
                         JOptionPane.showMessageDialog(null, "Gagal upload: " + e.getMessage());
                     }
                 }
+             
+             public void unggahKeServerlocal(String pathLocalPDF, String namaFile) {
+                    try {
+                        Properties prop = new Properties();
+                        prop.loadFromXML(new FileInputStream("setting/database.xml"));
+                        String uploadURL =  prop.getProperty("UPLOADFILEPDF");
+                        
+                        // Baca file PDF lokal
+                        Path path = Paths.get(pathLocalPDF);
+                        byte[] data = Files.readAllBytes(path);
+
+                        // Encode Base64
+                        String encoded = Base64.getEncoder().encodeToString(data);
+
+                        // Buat JSON body
+                        String json = "{"
+                                + "\"nama_file\": \"" + namaFile + "\","
+                                + "\"file_base64\": \"" + encoded + "\""
+                                + "}";
+
+                        // Kirim POST
+                        URL url = new URL(uploadURL);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                        conn.setDoOutput(true);
+
+                        try (OutputStream os = conn.getOutputStream()) {
+                            os.write(json.getBytes(StandardCharsets.UTF_8));
+                        }
+
+                        // Cek respon dari server
+                        int code = conn.getResponseCode();
+                        if (code == 200) {
+                            //System.out.println("Upload sukses ke " + uploadURL);
+                        } else {
+                            System.out.println("Upload gagal. HTTP " + code);
+                        }
+
+                        conn.disconnect();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Gagal upload: " + e.getMessage());
+                    }
+                }
 
                 public RestTemplate getRest() throws NoSuchAlgorithmException, KeyManagementException {
                     SSLContext sslContext = SSLContext.getInstance("SSL");

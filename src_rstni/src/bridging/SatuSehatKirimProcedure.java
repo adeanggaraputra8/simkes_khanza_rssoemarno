@@ -210,6 +210,7 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
         jLabel16 = new widget.Label();
         TCari = new widget.TextBox();
         BtnCari = new widget.Button();
+        ChkBelumTerkirim = new widget.CekBox();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -375,7 +376,7 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(85, 23));
         panelGlass9.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-06-2023" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -388,7 +389,7 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass9.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "14-06-2023" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -425,6 +426,27 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
             }
         });
         panelGlass9.add(BtnCari);
+
+        ChkBelumTerkirim.setBorder(null);
+        ChkBelumTerkirim.setText("Data belum terkirim");
+        ChkBelumTerkirim.setBorderPainted(true);
+        ChkBelumTerkirim.setBorderPaintedFlat(true);
+        ChkBelumTerkirim.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ChkBelumTerkirim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkBelumTerkirim.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ChkBelumTerkirim.setIconTextGap(2);
+        ChkBelumTerkirim.setName("ChkBelumTerkirim"); // NOI18N
+        ChkBelumTerkirim.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ChkBelumTerkirimItemStateChanged(evt);
+            }
+        });
+        ChkBelumTerkirim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkBelumTerkirimActionPerformed(evt);
+            }
+        });
+        panelGlass9.add(ChkBelumTerkirim);
 
         jPanel3.add(panelGlass9, java.awt.BorderLayout.PAGE_START);
 
@@ -489,6 +511,7 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
                   "</table>"+
                 "</html>"
             );
+            htmlContent=null;
 
             File g = new File("file2.css");            
             BufferedWriter bg = new BufferedWriter(new FileWriter(g));
@@ -606,9 +629,12 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
                         root = mapper.readTree(json);
                         response = root.path("id");
                         if(!response.asText().equals("")){
-                            Sequel.menyimpan("satu_sehat_procedure","?,?,?,?","Prosedur",4,new String[]{
+                            if(Sequel.menyimpantf2("satu_sehat_procedure","?,?,?,?","Prosedur",4,new String[]{
                                 tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,10).toString(),tbObat.getValueAt(i,7).toString(),response.asText()
-                            });
+                            })==true){
+                                tbObat.setValueAt(response.asText(),i,12);
+                                tbObat.setValueAt(false,i,0);
+                            }
                         }
                     }catch(Exception e){
                         System.out.println("Notifikasi Bridging : "+e);
@@ -618,7 +644,6 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
                 }
             }
         }
-        tampil();
     }//GEN-LAST:event_BtnKirimActionPerformed
 
     private void ppPilihSemuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppPilihSemuaActionPerformed
@@ -683,6 +708,7 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
                         requestEntity = new HttpEntity(json,headers);
                         json=api.getRest().exchange(link+"/Procedure/"+tbObat.getValueAt(i,12).toString(), HttpMethod.PUT, requestEntity, String.class).getBody();
                         System.out.println("Result JSON : "+json);
+                        tbObat.setValueAt(false,i,0);
                     }catch(Exception e){
                         System.out.println("Notifikasi Bridging : "+e);
                     }
@@ -691,7 +717,6 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
                 }
             }
         }
-        tampil();
     }//GEN-LAST:event_BtnUpdateActionPerformed
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
@@ -707,6 +732,16 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
             Valid.pindah(evt, BtnPrint, BtnKeluar);
         }
     }//GEN-LAST:event_BtnAllKeyPressed
+
+    private void ChkBelumTerkirimItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimItemStateChanged
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        tampil();
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_ChkBelumTerkirimItemStateChanged
+
+    private void ChkBelumTerkirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChkBelumTerkirimActionPerformed
 
     /**
     * @param args the command line arguments
@@ -731,6 +766,7 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
     private widget.Button BtnKirim;
     private widget.Button BtnPrint;
     private widget.Button BtnUpdate;
+    private widget.CekBox ChkBelumTerkirim;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
     private widget.Label LCount;
@@ -754,18 +790,24 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
     private void tampil() {
         Valid.tabelKosong(tabMode);
         try{
+             String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_procedure.id_procedure IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,reg_periksa.status_lanjut,concat(nota_jalan.tanggal,'T',nota_jalan.jam,'+07:00') as pulang,satu_sehat_encounter.id_encounter, "+
+                   "reg_periksa.stts,reg_periksa.status_lanjut,concat(reg_periksa.tgl_registrasi,'T',reg_periksa.jam_reg,'+07:00') as pulang,satu_sehat_encounter.id_encounter, "+
                    "prosedur_pasien.kode,icd9.deskripsi_panjang,ifnull(satu_sehat_procedure.id_procedure,'') as id_procedure "+
-                   "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_jalan on nota_jalan.no_rawat=reg_periksa.no_rawat "+
+                   "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join prosedur_pasien on prosedur_pasien.no_rawat=reg_periksa.no_rawat "+
                    "inner join icd9 on prosedur_pasien.kode=icd9.kode left join satu_sehat_procedure on satu_sehat_procedure.no_rawat=prosedur_pasien.no_rawat "+
                    "and satu_sehat_procedure.kode=prosedur_pasien.kode and satu_sehat_procedure.status=prosedur_pasien.status "+
-                   "where nota_jalan.tanggal between ? and ? "+
+                   "where "+belumterkirim+" reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or prosedur_pasien.kode like ? or icd9.deskripsi_panjang like ? or "+
-                   "reg_periksa.stts like ? or reg_periksa.status_lanjut like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,prosedur_pasien.prioritas");
+                   "reg_periksa.stts like ? or reg_periksa.status_lanjut like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -800,16 +842,16 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
             
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
-                   "reg_periksa.stts,reg_periksa.status_lanjut,concat(nota_inap.tanggal,'T',nota_inap.jam,'+07:00') as pulang,satu_sehat_encounter.id_encounter, "+
+                   "reg_periksa.stts,reg_periksa.status_lanjut,concat(reg_periksa.tgl_registrasi,'T',reg_periksa.jam_reg,'+07:00') as pulang,satu_sehat_encounter.id_encounter, "+
                    "prosedur_pasien.kode,icd9.deskripsi_panjang,ifnull(satu_sehat_procedure.id_procedure,'') as id_procedure "+
-                   "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join nota_inap on nota_inap.no_rawat=reg_periksa.no_rawat "+
+                   "from reg_periksa inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
                    "inner join satu_sehat_encounter on satu_sehat_encounter.no_rawat=reg_periksa.no_rawat inner join prosedur_pasien on prosedur_pasien.no_rawat=reg_periksa.no_rawat "+
                    "inner join icd9 on prosedur_pasien.kode=icd9.kode left join satu_sehat_procedure on satu_sehat_procedure.no_rawat=prosedur_pasien.no_rawat "+
                    "and satu_sehat_procedure.kode=prosedur_pasien.kode and satu_sehat_procedure.status=prosedur_pasien.status "+
-                   "where nota_inap.tanggal between ? and ? "+
+                   "where "+belumterkirim+" reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or prosedur_pasien.kode like ? or icd9.deskripsi_panjang like ? or "+
-                   "reg_periksa.stts like ? or reg_periksa.status_lanjut like ?)")+" order by reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,prosedur_pasien.prioritas");
+                   "reg_periksa.stts like ? or reg_periksa.status_lanjut like ?)"));
             try {
                 ps.setString(1,Valid.SetTgl(DTPCari1.getSelectedItem()+""));
                 ps.setString(2,Valid.SetTgl(DTPCari2.getSelectedItem()+""));
@@ -849,6 +891,7 @@ public final class SatuSehatKirimProcedure extends javax.swing.JDialog {
 
     public void isCek(){
         BtnKirim.setEnabled(akses.getsatu_sehat_kirim_procedure());
+        BtnUpdate.setEnabled(akses.getsatu_sehat_kirim_procedure());
         BtnPrint.setEnabled(akses.getsatu_sehat_kirim_procedure());
     }
     

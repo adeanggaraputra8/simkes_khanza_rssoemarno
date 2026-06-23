@@ -26,8 +26,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -47,6 +51,8 @@ public class DapurInputStok extends javax.swing.JDialog {
     private riwayatdapur Trackbarang=new riwayatdapur();
     private boolean sukses=true;    
     private String order="order by dapurbarang.nama_brng";
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private volatile boolean ceksukses = false;
 
     /** Creates new form DlgProgramStudi
      * @param parent
@@ -111,28 +117,6 @@ public class DapurInputStok extends javax.swing.JDialog {
 
         catatan.setDocument(new batasInput((byte)60).getKata(catatan));  
         TCari.setDocument(new batasInput((byte)100).getKata(TCari)); 
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-            });
-        }        
         TCari.requestFocus();
     }
     
@@ -664,7 +648,6 @@ public class DapurInputStok extends javax.swing.JDialog {
 }//GEN-LAST:event_tbDokterKeyPressed
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DapurStokOpname ipsrsopname=new DapurStokOpname(null,false);
         ipsrsopname.isCek(); 
         ipsrsopname.emptTeks();
@@ -672,7 +655,6 @@ public class DapurInputStok extends javax.swing.JDialog {
         ipsrsopname.setLocationRelativeTo(internalFrame1);
         ipsrsopname.setAlwaysOnTop(false);
         ipsrsopname.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
 }//GEN-LAST:event_BtnCariActionPerformed
 
     private void BtnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluarActionPerformed
@@ -735,7 +717,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     for(index=0;index<tbDokter.getRowCount();index++){   
                         tbDokter.setValueAt("",index,0);        
                     }
-                    tampil();
+                    runBackground(() ->tampil());
                 }
             }
         }
@@ -759,7 +741,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
 
 private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKeyPressed
        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
-            tampil();
+            runBackground(() ->tampil());
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
             BtnCari1.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
@@ -770,12 +752,12 @@ private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCa
 }//GEN-LAST:event_TCariKeyPressed
 
 private void BtnCari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCari1ActionPerformed
-        tampil();
+        runBackground(() ->tampil());
 }//GEN-LAST:event_BtnCari1ActionPerformed
 
 private void BtnCari1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCari1KeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
-            tampil();
+            runBackground(() ->tampil());
         }else{
             Valid.pindah(evt, TCari, BtnSimpan);
         }
@@ -801,10 +783,6 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             }
 }//GEN-LAST:event_ppBersihkanActionPerformed
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        tampil();
-    }//GEN-LAST:event_formWindowOpened
-
     private void tbDokterKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDokterKeyReleased
         if(tabMode.getRowCount()!=0){
             if((evt.getKeyCode()==KeyEvent.VK_UP)||(evt.getKeyCode()==KeyEvent.VK_DOWN)||(evt.getKeyCode()==KeyEvent.VK_RIGHT)){
@@ -823,7 +801,6 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     }//GEN-LAST:event_tbDokterPropertyChange
 
     private void BtnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTambahActionPerformed
-        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         DapurBarang barang=new DapurBarang(null,false);
         barang.emptTeks();
         barang.isCek();
@@ -831,7 +808,6 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         barang.setLocationRelativeTo(internalFrame1);
         barang.setAlwaysOnTop(false);
         barang.setVisible(true);
-        this.setCursor(Cursor.getDefaultCursor());
     }//GEN-LAST:event_BtnTambahActionPerformed
 
     private void ppBelumOpnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppBelumOpnameActionPerformed
@@ -914,42 +890,42 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 
     private void MnKodeBarangDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnKodeBarangDescActionPerformed
         order="order by dapurbarang.kode_brng desc";
-        tampil();
+        runBackground(() ->tampil());
     }//GEN-LAST:event_MnKodeBarangDescActionPerformed
 
     private void MnKodeBarangAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnKodeBarangAscActionPerformed
         order="order by dapurbarang.kode_brng asc";
-        tampil();
+        runBackground(() ->tampil());
     }//GEN-LAST:event_MnKodeBarangAscActionPerformed
 
     private void MnNamaBarangDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnNamaBarangDescActionPerformed
         order="order by dapurbarang.nama_brng desc";
-        tampil();
+        runBackground(() ->tampil());
     }//GEN-LAST:event_MnNamaBarangDescActionPerformed
 
     private void MnNamaBarangAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnNamaBarangAscActionPerformed
         order="order by dapurbarang.nama_brng asc";
-        tampil();
+        runBackground(() ->tampil());
     }//GEN-LAST:event_MnNamaBarangAscActionPerformed
 
     private void MnKategoriAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnKategoriAscActionPerformed
         order="order by dapurbarang.jenis desc";
-        tampil();
+        runBackground(() ->tampil());
     }//GEN-LAST:event_MnKategoriAscActionPerformed
 
     private void MnKategoriDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnKategoriDescActionPerformed
         order="order by dapurbarang.jenis asc";
-        tampil();
+        runBackground(() ->tampil());
     }//GEN-LAST:event_MnKategoriDescActionPerformed
 
     private void MnSatuanDescActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuanDescActionPerformed
         order="order by dapurbarang.kode_sat desc";
-        tampil();
+        runBackground(() ->tampil());
     }//GEN-LAST:event_MnSatuanDescActionPerformed
 
     private void MnSatuanAscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnSatuanAscActionPerformed
         order="order by dapurbarang.kode_sat asc";
-        tampil();
+        runBackground(() ->tampil());
     }//GEN-LAST:event_MnSatuanAscActionPerformed
 
     private void BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrintActionPerformed
@@ -990,6 +966,32 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             Valid.pindah(evt, BtnCari, BtnKeluar);
         }
     }//GEN-LAST:event_BtnPrintKeyPressed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        runBackground(() ->tampil());
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+            });
+        }
+    }//GEN-LAST:event_formWindowOpened
 
     /**
     * @param args the command line arguments
@@ -1047,7 +1049,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private widget.Table tbDokter;
     // End of variables declaration//GEN-END:variables
 
-    public void tampil() {        
+    private void tampil() {        
         try{     
             jml=0;
             for(i=0;i<tbDokter.getRowCount();i++){
@@ -1094,14 +1096,18 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             }
             pstampil=koneksi.prepareStatement(
                 "select dapurbarang.kode_brng, dapurbarang.nama_brng,dapurbarang.jenis, dapurbarang.kode_sat, "+
-                "dapurbarang.harga,dapurbarang.stok from dapurbarang where dapurbarang.status='1' and "+
-                "(dapurbarang.kode_brng like ? or dapurbarang.nama_brng like ? "+
-                "or dapurbarang.kode_sat like ? or dapurbarang.jenis like ?) "+order);
+                "dapurbarang.harga,dapurbarang.stok from dapurbarang where dapurbarang.status='1' "+
+                (TCari.getText().trim().equals("")?"":"and (dapurbarang.kode_brng like ? or dapurbarang.nama_brng like ? "+
+                "or dapurbarang.kode_sat like ? or dapurbarang.jenis like ?) ")+order
+            );
             try {
-                pstampil.setString(1,"%"+TCari.getText().trim()+"%");
-                pstampil.setString(2,"%"+TCari.getText().trim()+"%");
-                pstampil.setString(3,"%"+TCari.getText().trim()+"%");
-                pstampil.setString(4,"%"+TCari.getText().trim()+"%");
+                if(!TCari.getText().trim().equals("")){
+                    pstampil.setString(1,"%"+TCari.getText().trim()+"%");
+                    pstampil.setString(2,"%"+TCari.getText().trim()+"%");
+                    pstampil.setString(3,"%"+TCari.getText().trim()+"%");
+                    pstampil.setString(4,"%"+TCari.getText().trim()+"%");
+                }
+                    
                 rstampil=pstampil.executeQuery();
                 while(rstampil.next()){                            
                     tabMode.addRow(new Object[]{
@@ -1136,7 +1142,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             if((tbDokter.getSelectedColumn()==1)||(tbDokter.getSelectedColumn()==0)){   
                 if(!tbDokter.getValueAt(i,0).toString().equals("")){
                     try {
-                        if(Double.parseDouble(tabMode.getValueAt(i,0).toString())>0){
+                        if(Double.parseDouble(tabMode.getValueAt(i,0).toString())>=0){
                             try {
                                 kurang=Double.parseDouble(tbDokter.getValueAt(i,6).toString())-Double.parseDouble(tbDokter.getValueAt(i,0).toString());
                             } catch (Exception e) {
@@ -1204,4 +1210,35 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
          BtnSimpan.setEnabled(akses.getdapur_opname());   
     }
 
+    private void runBackground(Runnable task) {
+        if (ceksukses) return;
+        if (executor.isShutdown() || executor.isTerminated()) return;
+        if (!isDisplayable()) return;
+
+        ceksukses = true;
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        try {
+            executor.submit(() -> {
+                try {
+                    task.run();
+                } finally {
+                    ceksukses = false;
+                    SwingUtilities.invokeLater(() -> {
+                        if (isDisplayable()) {
+                            setCursor(Cursor.getDefaultCursor());
+                        }
+                    });
+                }
+            });
+        } catch (RejectedExecutionException ex) {
+            ceksukses = false;
+        }
+    }
+    
+    @Override
+    public void dispose() {
+        executor.shutdownNow();
+        super.dispose();
+    }
 }

@@ -15,12 +15,17 @@ import fungsi.WarnaTable;
 import fungsi.batasInput;
 import fungsi.koneksiDB;
 import fungsi.validasi;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -37,6 +42,8 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
     private ResultSet rs;
     private String norawat="";
     private int z=0;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private volatile boolean ceksukses = false;
     /** Creates new form DlgPenyakit
      * @param parent
      * @param modal */
@@ -46,7 +53,7 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
         this.setLocation(10,2);
         setSize(656,250);
 
-        Object[] row={"Tanggal","Jam","Keluhan","Diagnosa"};
+        Object[] row={"Tanggal","Jam","Keluhan"};
         tabMode=new DefaultTableModel(null,row){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -54,7 +61,7 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
         //tbPenyakit.setDefaultRenderer(Object.class, new WarnaTable(panelJudul.getBackground(),tbPenyakit.getBackground()));
         tbKamar.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbKamar.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        for (z= 0; z < 4; z++) {
+        for (z= 0; z < 3; z++) {
             TableColumn column = tbKamar.getColumnModel().getColumn(z);
             if(z==0){
                 column.setPreferredWidth(65);
@@ -62,34 +69,10 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
                 column.setPreferredWidth(50);
             }else if(z==2){
                 column.setPreferredWidth(750);
-            }else if(z==3){
-                column.setPreferredWidth(750);
             }
         }
         tbKamar.setDefaultRenderer(Object.class, new WarnaTable());
         TCari.setDocument(new batasInput((byte)100).getKata(TCari));
-        if(koneksiDB.CARICEPAT().equals("aktif")){
-            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
-                @Override
-                public void insertUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void removeUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-                @Override
-                public void changedUpdate(DocumentEvent e) {
-                    if(TCari.getText().length()>2){
-                        tampil();
-                    }
-                }
-            });
-        }
     }
     
 
@@ -245,7 +228,7 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
 }//GEN-LAST:event_TCariKeyPressed
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
-        tampil();
+        runBackground(() ->tampil());
 }//GEN-LAST:event_BtnCariActionPerformed
 
     private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnCariKeyPressed
@@ -258,7 +241,7 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
 
     private void BtnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnAllActionPerformed
         TCari.setText("");
-        tampil();
+        runBackground(() ->tampil());
 }//GEN-LAST:event_BtnAllActionPerformed
 
     private void BtnAllKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnAllKeyPressed
@@ -297,7 +280,29 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        tampil();
+        runBackground(() ->tampil());
+        if(koneksiDB.CARICEPAT().equals("aktif")){
+            TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
+                @Override
+                public void insertUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void removeUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+                @Override
+                public void changedUpdate(DocumentEvent e) {
+                    if(TCari.getText().length()>2){
+                        runBackground(() ->tampil());
+                    }
+                }
+            });
+        }
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -334,7 +339,7 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
         Valid.tabelKosong(tabMode);
         try{
             ps=koneksi.prepareStatement(
-                    "select pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.keluhan,pemeriksaan_ralan.penilaian "+
+                    "select pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat,pemeriksaan_ralan.keluhan "+
                     "from pemeriksaan_ralan where pemeriksaan_ralan.no_rawat=? and "+
                     "(pemeriksaan_ralan.tgl_perawatan like ? or pemeriksaan_ralan.keluhan like ?) "+
                     "order by pemeriksaan_ralan.tgl_perawatan,pemeriksaan_ralan.jam_rawat");
@@ -345,7 +350,7 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
                 rs=ps.executeQuery();
                 while(rs.next()){
                     tabMode.addRow(new String[] {
-                        rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)
+                        rs.getString(1),rs.getString(2),rs.getString(3)
                     });
                 }
             }catch(Exception ex){
@@ -364,7 +369,7 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
         
         try{
             ps=koneksi.prepareStatement(
-                    "select pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.keluhan,pemeriksaan_ranap.penilaian "+
+                    "select pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat,pemeriksaan_ranap.keluhan "+
                     "from pemeriksaan_ranap where pemeriksaan_ranap.no_rawat=? and "+
                     "(pemeriksaan_ranap.tgl_perawatan like ? or pemeriksaan_ranap.keluhan like ?) "+
                     "order by pemeriksaan_ranap.tgl_perawatan,pemeriksaan_ranap.jam_rawat");
@@ -375,7 +380,7 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
                 rs=ps.executeQuery();
                 while(rs.next()){
                     tabMode.addRow(new String[] {
-                        rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)
+                        rs.getString(1),rs.getString(2),rs.getString(3)
                     });
                 }
             }catch(Exception ex){
@@ -406,4 +411,35 @@ public final class RMCariKeluhan extends javax.swing.JDialog {
         return tbKamar;
     }
     
+    private void runBackground(Runnable task) {
+        if (ceksukses) return;
+        if (executor.isShutdown() || executor.isTerminated()) return;
+        if (!isDisplayable()) return;
+
+        ceksukses = true;
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+
+        try {
+            executor.submit(() -> {
+                try {
+                    task.run();
+                } finally {
+                    ceksukses = false;
+                    SwingUtilities.invokeLater(() -> {
+                        if (isDisplayable()) {
+                            setCursor(Cursor.getDefaultCursor());
+                        }
+                    });
+                }
+            });
+        } catch (RejectedExecutionException ex) {
+            ceksukses = false;
+        }
+    }
+    
+    @Override
+    public void dispose() {
+        executor.shutdownNow();
+        super.dispose();
+    }
 }

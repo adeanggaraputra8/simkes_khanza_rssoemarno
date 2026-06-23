@@ -6427,7 +6427,7 @@ private void MnPemberianObatActionPerformed(java.awt.event.ActionEvent evt) {//G
                 dlgrwinap.setLocationRelativeTo(internalFrame1);
                 dlgrwinap.isCek();
                 dlgrwinap.setNoRm(TNoRw.getText(),DTPCari1.getDate(),DTPCari2.getDate(),"ralan");
-                dlgrwinap.tampilPO();
+                dlgrwinap.tampilPO3();
                 dlgrwinap.setVisible(true);
                 this.setCursor(Cursor.getDefaultCursor());
             }                
@@ -6459,7 +6459,7 @@ private void MnBillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                      this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                                      DlgLhtPiutang piutang=new DlgLhtPiutang(null,false);
                                      piutang.setNoRm(TNoRM.getText(),rs.getDate(1));
-                                     piutang.tampil();
+                                     piutang.tampil2();
                                      piutang.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                                      piutang.setLocationRelativeTo(internalFrame1);
                                      piutang.setVisible(true);
@@ -6881,7 +6881,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                 resep.emptTeks();
                 resep.isCek();
                 resep.setNoRm(TNoRw.getText(),DTPCari1.getDate(),DTPCari2.getDate(),CmbJam.getSelectedItem().toString(),CmbMenit.getSelectedItem().toString(),CmbDetik.getSelectedItem().toString(),"ralan");
-                resep.tampil();
+                resep.tampil2();
                 resep.setVisible(true);
             }                
         }
@@ -8268,7 +8268,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                                 this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                                 DlgLhtPiutang piutang=new DlgLhtPiutang(null,false);
                                 piutang.setNoRm(TNoRM.getText(),rs.getDate(1));
-                                piutang.tampil();
+                                piutang.tampil2();
                                 piutang.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
                                 piutang.setLocationRelativeTo(internalFrame1);
                                 piutang.setVisible(true);
