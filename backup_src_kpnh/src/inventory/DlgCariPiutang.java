@@ -26,6 +26,7 @@ import javax.swing.table.TableColumn;
 import keuangan.DlgBayarPiutang;
 import keuangan.Jurnal;
 import kepegawaian.DlgCariPetugas;
+import modifikasi.DlgEditBarang;
 import simrskhanza.DlgPasien;
 
 public class DlgCariPiutang extends javax.swing.JDialog {
@@ -39,7 +40,7 @@ public class DlgCariPiutang extends javax.swing.JDialog {
     private Connection koneksi=koneksiDB.condb();
     public  DlgPasien member=new DlgPasien(null,false);
     public  DlgCariPetugas petugas=new DlgCariPetugas(null,false);
-    public  DlgBarang barang=new DlgBarang(null,false);
+    public  DlgEditBarang barang=new DlgEditBarang(null,false);
     private DecimalFormat df2 = new DecimalFormat("###,###,###,###,###,###,###");   
     private double ttljual=0,subttljual=0,ttldisc=0,subttldisc=0,ttlall=0,
                    subttlall=0,sisapiutang=0,cicilan=0,telat=0;

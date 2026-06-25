@@ -50,6 +50,7 @@ import keuangan.DlgKamar;
 import keuangan.Jurnal;
 import laporan.DlgBerkasRawat;
 import laporan.DlgDiagnosaPenyakit;
+import modifikasi.DlgDataAlergiPasien;
 import modifikasi.RMDataPemberianObatInjeksi;
 import modifikasi.grafiksqlttv1;
 import permintaan.DlgBookingOperasi;
@@ -147,7 +148,8 @@ public final class DlgRawatInap extends javax.swing.JDialog {
     public  DlgCariPegawai pegawai=new DlgCariPegawai(null,false);  
     public  DlgCariPasien pasien=new DlgCariPasien(null,false);
     public  DlgKamar kamar2=new DlgKamar(null,false);
-    private RMCari5SOAPTerakhir soapterakhir=new RMCari5SOAPTerakhir(null,false);  
+    private RMCari5SOAPTerakhir soapterakhir=new RMCari5SOAPTerakhir(null,false); 
+    private DlgDataAlergiPasien alergi=new DlgDataAlergiPasien(null,false);
     private PreparedStatement ps,ps2,ps3,ps4,ps5,psrekening,ps6,psotomatis,psotomatis2,pskasir;
     private ResultSet rs,rsrekening,rskasir;
     private int i=0,tinggi=0,cektindakan=0;
@@ -1089,6 +1091,57 @@ public final class DlgRawatInap extends javax.swing.JDialog {
             public void windowDeactivated(WindowEvent e) {}
         });
         
+          alergi.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(alergi.getTable().getSelectedRow() != -1){
+
+                    String dataBaru = alergi.getTable().getValueAt(
+                            alergi.getTable().getSelectedRow(), 9
+                    ).toString();
+
+                    String dataLama = TAlergi.getText().trim();
+
+                    if(dataLama.isEmpty()){
+                        TAlergi.setText(dataBaru);
+                    }else{
+                        // cek supaya tidak dobel
+                        if(!dataLama.contains(dataBaru)){
+                            TAlergi.setText(dataLama + ", " + dataBaru);
+                        }
+                    }
+
+                    BtnTambahAlergi.requestFocus();
+                }
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
+          
+         alergi.getTable().addKeyListener(new KeyListener() {
+             @Override
+             public void keyTyped(KeyEvent e) {}
+             @Override
+             public void keyPressed(KeyEvent e) {
+                     if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                         alergi.dispose();
+                     }
+                 }
+             @Override
+             public void keyReleased(KeyEvent e) {}
+         }); 
+        
+        
         ChkInput.setSelected(false);
         isForm(); 
         ChkInput1.setSelected(false);
@@ -1281,6 +1334,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         TBerat = new widget.TextBox();
         TNadi = new widget.TextBox();
         jLabel61 = new widget.Label();
+        BtnTambahAlergi = new widget.Button();
         internalFrame6 = new widget.InternalFrame();
         Scroll4 = new widget.ScrollPane();
         tbPemeriksaanObstetri = new widget.Table();
@@ -1747,7 +1801,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         panelGlass10.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-07-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-08-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1761,7 +1815,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         panelGlass10.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-07-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-08-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2303,6 +2357,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         panelGlass12.add(jLabel15);
         jLabel15.setBounds(450, 10, 90, 23);
 
+        TAlergi.setEditable(false);
         TAlergi.setHighlighter(null);
         TAlergi.setName("TAlergi"); // NOI18N
         TAlergi.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -2311,7 +2366,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
             }
         });
         panelGlass12.add(TAlergi);
-        TAlergi.setBounds(543, 10, 360, 23);
+        TAlergi.setBounds(543, 10, 320, 23);
 
         scrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         scrollPane1.setName("scrollPane1"); // NOI18N
@@ -2636,6 +2691,19 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         jLabel61.setName("jLabel61"); // NOI18N
         panelGlass12.add(jLabel61);
         jLabel61.setBounds(296, 190, 79, 23);
+
+        BtnTambahAlergi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/plus_16.png"))); // NOI18N
+        BtnTambahAlergi.setMnemonic('3');
+        BtnTambahAlergi.setToolTipText("Alt+3");
+        BtnTambahAlergi.setName("BtnTambahAlergi"); // NOI18N
+        BtnTambahAlergi.setPreferredSize(new java.awt.Dimension(28, 23));
+        BtnTambahAlergi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnTambahAlergiActionPerformed(evt);
+            }
+        });
+        panelGlass12.add(BtnTambahAlergi);
+        BtnTambahAlergi.setBounds(870, 10, 28, 23);
 
         PanelInput1.add(panelGlass12, java.awt.BorderLayout.CENTER);
 
@@ -3413,7 +3481,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         TPasien.setBounds(283, 10, 260, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-07-2025" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-08-2025" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -9164,6 +9232,16 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         }
     }//GEN-LAST:event_BtnPemberianInjeksiActionPerformed
 
+    private void BtnTambahAlergiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTambahAlergiActionPerformed
+                alergi.isCek();
+                alergi.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                alergi.setLocationRelativeTo(internalFrame1);
+                alergi.setVisible(true);
+                alergi.emptTeks();
+                alergi.setNoRm(TNoRw.getText(),new Date());
+                alergi.tampil();
+    }//GEN-LAST:event_BtnTambahAlergiActionPerformed
+
     private void BtnSkorBromagePascaAnestesiActionPerformed(java.awt.event.ActionEvent evt) {                                                            
         if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
@@ -9418,6 +9496,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Button BtnSkriningNutrisiAnak;
     private widget.Button BtnSkriningNutrisiDewasa;
     private widget.Button BtnSkriningNutrisiLansia;
+    private widget.Button BtnTambahAlergi;
     private widget.Button BtnTimeOutSebelumInsisi;
     private widget.Button BtnTransferAntarRuang;
     private widget.CekBox ChkAccor;
@@ -9996,6 +10075,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         ChkInput1.setSelected(true);
         isForm2(); 
         TabRawatMouseClicked(null);
+        ChkJln.setSelected(true);
     }
     
     public void setKamar(String kamar) {
@@ -11021,5 +11101,26 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         TkdKamar.setText(kdkamr);
         TkdBangsal.setText(Sequel.cariIsi("select kd_bangsal from kamar where kd_kamar='"+TkdKamar.getText()+"' "));
         TnmBangsal.setText(Sequel.cariIsi("select nm_bangsal from bangsal where kd_bangsal='"+TkdBangsal.getText()+"' "));
+    }
+    
+    public  void kosongkanpemeriksaan(){
+        TSuhu.setText("");
+        TTensi.setText("");
+        TKeluhan.setText("");
+        TPemeriksaan.setText("");
+        TPenilaian.setText("");
+        TindakLanjut.setText("");
+        TBerat.setText("");
+        TTinggi.setText("");
+        TNadi.setText("");
+        SpO2.setText("");
+        TEvaluasi.setText("");
+        TRespirasi.setText("");
+        TGCS.setText("");
+        TAlergi.setText("");
+        TInstruksi.setText("");
+        DTPTgl.setDate(new Date());
+        cmbKesadaran.setSelectedIndex(0);
+        TNoRw.requestFocus();
     }
 }

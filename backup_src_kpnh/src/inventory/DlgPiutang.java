@@ -1275,7 +1275,8 @@ public class DlgPiutang extends javax.swing.JDialog {
 
     private void BtnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnCariActionPerformed
         this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-        form.emptTeks();     
+        form.emptTeks();
+        form.isCek();  
         form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
         form.setLocationRelativeTo(internalFrame1);
         form.setAlwaysOnTop(false);
@@ -1901,6 +1902,8 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         autoNomor();
         Ongkir.setText("0");
         UangMuka.setText("0");
+        kdpasien.setText("-");
+        nmpasien.setText("-");
         Sequel.cariIsi("select set_lokasi.kd_bangsal from set_lokasi",kdgudang);
         Sequel.cariIsi("select bangsal.nm_bangsal from bangsal where bangsal.kd_bangsal=?",nmgudang,kdgudang.getText());
         if(akses.getjml2()>=1){

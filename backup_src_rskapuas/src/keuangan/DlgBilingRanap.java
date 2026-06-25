@@ -4634,6 +4634,7 @@ private void BtnCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         param.put("kontakrs", akses.getkontakrs());
         param.put("emailrs", akses.getemailrs());
         param.put("logo", Sequel.cariGambar("select logo from setting"));
+        param.put("namapetugas", Sequel.cariIsi("select nama from pegawai where nik=?", akses.getkode()));
         Valid.MyReportqry("rptkuitansiambnew1.jasper", "report", "::[ Kuitansi Pelayanan Rukukan Ambulan Pasien JKN ]::",
             " SELECT jns_perawatan_inap.nm_perawatan,jns_perawatan_inap.total_byrpr, pasien.nm_pasien FROM rawat_inap_pr " +
             " INNER JOIN reg_periksa ON reg_periksa.no_rawat=rawat_inap_pr.no_rawat " +

@@ -461,6 +461,8 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         jLabel12 = new widget.Label();
         label13 = new widget.Label();
         Jenisobat = new widget.ComboBox();
+        ChkIter = new widget.CekBox();
+        Iterasi = new javax.swing.JComboBox<>();
         TabRawat = new javax.swing.JTabbedPane();
         Scroll = new widget.ScrollPane();
         tbResep = new widget.Table();
@@ -769,7 +771,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         jLabel8.setBounds(0, 42, 72, 23);
 
         DTPBeri.setForeground(new java.awt.Color(50, 70, 50));
-        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-08-2024" }));
+        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "06-09-2024" }));
         DTPBeri.setDisplayFormat("dd-MM-yyyy");
         DTPBeri.setName("DTPBeri"); // NOI18N
         DTPBeri.setOpaque(false);
@@ -918,6 +920,30 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         });
         FormInput.add(Jenisobat);
         Jenisobat.setBounds(770, 70, 80, 23);
+
+        ChkIter.setBorder(null);
+        ChkIter.setText("Ceklist Obat Iterasi");
+        ChkIter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkIter.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ChkIter.setName("ChkIter"); // NOI18N
+        ChkIter.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ChkIterItemStateChanged(evt);
+            }
+        });
+        ChkIter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkIterActionPerformed(evt);
+            }
+        });
+        FormInput.add(ChkIter);
+        ChkIter.setBounds(850, 70, 140, 23);
+
+        Iterasi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        Iterasi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "1. Dengan Iterasi", "2. Dengan Iterasi" }));
+        Iterasi.setName("Iterasi"); // NOI18N
+        FormInput.add(Iterasi);
+        Iterasi.setBounds(990, 70, 110, 24);
 
         internalFrame1.add(FormInput, java.awt.BorderLayout.PAGE_START);
 
@@ -1163,6 +1189,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                         cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),status,"0000-00-00","00:00:00"
                         })==true){
                             simpandata();
+                             if(ChkIter.isSelected()==true){
+                                Sequel.menyimpan2("flagging_iterasi","?,?", "Nomor Resep",2,new String[]{
+                                NoResep.getText(),Iterasi.getSelectedItem().toString().substring(0, 1)
+                                });
+                             }
                     }else{
                         emptTeksobat();
                         if(Sequel.menyimpantf2("resep_obat","?,?,?,?,?,?,?,?,?,?","Nomer Resep",10,new String[]{
@@ -1170,6 +1201,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                             cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),status,"0000-00-00","00:00:00"
                             })==true){
                                 simpandata();
+                             if(ChkIter.isSelected()==true){
+                                Sequel.menyimpan2("flagging_iterasi","?,?", "Nomor Resep",2,new String[]{
+                                NoResep.getText(),Iterasi.getSelectedItem().toString().substring(0, 1)
+                                });
+                             }
                         }else{
                             emptTeksobat();
                             if(Sequel.menyimpantf2("resep_obat","?,?,?,?,?,?,?,?,?,?","Nomer Resep",10,new String[]{
@@ -1177,6 +1213,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                 cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),status,"0000-00-00","00:00:00"
                                 })==true){
                                     simpandata();
+                                if(ChkIter.isSelected()==true){
+                                Sequel.menyimpan2("flagging_iterasi","?,?", "Nomor Resep",2,new String[]{
+                                NoResep.getText(),Iterasi.getSelectedItem().toString().substring(0, 1)
+                                });
+                             }
                             }else{
                                 emptTeksobat();
                                 sukses=false;
@@ -1189,6 +1230,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     Sequel.meghapus("resep_dokter_racikan_detail","no_resep",NoResep.getText());
                     ubah=false;
                     simpandata();
+                    if(ChkIter.isSelected()==true){
+                        Sequel.menyimpan2("flagging_iterasi","?,?", "Nomor Resep",2,new String[]{
+                        NoResep.getText(),Iterasi.getSelectedItem().toString().substring(0, 1)
+                        });
+                    }
                 }                                                      
                 
                 if(sukses==true){
@@ -1577,6 +1623,18 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         // TODO add your handling code here:
     }//GEN-LAST:event_JenisobatKeyPressed
 
+    private void ChkIterItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkIterItemStateChanged
+        if(ChkIter.isSelected()==true){
+            Iterasi.setVisible(true);
+        }else{
+            Iterasi.setVisible(false);
+        }
+    }//GEN-LAST:event_ChkIterItemStateChanged
+
+    private void ChkIterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkIterActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChkIterActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1602,10 +1660,12 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private widget.Button BtnSimpan;
     private widget.Button BtnTambah;
     private widget.Button BtnTambah1;
+    private widget.CekBox ChkIter;
     private widget.CekBox ChkJln;
     private widget.CekBox ChkRM;
     private widget.Tanggal DTPBeri;
     private widget.PanelBiasa FormInput;
+    private javax.swing.JComboBox<String> Iterasi;
     private widget.ComboBox Jeniskelas;
     private widget.ComboBox Jenisobat;
     private widget.TextBox KdDokter;

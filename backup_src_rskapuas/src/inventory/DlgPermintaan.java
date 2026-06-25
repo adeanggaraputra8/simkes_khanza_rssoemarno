@@ -29,6 +29,7 @@ import javax.swing.table.TableColumn;
 import keuangan.Jurnal;
 import simrskhanza.DlgCariBangsal;
 import kepegawaian.DlgCariPegawai;
+import modifikasi.DlgCariBangsal2;
 
 public class DlgPermintaan extends javax.swing.JDialog {
     private final DefaultTableModel tabMode;
@@ -42,6 +43,7 @@ public class DlgPermintaan extends javax.swing.JDialog {
     private WarnaTable2 warna=new WarnaTable2();
     private DlgCariPegawai pegawai=new DlgCariPegawai(null,false);
     private DlgCariBangsal caribangsal=new DlgCariBangsal(null,false);
+    private DlgCariBangsal2 caribangsal2=new DlgCariBangsal2(null,false);
     private DlgCariPermintaan form=new DlgCariPermintaan(null,false);
     private DlgBarang barang=new DlgBarang(null,false);
     private boolean sukses=true;
@@ -132,14 +134,35 @@ public class DlgPermintaan extends javax.swing.JDialog {
             @Override
             public void windowClosed(WindowEvent e) {
                 if(caribangsal.getTable().getSelectedRow()!= -1){   
-                    if(i==1){
-                        kdgudangTujuan.setText(caribangsal.getTable().getValueAt(caribangsal.getTable().getSelectedRow(),0).toString());
-                        nmgudangTujuan.setText(caribangsal.getTable().getValueAt(caribangsal.getTable().getSelectedRow(),1).toString());
-                        kdgudangTujuan.requestFocus();
-                    }else if(i==2){
+                       if(i==2){
                         kdgudangasal.setText(caribangsal.getTable().getValueAt(caribangsal.getTable().getSelectedRow(),0).toString());
                         nmgudangasal.setText(caribangsal.getTable().getValueAt(caribangsal.getTable().getSelectedRow(),1).toString());
                         kdgudangasal.requestFocus();
+                    }
+                } 
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
+        
+        caribangsal2.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(caribangsal.getTable().getSelectedRow()!= -1){   
+                    if(i==1){
+                        kdgudangTujuan.setText(caribangsal2.getTable().getValueAt(caribangsal2.getTable().getSelectedRow(),0).toString());
+                        nmgudangTujuan.setText(caribangsal2.getTable().getValueAt(caribangsal2.getTable().getSelectedRow(),1).toString());
+                        kdgudangTujuan.requestFocus();
                     }
                 } 
             }
@@ -799,12 +822,12 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
 
     private void btnSuplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuplierActionPerformed
         i=1;
-        caribangsal.isCek();
-        caribangsal.emptTeks();
-        caribangsal.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        caribangsal.setLocationRelativeTo(internalFrame1);
-        caribangsal.setAlwaysOnTop(false);
-        caribangsal.setVisible(true);
+        caribangsal2.isCek();
+        caribangsal2.emptTeks();
+        caribangsal2.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        caribangsal2.setLocationRelativeTo(internalFrame1);
+        caribangsal2.setAlwaysOnTop(false);
+        caribangsal2.setVisible(true);
     }//GEN-LAST:event_btnSuplierActionPerformed
 
     private void kdptgKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kdptgKeyPressed

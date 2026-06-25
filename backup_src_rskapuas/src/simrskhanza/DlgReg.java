@@ -197,13 +197,6 @@ public final class DlgReg extends javax.swing.JDialog {
   
     private int u,pilihan=0,i=0,kuota=0,jmlparsial=0,row=0;
     private Date cal=new Date();
-    private String URL="",link="";
-    private HttpHeaders headers ;
-    private HttpEntity requestEntity;
-    private ObjectMapper mapper = new ObjectMapper();
-    private JsonNode root;
-    private JsonNode nameNode;
-    private JsonNode response;
     private boolean ceksukses=false;
     private String nosisrute="",aktifkanparsial="no",BASENOREG="",finger="",
             URUTNOREG="",status="Baru",order="reg_periksa.tgl_registrasi,reg_periksa.jam_reg desc",alamatperujuk="-",aktifjadwal="",IPPRINTERTRACER="",umur="0",sttsumur="Th",terbitsep="",
@@ -10061,6 +10054,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
 //            }
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             akses.setform("DlgReg");
+            //bukafrista();
             BPJSDataSEP dlgki=new BPJSDataSEP(null,false);
             dlgki.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             dlgki.setLocationRelativeTo(internalFrame1);
@@ -16884,6 +16878,15 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
                 }
             }
         }  
+    }
+    
+    private void bukafrista (){
+        if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+            TNoReg.requestFocus();
+        }else{
+            Valid.panggilUrl("frista-auto/frista/frista.php?nik="+Sequel.cariIsi("select no_ktp from pasien where no_rkm_medis ='"+TNoRM.getText()+"'"));                       
+        } 
     }
     
 }

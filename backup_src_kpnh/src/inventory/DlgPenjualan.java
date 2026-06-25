@@ -12,6 +12,8 @@ import fungsi.validasi;
 import fungsi.akses;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
@@ -24,18 +26,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import keuangan.Jurnal;
 import modifikasi.DlgEditBarang;
 import modifikasi.DlgObatPRB;
+import modifikasi.Dlgwhatsapp;
 import org.apache.commons.math3.util.MathArrays;
 import simrskhanza.DlgCariBangsal;
 
@@ -50,7 +55,7 @@ public class DlgPenjualan extends javax.swing.JDialog {
     public  DlgCariObat dlgobtjalan=new DlgCariObat(null,false);
     private DlgCariBangsal bangsal=new DlgCariBangsal(null,false);
     private DlgEditBarang edit=new DlgEditBarang(null,false);
-    private DlgObatPRB prb=new DlgObatPRB(null,false);
+    private DlgPiutang prb=new DlgPiutang(null,false);
     private double ttl=0,ttlhpp=0,y=0,z=0,stokbarang=0,embalasen=0,tuslahn=0,bayar=0,total=0,ppn=0,besarppn=0,ppnobat=0,besarppnobat=0,tagihanppn=0,ongkir=0;
     private int jml=0,i=0,row,kolom=0,reply,index;
     public DlgCariAturanPakai aturan_pakai=new DlgCariAturanPakai(null,false);
@@ -66,6 +71,7 @@ public class DlgPenjualan extends javax.swing.JDialog {
     private WarnaTable2 warna3=new WarnaTable2();
     private WarnaTabelPenjualan warnapj=new WarnaTabelPenjualan();
     private DlgCariMetodeRacik metoderacik=new DlgCariMetodeRacik(null,false);
+    private Dlgwhatsapp wa=new Dlgwhatsapp(null,false);
     private boolean sukses=true;
     private File file;
     private FileWriter fileWriter;
@@ -340,6 +346,8 @@ public class DlgPenjualan extends javax.swing.JDialog {
                 }
             });
         }
+        
+         jam();
         
         PersenppnObat.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
             @Override
@@ -730,7 +738,7 @@ public class DlgPenjualan extends javax.swing.JDialog {
         Jenisjual = new widget.ComboBox();
         label18 = new widget.Label();
         catatan = new widget.TextBox();
-        label12 = new widget.Label();
+        lblClosing = new widget.Label();
         label11 = new widget.Label();
         label21 = new widget.Label();
         kdgudang = new widget.TextBox();
@@ -739,6 +747,11 @@ public class DlgPenjualan extends javax.swing.JDialog {
         CopyResep = new widget.Button();
         CopyResep1 = new widget.Button();
         Tgl = new widget.Tanggal();
+        jLabel9 = new widget.Label();
+        CmbJam = new widget.ComboBox();
+        CmbMenit = new widget.ComboBox();
+        CmbDetik = new widget.ComboBox();
+        label17 = new widget.Label();
         TabRawat = new javax.swing.JTabbedPane();
         scrollPane1 = new widget.ScrollPane();
         tbObat = new widget.Table();
@@ -1460,7 +1473,7 @@ public class DlgPenjualan extends javax.swing.JDialog {
         internalFrame1.add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         panelisi3.setName("panelisi3"); // NOI18N
-        panelisi3.setPreferredSize(new java.awt.Dimension(89, 104));
+        panelisi3.setPreferredSize(new java.awt.Dimension(100, 120));
         panelisi3.setLayout(null);
 
         label15.setText("No.Nota :");
@@ -1477,7 +1490,7 @@ public class DlgPenjualan extends javax.swing.JDialog {
             }
         });
         panelisi3.add(NoNota);
-        NoNota.setBounds(74, 10, 180, 23);
+        NoNota.setBounds(74, 10, 130, 23);
 
         label14.setText("Petugas :");
         label14.setName("label14"); // NOI18N
@@ -1584,11 +1597,14 @@ public class DlgPenjualan extends javax.swing.JDialog {
         panelisi3.add(catatan);
         catatan.setBounds(74, 40, 295, 23);
 
-        label12.setText("Jenis Jual :");
-        label12.setName("label12"); // NOI18N
-        label12.setPreferredSize(new java.awt.Dimension(70, 23));
-        panelisi3.add(label12);
-        label12.setBounds(190, 70, 65, 23);
+        lblClosing.setBackground(new java.awt.Color(255, 255, 153));
+        lblClosing.setForeground(new java.awt.Color(204, 0, 0));
+        lblClosing.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblClosing.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblClosing.setName("lblClosing"); // NOI18N
+        lblClosing.setPreferredSize(new java.awt.Dimension(70, 23));
+        panelisi3.add(lblClosing);
+        lblClosing.setBounds(170, 100, 480, 20);
 
         label11.setText("Tanggal :");
         label11.setName("label11"); // NOI18N
@@ -1652,7 +1668,7 @@ public class DlgPenjualan extends javax.swing.JDialog {
 
         CopyResep1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/Agenda-1-16x16.png"))); // NOI18N
         CopyResep1.setMnemonic('S');
-        CopyResep1.setText("Resep PRB");
+        CopyResep1.setText("Piutang Penjualan");
         CopyResep1.setToolTipText("Alt+S");
         CopyResep1.setName("CopyResep1"); // NOI18N
         CopyResep1.setPreferredSize(new java.awt.Dimension(100, 30));
@@ -1670,8 +1686,8 @@ public class DlgPenjualan extends javax.swing.JDialog {
         CopyResep1.setBounds(880, 10, 140, 30);
 
         Tgl.setForeground(new java.awt.Color(50, 70, 50));
-        Tgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-03-2024 10:49:35" }));
-        Tgl.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
+        Tgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "07-06-2026" }));
+        Tgl.setDisplayFormat("dd-MM-yyyy");
         Tgl.setName("Tgl"); // NOI18N
         Tgl.setOpaque(false);
         Tgl.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -1681,6 +1697,47 @@ public class DlgPenjualan extends javax.swing.JDialog {
         });
         panelisi3.add(Tgl);
         Tgl.setBounds(70, 70, 130, 23);
+
+        jLabel9.setText("Jam :");
+        jLabel9.setName("jLabel9"); // NOI18N
+        panelisi3.add(jLabel9);
+        jLabel9.setBounds(200, 10, 36, 23);
+
+        CmbJam.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
+        CmbJam.setName("CmbJam"); // NOI18N
+        CmbJam.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbJamKeyPressed(evt);
+            }
+        });
+        panelisi3.add(CmbJam);
+        CmbJam.setBounds(240, 10, 62, 23);
+
+        CmbMenit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        CmbMenit.setName("CmbMenit"); // NOI18N
+        CmbMenit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbMenitKeyPressed(evt);
+            }
+        });
+        panelisi3.add(CmbMenit);
+        CmbMenit.setBounds(300, 10, 62, 23);
+
+        CmbDetik.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        CmbDetik.setName("CmbDetik"); // NOI18N
+        CmbDetik.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbDetikKeyPressed(evt);
+            }
+        });
+        panelisi3.add(CmbDetik);
+        CmbDetik.setBounds(370, 10, 62, 23);
+
+        label17.setText("Jenis Jual :");
+        label17.setName("label17"); // NOI18N
+        label17.setPreferredSize(new java.awt.Dimension(70, 23));
+        panelisi3.add(label17);
+        label17.setBounds(190, 70, 65, 23);
 
         internalFrame1.add(panelisi3, java.awt.BorderLayout.PAGE_START);
 
@@ -1946,7 +2003,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
 */
 
     private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
-//        if(Sequel.cariIsi("SELECT IF(NOW() > '2024-03-27 17:00:00','1','0')").equals("0"))  {
+//        if(Sequel.cariIsi("SELECT IF(NOW() > '14:00:00','1','0')").equals("1"))  {
 //            cekclosingkasir();
 //        }else{
         
@@ -2013,15 +2070,16 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                 } 
                 
                 if(Sequel.menyimpantf2("penjualan","?,?,?,?,?,?,?,?,?,?,?,?,?","No.Nota",13,new String[]{
-                        NoNota.getText(),Valid.SetTgl(Tgl.getSelectedItem()+"")+" "+Tgl.getSelectedItem().toString().substring(11,19),kdptg.getText(),kdmem.getText(),nmmem.getText(),
+                        NoNota.getText(),Valid.SetTgl(Tgl.getSelectedItem()+"")+" "+CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(),kdptg.getText(),kdmem.getText(),nmmem.getText(),
                         catatan.getText(),Jenisjual.getSelectedItem().toString(),Double.toString(ongkir),Double.toString(besarppnobat),
                         status,kdgudang.getText(),kode_akun_bayar,AkunBayar.getSelectedItem().toString()}
                    )==true){
+                        //wa.setnota(NoNota.getText(),LTotal.getText(), "6285249229525");
                         simpan();
                 }else{
                     autoNomor();
                     if(Sequel.menyimpantf2("penjualan","?,?,?,?,?,?,?,?,?,?,?,?,?","No.Nota",13,new String[]{
-                            NoNota.getText(),kdptg.getText(),kdmem.getText(),nmmem.getText(),
+                            NoNota.getText(),Valid.SetTgl(Tgl.getSelectedItem()+"")+" "+CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(),kdptg.getText(),kdmem.getText(),nmmem.getText(),
                             catatan.getText(),Jenisjual.getSelectedItem().toString(),Double.toString(ongkir),Double.toString(besarppnobat),
                             status,kdgudang.getText(),kode_akun_bayar,AkunBayar.getSelectedItem().toString()}
                        )==true){
@@ -2209,7 +2267,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                 autoNomor();
             }
         }
-   //   }
+//     }
     }//GEN-LAST:event_BtnSimpanActionPerformed
 
     private void BtnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnSimpanKeyPressed
@@ -3075,7 +3133,7 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     }//GEN-LAST:event_BtnTambah3ActionPerformed
 
     private void CopyResep1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CopyResep1ActionPerformed
-      this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         prb.emptTeks();
         prb.isCek();
         prb.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
@@ -3091,6 +3149,18 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private void TglKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TglKeyPressed
 
     }//GEN-LAST:event_TglKeyPressed
+
+    private void CmbJamKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbJamKeyPressed
+
+    }//GEN-LAST:event_CmbJamKeyPressed
+
+    private void CmbMenitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbMenitKeyPressed
+
+    }//GEN-LAST:event_CmbMenitKeyPressed
+
+    private void CmbDetikKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbDetikKeyPressed
+
+    }//GEN-LAST:event_CmbDetikKeyPressed
 
     /**
     * @param args the command line arguments
@@ -3135,6 +3205,9 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private widget.Button BtnTambah1;
     private widget.Button BtnTambah2;
     private widget.Button BtnTambah3;
+    private widget.ComboBox CmbDetik;
+    private widget.ComboBox CmbJam;
+    private widget.ComboBox CmbMenit;
     private widget.Button CopyResep;
     private widget.Button CopyResep1;
     private widget.ComboBox Jenisjual;
@@ -3179,6 +3252,7 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private widget.Label jLabel19;
     private widget.Label jLabel41;
     private widget.Label jLabel42;
+    private widget.Label jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private widget.TextBox kdgudang;
@@ -3186,11 +3260,11 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private widget.TextBox kdptg;
     private widget.Label label10;
     private widget.Label label11;
-    private widget.Label label12;
     private widget.Label label13;
     private widget.Label label14;
     private widget.Label label15;
     private widget.Label label16;
+    private widget.Label label17;
     private widget.Label label18;
     private widget.Label label19;
     private widget.Label label20;
@@ -3198,6 +3272,7 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
     private widget.Label label22;
     private widget.Label label23;
     private widget.Label label9;
+    private widget.Label lblClosing;
     private widget.TextBox nmgudang;
     private widget.TextBox nmmem;
     private widget.TextBox nmptg;
@@ -4932,4 +5007,75 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             JOptionPane.showMessageDialog(null, "Maaf, Silahkan closing Untuk Shif Pagi dan bisa melanjutkan untuk shif sore");
         }
     }
+        
+       private void jam(){
+            ActionListener taskPerformer = new ActionListener(){
+                private int nilai_jam;
+                private int nilai_menit;
+                private int nilai_detik;
+                public void actionPerformed(ActionEvent e) {
+                    String nol_jam = "";
+                    String nol_menit = "";
+                    String nol_detik = "";
+
+                    Date now = Calendar.getInstance().getTime();
+
+                    // Mengambil nilaj JAM, MENIT, dan DETIK Sekarang
+
+                        nilai_jam = now.getHours();
+                        nilai_menit = now.getMinutes();
+                        nilai_detik = now.getSeconds();
+
+                    // Jika nilai JAM lebih kecil dari 10 (hanya 1 digit)
+                    if (nilai_jam <= 9) {
+                        // Tambahkan "0" didepannya
+                        nol_jam = "0";
+                    }
+                    // Jika nilai MENIT lebih kecil dari 10 (hanya 1 digit)
+                    if (nilai_menit <= 9) {
+                        // Tambahkan "0" didepannya
+                        nol_menit = "0";
+                    }
+                    // Jika nilai DETIK lebih kecil dari 10 (hanya 1 digit)
+                    if (nilai_detik <= 9) {
+                        // Tambahkan "0" didepannya
+                        nol_detik = "0";
+                    }
+                    // Membuat String JAM, MENIT, DETIK
+                    String jam = nol_jam + Integer.toString(nilai_jam);
+                    String menit = nol_menit + Integer.toString(nilai_menit);
+                    String detik = nol_detik + Integer.toString(nilai_detik);
+                    // Menampilkan pada Layar
+                    //tampil_jam.setText("  " + jam + " : " + menit + " : " + detik + "  ");
+                    CmbJam.setSelectedItem(jam);
+                    CmbMenit.setSelectedItem(menit);
+                    CmbDetik.setSelectedItem(detik);
+                    
+                    if(CmbJam.getSelectedItem().equals("13") && CmbMenit.getSelectedItem().equals("30") ){
+                           lblClosing.setText(" Closing billing jam 14:00 WIB");
+                    }
+                    
+                    if(CmbJam.getSelectedItem().equals("13") && CmbMenit.getSelectedItem().equals("45") ){
+                           lblClosing.setText(" Closing billing jam 14:00 WIB");
+                    }
+                    
+                    if(CmbJam.getSelectedItem().equals("14") && CmbMenit.getSelectedItem().equals("55") ){
+                           lblClosing.setText(" Closing billing jam 14:00 WIB");
+                    }
+                    
+                    if(CmbJam.getSelectedItem().equals("14")){
+                           lblClosing.setText("");
+                    }
+                    
+                }
+                
+            };
+            // Timer
+            new Timer(1000, taskPerformer).start();
+            
+
+        }
+    
 }
+
+

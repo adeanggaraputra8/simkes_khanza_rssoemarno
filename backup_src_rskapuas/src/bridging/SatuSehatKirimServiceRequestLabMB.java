@@ -228,6 +228,7 @@ public final class SatuSehatKirimServiceRequestLabMB extends javax.swing.JDialog
         jLabel16 = new widget.Label();
         TCari = new widget.TextBox();
         BtnCari = new widget.Button();
+        ChkBelumTerkirim = new widget.CekBox();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -393,7 +394,7 @@ public final class SatuSehatKirimServiceRequestLabMB extends javax.swing.JDialog
         jLabel15.setPreferredSize(new java.awt.Dimension(85, 23));
         panelGlass9.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-03-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -406,7 +407,7 @@ public final class SatuSehatKirimServiceRequestLabMB extends javax.swing.JDialog
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass9.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-03-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -443,6 +444,27 @@ public final class SatuSehatKirimServiceRequestLabMB extends javax.swing.JDialog
             }
         });
         panelGlass9.add(BtnCari);
+
+        ChkBelumTerkirim.setBorder(null);
+        ChkBelumTerkirim.setText("Data belum terkirim");
+        ChkBelumTerkirim.setBorderPainted(true);
+        ChkBelumTerkirim.setBorderPaintedFlat(true);
+        ChkBelumTerkirim.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ChkBelumTerkirim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkBelumTerkirim.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ChkBelumTerkirim.setIconTextGap(2);
+        ChkBelumTerkirim.setName("ChkBelumTerkirim"); // NOI18N
+        ChkBelumTerkirim.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ChkBelumTerkirimItemStateChanged(evt);
+            }
+        });
+        ChkBelumTerkirim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkBelumTerkirimActionPerformed(evt);
+            }
+        });
+        panelGlass9.add(ChkBelumTerkirim);
 
         jPanel3.add(panelGlass9, java.awt.BorderLayout.PAGE_START);
 
@@ -775,6 +797,16 @@ public final class SatuSehatKirimServiceRequestLabMB extends javax.swing.JDialog
         }
     }//GEN-LAST:event_BtnAllKeyPressed
 
+    private void ChkBelumTerkirimItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimItemStateChanged
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        tampil();
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_ChkBelumTerkirimItemStateChanged
+
+    private void ChkBelumTerkirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChkBelumTerkirimActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -798,6 +830,7 @@ public final class SatuSehatKirimServiceRequestLabMB extends javax.swing.JDialog
     private widget.Button BtnKirim;
     private widget.Button BtnPrint;
     private widget.Button BtnUpdate;
+    private widget.CekBox ChkBelumTerkirim;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
     private widget.Label LCount;
@@ -820,6 +853,12 @@ public final class SatuSehatKirimServiceRequestLabMB extends javax.swing.JDialog
     private void tampil() {
         Valid.tabelKosong(tabMode);
         try{
+            String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_servicerequest_lab_mb.id_servicerequest IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,reg_periksa.kd_dokter,pegawai.nama,pegawai.no_ktp as ktpdokter,"+
                    "satu_sehat_encounter.id_encounter,permintaan_labmb.noorder,permintaan_labmb.tgl_permintaan,permintaan_labmb.jam_permintaan,permintaan_labmb.diagnosa_klinis,"+
@@ -833,7 +872,7 @@ public final class SatuSehatKirimServiceRequestLabMB extends javax.swing.JDialog
                    "left join satu_sehat_servicerequest_lab_mb on satu_sehat_servicerequest_lab_mb.noorder=permintaan_detail_permintaan_labmb.noorder "+
                    "and satu_sehat_servicerequest_lab_mb.id_template=permintaan_detail_permintaan_labmb.id_template "+
                    "and satu_sehat_servicerequest_lab_mb.kd_jenis_prw=permintaan_detail_permintaan_labmb.kd_jenis_prw "+
-                   "where reg_periksa.tgl_registrasi between ? and ? "+
+                   "where "+belumterkirim+" reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.nama like ? or template_laboratorium.Pemeriksaan like ? or "+
                    "satu_sehat_mapping_lab.code like ? or permintaan_labmb.noorder like ?)"));
@@ -883,7 +922,7 @@ public final class SatuSehatKirimServiceRequestLabMB extends javax.swing.JDialog
                    "left join satu_sehat_servicerequest_lab_mb on satu_sehat_servicerequest_lab_mb.noorder=permintaan_detail_permintaan_labmb.noorder "+
                    "and satu_sehat_servicerequest_lab_mb.id_template=permintaan_detail_permintaan_labmb.id_template "+
                    "and satu_sehat_servicerequest_lab_mb.kd_jenis_prw=permintaan_detail_permintaan_labmb.kd_jenis_prw "+
-                   "where reg_periksa.tgl_registrasi between ? and ? "+
+                   "where "+belumterkirim+" reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or pegawai.nama like ? or template_laboratorium.Pemeriksaan like ? or "+
                    "satu_sehat_mapping_lab.code like ? or permintaan_labmb.noorder like ?)"));

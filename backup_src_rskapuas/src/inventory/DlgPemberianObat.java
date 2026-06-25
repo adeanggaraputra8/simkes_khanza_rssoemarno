@@ -712,6 +712,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         MnBayarObat = new javax.swing.JMenuItem();
         ppResiObatUmum = new javax.swing.JMenuItem();
         MnKirimWa = new javax.swing.JMenuItem();
+        MnUpdateBatchFaktur = new javax.swing.JMenuItem();
         THBeli = new widget.TextBox();
         Popup1 = new javax.swing.JPopupMenu();
         jMenuLapJalanAllDepo = new javax.swing.JMenu();
@@ -806,6 +807,18 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         MnNotaPx = new javax.swing.JMenuItem();
         Mnrekaplaporan = new javax.swing.JMenuItem();
         Tanggal = new widget.Tanggal();
+        WindowUpdateBatchFaktur = new javax.swing.JDialog();
+        internalFrame7 = new widget.InternalFrame();
+        panelBiasa5 = new widget.PanelBiasa();
+        jLabel38 = new widget.Label();
+        BtnUpdateBatchFaktur = new widget.Button();
+        BtnKeluar5 = new widget.Button();
+        TNoFaktur = new widget.TextBox();
+        TNmObat = new widget.TextBox();
+        jLabel43 = new widget.Label();
+        TKodeObat = new widget.TextBox();
+        TNoBatch = new widget.TextBox();
+        jLabel47 = new widget.Label();
         internalFrame1 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbPemberianObat = new widget.Table();
@@ -983,6 +996,22 @@ public class DlgPemberianObat extends javax.swing.JDialog {
             }
         });
         Popup2.add(MnKirimWa);
+
+        MnUpdateBatchFaktur.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnUpdateBatchFaktur.setForeground(new java.awt.Color(70, 70, 70));
+        MnUpdateBatchFaktur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnUpdateBatchFaktur.setText("Update Batch & Faktur");
+        MnUpdateBatchFaktur.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnUpdateBatchFaktur.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnUpdateBatchFaktur.setIconTextGap(8);
+        MnUpdateBatchFaktur.setName("MnUpdateBatchFaktur"); // NOI18N
+        MnUpdateBatchFaktur.setPreferredSize(new java.awt.Dimension(250, 25));
+        MnUpdateBatchFaktur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnUpdateBatchFakturActionPerformed(evt);
+            }
+        });
+        Popup2.add(MnUpdateBatchFaktur);
 
         THBeli.setText("0");
         THBeli.setHighlighter(null);
@@ -1741,7 +1770,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         internalFrame8.add(Nmpetugas);
         Nmpetugas.setBounds(200, 80, 180, 24);
 
-        DTPBayar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
+        DTPBayar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-04-2026" }));
         DTPBayar.setDisplayFormat("dd-MM-yyyy");
         DTPBayar.setName("DTPBayar"); // NOI18N
         DTPBayar.setOpaque(false);
@@ -1865,7 +1894,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         });
         panelGlass3.add(BtnPrint1);
 
-        DTPtanggalkembali1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
+        DTPtanggalkembali1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-04-2026" }));
         DTPtanggalkembali1.setDisplayFormat("dd-MM-yyyy");
         DTPtanggalkembali1.setName("DTPtanggalkembali1"); // NOI18N
         DTPtanggalkembali1.setOpaque(false);
@@ -1885,7 +1914,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         jLabel44.setName("jLabel44"); // NOI18N
         panelGlass3.add(jLabel44);
 
-        DTPtanggalkembali2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
+        DTPtanggalkembali2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-04-2026" }));
         DTPtanggalkembali2.setDisplayFormat("dd-MM-yyyy");
         DTPtanggalkembali2.setName("DTPtanggalkembali2"); // NOI18N
         DTPtanggalkembali2.setOpaque(false);
@@ -2033,7 +2062,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
 
         Tanggal.setEditable(false);
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-04-2026" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -2043,6 +2072,107 @@ public class DlgPemberianObat extends javax.swing.JDialog {
                 TanggalKeyPressed(evt);
             }
         });
+
+        WindowUpdateBatchFaktur.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        WindowUpdateBatchFaktur.setName("WindowUpdateBatchFaktur"); // NOI18N
+        WindowUpdateBatchFaktur.setUndecorated(true);
+        WindowUpdateBatchFaktur.setResizable(false);
+
+        internalFrame7.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 235, 225)), "::[ Update No. Batch dan Faktur ]::", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(50, 70, 50))); // NOI18N
+        internalFrame7.setName("internalFrame7"); // NOI18N
+        internalFrame7.setLayout(new java.awt.BorderLayout(1, 1));
+
+        panelBiasa5.setName("panelBiasa5"); // NOI18N
+        panelBiasa5.setLayout(null);
+
+        jLabel38.setText("No. Faktur :");
+        jLabel38.setName("jLabel38"); // NOI18N
+        panelBiasa5.add(jLabel38);
+        jLabel38.setBounds(270, 80, 100, 23);
+
+        BtnUpdateBatchFaktur.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16i.png"))); // NOI18N
+        BtnUpdateBatchFaktur.setMnemonic('T');
+        BtnUpdateBatchFaktur.setText("Update");
+        BtnUpdateBatchFaktur.setToolTipText("Alt+T");
+        BtnUpdateBatchFaktur.setName("BtnUpdateBatchFaktur"); // NOI18N
+        BtnUpdateBatchFaktur.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnUpdateBatchFaktur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnUpdateBatchFakturActionPerformed(evt);
+            }
+        });
+        panelBiasa5.add(BtnUpdateBatchFaktur);
+        BtnUpdateBatchFaktur.setBounds(200, 120, 100, 30);
+
+        BtnKeluar5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/exit.png"))); // NOI18N
+        BtnKeluar5.setMnemonic('K');
+        BtnKeluar5.setText("Keluar");
+        BtnKeluar5.setToolTipText("Alt+K");
+        BtnKeluar5.setName("BtnKeluar5"); // NOI18N
+        BtnKeluar5.setPreferredSize(new java.awt.Dimension(100, 30));
+        BtnKeluar5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnKeluar5ActionPerformed(evt);
+            }
+        });
+        panelBiasa5.add(BtnKeluar5);
+        BtnKeluar5.setBounds(380, 120, 100, 30);
+
+        TNoFaktur.setHighlighter(null);
+        TNoFaktur.setName("TNoFaktur"); // NOI18N
+        TNoFaktur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TNoFakturActionPerformed(evt);
+            }
+        });
+        panelBiasa5.add(TNoFaktur);
+        TNoFaktur.setBounds(380, 80, 160, 23);
+
+        TNmObat.setEditable(false);
+        TNmObat.setHighlighter(null);
+        TNmObat.setName("TNmObat"); // NOI18N
+        TNmObat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TNmObatActionPerformed(evt);
+            }
+        });
+        panelBiasa5.add(TNmObat);
+        TNmObat.setBounds(270, 20, 330, 23);
+
+        jLabel43.setText("Obat/Alkes/BHP :");
+        jLabel43.setName("jLabel43"); // NOI18N
+        panelBiasa5.add(jLabel43);
+        jLabel43.setBounds(10, 20, 100, 23);
+
+        TKodeObat.setEditable(false);
+        TKodeObat.setHighlighter(null);
+        TKodeObat.setName("TKodeObat"); // NOI18N
+        TKodeObat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TKodeObatActionPerformed(evt);
+            }
+        });
+        panelBiasa5.add(TKodeObat);
+        TKodeObat.setBounds(120, 20, 140, 23);
+
+        TNoBatch.setHighlighter(null);
+        TNoBatch.setName("TNoBatch"); // NOI18N
+        TNoBatch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TNoBatchActionPerformed(evt);
+            }
+        });
+        panelBiasa5.add(TNoBatch);
+        TNoBatch.setBounds(120, 80, 160, 23);
+
+        jLabel47.setText("No. Batch :");
+        jLabel47.setName("jLabel47"); // NOI18N
+        panelBiasa5.add(jLabel47);
+        jLabel47.setBounds(0, 80, 110, 23);
+
+        internalFrame7.add(panelBiasa5, java.awt.BorderLayout.CENTER);
+
+        WindowUpdateBatchFaktur.getContentPane().add(internalFrame7, java.awt.BorderLayout.CENTER);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
@@ -2214,7 +2344,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
 
         DTPCari1.setEditable(false);
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-04-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -2228,7 +2358,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
 
         DTPCari2.setEditable(false);
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-04-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2395,7 +2525,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
 
         DTPBeri.setEditable(false);
         DTPBeri.setForeground(new java.awt.Color(50, 70, 50));
-        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-05-2024" }));
+        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "10-04-2026" }));
         DTPBeri.setDisplayFormat("dd-MM-yyyy");
         DTPBeri.setName("DTPBeri"); // NOI18N
         DTPBeri.setOpaque(false);
@@ -5978,6 +6108,48 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         sep.setVisible(true);
     }//GEN-LAST:event_MnKirimWaActionPerformed
 
+    private void BtnUpdateBatchFakturActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnUpdateBatchFakturActionPerformed
+        if(TKodeObat.getText().trim().equals("")||TNmObat.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Obat tidak boleh kosong");
+        }else {
+            Sequel.mengedit("detail_pemberian_obat","kode_brng=? and tgl_perawatan=?","no_batch=?,no_faktur=?",4,new String[]{TNoBatch.getText(),TNoFaktur.getText(),TKodeObat.getText(),Valid.SetTgl(DTPBeri.getSelectedItem() + "")});
+        }
+        WindowUpdateBatchFaktur.dispose();
+    }//GEN-LAST:event_BtnUpdateBatchFakturActionPerformed
+
+    private void BtnKeluar5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluar5ActionPerformed
+        WindowUpdateBatchFaktur.dispose();
+    }//GEN-LAST:event_BtnKeluar5ActionPerformed
+
+    private void TNoFakturActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TNoFakturActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TNoFakturActionPerformed
+
+    private void TNmObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TNmObatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TNmObatActionPerformed
+
+    private void TKodeObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TKodeObatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TKodeObatActionPerformed
+
+    private void TNoBatchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TNoBatchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TNoBatchActionPerformed
+
+    private void MnUpdateBatchFakturActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnUpdateBatchFakturActionPerformed
+         if(TNoRw.getText().trim().equals("")||TKdOb.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
+        }else{
+            WindowUpdateBatchFaktur.setLocationRelativeTo(internalFrame1);
+            WindowUpdateBatchFaktur.setSize(653,190);                 
+            WindowUpdateBatchFaktur.setAlwaysOnTop(false);
+            TKodeObat.setText(TKdOb.getText());TNmObat.setText(TNmOb.getText());
+            TNoFaktur.setText(Sequel.cariIsi("SELECT dp.no_faktur FROM detailpesan dp INNER JOIN pemesanan p on p.no_faktur=dp.no_faktur WHERE dp.kode_brng='"+TKdOb.getText()+"' ORDER BY p.tgl_pesan desc LIMIT 1"));
+            WindowUpdateBatchFaktur.setVisible(true);
+        }
+    }//GEN-LAST:event_MnUpdateBatchFakturActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -6004,6 +6176,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Button BtnGanti;
     private widget.Button BtnHapus;
     private widget.Button BtnKeluar;
+    private widget.Button BtnKeluar5;
     private widget.Button BtnObat2;
     private widget.Button BtnObat3;
     private widget.Button BtnPrint;
@@ -6012,6 +6185,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Button BtnSeek4;
     private widget.Button BtnSimpan6;
     private widget.Button BtnUnit;
+    private widget.Button BtnUpdateBatchFaktur;
     private widget.CekBox ChkInput;
     private widget.CekBox ChkJln;
     private widget.Tanggal DTPBayar;
@@ -6030,6 +6204,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private javax.swing.JMenuItem MnBayarObat;
     private javax.swing.JMenuItem MnKirimWa;
     private javax.swing.JMenuItem MnNotaPx;
+    private javax.swing.JMenuItem MnUpdateBatchFaktur;
     private javax.swing.JMenuItem Mnrekaplaporan;
     private widget.TextBox NmGudang;
     private widget.TextBox Nmpetugas;
@@ -6047,7 +6222,11 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.TextBox THBeli;
     private widget.TextBox TJumlah;
     private widget.TextBox TKdOb;
+    private widget.TextBox TKodeObat;
     private widget.TextBox TNmOb;
+    private widget.TextBox TNmObat;
+    private widget.TextBox TNoBatch;
+    private widget.TextBox TNoFaktur;
     private widget.TextBox TNoRM;
     private widget.TextBox TNoRw;
     private widget.TextBox TPasien;
@@ -6059,6 +6238,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.TextBox Tagihan1;
     private widget.Tanggal Tanggal;
     private javax.swing.JDialog WindowBayarObat;
+    private javax.swing.JDialog WindowUpdateBatchFaktur;
     private widget.Button btnBarang1;
     private widget.Button btnKonversi;
     private widget.Button btnObat1;
@@ -6071,6 +6251,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.InternalFrame internalFrame1;
     private widget.InternalFrame internalFrame2;
     private widget.InternalFrame internalFrame3;
+    private widget.InternalFrame internalFrame7;
     private widget.InternalFrame internalFrame8;
     private widget.Label jLabel10;
     private widget.Label jLabel11;
@@ -6088,13 +6269,16 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Label jLabel24;
     private widget.Label jLabel25;
     private widget.Label jLabel3;
+    private widget.Label jLabel38;
     private widget.Label jLabel39;
     private widget.Label jLabel40;
     private widget.Label jLabel41;
     private widget.Label jLabel42;
+    private widget.Label jLabel43;
     private widget.Label jLabel44;
     private widget.Label jLabel45;
     private widget.Label jLabel46;
+    private widget.Label jLabel47;
     private widget.Label jLabel6;
     private widget.Label jLabel7;
     private widget.Label jLabel9;
@@ -6162,6 +6346,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Label label19;
     private widget.TextBox lokasi1;
     private widget.TextBox nmpnj;
+    private widget.PanelBiasa panelBiasa5;
     private widget.panelGlass panelGlass3;
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;

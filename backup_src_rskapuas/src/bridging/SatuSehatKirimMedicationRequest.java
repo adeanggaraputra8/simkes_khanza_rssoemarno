@@ -250,6 +250,7 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
         jLabel16 = new widget.Label();
         TCari = new widget.TextBox();
         BtnCari = new widget.Button();
+        ChkBelumTerkirim = new widget.CekBox();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -415,7 +416,7 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(85, 23));
         panelGlass9.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -428,7 +429,7 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass9.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "31-01-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "27-08-2025" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -465,6 +466,27 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
             }
         });
         panelGlass9.add(BtnCari);
+
+        ChkBelumTerkirim.setBorder(null);
+        ChkBelumTerkirim.setText("Data belum terkirim");
+        ChkBelumTerkirim.setBorderPainted(true);
+        ChkBelumTerkirim.setBorderPaintedFlat(true);
+        ChkBelumTerkirim.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ChkBelumTerkirim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkBelumTerkirim.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ChkBelumTerkirim.setIconTextGap(2);
+        ChkBelumTerkirim.setName("ChkBelumTerkirim"); // NOI18N
+        ChkBelumTerkirim.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ChkBelumTerkirimItemStateChanged(evt);
+            }
+        });
+        ChkBelumTerkirim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkBelumTerkirimActionPerformed(evt);
+            }
+        });
+        panelGlass9.add(ChkBelumTerkirim);
 
         jPanel3.add(panelGlass9, java.awt.BorderLayout.PAGE_START);
 
@@ -1136,6 +1158,16 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_BtnAllKeyPressed
 
+    private void ChkBelumTerkirimItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimItemStateChanged
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        tampil();
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_ChkBelumTerkirimItemStateChanged
+
+    private void ChkBelumTerkirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChkBelumTerkirimActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -1159,6 +1191,7 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
     private widget.Button BtnKirim;
     private widget.Button BtnPrint;
     private widget.Button BtnUpdate;
+    private widget.CekBox ChkBelumTerkirim;
     private widget.Tanggal DTPCari1;
     private widget.Tanggal DTPCari2;
     private widget.Label LCount;
@@ -1182,6 +1215,12 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
     private void tampil() {
         Valid.tabelKosong(tabMode);
         try{
+            String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_medicationrequest.id_medicationrequest IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,satu_sehat_encounter.id_encounter,satu_sehat_mapping_obat.obat_code,satu_sehat_mapping_obat.obat_system,"+
@@ -1197,7 +1236,7 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
                    "inner join satu_sehat_mapping_obat on satu_sehat_mapping_obat.kode_brng=resep_dokter.kode_brng "+
                    "inner join satu_sehat_medication on satu_sehat_medication.kode_brng=satu_sehat_mapping_obat.kode_brng "+
                    "left join satu_sehat_medicationrequest on satu_sehat_medicationrequest.no_resep=resep_dokter.no_resep and satu_sehat_medicationrequest.kode_brng=resep_dokter.kode_brng "+
-                   "where reg_periksa.tgl_registrasi between ? and ? "+
+                   "where "+belumterkirim+" reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or satu_sehat_mapping_obat.kode_brng like ? or satu_sehat_mapping_obat.obat_display like ?) "));
             try {
@@ -1247,7 +1286,7 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
                    "inner join satu_sehat_mapping_obat on satu_sehat_mapping_obat.kode_brng=resep_dokter.kode_brng "+
                    "inner join satu_sehat_medication on satu_sehat_medication.kode_brng=satu_sehat_mapping_obat.kode_brng "+
                    "left join satu_sehat_medicationrequest on satu_sehat_medicationrequest.no_resep=resep_dokter.no_resep and satu_sehat_medicationrequest.kode_brng=resep_dokter.kode_brng "+
-                   "where reg_periksa.tgl_registrasi between ? and ? "+
+                   "where "+belumterkirim+" reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or satu_sehat_mapping_obat.kode_brng like ? or satu_sehat_mapping_obat.obat_display like ?) "));
             try {
@@ -1282,6 +1321,12 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
                 }
             }
             
+            String belumterkirimracikan = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirimracikan = " satu_sehat_medicationrequest_racikan.id_medicationrequest IS NULL and ";
+            } else {
+                belumterkirimracikan = "";
+            }
             ps=koneksi.prepareStatement(
                    "select reg_periksa.tgl_registrasi,reg_periksa.jam_reg,reg_periksa.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.no_ktp,"+
                    "pegawai.nama,pegawai.no_ktp as ktppraktisi,satu_sehat_encounter.id_encounter,satu_sehat_mapping_obat.obat_code,satu_sehat_mapping_obat.obat_system,"+
@@ -1299,7 +1344,7 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
                    "inner join satu_sehat_medication on satu_sehat_medication.kode_brng=satu_sehat_mapping_obat.kode_brng "+
                    "left join satu_sehat_medicationrequest_racikan on satu_sehat_medicationrequest_racikan.no_resep=resep_dokter_racikan_detail.no_resep and "+
                    "satu_sehat_medicationrequest_racikan.kode_brng=resep_dokter_racikan_detail.kode_brng and satu_sehat_medicationrequest_racikan.no_racik=resep_dokter_racikan_detail.no_racik "+
-                   "where reg_periksa.tgl_registrasi between ? and ? "+
+                   "where "+belumterkirimracikan+" reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or satu_sehat_mapping_obat.kode_brng like ? or satu_sehat_mapping_obat.obat_display like ?) "));
             try {
@@ -1351,7 +1396,7 @@ public final class SatuSehatKirimMedicationRequest extends javax.swing.JDialog {
                    "inner join satu_sehat_medication on satu_sehat_medication.kode_brng=satu_sehat_mapping_obat.kode_brng "+
                    "left join satu_sehat_medicationrequest_racikan on satu_sehat_medicationrequest_racikan.no_resep=resep_dokter_racikan_detail.no_resep and "+
                    "satu_sehat_medicationrequest_racikan.kode_brng=resep_dokter_racikan_detail.kode_brng and satu_sehat_medicationrequest_racikan.no_racik=resep_dokter_racikan_detail.no_racik "+
-                   "where reg_periksa.tgl_registrasi between ? and ? "+
+                   "where "+belumterkirimracikan+" reg_periksa.tgl_registrasi between ? and ? "+
                    (TCari.getText().equals("")?"":"and (reg_periksa.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
                    "pasien.nm_pasien like ? or pasien.no_ktp like ? or satu_sehat_mapping_obat.kode_brng like ? or satu_sehat_mapping_obat.obat_display like ?) "));
             try {

@@ -66,7 +66,7 @@ import keuangan.DlgJnsPerawatanRalan;
 import keuangan.Jurnal;
 import laporan.DlgBerkasRawat;
 import modifikasi.DlgOdontogram;
-import modifikasi.DlgSBarRalan;
+import modifikasi.DlgSBARRalan;
 import modifikasi.ValidasiSBARRalan;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpEntity;
@@ -8312,10 +8312,8 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
             TCari.requestFocus();
         }else{ 
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            DlgSBarRalan form=new DlgSBarRalan(null,false);
-            form.isCek();
-            form.emptTeks();
-            form.setNoRm(TNoRw.getText(),DTPCari2.getDate());
+            DlgSBARRalan form=new DlgSBARRalan(null,false);
+            form.isCek();;
             form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
             form.setLocationRelativeTo(internalFrame1);
             form.setVisible(true);

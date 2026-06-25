@@ -6923,6 +6923,10 @@ private void MnRawatJalanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
             tbPetugas.requestFocus();
         }else{     
+            if(tbPetugas.getSelectedRow()!= -1){
+                if(Sequel.cariInteger("select count(kamar_inap.no_rawat) from kamar_inap where kamar_inap.no_rawat=? and TIMESTAMPDIFF(MINUTE, CONCAT(tgl_masuk,' ',jam_masuk), NOW()) >= 360",TNoRw.getText())>0){
+                            JOptionPane.showMessageDialog(null,"Maaf, Pasien sudah masuk Kamar Inap. Gunakan billing Ranap..!!!");
+                }else {
                     DlgRawatJalan dlgrwjl=new DlgRawatJalan(null,false);
                     dlgrwjl.isCek();
                     dlgrwjl.setSize(internalFrame1.getWidth(),internalFrame1.getHeight());
@@ -6933,7 +6937,8 @@ private void MnRawatJalanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
                     dlgrwjl.setVisible(true);
                
             
-                                
+                }
+            }
         }
 }//GEN-LAST:event_MnRawatJalanActionPerformed
 

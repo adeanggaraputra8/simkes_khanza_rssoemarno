@@ -60,7 +60,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
     private Connection koneksi=koneksiDB.condb();
     private PreparedStatement psresep,pscarikapasitas,psresepasuransi,ps2;
     private ResultSet rsobat,carikapasitas,rs2;
-    private double x=0,y=0,kenaikan=0,ttl=0,ppnobat=0,jumlahracik=0,persenracik=0,kapasitasracik=0;
+    private double x=0,y=0,kenaikan=0,ttl=0,ppnobat=0,jumlahracik=0,persenracik=0,kapasitasracik=0,ttlbpjs = 0;;
     private int i=0,z=0,row2=0,r=0;
     private boolean ubah=false,copy=false,sukses=true;
     private boolean[] pilih; 
@@ -136,8 +136,9 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
             }else if(i==9){
                 column.setPreferredWidth(100);
             }else if(i==10){
-                column.setMinWidth(0);
-                column.setMaxWidth(0);
+                column.setPreferredWidth(110);
+//                column.setMinWidth(0);
+//                column.setMaxWidth(0);
             }else if(i==11){
                 column.setPreferredWidth(50);
             }                 
@@ -826,7 +827,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         jLabel8.setBounds(0, 42, 72, 23);
 
         DTPBeri.setForeground(new java.awt.Color(50, 70, 50));
-        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-09-2025" }));
+        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-06-2026" }));
         DTPBeri.setDisplayFormat("dd-MM-yyyy");
         DTPBeri.setName("DTPBeri"); // NOI18N
         DTPBeri.setOpaque(false);
@@ -917,7 +918,7 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
         FormInput.add(LTotal);
         LTotal.setBounds(433, 42, 85, 23);
 
-        jLabel7.setText("Total+PPN :");
+        jLabel7.setText("Total BPJS :");
         jLabel7.setName("jLabel7"); // NOI18N
         jLabel7.setPreferredSize(new java.awt.Dimension(65, 23));
         FormInput.add(jLabel7);
@@ -1104,7 +1105,8 @@ public final class DlgPeresepanDokter extends javax.swing.JDialog {
                 tampilobatall();
                }
             }else{
-                tampilobatranap();
+                  tampilobatall();
+                //tampilobatranap();
             }
         }else if(TabRawat.getSelectedIndex()==1){
             if(tbObatResepRacikan.getRowCount()!=0){
@@ -2623,6 +2625,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         SetHarga();
         ubah=false;
         copy=false;
+        ChkJln.setSelected(true);
     }
     
     public void setNoRm(String norwt,String KodeDokter,String NamaDokter,String Pasien,String kodepj,String status) {        
@@ -2637,6 +2640,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         SetHarga();
         ubah=false;
         copy=false;
+        ChkJln.setSelected(true);
     }
     
     public void setNoRm(String norwt,Date tanggal,String status) {        
@@ -2657,6 +2661,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         SetHarga();
         ubah=false;
         copy=false;
+        ChkJln.setSelected(true);
     }
     
     private void jam(){
@@ -4677,6 +4682,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     
     private void hitungResep() {
         ttl=0;
+        ttlbpjs = 0;
         y=0;
         row2=tabModeResep.getRowCount();
         for(r=0;r<row2;r++){ 
@@ -4689,6 +4695,14 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                         y=0;
                     }
                     ttl=ttl+y;
+                     String statusbpjs = Sequel.cariIsi(
+                            "select status1 from databarang where kode_brng=?",
+                            tabModeResep.getValueAt(r,3).toString()
+                        );
+
+                        if(statusbpjs.equalsIgnoreCase("BPJS")){
+                            ttlbpjs += y;
+                        }
                 }  
             } catch (Exception e) {
             }                           
@@ -4706,12 +4720,13 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             }
         }
         LTotal.setText(Valid.SetAngka(ttl));
+        LTotalTagihan.setText(Valid.SetAngka(ttlbpjs));
         ppnobat=0;
         if(tampilkan_ppnobat_ralan.equals("Yes")){
             ppnobat=Math.round(ttl*0.11);
             ttl=ttl+ppnobat;
             LPpn.setText(Valid.SetAngka(ppnobat));
-            LTotalTagihan.setText(Valid.SetAngka(ttl));
+           // LTotalTagihan.setText(Valid.SetAngka(ttl));
         }
     }
     
@@ -4733,7 +4748,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     
     private void getCekStok() {
         if(tbResep.getSelectedRow()!= -1){
-            if(STOKKOSONGRESEP.equals("no")){
+            if(STOKKOSONGRESEP.equals("no")||STOKKOSONGRESEP.equals("yes")){
                 try {
                     if(Double.parseDouble(tbResep.getValueAt(tbResep.getSelectedRow(),1).toString())>0){
                         if(Valid.SetAngka(tbResep.getValueAt(tbResep.getSelectedRow(),1).toString())>Valid.SetAngka(tbResep.getValueAt(tbResep.getSelectedRow(),11).toString())){
@@ -4750,7 +4765,7 @@ private void ppBersihkanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     
     private void getCekStokRacikan() {
         if(tbDetailResepObatRacikan.getSelectedRow()!= -1){
-            if(STOKKOSONGRESEP.equals("no")){
+            if(STOKKOSONGRESEP.equals("no")||STOKKOSONGRESEP.equals("yes")){
                 try {
                     if(Double.parseDouble(tbDetailResepObatRacikan.getValueAt(tbDetailResepObatRacikan.getSelectedRow(),13).toString())>0){
                         if(Valid.SetAngka(tbDetailResepObatRacikan.getValueAt(tbDetailResepObatRacikan.getSelectedRow(),13).toString())>Valid.SetAngka(tbDetailResepObatRacikan.getValueAt(tbDetailResepObatRacikan.getSelectedRow(),7).toString())){

@@ -454,65 +454,71 @@ public final class ApotekBPJSDaftarPelayananObat2 extends javax.swing.JDialog {
     }//GEN-LAST:event_BtnCariKeyPressed
 
     private void BtnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHapusActionPerformed
-        if (tbKamar.getSelectedRow() != -1) {
-            if (!tbKamar.getValueAt(tbKamar.getSelectedRow(), 9).toString().equals("")) {
-                String kode_apotek_bpjs2 = Sequel.cariIsi("select kode_brng_apotek_bpjs from maping_obat_apotek_bpjs where kode_brng='" + tbKamar.getValueAt(tbKamar.getSelectedRow(), 9).toString() + "'");
-                try {
-                    bodyWithDeleteRequestPerobat(tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString(), tbKamar.getValueAt(tbKamar.getSelectedRow(), 3).toString(), kode_apotek_bpjs2, "N", tbKamar.getValueAt(tbKamar.getSelectedRow(), 9).toString());
-                } catch (Exception ex) {
-                    Logger.getLogger(ApotekBPJSDaftarPelayananObat2.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                reply = JOptionPane.showConfirmDialog(rootPane, "Eeiiiiiits, udah yakin No.Apotek " + tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString() + " dan semua obatnya mau dihapus..??", "Konfirmasi", JOptionPane.YES_NO_OPTION);
-                if (reply == JOptionPane.YES_OPTION) {
-                    try {
-                        ps = koneksi.prepareStatement("SELECT maping_obat_apotek_bpjs.kode_brng_apotek_bpjs, bridging_apotek_bpjs_obat.kd_obat, bridging_apotek_bpjs_obat.racikan FROM bridging_apotek_bpjs_obat INNER JOIN maping_obat_apotek_bpjs ON "
-                                + "bridging_apotek_bpjs_obat.kd_obat=maping_obat_apotek_bpjs.kode_brng WHERE bridging_apotek_bpjs_obat.no_sjp='" + tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString() + "' AND bridging_apotek_bpjs_obat.racikan='0' ");
-                        rs = ps.executeQuery();
-                        while (rs.next()) {
-                            bodyWithDeleteRequest(rs.getString("kode_brng_apotek_bpjs"), "N", rs.getString("kd_obat"));
-                        }
+       if (tbKamar.getSelectedRow() != -1) {
+            int cekIterasi = Sequel.cariInteger(
+                     "SELECT COUNT(*) FROM bridging_apotek_bpjs " +
+                     "WHERE no_apotek=? " +
+                     "AND keterangan LIKE 'Dengan Iter%'",
+                     tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString()
+                 );
 
-                        if (Sequel.cariIsi("select no_sjp from bridging_apotek_bpjs_obat where no_sjp=? AND bridging_apotek_bpjs_obat.racikan='0' ", tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString()).isEmpty()) {
-                            Sequel.meghapus("bridging_apotek_bpjs_obat", "no_sjp", "racikan", tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString(), "1");
-                            bodyWithDeleteRequestResep();
-                        }
+                 if (cekIterasi > 0) {
 
-                    } catch (Exception ex) {
-                        System.out.println("Notifikasi Bridging : " + ex);
+                     int cekTurunan = Sequel.cariInteger(
+                         "SELECT COUNT(*) FROM bridging_apotek_bpjs " +
+                         "WHERE no_sep = ( " +
+                         "   SELECT no_sep FROM bridging_apotek_bpjs WHERE no_apotek=? " +
+                         ") " +
+                         "AND keterangan LIKE 'Iter %'",
+                         tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString()
+                     );
+
+                     if (cekTurunan > 0) {
+
+                         JOptionPane.showMessageDialog(
+                             null,
+                             "Data tidak bisa di hapus..!!\n"
+                             + "data di gunakan untuk Pelayanan Iterasi"
+                         );
+                         
+                         return;
+                                
+                     }
+                         
                     }
+                    if (!tbKamar.getValueAt(tbKamar.getSelectedRow(), 9).toString().equals("")) {
+                        String kode_apotek_bpjs2 = Sequel.cariIsi("select kode_brng_apotek_bpjs from maping_obat_apotek_bpjs where kode_brng='" + tbKamar.getValueAt(tbKamar.getSelectedRow(), 9).toString() + "'");
+                       try {
+                           bodyWithDeleteRequestPerobat(tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString(), tbKamar.getValueAt(tbKamar.getSelectedRow(), 3).toString(), kode_apotek_bpjs2, "N", tbKamar.getValueAt(tbKamar.getSelectedRow(), 9).toString());
+                       } catch (Exception ex) {
+                           Logger.getLogger(ApotekBPJSDaftarPelayananObat2.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                   } else {
+                       reply = JOptionPane.showConfirmDialog(rootPane, "Eeiiiiiits, udah yakin No.Apotek " + tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString() + " dan semua obatnya mau dihapus..??", "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                       if (reply == JOptionPane.YES_OPTION) {
+                           try {
+                               ps = koneksi.prepareStatement("SELECT maping_obat_apotek_bpjs.kode_brng_apotek_bpjs, bridging_apotek_bpjs_obat.kd_obat, bridging_apotek_bpjs_obat.racikan FROM bridging_apotek_bpjs_obat INNER JOIN maping_obat_apotek_bpjs ON "
+                                       + "bridging_apotek_bpjs_obat.kd_obat=maping_obat_apotek_bpjs.kode_brng WHERE bridging_apotek_bpjs_obat.no_sjp='" + tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString() + "' AND bridging_apotek_bpjs_obat.racikan='0' ");
+                               rs = ps.executeQuery();
+                               while (rs.next()) {
+                                   bodyWithDeleteRequest(rs.getString("kode_brng_apotek_bpjs"), "N", rs.getString("kd_obat"));
+                               }
+
+                               if (Sequel.cariIsi("select no_sjp from bridging_apotek_bpjs_obat where no_sjp=? AND bridging_apotek_bpjs_obat.racikan='0' ", tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString()).isEmpty()) {
+                                   Sequel.meghapus("bridging_apotek_bpjs_obat", "no_sjp", "racikan", tbKamar.getValueAt(tbKamar.getSelectedRow(), 0).toString(), "1");
+                                   bodyWithDeleteRequestResep();
+                               }
+
+                           } catch (Exception ex) {
+                               System.out.println("Notifikasi Bridging : " + ex);
+                           }
+                       }
+                           
                 }
-            }
+               
         } else {
             JOptionPane.showMessageDialog(null, "Silahkan pilih dulu data yang mau dihapus..!!");
         }
-//        if(tbKamar.getSelectedRow()!= -1){
-//             if (tbKamar.getValueAt(tbKamar.getSelectedRow(),8).toString().equals("")) {
-//                    
-//                } else {
-//                }
-//            reply = JOptionPane.showConfirmDialog(rootPane,"Eeiiiiiits, udah yakin No.Apotek "+tbKamar.getValueAt(tbKamar.getSelectedRow(),0).toString()+" dan semua obatnya mau dihapus..??","Konfirmasi",JOptionPane.YES_NO_OPTION);
-//                if (reply == JOptionPane.YES_OPTION) {
-//                    try {
-//                    ps = koneksi.prepareStatement("SELECT maping_obat_apotek_bpjs.kode_brng_apotek_bpjs, bridging_apotek_bpjs_obat.kd_obat, bridging_apotek_bpjs_obat.racikan FROM bridging_apotek_bpjs_obat INNER JOIN maping_obat_apotek_bpjs ON "+
-//                        "bridging_apotek_bpjs_obat.kd_obat=maping_obat_apotek_bpjs.kode_brng WHERE bridging_apotek_bpjs_obat.no_sep='"+tbKamar.getValueAt(tbKamar.getSelectedRow(),1).toString()+"' AND bridging_apotek_bpjs_obat.racikan='0' ");
-//                    rs = ps.executeQuery();
-//                    while (rs.next()) {
-//                        bodyWithDeleteRequest(rs.getString("kode_brng_apotek_bpjs"),"N",rs.getString("kd_obat"));    
-//                    }
-//                    
-//                    if (Sequel.cariIsi("select no_sep from bridging_apotek_bpjs_obat where no_sep=? AND bridging_apotek_bpjs_obat.racikan='0' ",tbKamar.getValueAt(tbKamar.getSelectedRow(),1).toString()).isEmpty()) {
-//                         Sequel.meghapus("bridging_apotek_bpjs_obat", "no_sep", "racikan",tbKamar.getValueAt(tbKamar.getSelectedRow(),1).toString(),"1");
-//                        bodyWithDeleteRequestResep();
-//                    }
-//                   
-//                }catch (Exception ex) {
-//                    System.out.println("Notifikasi Bridging : "+ex);
-//                }
-//            }
-//        }else{
-//            JOptionPane.showMessageDialog(null,"Silahkan pilih dulu data yang mau dihapus..!!");
-//        }
     }//GEN-LAST:event_BtnHapusActionPerformed
 
     private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnHapusKeyPressed

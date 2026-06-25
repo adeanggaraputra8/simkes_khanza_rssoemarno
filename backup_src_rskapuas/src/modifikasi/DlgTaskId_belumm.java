@@ -31,6 +31,7 @@ import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -49,7 +50,7 @@ public final class DlgTaskId_belumm extends javax.swing.JDialog {
     private ResultSet rs,rs2;    
     private int i=0;
     private ApiMobileJKN api=new ApiMobileJKN();
-    private String URL="",link="",utc="",requestJson="",datajam="",hari="";
+    private String URL="",link="",utc="",requestJson="",datajam="",hari="",norawat="",noresep="";
     private HttpHeaders headers;
     private HttpEntity requestEntity;
     private ObjectMapper mapper = new ObjectMapper();
@@ -993,7 +994,6 @@ public final class DlgTaskId_belumm extends javax.swing.JDialog {
                             root = mapper.readTree(api.getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
                             nameNode = root.path("metadata");
                             System.out.println("code : "+nameNode.path("code").asText()+" "+nameNode.path("message").asText()+"\n");
-                            System.out.println("code : "+nameNode.path("code").asText()+" "+nameNode.path("message").asText()+"\n");
                         }catch (Exception ex) {
                             System.out.println("Notifikasi Bridging : "+ex);
                         }   
@@ -1042,8 +1042,7 @@ public final class DlgTaskId_belumm extends javax.swing.JDialog {
                 }
              }catch(Exception e){
             System.out.println("Notifikasi : "+e);
-        }
-      
+        }                    
         
        }
     }//GEN-LAST:event_task7ActionPerformed
@@ -1066,52 +1065,36 @@ public final class DlgTaskId_belumm extends javax.swing.JDialog {
 
     private void addantrianfrmasiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addantrianfrmasiActionPerformed
        for(i=0;i<tbJnsPerawatan.getRowCount();i++){
-            try {
-            ps2=koneksi.prepareStatement("select * from jadwal where hari_kerja=? and kd_dokter=? and kd_poli=?");
-             try {
-                 ps2.setString(1,hari);
-                 ps2.setString(2,tbJnsPerawatan.getValueAt(i,2).toString());
-                 ps2.setString(3,tbJnsPerawatan.getValueAt(i,3).toString());
-                 rs2=ps2.executeQuery();
-                 if(rs2.next()){
-                try {  
-                     datajam=Sequel.cariIsi("select DATE_ADD(concat('"+tbJnsPerawatan.getValueAt(i,1).toString()+"',' ','"+rs2.getString("jam_mulai")+"'),INTERVAL "+(Integer.parseInt(tbJnsPerawatan.getValueAt(i,17).toString())*10)+" MINUTE) ");
-                     parsedDate = dateFormat.parse(datajam);
-                     headers = new HttpHeaders();
-                     headers.setContentType(MediaType.APPLICATION_JSON);
-                     headers.add("x-cons-id",koneksiDB.CONSIDAPIMOBILEJKN());
-                     utc=String.valueOf(api.GetUTCdatetimeAsString());
-                     headers.add("x-timestamp",utc);
-                     headers.add("x-signature",api.getHmac(utc));
-                     headers.add("user_key",koneksiDB.USERKEYAPIMOBILEJKN());
-                     requestJson ="{" +
+            try {  
+                norawat=Sequel.cariIsi("select no_rawat from bridging_sep where no_sep= '"+tbJnsPerawatan.getValueAt(i,18).toString()+"' ");
+                noresep=(Sequel.cariInteger("select resep_obat.no_resep from resep_obat where resep_obat.no_rawat=?",norawat)>0?Sequel.cariIsi("select resep_obat.no_resep from resep_obat where resep_obat.no_rawat=?",norawat):Sequel.cariIsi("select resep_obat.no_resep from resep_obat where resep_obat.no_rawat=?",Sequel.cariIsi("select no_rawat from referensi_mobilejkn_bpjs where nobooking= ?",norawat)));
+                if(!noresep.equals("")){           
+                try {     
+                    headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    headers.add("x-cons-id",koneksiDB.CONSIDAPIMOBILEJKN());
+                    utc=String.valueOf(api.GetUTCdatetimeAsString());
+                    headers.add("x-timestamp",utc);
+                    headers.add("x-signature",api.getHmac(utc));
+                    headers.add("user_key",koneksiDB.USERKEYAPIMOBILEJKN());
+                    requestJson ="{" +
                                      "\"kodebooking\": \""+tbJnsPerawatan.getValueAt(i,0).toString()+"\"," +
-                                     "\"jensiresep\": \"non racikan\"," +
-                                     "\"nomorantrean\": "+Integer.parseInt(tbJnsPerawatan.getValueAt(i,17).toString())+"," +
-                                     "\"keterangan\": \"-\"" +
-                                 "}";
-                     requestEntity = new HttpEntity(requestJson,headers);
-                     URL = link+"/antrean/farmasi/add";	
-                     System.out.println("URL : "+URL);
-                     //System.out.println(api.getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
-                     root = mapper.readTree(api.getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
-                     nameNode = root.path("metadata");
-                     System.out.println("code : "+nameNode.path("code").asText()+" "+nameNode.path("message").asText()+"\n");
-                 }catch (Exception ex) {
-                     System.out.println("Notifikasi Bridging : "+ex);
-                 }
+                                     "\"jenisresep\": \""+(Sequel.cariInteger("select count(resep_dokter_racikan.no_resep) from resep_dokter_racikan where resep_dokter_racikan.no_resep=?",noresep)>0?"Racikan":"Non Racikan")+"\"," +
+                                      "\"nomorantrean\": "+Integer.parseInt(StringUtils.right(noresep,4))+"," +
+                                      "\"keterangan\": \"Resep dibuat secara elektronik di poli\"" +
+                                  "}";
+                    requestEntity = new HttpEntity(requestJson,headers);
+                    URL = link+"/antrean/farmasi/add";	
+                    System.out.println("URL : "+URL);
+                    //System.out.println(api.getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
+                    root = mapper.readTree(api.getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
+                    nameNode = root.path("metadata");
+                    System.out.println("respon WS BPJS : "+nameNode.path("code").asText()+" "+nameNode.path("message").asText()+"\n");
+                }catch (Exception ex) {
+                    System.out.println("Notifikasi Bridging : "+ex);
                 }
-               } catch (Exception ex) {
-                    System.out.println("Notif : "+ex);
-                } finally{
-                    if(rs2!=null){
-                        rs2.close();
-                    }
-                    if(ps2!=null){
-                        ps2.close();
-                    }
-                }
-        }catch(Exception e){
+              }
+        } catch (Exception e) {
             System.out.println("Notifikasi : "+e);
         }
        } 

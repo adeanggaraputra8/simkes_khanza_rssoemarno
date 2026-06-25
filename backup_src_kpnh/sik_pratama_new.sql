@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 08/01/2026 02:30:53
+ Date: 25/06/2026 07:59:36
 */
 
 SET NAMES utf8mb4;
@@ -1760,8 +1760,7 @@ CREATE TABLE `bridging_rujukan_bpjs_khusus`  (
   `nmpst` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `tglrujukan_awal` date NULL DEFAULT NULL,
   `tglrujukan_berakhir` date NULL DEFAULT NULL,
-  PRIMARY KEY (`no_rujukan`) USING BTREE,
-  CONSTRAINT `bridging_rujukan_bpjs_khusus_ibfk_1` FOREIGN KEY (`no_rujukan`) REFERENCES `bridging_rujukan_bpjs` (`no_rujukan`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`no_rujukan`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1773,8 +1772,7 @@ CREATE TABLE `bridging_rujukan_bpjs_khusus_diagnosa`  (
   `status` enum('P','S') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `kode_diagnosa` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nama_diagnosa` varchar(400) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`no_rujukan`, `kode_diagnosa`) USING BTREE,
-  CONSTRAINT `bridging_rujukan_bpjs_khusus_diagnosa_ibfk_1` FOREIGN KEY (`no_rujukan`) REFERENCES `bridging_rujukan_bpjs` (`no_rujukan`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`no_rujukan`, `kode_diagnosa`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1785,8 +1783,7 @@ CREATE TABLE `bridging_rujukan_bpjs_khusus_prosedur`  (
   `no_rujukan` varchar(40) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `kode_prosedur` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nama_prosedur` varchar(400) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`no_rujukan`, `kode_prosedur`) USING BTREE,
-  CONSTRAINT `bridging_rujukan_bpjs_khusus_prosedur_ibfk_1` FOREIGN KEY (`no_rujukan`) REFERENCES `bridging_rujukan_bpjs` (`no_rujukan`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`no_rujukan`, `kode_prosedur`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2074,8 +2071,7 @@ DROP TABLE IF EXISTS `bukti_persetujuan_penundaan_pelayanan`;
 CREATE TABLE `bukti_persetujuan_penundaan_pelayanan`  (
   `no_surat` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `photo` varchar(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`no_surat`) USING BTREE,
-  CONSTRAINT `bukti_persetujuan_penundaan_pelayanan_ibfk_1` FOREIGN KEY (`no_surat`) REFERENCES `persetujuan_penundaan_pelayanan` (`no_surat`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`no_surat`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2086,8 +2082,7 @@ CREATE TABLE `bukti_persetujuan_transfer_pasien_antar_ruang`  (
   `no_rawat` varchar(17) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `tanggal_masuk` datetime NULL DEFAULT NULL,
   `photo` varchar(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`no_rawat`) USING BTREE,
-  CONSTRAINT `bukti_persetujuan_transfer_pasien_antar_ruang_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`no_rawat`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2126,9 +2121,7 @@ CREATE TABLE `catatan_adime_gizi`  (
   `instruksi` varchar(1000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `nip` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`no_rawat`, `tanggal`) USING BTREE,
-  INDEX `nip`(`nip` ASC) USING BTREE,
-  CONSTRAINT `catatan_adime_gizi_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `catatan_adime_gizi_ibfk_2` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `nip`(`nip` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2144,9 +2137,7 @@ CREATE TABLE `catatan_cek_gds`  (
   `obat_gula` varchar(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `nip` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`no_rawat`, `tgl_perawatan`, `jam_rawat`) USING BTREE,
-  INDEX `nip`(`nip` ASC) USING BTREE,
-  CONSTRAINT `catatan_cek_gds_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `catatan_cek_gds_ibfk_2` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `nip`(`nip` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2161,9 +2152,7 @@ CREATE TABLE `catatan_keperawatan_ralan`  (
   `nip` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`tanggal`, `jam`, `no_rawat`) USING BTREE,
   INDEX `no_rawat`(`no_rawat` ASC) USING BTREE,
-  INDEX `nip`(`nip` ASC) USING BTREE,
-  CONSTRAINT `catatan_keperawatan_ralan_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `catatan_keperawatan_ralan_ibfk_2` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `nip`(`nip` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2353,10 +2342,7 @@ CREATE TABLE `catatan_persalinan`  (
   `pengobatan` varchar(600) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`no_rawat`) USING BTREE,
   INDEX `kd_dokter`(`kd_dokter` ASC) USING BTREE,
-  INDEX `nip`(`nip` ASC) USING BTREE,
-  CONSTRAINT `catatan_persalinan_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `catatan_persalinan_ibfk_2` FOREIGN KEY (`kd_dokter`) REFERENCES `dokter` (`kd_dokter`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `catatan_persalinan_ibfk_3` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `nip`(`nip` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2380,9 +2366,7 @@ CREATE TABLE `checklist_kriteria_keluar_hcu`  (
   `kriteria12` enum('Ya','Tidak') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nik` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`no_rawat`, `tanggal`) USING BTREE,
-  INDEX `nik`(`nik` ASC) USING BTREE,
-  CONSTRAINT `checklist_kriteria_keluar_hcu_ibfk_1` FOREIGN KEY (`nik`) REFERENCES `pegawai` (`nik`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_kriteria_keluar_hcu_ibfk_2` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `nik`(`nik` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2405,9 +2389,7 @@ CREATE TABLE `checklist_kriteria_keluar_icu`  (
   `kriteria11` enum('Ya','Tidak') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nik` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`no_rawat`, `tanggal`) USING BTREE,
-  INDEX `nik`(`nik` ASC) USING BTREE,
-  CONSTRAINT `checklist_kriteria_keluar_icu_ibfk_1` FOREIGN KEY (`nik`) REFERENCES `pegawai` (`nik`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_kriteria_keluar_icu_ibfk_2` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `nik`(`nik` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2441,9 +2423,7 @@ CREATE TABLE `checklist_kriteria_masuk_hcu`  (
   `infeksi` enum('Ya','Tidak') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nik` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`no_rawat`, `tanggal`) USING BTREE,
-  INDEX `nik`(`nik` ASC) USING BTREE,
-  CONSTRAINT `checklist_kriteria_masuk_hcu_ibfk_1` FOREIGN KEY (`nik`) REFERENCES `pegawai` (`nik`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_kriteria_masuk_hcu_ibfk_2` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `nik`(`nik` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2494,9 +2474,7 @@ CREATE TABLE `checklist_kriteria_masuk_icu`  (
   `kriteria_fisiologis_klinis_8` enum('Ya','Tidak') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nik` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`no_rawat`, `tanggal`) USING BTREE,
-  INDEX `nik`(`nik` ASC) USING BTREE,
-  CONSTRAINT `checklist_kriteria_masuk_icu_ibfk_1` FOREIGN KEY (`nik`) REFERENCES `pegawai` (`nik`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_kriteria_masuk_icu_ibfk_2` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `nik`(`nik` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2538,12 +2516,7 @@ CREATE TABLE `checklist_post_operasi`  (
   INDEX `nip_perawat_ok`(`nip_perawat_ok` ASC) USING BTREE,
   INDEX `kd_dokter_anestesi`(`kd_dokter_anestesi` ASC) USING BTREE,
   INDEX `kd_dokter_bedah`(`kd_dokter_bedah` ASC) USING BTREE,
-  INDEX `nip_perawat_anestesi`(`nip_perawat_anestesi` ASC) USING BTREE,
-  CONSTRAINT `checklist_post_operasi_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_post_operasi_ibfk_2` FOREIGN KEY (`nip_perawat_ok`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_post_operasi_ibfk_3` FOREIGN KEY (`nip_perawat_anestesi`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_post_operasi_ibfk_4` FOREIGN KEY (`kd_dokter_anestesi`) REFERENCES `dokter` (`kd_dokter`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_post_operasi_ibfk_5` FOREIGN KEY (`kd_dokter_bedah`) REFERENCES `dokter` (`kd_dokter`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `nip_perawat_anestesi`(`nip_perawat_anestesi` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2582,12 +2555,7 @@ CREATE TABLE `checklist_pre_operasi`  (
   INDEX `nip_petugas_ruangan`(`nip_petugas_ruangan` ASC) USING BTREE,
   INDEX `nip_perawat_ok`(`nip_perawat_ok` ASC) USING BTREE,
   INDEX `kd_dokter_anestesi`(`kd_dokter_anestesi` ASC) USING BTREE,
-  INDEX `kd_dokter_bedah`(`kd_dokter_bedah` ASC) USING BTREE,
-  CONSTRAINT `checklist_pre_operasi_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_pre_operasi_ibfk_2` FOREIGN KEY (`nip_petugas_ruangan`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_pre_operasi_ibfk_3` FOREIGN KEY (`nip_perawat_ok`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_pre_operasi_ibfk_4` FOREIGN KEY (`kd_dokter_anestesi`) REFERENCES `dokter` (`kd_dokter`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checklist_pre_operasi_ibfk_5` FOREIGN KEY (`kd_dokter_bedah`) REFERENCES `dokter` (`kd_dokter`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `kd_dokter_bedah`(`kd_dokter_bedah` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2638,8 +2606,7 @@ CREATE TABLE `dapur_riwayat_barang`  (
   `jam` time NULL DEFAULT NULL,
   `petugas` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `status` enum('Simpan','Hapus') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  INDEX `kode_brng`(`kode_brng` ASC) USING BTREE,
-  CONSTRAINT `dapur_riwayat_barang_ibfk_1` FOREIGN KEY (`kode_brng`) REFERENCES `dapurbarang` (`kode_brng`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `kode_brng`(`kode_brng` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2659,8 +2626,7 @@ CREATE TABLE `dapurbarang`  (
   INDEX `nama_brng`(`nama_brng` ASC) USING BTREE,
   INDEX `jenis`(`jenis` ASC) USING BTREE,
   INDEX `stok`(`stok` ASC) USING BTREE,
-  INDEX `harga`(`harga` ASC) USING BTREE,
-  CONSTRAINT `dapurbarang_ibfk_1` FOREIGN KEY (`kode_sat`) REFERENCES `kodesatuan` (`kode_sat`) ON DELETE NO ACTION ON UPDATE CASCADE
+  INDEX `harga`(`harga` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2685,10 +2651,7 @@ CREATE TABLE `dapurdetailbeli`  (
   INDEX `dis`(`dis` ASC) USING BTREE,
   INDEX `besardis`(`besardis` ASC) USING BTREE,
   INDEX `total`(`total` ASC) USING BTREE,
-  INDEX `no_faktur`(`no_faktur` ASC) USING BTREE,
-  CONSTRAINT `dapurdetailbeli_ibfk_1` FOREIGN KEY (`no_faktur`) REFERENCES `dapurpembelian` (`no_faktur`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `dapurdetailbeli_ibfk_2` FOREIGN KEY (`kode_brng`) REFERENCES `dapurbarang` (`kode_brng`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `dapurdetailbeli_ibfk_3` FOREIGN KEY (`kode_sat`) REFERENCES `kodesatuan` (`kode_sat`) ON DELETE NO ACTION ON UPDATE CASCADE
+  INDEX `no_faktur`(`no_faktur` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2707,10 +2670,7 @@ CREATE TABLE `dapurdetailpengeluaran`  (
   INDEX `jumlah`(`jumlah` ASC) USING BTREE,
   INDEX `harga`(`harga` ASC) USING BTREE,
   INDEX `total`(`total` ASC) USING BTREE,
-  INDEX `no_keluar`(`no_keluar` ASC) USING BTREE,
-  CONSTRAINT `dapurdetailpengeluaran_ibfk_1` FOREIGN KEY (`no_keluar`) REFERENCES `dapurpengeluaran` (`no_keluar`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `dapurdetailpengeluaran_ibfk_2` FOREIGN KEY (`kode_sat`) REFERENCES `kodesatuan` (`kode_sat`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `dapurdetailpengeluaran_ibfk_3` FOREIGN KEY (`kode_brng`) REFERENCES `dapurbarang` (`kode_brng`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `no_keluar`(`no_keluar` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2734,8 +2694,7 @@ CREATE TABLE `dapuropname`  (
   INDEX `selisih`(`selisih` ASC) USING BTREE,
   INDEX `nomihilang`(`nomihilang` ASC) USING BTREE,
   INDEX `keterangan`(`keterangan` ASC) USING BTREE,
-  INDEX `kode_brng`(`kode_brng` ASC) USING BTREE,
-  CONSTRAINT `dapuropname_ibfk_1` FOREIGN KEY (`kode_brng`) REFERENCES `dapurbarang` (`kode_brng`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `kode_brng`(`kode_brng` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2761,10 +2720,7 @@ CREATE TABLE `dapurpembelian`  (
   INDEX `subtotal`(`subtotal` ASC) USING BTREE,
   INDEX `potongan`(`potongan` ASC) USING BTREE,
   INDEX `total`(`total` ASC) USING BTREE,
-  INDEX `kd_rek`(`kd_rek` ASC) USING BTREE,
-  CONSTRAINT `dapurpembelian_ibfk_1` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `dapurpembelian_ibfk_2` FOREIGN KEY (`kd_rek`) REFERENCES `rekening` (`kd_rek`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  CONSTRAINT `dapurpembelian_ibfk_3` FOREIGN KEY (`kode_suplier`) REFERENCES `dapursuplier` (`kode_suplier`) ON DELETE NO ACTION ON UPDATE CASCADE
+  INDEX `kd_rek`(`kd_rek` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2779,8 +2735,7 @@ CREATE TABLE `dapurpengeluaran`  (
   PRIMARY KEY (`no_keluar`) USING BTREE,
   INDEX `nip`(`nip` ASC) USING BTREE,
   INDEX `tanggal`(`tanggal` ASC) USING BTREE,
-  INDEX `keterangan`(`keterangan` ASC) USING BTREE,
-  CONSTRAINT `dapurpengeluaran_ibfk_1` FOREIGN KEY (`nip`) REFERENCES `petugas` (`nip`) ON DELETE CASCADE ON UPDATE CASCADE
+  INDEX `keterangan`(`keterangan` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -4172,6 +4127,11 @@ CREATE TABLE `gambar`  (
   `bpjs` longblob NOT NULL,
   `nyeri` longblob NOT NULL,
   `inhealth` longblob NOT NULL,
+  `lokalis` longblob NOT NULL,
+  `fisikfisio` longblob NOT NULL,
+  `lokalistht` longblob NOT NULL,
+  `lokalismata` longblob NOT NULL,
+  `lokalisortho` longblob NOT NULL,
   PRIMARY KEY (`inde`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
@@ -6166,7 +6126,7 @@ CREATE TABLE `kabupaten`  (
   `nm_kab` varchar(60) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`kd_kab`) USING BTREE,
   UNIQUE INDEX `nm_kab`(`nm_kab` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7981 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17176 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for kamar
@@ -6327,7 +6287,7 @@ CREATE TABLE `kecamatan`  (
   `nm_kec` varchar(60) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`kd_kec`) USING BTREE,
   UNIQUE INDEX `nm_kec`(`nm_kec` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8972 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19231 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for kelompok_jabatan
@@ -6349,7 +6309,7 @@ CREATE TABLE `kelurahan`  (
   `nm_kel` varchar(60) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`kd_kel`) USING BTREE,
   UNIQUE INDEX `nm_kel`(`nm_kel` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10433 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21454 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for kesling_limbah_b3medis
@@ -6867,7 +6827,7 @@ CREATE TABLE `master_letak`  (
   `nama` varchar(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `nama_bahasa`(`nama` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for master_masalah_keperawatan
@@ -9015,7 +8975,7 @@ CREATE TABLE `pcare_rujuk_subspesialis`  (
   `sistole` varchar(3) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `diastole` varchar(3) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `beratBadan` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `tinggiBadan` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tinggiBadan` varchar(5) CHARACTER SET latin5 COLLATE latin5_turkish_ci NULL DEFAULT NULL,
   `respRate` varchar(3) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `heartRate` varchar(3) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `lingkarPerut` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
@@ -9185,7 +9145,7 @@ CREATE TABLE `pegawai`  (
   CONSTRAINT `pegawai_ibfk_7` FOREIGN KEY (`indexins`) REFERENCES `departemen` (`dep_id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `pegawai_ibfk_8` FOREIGN KEY (`bpd`) REFERENCES `bank` (`namabank`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `pegawai_ibfk_9` FOREIGN KEY (`kode_emergency`) REFERENCES `emergency_index` (`kode_emergency`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 225 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 356 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for pelayanan_informasi_obat
@@ -9638,7 +9598,7 @@ CREATE TABLE `pemeriksaan_ralan`  (
   `berat` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `spo2` varchar(3) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `gcs` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `kesadaran` enum('Compos Mentis','Somnolence','Sopor','Coma','Alert','Confusion','Voice','Pain','Unresponsive') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `kesadaran` enum('Compos Mentis','Somnolence','Sopor','Coma') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `keluhan` varchar(2000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `pemeriksaan` varchar(2000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `alergi` varchar(2000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
@@ -14735,7 +14695,7 @@ CREATE TABLE `propinsi`  (
   `nm_prop` varchar(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`kd_prop`) USING BTREE,
   UNIQUE INDEX `nm_prop`(`nm_prop` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7697 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15410 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for prosedur_pasien
@@ -15729,7 +15689,7 @@ CREATE TABLE `rujuk_masuk`  (
   `no_rujuk` varchar(40) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `jm_perujuk` double NOT NULL,
   `dokter_perujuk` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `kd_penyakit` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `kd_penyakit` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `kategori_rujuk` enum('-','Bedah','Non-Bedah','Kebidanan','Anak') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `keterangan` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `no_balasan` varchar(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
@@ -19835,7 +19795,7 @@ CREATE TABLE `temporary_bayar_ralan`  (
   `temp16` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `temp17` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`no`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 212493 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 779411 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for temporary_bayar_ranap
@@ -20427,7 +20387,7 @@ CREATE TABLE `temporary_resume`  (
   `temp36` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `temp37` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`no`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 6 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for temporary_sensus_harian

@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 21/03/2026 03:45:30
+ Date: 25/06/2026 07:56:02
 */
 
 SET NAMES utf8mb4;
@@ -1332,7 +1332,7 @@ DROP TABLE IF EXISTS `bangsal`;
 CREATE TABLE `bangsal`  (
   `kd_bangsal` char(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nm_bangsal` varchar(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `status` enum('0','1') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `status` enum('0','1','2') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`kd_bangsal`) USING BTREE,
   INDEX `nm_bangsal`(`nm_bangsal` ASC) USING BTREE,
   INDEX `status`(`status` ASC) USING BTREE
@@ -2684,6 +2684,43 @@ CREATE TABLE `bridging_surat_kontrol_bpjs`  (
   `nm_dokter_bpjs` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `kd_poli_bpjs` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `nm_poli_bpjs` varchar(40) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `status_prb` enum('','01. Diabetes Melitus','02. Hipertensi','03. Asma','04. Penyakit Jantung','05. PPOK','06. Skizofrenia','07. Stroke','08. Epilepsi','09. SLE') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `HBA1C` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `GDP` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `GD2JPP` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `eGFR` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `TD_Sistolik` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `TD_Diastolik` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `LDL` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Rata_TD_Sistolik` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Rata_TD_Diastolik` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `JantungKoroner` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Stroke` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `VaskularPerifer` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Aritmia` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `AtrialFibrilasi` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `NadiIstirahat` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `SesakNapas3Bulan` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `NyeriDada3Bulan` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `SesakNapasAktivitas` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `NyeriDadaAktivitas` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Terkontrol` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Gejala2xMinggu` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `BangunMalam` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `KeterbatasanFisik` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `FungsiParu` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `SkorMMRC` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Eksaserbasi1Tahun` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `MampuAktivitas` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Epileptik6Bulan` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `EfekSampingOAB` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `HamilMenyusui` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Remisi` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `TerapiRumatan` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Usia` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `AsamUrat` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `RemisiSLE` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `Hamil` enum('','0. Tidak','1. Ya') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`no_surat`) USING BTREE,
   INDEX `bridging_surat_kontrol_bpjs_ibfk_1`(`no_sep` ASC) USING BTREE,
   CONSTRAINT `bridging_surat_kontrol_bpjs_ibfk_1` FOREIGN KEY (`no_sep`) REFERENCES `bridging_sep` (`no_sep`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -19479,6 +19516,20 @@ CREATE TABLE `saran_kesan_lab`  (
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
+-- Table structure for satu_sehat_allergy_intolerance
+-- ----------------------------
+DROP TABLE IF EXISTS `satu_sehat_allergy_intolerance`;
+CREATE TABLE `satu_sehat_allergy_intolerance`  (
+  `no_rawat` varchar(17) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `tgl_perawatan` date NOT NULL,
+  `jam_rawat` time NOT NULL,
+  `status` enum('Ralan','Ranap') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `id_allergy_intolerance` varchar(40) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`no_rawat`, `tgl_perawatan`, `jam_rawat`, `status`) USING BTREE,
+  CONSTRAINT `satu_sehat_allergy_intolerance_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for satu_sehat_careplan
 -- ----------------------------
 DROP TABLE IF EXISTS `satu_sehat_careplan`;
@@ -19595,6 +19646,23 @@ CREATE TABLE `satu_sehat_encounter`  (
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for satu_sehat_episode_of_care
+-- ----------------------------
+DROP TABLE IF EXISTS `satu_sehat_episode_of_care`;
+CREATE TABLE `satu_sehat_episode_of_care`  (
+  `no_rawat` varchar(17) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `kd_penyakit` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `status` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `id_episode_of_care` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`no_rawat`, `kd_penyakit`) USING BTREE,
+  INDEX `idx_no_rawat`(`no_rawat` ASC) USING BTREE,
+  INDEX `idx_kd_penyakit`(`kd_penyakit` ASC) USING BTREE,
+  INDEX `idx_status`(`status` ASC) USING BTREE,
+  CONSTRAINT `fk_episode_kd_penyakit` FOREIGN KEY (`kd_penyakit`) REFERENCES `penyakit` (`kd_penyakit`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_episode_no_rawat` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for satu_sehat_episodeofcare
 -- ----------------------------
 DROP TABLE IF EXISTS `satu_sehat_episodeofcare`;
@@ -19604,6 +19672,19 @@ CREATE TABLE `satu_sehat_episodeofcare`  (
   PRIMARY KEY (`no_rawat`) USING BTREE,
   CONSTRAINT `satu_sehat_episodeofcare_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for satu_sehat_form_code
+-- ----------------------------
+DROP TABLE IF EXISTS `satu_sehat_form_code`;
+CREATE TABLE `satu_sehat_form_code`  (
+  `code` char(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `nama` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `keterangan` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `system` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  INDEX `nama`(`nama` ASC) USING BTREE,
+  INDEX `keterangan`(`keterangan` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Table structure for satu_sehat_immunization
@@ -20307,6 +20388,38 @@ CREATE TABLE `satu_sehat_procedure`  (
   CONSTRAINT `satu_sehat_procedure_ibfk_1` FOREIGN KEY (`no_rawat`) REFERENCES `reg_periksa` (`no_rawat`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `satu_sehat_procedure_ibfk_2` FOREIGN KEY (`kode`) REFERENCES `icd9` (`kode`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for satu_sehat_questionresponse_telaah_farmasi
+-- ----------------------------
+DROP TABLE IF EXISTS `satu_sehat_questionresponse_telaah_farmasi`;
+CREATE TABLE `satu_sehat_questionresponse_telaah_farmasi`  (
+  `no_resep` varchar(14) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `id_questionresponse` varchar(40) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`no_resep`) USING BTREE,
+  CONSTRAINT `satu_sehat_questionresponse_telaah_farmasi_ibfk_1` FOREIGN KEY (`no_resep`) REFERENCES `resep_obat` (`no_resep`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for satu_sehat_ref_routecode
+-- ----------------------------
+DROP TABLE IF EXISTS `satu_sehat_ref_routecode`;
+CREATE TABLE `satu_sehat_ref_routecode`  (
+  `kode` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `system` varchar(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `display` varchar(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = COMPACT;
+
+-- ----------------------------
+-- Table structure for satu_sehat_ref_vaksincode
+-- ----------------------------
+DROP TABLE IF EXISTS `satu_sehat_ref_vaksincode`;
+CREATE TABLE `satu_sehat_ref_vaksincode`  (
+  `kode` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `system` varchar(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `display` varchar(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`kode`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Table structure for satu_sehat_servicerequest_lab

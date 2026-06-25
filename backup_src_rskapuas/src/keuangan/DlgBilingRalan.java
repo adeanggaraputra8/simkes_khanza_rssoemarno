@@ -4015,6 +4015,7 @@ private void MnPeriksaLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         param.put("kontakrs", akses.getkontakrs());
         param.put("emailrs", akses.getemailrs());
         param.put("logo", Sequel.cariGambar("select logo from setting"));
+        param.put("namapetugas", Sequel.cariIsi("select nama from pegawai where nik=?", akses.getkode()));
         Valid.MyReportqry("rptkuitansiambnew.jasper", "report", "::[ Kuitansi Pelayanan Rukukan Ambulan Pasien JKN ]::",
             " SELECT jns_perawatan.nm_perawatan,jns_perawatan.total_byrpr, pasien.nm_pasien FROM rawat_jl_pr " +
             " INNER JOIN reg_periksa ON reg_periksa.no_rawat=rawat_jl_pr.no_rawat " +

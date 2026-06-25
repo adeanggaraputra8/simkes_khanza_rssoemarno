@@ -2988,7 +2988,7 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
     }
     
     public void tampilobat2(String no_resep) {     
-        this.noresep=no_resep; 
+        this.noresep=""; 
         try {
             Valid.tabelKosong(tabModeobat);
             Valid.tabelKosong(tabModeObatRacikan);

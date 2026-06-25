@@ -21,8 +21,13 @@ import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
@@ -30,24 +35,25 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import keuangan.Jurnal;
 import kepegawaian.DlgCariPegawai;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 public class InventorySuratPemesanan extends javax.swing.JDialog {
-    private final DefaultTableModel tabMode;
+    private final DefaultTableModel tabMode,TabMode2;
     private sekuel Sequel=new sekuel();
     private validasi Valid=new validasi();
     private Jurnal jur=new Jurnal();
     private Connection koneksi=koneksiDB.condb();
-    private PreparedStatement ps;
-    private ResultSet rs;
+    private PreparedStatement ps,psjual,psresep;
+    private ResultSet rs,rsjual,rsresep;
     private WarnaTable2 warna=new WarnaTable2();
     private DlgCariPegawai pegawai=new DlgCariPegawai(null,false);
     private InventoryCariSuplier suplier=new InventoryCariSuplier(null,false);
     private DlgCariSuratPemesanan form=new DlgCariSuratPemesanan(null,false);
-    private double meterai=0,ttl=0,y=0,w=0,ttldisk=0,sbttl=0,ppn=0;
+    private double meterai=0,ttl=0,y=0,w=0,ttldisk=0,sbttl=0,ppn=0,totaljual=0,totalresep=0;
     private int jml=0,i=0,row=0,index=0,pilihan=1;
     private String[] kodebarang,namabarang,satuan,satuanbeli;
     private double[] harga,jumlah,subtotal,diskon,besardiskon,jmltotal,jmlstok,isi,isibesar;
-    public boolean tampilkan=true;
+    public boolean tampilkan=true,dariDaruratStok = false;;
     private boolean sukses=true;    
     private DlgCariDataKonversi datakonversi=new DlgCariDataKonversi(null,false);
     private File file;
@@ -67,11 +73,11 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
 
         tabMode=new DefaultTableModel(null,new Object[]{
                 "Jml","Satuan Beli","Kode Barang","Nama Barang","Satuan","Harga(Rp)","Subtotal(Rp)",
-                "Disk(%)","Diskon(Rp)","Total","Jml.Stok","Isi","Isi Besar"
+                "Disk(%)","Diskon(Rp)","Total","Jml.Stok","Isi","Isi Besar","Total Jual+Resep 3 Bulan","Rata-Rata / Bulan"
             }){
              @Override public boolean isCellEditable(int rowIndex, int colIndex){
                boolean a = false;
-               if ((colIndex==0)||(colIndex==5)||(colIndex==7)||(colIndex==8)) {
+               if ((colIndex==0)||(colIndex==1)||(colIndex==5)||(colIndex==7)||(colIndex==8)) {
                    a=true;
                }
                return a;
@@ -80,7 +86,8 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
              Class[] types = new Class[] {
                 java.lang.String.class,java.lang.String.class,java.lang.String.class,java.lang.String.class,
                 java.lang.String.class,java.lang.Double.class,java.lang.Double.class,java.lang.Double.class,
-                java.lang.Double.class,java.lang.Double.class,java.lang.Double.class ,java.lang.Double.class ,java.lang.Double.class 
+                java.lang.Double.class,java.lang.Double.class,java.lang.Double.class ,java.lang.Double.class ,java.lang.Double.class,
+                java.lang.Double.class ,java.lang.Double.class 
              };
              @Override
              public Class getColumnClass(int columnIndex) {
@@ -92,12 +99,39 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
         tbDokter.setPreferredScrollableViewportSize(new Dimension(800,800));
         tbDokter.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 13; i++) {
+        for (i = 0; i < 15; i++) {
             TableColumn column = tbDokter.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(42);
             }else if(i==1){
                 column.setPreferredWidth(65);
+                List<String> aturanList = getListSatuan();
+                JComboBox<String> comboAturan = new JComboBox<>(aturanList.toArray(new String[0]));
+                comboAturan.setEditable(true);
+                AutoCompleteDecorator.decorate(comboAturan);
+                comboAturan.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
+
+                comboAturan.getEditor().getEditorComponent().addFocusListener(new java.awt.event.FocusAdapter() {
+                    @Override
+                    public void focusGained(java.awt.event.FocusEvent e) {
+                        comboAturan.showPopup();
+                    }
+                });
+
+                // 🔧 Custom editor supaya JTable tidak menutup editor saat mengetik
+                DefaultCellEditor customEditor = new DefaultCellEditor(comboAturan) {
+                    @Override
+                    public boolean stopCellEditing() {
+                        Object item = comboAturan.getEditor().getItem();
+                        if (item != null && comboAturan.isPopupVisible()) {
+                            // Jangan hentikan editing saat user masih memilih
+                            return false;
+                        }
+                        return super.stopCellEditing();
+                    }
+                };
+
+                tbDokter.getColumnModel().getColumn(1).setCellEditor(customEditor);
             }else if(i==2){
                 column.setPreferredWidth(85);
             }else if(i==3){
@@ -114,13 +148,82 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
                 column.setPreferredWidth(80);
             }else if(i==9){
                 column.setPreferredWidth(85);
-            }else{
+            }else if(i==10){
                 column.setMinWidth(0);
                 column.setMaxWidth(0);
+            }else if(i==11){
+                column.setMinWidth(0);
+                column.setMaxWidth(0);
+            }else if(i==12){
+                column.setMinWidth(0);
+                column.setMaxWidth(0);
+            }else if(i==13){
+                column.setPreferredWidth(85);
+            }else if(i==14){
+                column.setPreferredWidth(85);
             }
         }
         warna.kolom=0;
         tbDokter.setDefaultRenderer(Object.class,warna);
+        
+        Calendar cal = Calendar.getInstance();
+       cal.set(Calendar.DAY_OF_MONTH, 1);
+       cal.add(Calendar.MONTH, -3); // ⬅️ mulai dari 3 bulan lalu
+
+        String[] kolom = new String[6];
+        int index = 0;
+
+        for(int i=0; i<3; i++){
+            int bulan = cal.get(Calendar.MONTH);
+
+            String namaBulan = new java.text.DateFormatSymbols().getShortMonths()[bulan];
+
+            int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+            kolom[index++] = "1-15 " + namaBulan;
+            kolom[index++] = "16-" + lastDay + " " + namaBulan;
+
+            cal.add(Calendar.MONTH, 1); 
+        }
+        
+        TabMode2 = new DefaultTableModel(null, kolom){
+            @Override public boolean isCellEditable(int rowIndex, int colIndex){
+                return false;
+            }
+
+            Class[] types = new Class[] {
+               java.lang.String.class,java.lang.String.class,java.lang.String.class,
+               java.lang.String.class,java.lang.String.class,java.lang.String.class
+            };
+
+            @Override
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
+        };
+        tbDokter2.setModel(TabMode2);
+
+        tbDokter2.setPreferredScrollableViewportSize(new Dimension(800,800));
+        tbDokter2.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        for (i = 0; i < 6; i++) {
+            TableColumn column = tbDokter2.getColumnModel().getColumn(i);
+            if(i==0){
+                column.setPreferredWidth(80);
+            }else if(i==1){
+                column.setPreferredWidth(80);
+            }else if(i==2){
+                column.setPreferredWidth(80);
+            }else if(i==3){
+                column.setPreferredWidth(80);
+            }else if(i==4){
+                column.setPreferredWidth(80);
+            }else if(i==5){
+                column.setPreferredWidth(80);
+            }
+        }
+        warna.kolom=0;
+        tbDokter2.setDefaultRenderer(Object.class,warna);
 
         NoPemesanan.setDocument(new batasInput((byte)20).getKata(NoPemesanan));
         kdsup.setDocument(new batasInput((byte)5).getKata(kdsup));
@@ -343,6 +446,8 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
         BtnSimpan = new widget.Button();
         BtnPrint = new widget.Button();
         BtnAll = new widget.Button();
+        scrollPane2 = new widget.ScrollPane();
+        tbDokter2 = new widget.Table();
 
         Popup.setName("Popup"); // NOI18N
 
@@ -487,6 +592,7 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
         scrollPane1.setComponentPopupMenu(Popup);
         scrollPane1.setName("scrollPane1"); // NOI18N
         scrollPane1.setOpaque(true);
+        scrollPane1.setPreferredSize(new java.awt.Dimension(820, 402));
 
         tbDokter.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -519,7 +625,7 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
         });
         scrollPane1.setViewportView(tbDokter);
 
-        internalFrame1.add(scrollPane1, java.awt.BorderLayout.CENTER);
+        internalFrame1.add(scrollPane1, java.awt.BorderLayout.LINE_START);
 
         panelisi3.setName("panelisi3"); // NOI18N
         panelisi3.setPreferredSize(new java.awt.Dimension(100, 73));
@@ -899,6 +1005,44 @@ public class InventorySuratPemesanan extends javax.swing.JDialog {
 
         internalFrame1.add(panelisi1, java.awt.BorderLayout.PAGE_END);
 
+        scrollPane2.setComponentPopupMenu(Popup);
+        scrollPane2.setName("scrollPane2"); // NOI18N
+        scrollPane2.setOpaque(true);
+        scrollPane2.setPreferredSize(new java.awt.Dimension(450, 402));
+
+        tbDokter2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tbDokter2.setToolTipText("Masukkan jumlah geser ke kanan");
+        tbDokter2.setComponentPopupMenu(Popup);
+        tbDokter2.setName("tbDokter2"); // NOI18N
+        tbDokter2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDokter2MouseClicked(evt);
+            }
+        });
+        tbDokter2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tbDokter2PropertyChange(evt);
+            }
+        });
+        tbDokter2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tbDokter2KeyPressed(evt);
+            }
+        });
+        scrollPane2.setViewportView(tbDokter2);
+
+        internalFrame1.add(scrollPane2, java.awt.BorderLayout.LINE_END);
+
         getContentPane().add(internalFrame1, java.awt.BorderLayout.CENTER);
 
         pack();
@@ -976,7 +1120,7 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_btnPetugasActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if(tampilkan==true){
+       if(tampilkan==true && !dariDaruratStok){
             try {
                 if(Valid.daysOld("./cache/suratpemesananobat.iyem")<8){
                     tampil2();
@@ -985,7 +1129,7 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 }
             } catch (Exception e) {
             }
-        }            
+        }      
     }//GEN-LAST:event_formWindowOpened
 
     private void TCariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TCariKeyPressed
@@ -1379,6 +1523,18 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
     }//GEN-LAST:event_BtnAllKeyPressed
 
+    private void tbDokter2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDokter2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbDokter2MouseClicked
+
+    private void tbDokter2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tbDokter2PropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbDokter2PropertyChange
+
+    private void tbDokter2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbDokter2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tbDokter2KeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -1449,7 +1605,9 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JMenuItem ppBersihkan;
     private javax.swing.JMenuItem ppStok1;
     private widget.ScrollPane scrollPane1;
+    private widget.ScrollPane scrollPane2;
     private widget.Table tbDokter;
+    private widget.Table tbDokter2;
     private widget.TextBox tppn;
     // End of variables declaration//GEN-END:variables
 
@@ -1469,7 +1627,7 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 while(rs.next()){
                     tabMode.addRow(new Object[]{
                         "",rs.getString("kode_satbesar"),rs.getString("kode_brng"),rs.getString("nama_brng"),
-                        rs.getString("kode_sat"),rs.getDouble("harga"),0,0,0,0,0,rs.getDouble("isi"),1
+                        rs.getString("kode_sat"),rs.getDouble("harga"),0,0,0,0,0,rs.getDouble("isi"),1,0,0
                     });
                     iyem=iyem+"{\"SatuanBeli\":\""+rs.getString("kode_satbesar")+"\",\"KodeBarang\":\""+rs.getString("kode_brng")+"\",\"NamaBarang\":\""+rs.getString("nama_brng").replaceAll("\"","")+"\",\"Satuan\":\""+rs.getString("kode_sat")+"\",\"Harga\":\""+rs.getString("harga")+"\",\"Isi\":\""+rs.getString("isi")+"\"},";
                 }        
@@ -1567,7 +1725,7 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 for(JsonNode list:response){
                     if(list.path("KodeBarang").asText().toLowerCase().contains(TCari.getText().toLowerCase())||list.path("NamaBarang").asText().toLowerCase().contains(TCari.getText().toLowerCase())){
                         tabMode.addRow(new Object[]{
-                            "",list.path("SatuanBeli").asText(),list.path("KodeBarang").asText(),list.path("NamaBarang").asText(),list.path("Satuan").asText(),list.path("Harga").asDouble(),0,0,0,0,0,list.path("Isi").asDouble(),1
+                            "","",list.path("KodeBarang").asText(),list.path("NamaBarang").asText(),list.path("Satuan").asText(),list.path("Harga").asDouble(),0,0,0,0,0,list.path("Isi").asDouble(),1,0,0
                         });
                     }
                 }
@@ -1578,6 +1736,123 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         }
         
     }
+    
+    public void tambahObat(String kodeobat, String kdsupp, String nmsupp) {
+            kdsup.setText(kdsupp);
+            nmsup.setText(nmsupp);
+
+            try{
+                ps = koneksi.prepareStatement(
+                    "SELECT databarang.kode_brng, databarang.nama_brng, databarang.kode_satbesar, " +
+                    "(databarang.h_beli*databarang.isi) AS harga, databarang.kode_sat, databarang.isi " +
+                    "FROM databarang " +
+                    "WHERE databarang.status='1' AND databarang.kode_brng=?"
+                );
+
+                ps.setString(1, kodeobat);
+                rs = ps.executeQuery();
+                totaljual=0;
+                totalresep=0;
+                while(rs.next()){
+                    totalresep=Sequel.cariIsiAngka("select sum(detail_pemberian_obat.jml) as jumlah from detail_pemberian_obat where detail_pemberian_obat.kode_brng = '"+rs.getString("kode_brng")+"' and detail_pemberian_obat.tgl_perawatan between DATE_SUB('"+Valid.SetTgl(Tanggal.getSelectedItem()+"")+"', INTERVAL 90 DAY) and '"+Valid.SetTgl(Tanggal.getSelectedItem()+"")+"' ");
+                    totaljual=Sequel.cariIsiAngka("select sum(detailjual.jumlah) as jumlah from detailjual inner join penjualan on penjualan.nota_jual=detailjual.nota_jual where detailjual.kode_brng='"+rs.getString("kode_brng")+"' and penjualan.status='Sudah Dibayar' and penjualan.tgl_jual between DATE_SUB('"+Valid.SetTgl(Tanggal.getSelectedItem()+"")+"', INTERVAL 90 DAY) and '"+Valid.SetTgl(Tanggal.getSelectedItem()+"")+"' ");
+                    double totalPakai = totaljual + totalresep;
+                    double rata = 0;
+                    rata = Math.ceil(totalPakai / 3);
+                  // ================== TAMBAHAN UNTUK TABEL 2 ==================
+                    double[] periode = new double[6]; // ⬅️ WAJIB RESET
+
+                    PreparedStatement psPeriode = null;
+                    ResultSet rsPeriode = null;
+
+                    try{
+                        psPeriode = koneksi.prepareStatement(
+                            "SELECT " +
+                            " (TIMESTAMPDIFF(MONTH, DATE_SUB(?, INTERVAL 3 MONTH), tgl_perawatan) * 2 + " +
+                            "  CASE WHEN DAY(tgl_perawatan) <= 15 THEN 0 ELSE 1 END) AS idx, " +
+                            " SUM(jml) AS total " +
+                            "FROM detail_pemberian_obat " +
+                            "WHERE kode_brng = ? " +
+                            "AND tgl_perawatan BETWEEN " +
+                            "DATE_FORMAT(DATE_SUB(?, INTERVAL 3 MONTH), '%Y-%m-01') " +
+                            "AND LAST_DAY(DATE_SUB(?, INTERVAL 1 MONTH)) " +
+                            "GROUP BY idx"
+                        );
+
+                        String tglAcuan = Valid.SetTgl(Tanggal.getSelectedItem()+"");
+
+                        psPeriode.setString(1, tglAcuan);
+                        psPeriode.setString(2, rs.getString("kode_brng"));
+                        psPeriode.setString(3, tglAcuan);
+                        psPeriode.setString(4, tglAcuan);
+
+                        rsPeriode = psPeriode.executeQuery();
+
+                        while(rsPeriode.next()){
+                            int idx = rsPeriode.getInt("idx");
+
+                            if(idx >= 0 && idx < 6){
+                                double nilai = rsPeriode.getDouble("total");
+                                if(rsPeriode.wasNull()){
+                                    nilai = 0;
+                                }
+                                periode[idx] = nilai;
+                            }
+                        }
+
+                    }catch(Exception e){
+                        System.out.println("Notifikasi periode : "+e);
+                    } finally{
+                        try{
+                            if(rsPeriode!=null) rsPeriode.close();
+                            if(psPeriode!=null) psPeriode.close();
+                        }catch(Exception e){}
+                    }
+
+                    // format tampil
+                    String[] tampilPeriode = new String[6];
+
+                    for(int i=0;i<6;i++){
+                        double total = periode[i];
+                        double rata2 = Math.ceil(total / 2);
+
+                        tampilPeriode[i] = (int)Math.ceil(total) + " / " + (int)rata2;
+                    }
+
+                    // masuk tabel
+                    TabMode2.addRow(new Object[]{
+                        tampilPeriode[0],
+                        tampilPeriode[1],
+                        tampilPeriode[2],
+                        tampilPeriode[3],
+                        tampilPeriode[4],
+                        tampilPeriode[5]
+                    });
+                    // ================== END TAMBAHAN ==================
+                    
+                    tabMode.addRow(new Object[]{
+                        "",
+                        "",
+                        rs.getString("kode_brng"),
+                        rs.getString("nama_brng"),
+                        rs.getString("kode_sat"),
+                        rs.getDouble("harga"),
+                        0,0,0,0,0,
+                        rs.getDouble("isi"),
+                        1,totalPakai,rata
+                    });
+                }
+
+            } catch(Exception e){
+                System.out.println("Notifikasi tambahObat : "+e);
+            } finally{
+                try{
+                    if(rs!=null) rs.close();
+                    if(ps!=null) ps.close();
+                } catch(Exception e){}
+            }
+        }
+
     
     private void getData(){        
         row=tbDokter.getSelectedRow();
@@ -1705,5 +1980,26 @@ private void btnPetugasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             System.out.println("Notifikasi : "+e);
         }
         getData();
+    }
+    
+    public void setDariDaruratStok(boolean status){
+        this.dariDaruratStok = status;
+    }
+    
+    private List<String> getListSatuan() {
+        List<String> list = new ArrayList<>();
+        try {
+            Connection conn = koneksiDB.condb();
+            PreparedStatement ps = conn.prepareStatement("SELECT kode_sat FROM kodesatuan ORDER BY kode_sat asc");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getString(1));
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("Error getListSatuan : " + e);
+        }
+        return list;
     }
 }

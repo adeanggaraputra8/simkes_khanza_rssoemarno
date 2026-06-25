@@ -566,6 +566,14 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                     if(ada){
                         aplikasi.setDariDaruratStok(true);
                         aplikasi.setVisible(true);
+                        for(i=0;i<tbDokter.getRowCount();i++){
+                            tbDokter.setValueAt(false,i,0);
+                        }
+                          if (ChkFilter.isSelected() == true) {
+                                prosesCari2();
+                            } else {
+                                prosesCari();
+                            } 
                     }else{
                         JOptionPane.showMessageDialog(null,"Belum ada obat yang dipilih");
                     }

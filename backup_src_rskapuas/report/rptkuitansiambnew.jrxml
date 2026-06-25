@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.5.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="396" pageHeight="623" columnWidth="356" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="58867394-66fe-43a2-8a0d-9c6cce89cd69">
 	<property name="ireport.zoom" value="3.0"/>
 	<property name="ireport.x" value="0"/>
@@ -13,6 +13,7 @@
 	<parameter name="kontakrs" class="java.lang.String"/>
 	<parameter name="emailrs" class="java.lang.String"/>
 	<parameter name="logo" class="java.io.InputStream"/>
+	<parameter name="namapetugas" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT jns_perawatan.nm_perawatan,jns_perawatan.total_byrpr, pasien.nm_pasien FROM rawat_jl_pr 
             INNER JOIN reg_periksa ON reg_periksa.no_rawat=rawat_jl_pr.no_rawat 
@@ -207,14 +208,14 @@
 			<line>
 				<reportElement x="224" y="109" width="100" height="1" uuid="a3da3ede-2176-401b-a16a-120a34dc8169"/>
 			</line>
-			<staticText>
-				<reportElement x="223" y="98" width="100" height="11" uuid="eb6ac528-30d3-415f-8da1-bab35d5455b6"/>
+			<textField pattern="#,##0">
+				<reportElement x="224" y="97" width="106" height="12" uuid="4d8f25ec-3120-4436-a836-d86cdcb569a0"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="8"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[Agus Purnomo]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{namapetugas}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>

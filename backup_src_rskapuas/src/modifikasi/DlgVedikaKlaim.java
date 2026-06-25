@@ -3591,8 +3591,7 @@ public class DlgVedikaKlaim extends javax.swing.JDialog {
     }//GEN-LAST:event_cmbNoSEPKeyPressed
 
     private void cmbNoSEPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNoSEPActionPerformed
-//        cmbNoSEP.removeAllItems();
-//        Sequel.cariIsiComboDB("select no_sep from bridging_sep where no_rawat ='"+TNoRW.getText()+"' ",cmbNoSEP);
+
     }//GEN-LAST:event_cmbNoSEPActionPerformed
 
     private void ppGantiNoSepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppGantiNoSepActionPerformed

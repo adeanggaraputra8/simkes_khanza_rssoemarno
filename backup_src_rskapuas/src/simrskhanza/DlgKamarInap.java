@@ -77,6 +77,7 @@ import laporan.DlgBerkasRawat;
 import laporan.DlgDataInsidenKeselamatan;
 import laporan.DlgDataKlasifikasiPasienRanap;
 import modifikasi.DlgBacaanThoraxTB;
+import modifikasi.DlgDataAlergiPasien;
 import modifikasi.JAMKESKINDASEP;
 import modifikasi.RMDataPemberianObatInjeksi;
 import permintaan.DlgPermintaanKonsultasiMedik;
@@ -894,6 +895,7 @@ public class DlgKamarInap extends javax.swing.JDialog {
         MnPerencanaanPemulangan = new javax.swing.JMenuItem();
         ppResume = new javax.swing.JMenuItem();
         ppRiwayat = new javax.swing.JMenuItem();
+        MnDataAlergi = new javax.swing.JMenuItem();
         MnPermintaan = new javax.swing.JMenu();
         MnJadwalOperasi = new javax.swing.JMenuItem();
         MnPermintaanLab = new javax.swing.JMenuItem();
@@ -2928,6 +2930,22 @@ public class DlgKamarInap extends javax.swing.JDialog {
             }
         });
         MnDataRM.add(ppRiwayat);
+
+        MnDataAlergi.setBackground(new java.awt.Color(255, 255, 254));
+        MnDataAlergi.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        MnDataAlergi.setForeground(new java.awt.Color(50, 50, 50));
+        MnDataAlergi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        MnDataAlergi.setText("Input Data Alergi");
+        MnDataAlergi.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        MnDataAlergi.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        MnDataAlergi.setName("MnDataAlergi"); // NOI18N
+        MnDataAlergi.setPreferredSize(new java.awt.Dimension(200, 26));
+        MnDataAlergi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MnDataAlergiActionPerformed(evt);
+            }
+        });
+        MnDataRM.add(MnDataAlergi);
 
         jPopupMenu1.add(MnDataRM);
 
@@ -7054,6 +7072,7 @@ private void MnRawatInapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                                       billing.rawatinap.setKamar(tbKamIn.getValueAt(tbKamIn.getSelectedRow()-1,7).toString());  
                                       billing.rawatinap.setJenisBayar(tbKamIn.getValueAt(tbKamIn.getSelectedRow()-1,6).toString());
                                       billing.rawatinap.setKamar1(tbKamIn.getValueAt(tbKamIn.getSelectedRow()-1,19).toString());
+                                      billing.rawatinap.kosongkanpemeriksaan();
                                       billing.rawatinap.setVisible(true);
                                 }else{
                                       JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu pasien...!!!");
@@ -7098,6 +7117,7 @@ private void MnRawatInapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                     billing.rawatinap.setKamar(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),7).toString());
                     billing.rawatinap.setJenisBayar(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),6).toString());
                     billing.rawatinap.setKamar1(tbKamIn.getValueAt(tbKamIn.getSelectedRow(),19).toString());
+                    billing.rawatinap.kosongkanpemeriksaan();
                     billing.rawatinap.setVisible(true);
               }   
           }
@@ -16901,6 +16921,32 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         
     }//GEN-LAST:event_MnTampilDiagnosaActionPerformed
 
+    private void MnDataAlergiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnDataAlergiActionPerformed
+        if(tabMode.getRowCount()==0){
+            JOptionPane.showMessageDialog(null,"Maaf, table masih kosong...!!!!");
+            TCari.requestFocus();
+        }else{
+            if(tbKamIn.getSelectedRow()>-1){
+                this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                DlgDataAlergiPasien form=new DlgDataAlergiPasien(null,false);
+                form.isCek();
+                form.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                form.setLocationRelativeTo(internalFrame1);
+                form.setVisible(true);
+                form.emptTeks();
+                if(R1.isSelected()==true){
+                    form.setNoRm(norawat.getText(),new Date());
+                }else if(R2.isSelected()==true){
+                    form.setNoRm(norawat.getText(),DTPCari2.getDate());
+                }else if(R3.isSelected()==true){
+                    form.setNoRm(norawat.getText(),DTPCari4.getDate());
+                }
+                form.tampil();
+                this.setCursor(Cursor.getDefaultCursor());
+            }
+        }
+    }//GEN-LAST:event_MnDataAlergiActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -16991,6 +17037,7 @@ private void MnRujukMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JMenuItem MnChecklistPreOperasi;
     private javax.swing.JMenuItem MnDPJP;
     private javax.swing.JMenuItem MnDPJPRanap;
+    private javax.swing.JMenuItem MnDataAlergi;
     private javax.swing.JMenuItem MnDataPemberianInjeksi;
     private javax.swing.JMenu MnDataRM;
     private javax.swing.JMenuItem MnDataSEP;

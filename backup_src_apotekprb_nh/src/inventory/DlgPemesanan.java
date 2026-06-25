@@ -1091,7 +1091,6 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                             tbDokter.getValueAt(i,18).toString(),tbDokter.getValueAt(i,19).toString(),tbDokter.getValueAt(i,20).toString(),tbDokter.getValueAt(i,21).toString(),tbDokter.getValueAt(i,22).toString(),tbDokter.getValueAt(i,23).toString(),
                                             tbDokter.getValueAt(i,27).toString(),tbDokter.getValueAt(i,2).toString()
                                         });  
-  
                                     simpanbatch();
                                 }else{
                                     sukses=false;
@@ -1870,8 +1869,60 @@ private void btnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
         Valid.autoNomer3("select ifnull(MAX(CONVERT(RIGHT(no_faktur,3),signed)),0) from pemesanan where tgl_pesan='"+Valid.SetTgl(TglPesan.getSelectedItem()+"")+"'","PB"+TglPesan.getSelectedItem().toString().substring(6,10)+TglPesan.getSelectedItem().toString().substring(3,5)+TglPesan.getSelectedItem().toString().substring(0,2),3,NoFaktur); 
     }
 
-    public void tampil(String noorder) {
+//    public void tampil(String noorder) {
+//        NoOrder.setText(noorder);
+//        kdsup.setText(Sequel.cariIsi("select kode_suplier from surat_pemesanan_medis where no_pemesanan=?",noorder));
+//        nmsup.setText(Sequel.cariIsi("select nama_suplier from datasuplier where kode_suplier=?",kdsup.getText()));
+//        meterai=Sequel.cariIsiAngka("select meterai from surat_pemesanan_medis where no_pemesanan=?",noorder);
+//        ppn=Sequel.cariIsiAngka("select ppn from surat_pemesanan_medis where no_pemesanan=?",noorder);
+//        Meterai.setText(Valid.SetAngka2(meterai));
+//        try{
+//            Valid.tabelKosong(tabMode);
+//            ps=koneksi.prepareStatement(
+//                "select detail_surat_pemesanan_medis.kode_brng, databarang.nama_brng,"+
+//                "detail_surat_pemesanan_medis.kode_sat,detail_surat_pemesanan_medis.h_pesan, "+
+//                "ifnull(date_format(databarang.expire,'%d-%m-%Y'),'00-00-0000'),"+
+//                "detail_surat_pemesanan_medis.jumlah,detail_surat_pemesanan_medis.subtotal,"+
+//                "detail_surat_pemesanan_medis.dis,detail_surat_pemesanan_medis.besardis,"+
+//                "detail_surat_pemesanan_medis.total,detail_surat_pemesanan_medis.jumlah2,databarang.kode_sat as satbar, "+
+//                "databarang.isi from databarang inner join jenis inner join detail_surat_pemesanan_medis "+
+//                "on databarang.kdjns=jenis.kdjns and detail_surat_pemesanan_medis.kode_brng=databarang.kode_brng "+
+//                " where detail_surat_pemesanan_medis.no_pemesanan=? order by databarang.nama_brng");
+//            try {
+//                ps.setString(1,noorder);
+//                rs=ps.executeQuery();
+//                while(rs.next()){
+//                    tabMode.addRow(new Object[]{
+//                        rs.getDouble("jumlah"),rs.getString(3),rs.getString(1),
+//                        rs.getString(2),rs.getString("satbar"),false,rs.getString(5),
+//                        rs.getDouble(4),rs.getDouble("subtotal"),rs.getDouble("dis"),
+//                        rs.getDouble("besardis"),rs.getDouble("total"),rs.getDouble("jumlah2"),"",
+//                        0,0,0,0,0,0,0,0,0,0,0,rs.getDouble("isi"),1,0
+//                    });
+//                } 
+//                getData();
+//            } catch (Exception e) {
+//                System.out.println("Notifikasi : "+e);
+//            } finally{
+//                if(rs!=null){
+//                    rs.close();
+//                }
+//                if(ps!=null){
+//                    ps.close();
+//                }
+//            }  
+//            jml=tbDokter.getRowCount();
+//            for(i=0;i<jml;i++){   
+//                setKonversi(i);
+//            }
+//        }catch(Exception e){
+//            System.out.println("Notifikasi : "+e);
+//        }
+//    }
+    
+     public void tampil(String noorder) {
         NoOrder.setText(noorder);
+        tppn.setText("11");
         kdsup.setText(Sequel.cariIsi("select kode_suplier from surat_pemesanan_medis where no_pemesanan=?",noorder));
         nmsup.setText(Sequel.cariIsi("select nama_suplier from datasuplier where kode_suplier=?",kdsup.getText()));
         meterai=Sequel.cariIsiAngka("select meterai from surat_pemesanan_medis where no_pemesanan=?",noorder);
@@ -1881,14 +1932,16 @@ private void btnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             Valid.tabelKosong(tabMode);
             ps=koneksi.prepareStatement(
                 "select detail_surat_pemesanan_medis.kode_brng, databarang.nama_brng,"+
-                "detail_surat_pemesanan_medis.kode_sat,detail_surat_pemesanan_medis.h_pesan, "+
+                "databarang.kode_sat,detail_surat_pemesanan_medis.h_pesan, "+
                 "ifnull(date_format(databarang.expire,'%d-%m-%Y'),'00-00-0000'),"+
                 "detail_surat_pemesanan_medis.jumlah,detail_surat_pemesanan_medis.subtotal,"+
                 "detail_surat_pemesanan_medis.dis,detail_surat_pemesanan_medis.besardis,"+
                 "detail_surat_pemesanan_medis.total,detail_surat_pemesanan_medis.jumlah2,databarang.kode_sat as satbar, "+
-                "databarang.isi from databarang inner join jenis inner join detail_surat_pemesanan_medis "+
+                "databarang.isi,databarang.dasar,(databarang.dasar*databarang.isi) as hargabesar,databarang.ralan,databarang.kelas1,databarang.kelas2,databarang.kelas3,databarang.utama,databarang.vip,databarang.vvip,databarang.beliluar,databarang.jualbebas,databarang.karyawan from databarang inner join jenis inner join detail_surat_pemesanan_medis "+
                 "on databarang.kdjns=jenis.kdjns and detail_surat_pemesanan_medis.kode_brng=databarang.kode_brng "+
                 " where detail_surat_pemesanan_medis.no_pemesanan=? order by databarang.nama_brng");
+            
+            
             try {
                 ps.setString(1,noorder);
                 rs=ps.executeQuery();
@@ -1896,9 +1949,9 @@ private void btnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     tabMode.addRow(new Object[]{
                         rs.getDouble("jumlah"),rs.getString(3),rs.getString(1),
                         rs.getString(2),rs.getString("satbar"),false,rs.getString(5),
-                        rs.getDouble(4),rs.getDouble("subtotal"),rs.getDouble("dis"),
-                        rs.getDouble("besardis"),rs.getDouble("total"),rs.getDouble("jumlah2"),"",
-                        0,0,0,0,0,0,0,0,0,0,0,rs.getDouble("isi"),1,0
+                        rs.getDouble("dasar"),0,0,
+                        0,0,0,"",
+                        rs.getDouble("ralan"),rs.getDouble("kelas1"),rs.getDouble("kelas2"),rs.getDouble("kelas3"),rs.getDouble("utama"),rs.getDouble("vip"),rs.getDouble("vvip"),rs.getDouble("beliluar"),rs.getDouble("jualbebas"),rs.getDouble("karyawan"),rs.getDouble("hargabesar"),rs.getDouble("isi"),1,0
                     });
                 } 
                 getData();

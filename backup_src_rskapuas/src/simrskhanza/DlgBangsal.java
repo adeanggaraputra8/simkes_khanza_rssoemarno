@@ -155,6 +155,7 @@ public final class DlgBangsal extends javax.swing.JDialog {
         TKd = new widget.TextBox();
         TNm = new widget.TextBox();
         jLabel4 = new widget.Label();
+        CmbStatusBangsal = new widget.ComboBox();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -436,6 +437,12 @@ public final class DlgBangsal extends javax.swing.JDialog {
         panelGlass8.add(jLabel4);
         jLabel4.setBounds(230, 12, 92, 23);
 
+        CmbStatusBangsal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2" }));
+        CmbStatusBangsal.setName("CmbStatusBangsal"); // NOI18N
+        CmbStatusBangsal.setPreferredSize(new java.awt.Dimension(62, 23));
+        panelGlass8.add(CmbStatusBangsal);
+        CmbStatusBangsal.setBounds(650, 10, 50, 23);
+
         internalFrame1.add(panelGlass8, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(internalFrame1, java.awt.BorderLayout.CENTER);
@@ -457,7 +464,7 @@ public final class DlgBangsal extends javax.swing.JDialog {
         }else if(TNm.getText().trim().equals("")){
             Valid.textKosong(TNm,"nama bangsal");
         }else{
-            if(Sequel.menyimpantf("bangsal","?,?,?","Kode Kamar",3,new String[]{TKd.getText(),TNm.getText(),"1"})==true){
+            if(Sequel.menyimpantf("bangsal","?,?,?","Kode Kamar",3,new String[]{TKd.getText(),TNm.getText(),CmbStatusBangsal.getSelectedItem().toString()})==true){
                 tabMode.addRow(new Object[]{
                     false,TKd.getText(),TNm.getText()
                 });
@@ -514,7 +521,7 @@ public final class DlgBangsal extends javax.swing.JDialog {
             Valid.textKosong(TNm,"nama bangsal");
         }else{
             if(tbBangsal.getSelectedRow()>-1){
-                if(Sequel.mengedittf("bangsal","kd_bangsal=?","nm_bangsal=?,kd_bangsal=?",3,new String[]{TNm.getText(),TKd.getText(),tbBangsal.getValueAt(tbBangsal.getSelectedRow(), 1).toString()})==true){
+                if(Sequel.mengedittf("bangsal","kd_bangsal=?","nm_bangsal=?,kd_bangsal=?,status=?",4,new String[]{TNm.getText(),TKd.getText(),CmbStatusBangsal.getSelectedItem().toString(),tbBangsal.getValueAt(tbBangsal.getSelectedRow(), 1).toString()})==true){
                     tabMode.setValueAt(TKd.getText(),tbBangsal.getSelectedRow(),1);
                     tabMode.setValueAt(TNm.getText(),tbBangsal.getSelectedRow(),2);
                     emptTeks();
@@ -678,6 +685,7 @@ public final class DlgBangsal extends javax.swing.JDialog {
     private widget.Button BtnKeluar;
     private widget.Button BtnPrint;
     private widget.Button BtnSimpan;
+    private widget.ComboBox CmbStatusBangsal;
     private widget.Label LCount;
     private javax.swing.JMenuItem MnRestore;
     private widget.ScrollPane Scroll;
@@ -700,7 +708,7 @@ public final class DlgBangsal extends javax.swing.JDialog {
     private void tampil() {
         Valid.tabelKosong(tabMode);
         try{
-            ps=koneksi.prepareStatement("select * from bangsal where status='1' and kd_bangsal like ? "+
+            ps=koneksi.prepareStatement("select * from bangsal where status in ('1','2') and kd_bangsal like ? "+
                     "or status='1' and nm_bangsal like ? order by kd_bangsal");
             try {
                 ps.setString(1,"%"+TCari.getText().trim()+"%");
@@ -732,6 +740,7 @@ public final class DlgBangsal extends javax.swing.JDialog {
         TNm.setText("");
         TCari.setText("");
         TKd.requestFocus();
+        CmbStatusBangsal.setSelectedIndex(0);
         Valid.autoNomer(" bangsal ","B",4,TKd);
     }
 

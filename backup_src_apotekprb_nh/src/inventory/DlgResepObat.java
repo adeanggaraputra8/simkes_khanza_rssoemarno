@@ -1534,7 +1534,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
            autoresep();
         }else if(ChkRM.isSelected()==false){
            NoResep.setEditable(true);
-           NoResep.setBackground(new Color(250,255,245));
+           //NoResep.setBackground(new Color(250,255,245));
            NoResep.setText("");
         }
     }//GEN-LAST:event_ChkRMItemStateChanged

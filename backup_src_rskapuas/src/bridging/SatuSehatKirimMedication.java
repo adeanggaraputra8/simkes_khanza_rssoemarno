@@ -198,6 +198,7 @@ public final class SatuSehatKirimMedication extends javax.swing.JDialog {
         jLabel16 = new widget.Label();
         TCari = new widget.TextBox();
         BtnCari = new widget.Button();
+        ChkBelumTerkirim = new widget.CekBox();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -388,6 +389,27 @@ public final class SatuSehatKirimMedication extends javax.swing.JDialog {
             }
         });
         panelGlass9.add(BtnCari);
+
+        ChkBelumTerkirim.setBorder(null);
+        ChkBelumTerkirim.setText("Data belum terkirim");
+        ChkBelumTerkirim.setBorderPainted(true);
+        ChkBelumTerkirim.setBorderPaintedFlat(true);
+        ChkBelumTerkirim.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        ChkBelumTerkirim.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ChkBelumTerkirim.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ChkBelumTerkirim.setIconTextGap(2);
+        ChkBelumTerkirim.setName("ChkBelumTerkirim"); // NOI18N
+        ChkBelumTerkirim.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ChkBelumTerkirimItemStateChanged(evt);
+            }
+        });
+        ChkBelumTerkirim.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChkBelumTerkirimActionPerformed(evt);
+            }
+        });
+        panelGlass9.add(ChkBelumTerkirim);
 
         jPanel3.add(panelGlass9, java.awt.BorderLayout.PAGE_START);
 
@@ -697,6 +719,16 @@ public final class SatuSehatKirimMedication extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_BtnAllKeyPressed
 
+    private void ChkBelumTerkirimItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimItemStateChanged
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        tampil();
+        this.setCursor(Cursor.getDefaultCursor());
+    }//GEN-LAST:event_ChkBelumTerkirimItemStateChanged
+
+    private void ChkBelumTerkirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChkBelumTerkirimActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ChkBelumTerkirimActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -720,6 +752,7 @@ public final class SatuSehatKirimMedication extends javax.swing.JDialog {
     private widget.Button BtnKirim;
     private widget.Button BtnPrint;
     private widget.Button BtnUpdate;
+    private widget.CekBox ChkBelumTerkirim;
     private widget.Label LCount;
     private widget.editorpane LoadHTML;
     private widget.ScrollPane Scroll;
@@ -739,13 +772,19 @@ public final class SatuSehatKirimMedication extends javax.swing.JDialog {
     private void tampil() {
         Valid.tabelKosong(tabMode);
         try{
+            String belumterkirim = "";
+            if (ChkBelumTerkirim.isSelected() == true) {
+                belumterkirim = " satu_sehat_medication.id_medication IS NULL and ";
+            } else {
+                belumterkirim = "";
+            }
             ps=koneksi.prepareStatement(
                    "select satu_sehat_mapping_obat.obat_code,satu_sehat_mapping_obat.obat_system,databarang.status,"+
                    "satu_sehat_mapping_obat.kode_brng,satu_sehat_mapping_obat.obat_display,satu_sehat_mapping_obat.form_code,"+
                    "satu_sehat_mapping_obat.form_system,satu_sehat_mapping_obat.form_display,ifnull(satu_sehat_medication.id_medication,'') as id_medication "+
                    "from satu_sehat_mapping_obat inner join databarang on satu_sehat_mapping_obat.kode_brng=databarang.kode_brng "+
                    "left join satu_sehat_medication on satu_sehat_medication.kode_brng=satu_sehat_mapping_obat.kode_brng "+
-                   (TCari.getText().equals("")?"":"where (satu_sehat_mapping_obat.obat_code like ? or satu_sehat_mapping_obat.kode_brng like ? or "+
+                   (TCari.getText().equals("")?"":"where "+belumterkirim+" (satu_sehat_mapping_obat.obat_code like ? or satu_sehat_mapping_obat.kode_brng like ? or "+
                    "satu_sehat_mapping_obat.obat_display like ? or satu_sehat_mapping_obat.form_code like ? or satu_sehat_mapping_obat.form_display like ?) "));
             try {
                 if(!TCari.getText().equals("")){

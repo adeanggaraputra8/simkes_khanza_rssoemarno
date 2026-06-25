@@ -11,7 +11,7 @@
  Target Server Version : 100428 (10.4.28-MariaDB)
  File Encoding         : 65001
 
- Date: 08/01/2026 02:32:41
+ Date: 25/06/2026 07:57:42
 */
 
 SET NAMES utf8mb4;
@@ -4665,6 +4665,17 @@ CREATE TABLE `evaluasi_kinerja_pegawai`  (
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for flagging_iterasi
+-- ----------------------------
+DROP TABLE IF EXISTS `flagging_iterasi`;
+CREATE TABLE `flagging_iterasi`  (
+  `no_resep` varchar(14) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT '',
+  `iterasi` enum('1','2') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  INDEX `no_resep`(`no_resep` ASC) USING BTREE,
+  CONSTRAINT `flagging_iterasi_ibfk_1` FOREIGN KEY (`no_resep`) REFERENCES `resep_obat` (`no_resep`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
 -- Table structure for flagging_pasien_satusehat
 -- ----------------------------
 DROP TABLE IF EXISTS `flagging_pasien_satusehat`;
@@ -6654,7 +6665,7 @@ CREATE TABLE `kabupaten`  (
   `nm_kab` varchar(60) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`kd_kab`) USING BTREE,
   UNIQUE INDEX `nm_kab`(`nm_kab` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16961 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16970 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for kamar
@@ -6815,7 +6826,7 @@ CREATE TABLE `kecamatan`  (
   `nm_kec` varchar(60) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`kd_kec`) USING BTREE,
   UNIQUE INDEX `nm_kec`(`nm_kec` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21066 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 21075 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for kelompok_jabatan
@@ -6837,7 +6848,7 @@ CREATE TABLE `kelurahan`  (
   `nm_kel` varchar(60) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`kd_kel`) USING BTREE,
   UNIQUE INDEX `nm_kel`(`nm_kel` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1101032161 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1101032170 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for kesling_limbah_b3medis
@@ -15334,7 +15345,7 @@ CREATE TABLE `propinsi`  (
   `nm_prop` varchar(30) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   PRIMARY KEY (`kd_prop`) USING BTREE,
   UNIQUE INDEX `nm_prop`(`nm_prop` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13255 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 13264 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for prosedur_pasien

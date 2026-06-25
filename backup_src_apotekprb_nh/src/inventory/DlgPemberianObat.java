@@ -398,6 +398,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         jSeparator5 = new javax.swing.JSeparator();
         jLabel6 = new widget.Label();
         TCari = new widget.TextBox();
+        TJumlah = new widget.TextBox();
         BtnCari = new widget.Button();
         PanelInput = new javax.swing.JPanel();
         FormInput = new widget.PanelBiasa();
@@ -479,7 +480,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
 
         Tanggal.setEditable(false);
         Tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-12-2019" }));
+        Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-06-2024" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy");
         Tanggal.setName("Tanggal"); // NOI18N
         Tanggal.setOpaque(false);
@@ -637,7 +638,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         panelGlass9.add(jLabel14);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-12-2019" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-06-2024" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -650,7 +651,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-12-2019" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-06-2024" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -709,6 +710,15 @@ public class DlgPemberianObat extends javax.swing.JDialog {
             }
         });
         panelGlass9.add(TCari);
+
+        TJumlah.setName("TJumlah"); // NOI18N
+        TJumlah.setPreferredSize(new java.awt.Dimension(60, 23));
+        TJumlah.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TJumlahKeyPressed(evt);
+            }
+        });
+        panelGlass9.add(TJumlah);
 
         BtnCari.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/accept.png"))); // NOI18N
         BtnCari.setMnemonic('6');
@@ -774,7 +784,7 @@ public class DlgPemberianObat extends javax.swing.JDialog {
         jLabel7.setBounds(-2, 42, 80, 23);
 
         DTPBeri.setForeground(new java.awt.Color(50, 70, 50));
-        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-12-2019" }));
+        DTPBeri.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-06-2024" }));
         DTPBeri.setDisplayFormat("dd-MM-yyyy");
         DTPBeri.setName("DTPBeri"); // NOI18N
         DTPBeri.setOpaque(false);
@@ -1229,7 +1239,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     resep.setLocationRelativeTo(internalFrame1);
                     resep.emptTeks(); 
                     resep.isCek();
-                    resep.setNoRm(TNoRw.getText(),Valid.SetTgl2(tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),0).toString()),Valid.SetTgl2(tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),0).toString()),tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),1).toString().substring(0,2),tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),1).toString().substring(3,5),tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),1).toString().substring(6,8),status);
+                    resep.setNoRm(TNoRw.getText(),Valid.SetTgl2(tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),0).toString()),Valid.SetTgl2(tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),0).toString()),tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),1).toString().substring(0,2),tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),1).toString().substring(3,5),tbPemberianObat.getValueAt(tbPemberianObat.getSelectedRow(),1).toString().substring(6,8),"Ralan");
                     resep.tampil();
                     resep.setVisible(true);
         }
@@ -1295,6 +1305,10 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         // TODO add your handling code here:
     }//GEN-LAST:event_TanggalKeyPressed
 
+    private void TJumlahKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TJumlahKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TJumlahKeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -1335,6 +1349,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.TextBox TCari;
     private widget.TextBox TCariPasien;
     private widget.TextBox THBeli;
+    private widget.TextBox TJumlah;
     private widget.TextBox TKdOb;
     private widget.TextBox TNmOb;
     private widget.TextBox TNoRM;
@@ -1385,7 +1400,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
            "where "+tgl+(TCari.getText().trim().equals("")?"":" and (tgl_perawatan like ? or "+
            "detail_pemberian_obat.no_rawat like ? or reg_periksa.no_rkm_medis like ? or "+
            "pasien.nm_pasien like ? or detail_pemberian_obat.kode_brng like ? or databarang.nama_brng like ? or "+
-           "detail_pemberian_obat.no_faktur like ? or detail_pemberian_obat.no_batch like ?) ")+
+           "detail_pemberian_obat.no_faktur like ? or detail_pemberian_obat.no_batch like ? or detail_pemberian_obat.jml like ?) ")+
            "order by detail_pemberian_obat.tgl_perawatan";
         
         Valid.tabelKosong(tabModePO);
@@ -1401,6 +1416,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
                     ps.setString(6,"%"+TCari.getText().trim()+"%");
                     ps.setString(7,"%"+TCari.getText().trim()+"%");
                     ps.setString(8,"%"+TCari.getText().trim()+"%");
+                    ps.setString(9,"%"+TJumlah.getText().trim()+"%");
                 }
                     
                 rs=ps.executeQuery();

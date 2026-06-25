@@ -1326,6 +1326,14 @@ public final class DlgResepObat extends javax.swing.JDialog {
                 if(lembarobat.equals("yes")){
                     ppLembarObatActionPerformed(null);
                 }
+                i=JOptionPane.showConfirmDialog(rootPane, "Apakah ingin simpan Telaah Resep?","Konfirmasi",JOptionPane.YES_NO_OPTION);
+                    if(i==JOptionPane.YES_OPTION) 
+                    {
+                     Sequel.menyimpantf("telaah_farmasi","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","Data",23,new String[]{
+                     NoResep.getText(),"Ya","","Ya","","Ya","","Ya","", "Ya","",
+                     "Tidak","","Tidak","", "Tidak","",
+                     "Ya","Ya","Ya","Ya","Ya",akses.getkode()});      
+                    }
                 emptTeks();
             }                    
         }
@@ -1468,6 +1476,16 @@ public final class DlgResepObat extends javax.swing.JDialog {
             if(evt.getKeyCode()==KeyEvent.VK_SHIFT){
                 TCari.setText("");
                 TCari.requestFocus();
+            }else if(evt.getKeyCode()==KeyEvent.VK_T){
+                i=JOptionPane.showConfirmDialog(rootPane, "Apakah ingin simpan Telaah Resep?","Konfirmasi",JOptionPane.YES_NO_OPTION);
+                    if(i==JOptionPane.YES_OPTION) 
+                    {
+                     Sequel.menyimpantf("telaah_farmasi","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","Data",23,new String[]{
+                     NoResep.getText(),"Ya","","Ya","","Ya","","Ya","", "Ya","",
+                     "Tidak","","Tidak","", "Tidak","",
+                     "Ya","Ya","Ya","Ya","Ya",akses.getkode()});      
+                    }
+                emptTeks();
             }
         }
 }//GEN-LAST:event_tbResepKeyPressed

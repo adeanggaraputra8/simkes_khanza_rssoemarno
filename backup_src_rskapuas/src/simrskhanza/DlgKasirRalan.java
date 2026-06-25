@@ -7688,7 +7688,7 @@ private void MnDataRalanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             TCari.requestFocus();
         }else{
             if(tbKasirRalan.getSelectedRow()!= -1){
-                if(Sequel.cariInteger("select count(no_rawat) from kamar_inap where no_rawat=?",TNoRw.getText())>0){
+                if(Sequel.cariInteger("select count(no_rawat) from kamar_inap where no_rawat=? and TIMESTAMPDIFF(MINUTE, CONCAT(tgl_masuk,' ',jam_masuk), NOW()) >= 360",TNoRw.getText())>0){
                     JOptionPane.showMessageDialog(null,"Maaf, Pasien sudah masuk Kamar Inap. Gunakan billing Ranap..!!!");
                 }else {
                     if(akses.getkode()==tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),0).toString()||Sequel.cariInteger("select count(kd_dokter) from dokter where kd_dokter='"+akses.getkode()+"' and status='1' ")==0||tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),18).toString().equals("HDL")){

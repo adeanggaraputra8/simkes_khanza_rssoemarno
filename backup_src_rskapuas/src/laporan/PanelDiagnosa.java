@@ -68,7 +68,7 @@ public class PanelDiagnosa extends widget.panelisi {
     private int jml=0,i=0,index=0,cekINADRG = 0,cekPremierINADRG = 0;
     private String[] kode,nama,ciripny,keterangan,kategori,cirium,kode2,panjang,pendek,kodedxidrg,namadxidrg,kodepsidrg,namapsidrg;
     private boolean[] pilih;
-    public String norawat="",status="",norm="",tanggal1="",tanggal2="",keyword="",dxralan="",pdralan="",nosep="",sepvedikaralan="",sepvedikaranap="",URL = "",requestJsonDx = "", requestJsonPS = "",stringbalik="";
+    public String norawat="",status="",norm="",tanggal1="",tanggal2="",keyword="",dxralan="",pdralan="",dxranap="",pdranap="",nosep="",sepvedikaralan="",sepvedikaranap="",URL = "",requestJsonDx = "", requestJsonPS = "",stringbalik="";
     private StringBuilder htmlContent;
     private HttpHeaders headers;
     private HttpEntity requestEntity;
@@ -2400,9 +2400,41 @@ public class PanelDiagnosa extends widget.panelisi {
                                         "<td valign='middle' bgcolor='#FFFFF8' align='center' width='14%'>Plan</td>"+
                                         "<td valign='middle' bgcolor='#FFFFF8' align='center' width='14%'>Instruksi</td>"+
                                         "<td valign='middle' bgcolor='#FFFFF8' align='center' width='14%'>Evaluasi</td>"+
+                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='14%'>ICD 10</td>"+
+                                        "<td valign='middle' bgcolor='#FFFFF8' align='center' width='14%'>ICD 9</td>"+
                                     "</tr>");
                             rs2.beforeFirst();
                             while(rs2.next()){
+                                psdx=koneksi.prepareStatement("SELECT dp.kd_penyakit  FROM  diagnosa_pasien dp WHERE  dp.no_rawat=? AND  dp.status='Ranap' ORDER BY  dp.prioritas desc ");
+                                        dxranap="";
+                                        try {
+                                            psdx.setString(1,rs.getString("no_rawat"));
+                                            rsdx=psdx.executeQuery();
+                                            while(rsdx.next()){
+                                                dxranap=rsdx.getString("kd_penyakit")+", "+dxralan;
+                                            }
+                                        } catch (Exception e) {
+                                            System.out.println("Notifikasi : "+e);
+                                        } finally{
+                                            if(rsdx!=null){
+                                                rsdx.close();
+                                            }
+                                        }
+                                    pspd=koneksi.prepareStatement("SELECT pp.kode  FROM  prosedur_pasien pp  WHERE  pp.no_rawat=? AND  pp.status='Ranap' ORDER BY  pp.prioritas desc ");
+                                    pdranap="";
+                                    try {
+                                        pspd.setString(1,rs.getString("no_rawat"));
+                                        rspd=pspd.executeQuery();
+                                        while(rspd.next()){
+                                            pdranap=rspd.getString("kode")+", "+pdralan;
+                                        }
+                                    } catch (Exception e) {
+                                        System.out.println("Notifikasi : "+e);
+                                    } finally{
+                                        if(rspd!=null){
+                                            rspd.close();
+                                        }
+                                    }
                                  htmlContent.append(                             
                                     "<tr class='isi'>"+
                                         "<td align='center'>"+rs2.getString("tgl_perawatan")+"<br>"+rs2.getString("jam_rawat")+"</td>"+
@@ -2424,6 +2456,8 @@ public class PanelDiagnosa extends widget.panelisi {
                                         "<td align='left'>"+rs2.getString("rtl").replaceAll("(\r\n|\r|\n|\n\r)","<br>")+"</td>"+
                                         "<td align='left'>"+rs2.getString("instruksi").replaceAll("(\r\n|\r|\n|\n\r)","<br>")+"</td>"+
                                         "<td align='left'>"+rs2.getString("evaluasi").replaceAll("(\r\n|\r|\n|\n\r)","<br>")+"</td>"+
+                                        "<td align='left'>"+dxranap.replaceAll("(\r\n|\r|\n|\n\r)","<br>")+"</td>"+
+                                        "<td align='left'>"+pdranap.replaceAll("(\r\n|\r|\n|\n\r)","<br>")+"</td>"+
                                     "</tr>"
                                  ); 
                             } 
