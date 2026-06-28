@@ -1763,11 +1763,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                     pscarikapasitas.setString(1,tbObat.getValueAt(i,2).toString());
                                     carikapasitas=pscarikapasitas.executeQuery();
                                     if(carikapasitas.next()){ 
-                                         if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
+//                                         if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
                                         
                                         
                                         if(Sequel.menyimpantf2("detail_pemberian_obat","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","data",16,new String[]{
@@ -1831,12 +1831,12 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                             sukses=false;
                                         }  
                                     }else{
-                                            if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
-                                        
+//                                            if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
+//                                        
                                         if(Sequel.menyimpantf2("detail_pemberian_obat","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","data",16,new String[]{
                                             Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,12).toString(),
                                             tbObat.getValueAt(i,6).toString(),""+Double.parseDouble(tbObat.getValueAt(i,1).toString()),
@@ -1910,11 +1910,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                 }
                             }else{
                                 
-                              if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
+//                              if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
                                 
                                 if(Sequel.menyimpantf2("detail_pemberian_obat","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","data",16,new String[]{
                                     Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,12).toString(),
@@ -1983,11 +1983,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                     for(i=0;i<tbObatRacikan.getRowCount();i++){ 
                         if(Valid.SetAngka(tbObatRacikan.getValueAt(i,4).toString())>0){ 
                             
-                     if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
+//                     if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
                             
                             if(Sequel.menyimpantf2("obat_racikan","?,?,?,?,?,?,?,?,?","Obat Racikan",9,new String[]{
                                Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),
@@ -2007,11 +2007,11 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                                tbDetailObatRacikan.getValueAt(i,0).toString(),tbDetailObatRacikan.getValueAt(i,1).toString()
                             })==true){
                                 
-                                if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
+//                                if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
                                 
                                 if(Sequel.menyimpantf2("detail_pemberian_obat","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","data",16,new String[]{
                                     Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),
@@ -2979,11 +2979,11 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
                                     carikapasitas=pscarikapasitas.executeQuery();
                                     if(carikapasitas.next()){ 
                                         
-                                        if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
+//                                        if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
                                         
                                         if(Sequel.menyimpantf2("detail_pemberian_obat","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","data",16,new String[]{
                                             Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,12).toString(),
@@ -3047,11 +3047,11 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
                                         }  
                                     }else{
                                         
-                                        if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
+//                                        if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
                                         
                                         if(Sequel.menyimpantf2("detail_pemberian_obat","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","data",16,new String[]{
                                             Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,12).toString(),
@@ -3126,11 +3126,11 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
                                 }
                             }else{
                                 
-                              if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
+//                              if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
                                 
                                 if(Sequel.menyimpantf2("detail_pemberian_obat","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","data",16,new String[]{
                                     Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),tbObat.getValueAt(i,2).toString(),tbObat.getValueAt(i,12).toString(),
@@ -3199,11 +3199,11 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
                     for(i=0;i<tbObatRacikan.getRowCount();i++){ 
                         if(Valid.SetAngka(tbObatRacikan.getValueAt(i,4).toString())>0){ 
                             
-                     if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
+//                     if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
                             
                             if(Sequel.menyimpantf2("obat_racikan","?,?,?,?,?,?,?,?,?","Obat Racikan",9,new String[]{
                                Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),
@@ -3223,11 +3223,11 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
                                tbDetailObatRacikan.getValueAt(i,0).toString(),tbDetailObatRacikan.getValueAt(i,1).toString()
                             })==true){
                                 
-                       if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
-                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
-                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
-                                                 tbObat.getValueAt(i,13).toString()
-                                            })==true);
+//                       if(Sequel.menyimpantf2("resep_dokter","?,?,?,?","data",4,new String[]{
+//                                                NoResep.getText(),tbObat.getValueAt(i,2).toString(),
+//                                                ""+(Double.parseDouble(tbObat.getValueAt(i,1).toString())),
+//                                                 tbObat.getValueAt(i,13).toString()
+//                                            })==true);
                                 
                                 if(Sequel.menyimpantf2("detail_pemberian_obat","?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?","data",16,new String[]{
                                     Valid.SetTgl(DTPTgl.getSelectedItem()+""),cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),TNoRw.getText(),

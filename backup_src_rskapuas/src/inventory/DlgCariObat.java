@@ -1818,7 +1818,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                             resep.tampil();
                             resep.setVisible(true);
                         }
-                        dispose();
+//                        dispose();
                     }
                    
 //      
@@ -2223,7 +2223,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                             resep.tampil();
                             resep.setVisible(true);
                         }
-                        dispose();
+//                        dispose();
                     }
                    }
                 } catch (Exception ex) {
@@ -3105,7 +3105,7 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                             resep.tampil();
                             resep.setVisible(true);
                          }
-                            dispose();
+//                            dispose();
                         }
 //                       
                     }else {
@@ -3505,7 +3505,7 @@ private void JeniskelasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:even
                             resep.tampil();
                             resep.setVisible(true);
                         }
-                        dispose();
+//                        dispose();
                     }
                    }
                 } catch (Exception ex) {

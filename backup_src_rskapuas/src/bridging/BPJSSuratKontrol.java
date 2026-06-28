@@ -66,6 +66,7 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
     private String link="",requestJson="",URL="",user="",utc="";
     private ApiBPJS api=new ApiBPJS();
     private BPJSCekHistoriPelayanan historiPelayanan=new BPJSCekHistoriPelayanan(null,false);
+    private BPJSCekNoKartu cekViaBPJSKartu=new BPJSCekNoKartu();
 
     /** Creates new form DlgPemberianInfus
      * @param parent
@@ -517,6 +518,7 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
         jLabel66 = new widget.Label();
         jLabel67 = new widget.Label();
         Hamil = new widget.ComboBox();
+        TInfoPRB = new widget.TextBox();
 
         jPopupMenu1.setName("jPopupMenu1"); // NOI18N
 
@@ -786,7 +788,7 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
         R1.setPreferredSize(new java.awt.Dimension(115, 23));
         panelCari.add(R1);
 
-        DTPTanggalSurat1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-06-2026" }));
+        DTPTanggalSurat1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-06-2026" }));
         DTPTanggalSurat1.setDisplayFormat("dd-MM-yyyy");
         DTPTanggalSurat1.setName("DTPTanggalSurat1"); // NOI18N
         DTPTanggalSurat1.setOpaque(false);
@@ -809,7 +811,7 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
         jLabel22.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel22);
 
-        DTPTanggalSurat2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-06-2026" }));
+        DTPTanggalSurat2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-06-2026" }));
         DTPTanggalSurat2.setDisplayFormat("dd-MM-yyyy");
         DTPTanggalSurat2.setName("DTPTanggalSurat2"); // NOI18N
         DTPTanggalSurat2.setOpaque(false);
@@ -836,7 +838,7 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
         R2.setPreferredSize(new java.awt.Dimension(120, 23));
         panelCari.add(R2);
 
-        DTPTanggalKontrol1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-06-2026" }));
+        DTPTanggalKontrol1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-06-2026" }));
         DTPTanggalKontrol1.setDisplayFormat("dd-MM-yyyy");
         DTPTanggalKontrol1.setName("DTPTanggalKontrol1"); // NOI18N
         DTPTanggalKontrol1.setOpaque(false);
@@ -859,7 +861,7 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
         jLabel25.setPreferredSize(new java.awt.Dimension(25, 23));
         panelCari.add(jLabel25);
 
-        DTPTanggalKontrol2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-06-2026" }));
+        DTPTanggalKontrol2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-06-2026" }));
         DTPTanggalKontrol2.setDisplayFormat("dd-MM-yyyy");
         DTPTanggalKontrol2.setName("DTPTanggalKontrol2"); // NOI18N
         DTPTanggalKontrol2.setOpaque(false);
@@ -939,7 +941,7 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
         NoSEP.setBounds(286, 10, 150, 23);
 
         TanggalSurat.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalSurat.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-06-2026" }));
+        TanggalSurat.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-06-2026" }));
         TanggalSurat.setDisplayFormat("dd-MM-yyyy");
         TanggalSurat.setName("TanggalSurat"); // NOI18N
         TanggalSurat.setOpaque(false);
@@ -1014,7 +1016,7 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
         BtnPoli.setBounds(699, 100, 28, 23);
 
         TanggalKontrol.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalKontrol.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "18-06-2026" }));
+        TanggalKontrol.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "28-06-2026" }));
         TanggalKontrol.setDisplayFormat("dd-MM-yyyy");
         TanggalKontrol.setName("TanggalKontrol"); // NOI18N
         TanggalKontrol.setOpaque(false);
@@ -1584,6 +1586,18 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
         Hamil.setPreferredSize(new java.awt.Dimension(62, 23));
         FormInput.add(Hamil);
         Hamil.setBounds(477, 420, 90, 23);
+
+        TInfoPRB.setEditable(false);
+        TInfoPRB.setForeground(new java.awt.Color(255, 0, 0));
+        TInfoPRB.setHighlighter(null);
+        TInfoPRB.setName("TInfoPRB"); // NOI18N
+        TInfoPRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TInfoPRBActionPerformed(evt);
+            }
+        });
+        FormInput.add(TInfoPRB);
+        TInfoPRB.setBounds(310, 130, 400, 23);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -2200,6 +2214,10 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         //        Valid.pindah(evt,COB,LokasiLaka);
     }//GEN-LAST:event_infocektglKeyPressed
 
+    private void TInfoPRBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TInfoPRBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TInfoPRBActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -2286,6 +2304,7 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
     private widget.TextBox TCari;
     private widget.TextBox TDDiastolik;
     private widget.TextBox TDSistolik;
+    private widget.TextBox TInfoPRB;
     private widget.Tanggal TanggalKontrol;
     private widget.Tanggal TanggalSurat;
     private widget.ComboBox TerapiRumatan;
@@ -2628,6 +2647,8 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         Diagnosa.setText(diagnosa);
         TCari.setText(nosep);
         ChkInput.setSelected(true);
+        cekViaBPJSKartu.tampil(NoKartu.getText());
+        TInfoPRB.setText(cekViaBPJSKartu.informasiprolanisPRB);
         isForm();
         tampil();
     }
@@ -2648,6 +2669,8 @@ private void ChkInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
         NoKartu.setText(nokartu);
         NmPasien.setText(nmpasien);
         ChkInput.setSelected(true);
+        cekViaBPJSKartu.tampil(NoKartu.getText());
+        TInfoPRB.setText(cekViaBPJSKartu.informasiprolanisPRB);
         isForm();
         tampil();
     }
