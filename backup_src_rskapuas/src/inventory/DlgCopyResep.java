@@ -648,27 +648,56 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                         rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),rs.getString("nm_dokter"),rs.getString("kd_dokter"),
                         rs.getString("status")
                     });  
-                    tabMode.addRow(new String[]{"","Jumlah","Satuan","Aturan Pakai","Kode/No","Nama Obat/Racikan","","",rs.getString("status_asal").replaceAll("ralan","Rawat Jalan").replaceAll("ranap","Rawat Inap")});                
-                    ps2=koneksi.prepareStatement("select databarang.kode_brng,databarang.nama_brng,resep_dokter.jml,"+
-                        "databarang.kode_sat,resep_dokter.aturan_pakai from resep_dokter inner join databarang on "+
-                        "resep_dokter.kode_brng=databarang.kode_brng where resep_dokter.no_resep=? order by databarang.kode_brng");
-                    try {
-                        ps2.setString(1,rs.getString("no_resep"));
-                        rs2=ps2.executeQuery();
-                        while(rs2.next()){
-                            tabMode.addRow(new String[]{
-                                "",rs2.getString("jml"),rs2.getString("kode_sat"),rs2.getString("aturan_pakai"),rs2.getString("kode_brng"),rs2.getString("nama_brng"),"","",""
-                            });
+                    tabMode.addRow(new String[]{"","Jumlah","Satuan","Aturan Pakai","Kode/No","Nama Obat/Racikan","Stok","",rs.getString("status_asal").replaceAll("ralan","Rawat Jalan").replaceAll("ranap","Rawat Inap")});                
+                    
+                    if(poli.equals("IGDK")){
+                        ps2=koneksi.prepareStatement("select databarang.kode_brng,databarang.nama_brng,resep_dokter.jml,"+
+                            "databarang.kode_sat,resep_dokter.aturan_pakai,gudangbarang.stok from resep_dokter inner join databarang on "+
+                            "resep_dokter.kode_brng=databarang.kode_brng inner join gudangbarang on resep_dokter.kode_brng=gudangbarang.kode_brng "+
+                            "where resep_dokter.no_resep=? and gudangbarang.kd_bangsal='DPO' order by databarang.kode_brng");
+                        try {
+                            ps2.setString(1,rs.getString("no_resep"));
+                            rs2=ps2.executeQuery();
+                            while(rs2.next()){
+                                tabMode.addRow(new String[]{
+                                    "",rs2.getString("jml"),rs2.getString("kode_sat"),rs2.getString("aturan_pakai"),rs2.getString("kode_brng"),rs2.getString("nama_brng"),rs2.getString("stok"),"",""
+                                });
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Notifikasi 2 : "+e);
+                        } finally{
+                            if(rs2!=null){
+                                rs2.close();
+                            }
+                            if(ps2!=null){
+                                ps2.close();
+                            }
                         }
-                    } catch (Exception e) {
-                        System.out.println("Notifikasi 2 : "+e);
-                    } finally{
-                        if(rs2!=null){
-                            rs2.close();
+                    }else{
+                        ps2=koneksi.prepareStatement("select databarang.kode_brng,databarang.nama_brng,resep_dokter.jml,"+
+                            "databarang.kode_sat,resep_dokter.aturan_pakai,gudangbarang.stok from resep_dokter inner join databarang on "+
+                            "resep_dokter.kode_brng=databarang.kode_brng inner join gudangbarang on resep_dokter.kode_brng=gudangbarang.kode_brng "+
+                            "where resep_dokter.no_resep=? and gudangbarang.kd_bangsal='APT' order by databarang.kode_brng");
+                        try {
+                            ps2.setString(1,rs.getString("no_resep"));
+                            rs2=ps2.executeQuery();
+                            while(rs2.next()){
+                                tabMode.addRow(new String[]{
+                                    "",rs2.getString("jml"),rs2.getString("kode_sat"),rs2.getString("aturan_pakai"),rs2.getString("kode_brng"),rs2.getString("nama_brng"),rs2.getString("stok"),"",""
+                                });
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Notifikasi 2 : "+e);
+                        } finally{
+                            if(rs2!=null){
+                                rs2.close();
+                            }
+                            if(ps2!=null){
+                                ps2.close();
+                            }
                         }
-                        if(ps2!=null){
-                            ps2.close();
-                        }
+                    
+                    
                     }
                     ps2=koneksi.prepareStatement(
                             "select resep_dokter_racikan.no_racik,resep_dokter_racikan.nama_racik,"+
@@ -743,7 +772,7 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
         this.norawat=norawat;
         this.kddokter=kodedokter;
         this.kode_pj=kodepj;
-         this.poli=Sequel.cariIsi("select kd_poli from reg_periksa where no_rawat='"+norawat+"' ");
+        this.poli=Sequel.cariIsi("select kd_poli from reg_periksa where no_rawat='"+norawat+"' ");
     }
 
     private void panggilform() {

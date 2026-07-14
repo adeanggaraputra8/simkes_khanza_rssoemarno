@@ -42,7 +42,7 @@ public class DlgPermintaan extends javax.swing.JDialog {
     private String[] jumlah,kodebarang,namabarang,satuan,jenis,kategori,golongan,keterangan;
     private WarnaTable2 warna=new WarnaTable2();
     private DlgCariPegawai pegawai=new DlgCariPegawai(null,false);
-    private DlgCariBangsal caribangsal=new DlgCariBangsal(null,false);
+    //private DlgCariBangsal caribangsal=new DlgCariBangsal(null,false);
     private DlgCariBangsal2 caribangsal2=new DlgCariBangsal2(null,false);
     private DlgCariPermintaan form=new DlgCariPermintaan(null,false);
     private DlgBarang barang=new DlgBarang(null,false);
@@ -126,17 +126,17 @@ public class DlgPermintaan extends javax.swing.JDialog {
             });
         }
         
-        caribangsal.addWindowListener(new WindowListener() {
+        caribangsal2.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {}
             @Override
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(caribangsal.getTable().getSelectedRow()!= -1){   
+                if(caribangsal2.getTable().getSelectedRow()!= -1){   
                        if(i==2){
-                        kdgudangasal.setText(caribangsal.getTable().getValueAt(caribangsal.getTable().getSelectedRow(),0).toString());
-                        nmgudangasal.setText(caribangsal.getTable().getValueAt(caribangsal.getTable().getSelectedRow(),1).toString());
+                        kdgudangasal.setText(caribangsal2.getTable().getValueAt(caribangsal2.getTable().getSelectedRow(),0).toString());
+                        nmgudangasal.setText(caribangsal2.getTable().getValueAt(caribangsal2.getTable().getSelectedRow(),1).toString());
                         kdgudangasal.requestFocus();
                     }
                 } 
@@ -158,7 +158,7 @@ public class DlgPermintaan extends javax.swing.JDialog {
             public void windowClosing(WindowEvent e) {}
             @Override
             public void windowClosed(WindowEvent e) {
-                if(caribangsal.getTable().getSelectedRow()!= -1){   
+                if(caribangsal2.getTable().getSelectedRow()!= -1){   
                     if(i==1){
                         kdgudangTujuan.setText(caribangsal2.getTable().getValueAt(caribangsal2.getTable().getSelectedRow(),0).toString());
                         nmgudangTujuan.setText(caribangsal2.getTable().getValueAt(caribangsal2.getTable().getSelectedRow(),1).toString());
@@ -628,7 +628,7 @@ public class DlgPermintaan extends javax.swing.JDialog {
     private void BtnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluarActionPerformed
         form.dispose();
         pegawai.dispose();
-        caribangsal.dispose();
+        caribangsal2.dispose();
         dispose();  
 }//GEN-LAST:event_BtnKeluarActionPerformed
 
@@ -873,12 +873,12 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
 
     private void btnSuplier1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuplier1ActionPerformed
         i=2;
-        caribangsal.isCek();
-        caribangsal.emptTeks();
-        caribangsal.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
-        caribangsal.setLocationRelativeTo(internalFrame1);
-        caribangsal.setAlwaysOnTop(false);
-        caribangsal.setVisible(true);
+        caribangsal2.isCek();
+        caribangsal2.emptTeks();
+        caribangsal2.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        caribangsal2.setLocationRelativeTo(internalFrame1);
+        caribangsal2.setAlwaysOnTop(false);
+        caribangsal2.setVisible(true);
     }//GEN-LAST:event_btnSuplier1ActionPerformed
 
     private void kdgudangasalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kdgudangasalKeyPressed
@@ -1073,7 +1073,7 @@ private void tbDokterKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
             nmptg.setText(pegawai.tampil3(kdptg.getText()));
             if(!DEPOAKTIFOBAT.equals("")){
                 kdgudangasal.setText(DEPOAKTIFOBAT);
-                nmgudangasal.setText(caribangsal.tampil3(DEPOAKTIFOBAT));
+                nmgudangasal.setText(caribangsal2.tampil3(DEPOAKTIFOBAT));
                 btnSuplier1.setEnabled(false);
             }
         }        

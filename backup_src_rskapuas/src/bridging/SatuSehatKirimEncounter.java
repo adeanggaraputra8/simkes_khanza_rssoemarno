@@ -37,6 +37,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.web.client.HttpClientErrorException;
 
 /**
  *
@@ -643,8 +644,9 @@ public final class SatuSehatKirimEncounter extends javax.swing.JDialog {
                                     tbObat.getValueAt(i,2).toString(),response.asText()
                                 });
                             }
-                        }catch(Exception e){
-                            System.out.println("Notifikasi Bridging : "+e);
+                        }catch (HttpClientErrorException e) {
+                            System.out.println("STATUS CODE : " + e.getStatusCode());
+                            System.out.println("RESPONSE BODY : " + e.getResponseBodyAsString());
                         }
                         
                         try{
@@ -736,8 +738,9 @@ public final class SatuSehatKirimEncounter extends javax.swing.JDialog {
                                     tbObat.setValueAt(false,i,0);
                                 }
                             }
-                        }catch(Exception e){
-                            System.out.println("Notifikasi Bridging : "+e);
+                        }catch (HttpClientErrorException e) {
+                            System.out.println("STATUS CODE : " + e.getStatusCode());
+                            System.out.println("RESPONSE BODY : " + e.getResponseBodyAsString());
                         }
                     }else{
                         try{
@@ -820,8 +823,9 @@ public final class SatuSehatKirimEncounter extends javax.swing.JDialog {
                                     tbObat.setValueAt(false,i,0);
                                 }
                             }
-                        }catch(Exception e){
-                            System.out.println("Notifikasi Bridging : "+e);
+                        }catch (HttpClientErrorException e) {
+                            System.out.println("STATUS CODE : " + e.getStatusCode());
+                            System.out.println("RESPONSE BODY : " + e.getResponseBodyAsString());
                         }
                     }
                 } catch (Exception e) {

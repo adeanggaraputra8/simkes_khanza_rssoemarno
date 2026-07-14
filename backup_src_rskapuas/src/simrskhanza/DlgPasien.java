@@ -21,6 +21,10 @@ import bridging.PCareNIK;
 import bridging.PCarePeserta;
 import bridging.CoronaPasien;
 import bridging.SatuSehatCekNIK;
+import bridging.YaskiReferensiKabupaten;
+import bridging.YaskiReferensiKecamatan;
+import bridging.YaskiReferensiKelurahan;
+import bridging.YaskiReferensiPropinsi;
 import fungsi.WarnaTable;
 import fungsi.batasInput;
 import grafikanalisa.grafikjkel;
@@ -56,6 +60,20 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
+import bridging.ApiSatuSehat;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 
 /**
@@ -84,6 +102,11 @@ public class DlgPasien extends javax.swing.JDialog {
     public  DlgSatuanPolri satuanpolri=new DlgSatuanPolri(null,false);
     public  DlgPangkatPolri pangkatpolri=new DlgPangkatPolri(null,false);
     public  DlgJabatanPolri jabatanpolri=new DlgJabatanPolri(null,false);
+    public  YaskiReferensiPropinsi propinsiref=new YaskiReferensiPropinsi(null,false);
+    public  YaskiReferensiKabupaten kabupatenref=new YaskiReferensiKabupaten(null,false);
+    public  YaskiReferensiKecamatan kecamatanref=new YaskiReferensiKecamatan(null,false);
+    public  YaskiReferensiKelurahan kelurahanref=new YaskiReferensiKelurahan(null,false);
+    private ApiSatuSehat api=new ApiSatuSehat();
     
     private int pilih=0,z=0,j=0,p_no_ktp=0,p_tmp_lahir=0,p_nm_ibu=0,p_alamat=0,
             p_pekerjaan=0,p_no_tlp=0,p_umur=0,p_namakeluarga=0,p_no_peserta=0,
@@ -1182,6 +1205,188 @@ public class DlgPasien extends javax.swing.JDialog {
             public void keyReleased(KeyEvent e) {}
         });
         
+        
+         propinsiref.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(propinsiref.getTable().getSelectedRow()!= -1){   
+                    KdProp.setText(propinsiref.getTable().getValueAt(propinsiref.getTable().getSelectedRow(),1).toString());
+                    kdprop="";
+                    switch (pilih) {
+                        case 1:
+                            Propinsi.setText(propinsiref.getTable().getValueAt(propinsiref.getTable().getSelectedRow(),2).toString().toUpperCase());
+                            break;
+                        case 2:
+                            PropinsiPj.setText(propinsiref.getTable().getValueAt(propinsiref.getTable().getSelectedRow(),2).toString().toUpperCase());
+                            break;
+                        default:
+                            break;
+                    }
+                }                  
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
+        
+        propinsiref.getTable().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                    propinsiref.dispose();
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        }); 
+        
+        kabupatenref.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(kabupatenref.getTable().getSelectedRow()!= -1){   
+                    KdKab.setText(kabupatenref.getTable().getValueAt(kabupatenref.getTable().getSelectedRow(),1).toString());
+                    kdkab="";
+                    switch (pilih) {
+                        case 1:
+                            Kabupaten.setText(kabupatenref.getTable().getValueAt(kabupatenref.getTable().getSelectedRow(),2).toString().toUpperCase());
+                            break;
+                        case 2:
+                            KabupatenPj.setText(kabupatenref.getTable().getValueAt(kabupatenref.getTable().getSelectedRow(),2).toString().toUpperCase());
+                            break;
+                        default:
+                            break;
+                    }
+                }                  
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
+        
+        kabupatenref.getTable().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                    kabupatenref.dispose();
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        }); 
+        
+        kecamatanref.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(kecamatanref.getTable().getSelectedRow()!= -1){   
+                    KdKec.setText(kecamatanref.getTable().getValueAt(kecamatanref.getTable().getSelectedRow(),1).toString());
+                    kdkec="";
+                    switch (pilih) {
+                        case 1:
+                            Kecamatan.setText(kecamatanref.getTable().getValueAt(kecamatanref.getTable().getSelectedRow(),2).toString().toUpperCase());
+                            break;
+                        case 2:
+                            KecamatanPj.setText(kecamatanref.getTable().getValueAt(kecamatanref.getTable().getSelectedRow(),2).toString().toUpperCase());
+                            break;
+                        default:
+                            break;
+                    }
+                }                  
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
+        
+        kecamatanref.getTable().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                    kecamatanref.dispose();
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+        
+        kelurahanref.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(kelurahanref.getTable().getSelectedRow()!= -1){    
+                    KdKel.setText(kelurahanref.getTable().getValueAt(kelurahanref.getTable().getSelectedRow(),1).toString());
+                    kdkel="";
+                    switch (pilih) {
+                        case 1:
+                            Kelurahan.setText(kelurahanref.getTable().getValueAt(kelurahanref.getTable().getSelectedRow(),2).toString().toUpperCase());
+                            break;
+                        case 2:
+                            KelurahanPj.setText(kelurahanref.getTable().getValueAt(kelurahanref.getTable().getSelectedRow(),2).toString().toUpperCase());
+                            break;
+                        default:
+                            break;
+                    }
+                }                  
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
+        
+        kelurahanref.getTable().addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {}
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode()==KeyEvent.VK_SPACE){
+                    kelurahanref.dispose();
+                }
+            }
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
+        
+        
         try {
             pssetalamat=koneksi.prepareStatement("select * from set_alamat_pasien");
             try {
@@ -1413,6 +1618,7 @@ public class DlgPasien extends javax.swing.JDialog {
         ppCatatanPasien = new javax.swing.JMenuItem();
         ppGabungRM = new javax.swing.JMenuItem();
         ppPasienCorona = new javax.swing.JMenuItem();
+        ppCreateIHSPasien = new javax.swing.JMenuItem();
         buttonGroup1 = new javax.swing.ButtonGroup();
         Kd2 = new widget.TextBox();
         DlgDemografi = new javax.swing.JDialog();
@@ -1459,6 +1665,10 @@ public class DlgPasien extends javax.swing.JDialog {
         kdjabatanpolri = new widget.TextBox();
         kdperusahaan = new widget.TextBox();
         kdcacat = new widget.TextBox();
+        KdKab = new widget.TextBox();
+        KdKel = new widget.TextBox();
+        KdProp = new widget.TextBox();
+        KdKec = new widget.TextBox();
         internalFrame1 = new widget.InternalFrame();
         jPanel3 = new javax.swing.JPanel();
         panelGlass8 = new widget.panelisi();
@@ -2403,6 +2613,22 @@ public class DlgPasien extends javax.swing.JDialog {
         });
         jPopupMenu1.add(ppPasienCorona);
 
+        ppCreateIHSPasien.setBackground(new java.awt.Color(255, 255, 254));
+        ppCreateIHSPasien.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        ppCreateIHSPasien.setForeground(new java.awt.Color(50, 50, 50));
+        ppCreateIHSPasien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/category.png"))); // NOI18N
+        ppCreateIHSPasien.setText("Buat IHS Pasien");
+        ppCreateIHSPasien.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        ppCreateIHSPasien.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        ppCreateIHSPasien.setName("ppCreateIHSPasien"); // NOI18N
+        ppCreateIHSPasien.setPreferredSize(new java.awt.Dimension(220, 26));
+        ppCreateIHSPasien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ppCreateIHSPasienBtnPrintActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(ppCreateIHSPasien);
+
         Kd2.setName("Kd2"); // NOI18N
         Kd2.setPreferredSize(new java.awt.Dimension(207, 23));
 
@@ -2730,6 +2956,22 @@ public class DlgPasien extends javax.swing.JDialog {
             }
         });
 
+        KdKab.setEditable(false);
+        KdKab.setHighlighter(null);
+        KdKab.setName("KdKab"); // NOI18N
+
+        KdKel.setEditable(false);
+        KdKel.setHighlighter(null);
+        KdKel.setName("KdKel"); // NOI18N
+
+        KdProp.setEditable(false);
+        KdProp.setHighlighter(null);
+        KdProp.setName("KdProp"); // NOI18N
+
+        KdKec.setEditable(false);
+        KdKec.setHighlighter(null);
+        KdKec.setName("KdKec"); // NOI18N
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setUndecorated(true);
         setResizable(false);
@@ -3050,7 +3292,7 @@ public class DlgPasien extends javax.swing.JDialog {
         FormInput.add(jLabel13);
         jLabel13.setBounds(4, 102, 95, 23);
 
-        DTPLahir.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-11-2022" }));
+        DTPLahir.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03-07-2026" }));
         DTPLahir.setDisplayFormat("dd-MM-yyyy");
         DTPLahir.setName("DTPLahir"); // NOI18N
         DTPLahir.setOpaque(false);
@@ -3182,7 +3424,7 @@ public class DlgPasien extends javax.swing.JDialog {
         FormInput.add(TKtp);
         TKtp.setBounds(712, 132, 130, 23);
 
-        DTPDaftar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "20-11-2022" }));
+        DTPDaftar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03-07-2026" }));
         DTPDaftar.setDisplayFormat("dd-MM-yyyy");
         DTPDaftar.setName("DTPDaftar"); // NOI18N
         DTPDaftar.setOpaque(false);
@@ -4473,20 +4715,43 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             }    
             
             if(Kelurahan.isEditable()==true){
-                Sequel.queryu4("insert into kelurahan values(?,?)",2,new String[]{"0",Kelurahan.getText().replaceAll("KELURAHAN","-")});
-                kdkel=Sequel.cariIsi("select kelurahan.kd_kel from kelurahan where kelurahan.nm_kel=?",Kelurahan.getText().replaceAll("KELURAHAN","-"));
+                Sequel.queryu4("insert ignore into kelurahan values(?,?)",2,new String[]{"0",Kelurahan.getText()});
+                kdkel=kel.tampil3(Kelurahan.getText());
+            }else if(Kelurahan.isEditable()==false){
+                if(kdkel.equals("")){
+                    Sequel.queryu4("insert ignore into kelurahan values(?,?)",2,new String[]{"0",Kelurahan.getText()});
+                    kdkel=kel.tampil3(Kelurahan.getText());
+                }
             }
+            
             if(Kecamatan.isEditable()==true){
-                Sequel.queryu4("insert into kecamatan values(?,?)",2,new String[]{"0",Kecamatan.getText().replaceAll("KECAMATAN","-")});
-                kdkec=Sequel.cariIsi("select kecamatan.kd_kec from kecamatan where kecamatan.nm_kec=?",Kecamatan.getText().replaceAll("KECAMATAN","-"));
-            }            
+                Sequel.queryu4("insert ignore into kecamatan values(?,?)",2,new String[]{"0",Kecamatan.getText()});
+                kdkec=kec.tampil3(Kecamatan.getText());
+            }else if(Kecamatan.isEditable()==false){
+                if(kdkec.equals("")){
+                    Sequel.queryu4("insert ignore into kecamatan values(?,?)",2,new String[]{"0",Kecamatan.getText()});
+                    kdkec=kec.tampil3(Kecamatan.getText());
+                }
+            }
+            
             if(Kabupaten.isEditable()==true){
-                Sequel.queryu4("insert into kabupaten values(?,?)",2,new String[]{"0",Kabupaten.getText().replaceAll("KABUPATEN","-")});
-                kdkab=Sequel.cariIsi("select kabupaten.kd_kab from kabupaten where kabupaten.nm_kab=?",Kabupaten.getText().replaceAll("KABUPATEN","-"));
-            }            
+                Sequel.queryu4("insert ignore into kabupaten values(?,?)",2,new String[]{"0",Kabupaten.getText()});
+                kdkab=kab.tampil3(Kabupaten.getText());
+            }else if(Kabupaten.isEditable()==false){
+                if(kdkab.equals("")){
+                    Sequel.queryu4("insert ignore into kabupaten values(?,?)",2,new String[]{"0",Kabupaten.getText()});
+                    kdkab=kab.tampil3(Kabupaten.getText());
+                }
+            }
+            
             if(Propinsi.isEditable()==true){
-               Sequel.queryu4("insert into propinsi values(?,?)",2,new String[]{"0",Propinsi.getText().replaceAll("PROPINSI","-")}); 
-               kdprop=Sequel.cariIsi("select propinsi.kd_prop from propinsi where propinsi.nm_prop=?",Propinsi.getText().replaceAll("PROPINSI","-"));
+               Sequel.queryu4("insert ignore into propinsi values(?,?)",2,new String[]{"0",Propinsi.getText()}); 
+               kdprop=prop.tampil3(Propinsi.getText());
+            }else if(Propinsi.isEditable()==false){
+                if(kdprop.equals("")){
+                    Sequel.queryu4("insert ignore into propinsi values(?,?)",2,new String[]{"0",Propinsi.getText()}); 
+                    kdprop=prop.tampil3(Propinsi.getText());
+                }
             }
             
             autoNomor(); 
@@ -4807,21 +5072,64 @@ private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
                 klg="ANAK";
             }  
             
-            if(Kelurahan.isEditable()==true){
-                Sequel.queryu4("insert into kelurahan values(?,?)",2,new String[]{"0",Kelurahan.getText().replaceAll("KELURAHAN","-")});
-                kdkel=Sequel.cariIsi("select kelurahan.kd_kel from kelurahan where kelurahan.nm_kel=?",Kelurahan.getText().replaceAll("KELURAHAN","-"));
+           if(Kelurahan.isEditable()==true){
+               if(KdKel.getText().equals("")){
+                Sequel.queryu4("insert ignore into kelurahan values(?,?)",2,new String[]{"0",Kelurahan.getText()});
+                kdkel=kel.tampil3(Kelurahan.getText());
+               }else{
+                Sequel.queryu4("insert ignore into kelurahan values(?,?)",2,new String[]{KdKel.getText(),Kelurahan.getText()});
+                kdkel=kel.tampil3(Kelurahan.getText());
+               }
+            }else if(Kelurahan.isEditable()==false){
+                if(kdkel.equals("")){
+                    Sequel.queryu4("insert ignore into kelurahan values(?,?)",2,new String[]{"0",Kelurahan.getText()});
+                    kdkel=kel.tampil3(Kelurahan.getText());
+                }
             }
+            
             if(Kecamatan.isEditable()==true){
-                Sequel.queryu4("insert into kecamatan values(?,?)",2,new String[]{"0",Kecamatan.getText().replaceAll("KECAMATAN","-")});
-                kdkec=Sequel.cariIsi("select kecamatan.kd_kec from kecamatan where kecamatan.nm_kec=?",Kecamatan.getText().replaceAll("KECAMATAN","-"));
-            }            
+                if(KdKec.getText().equals("")){
+                    Sequel.queryu4("insert ignore into kecamatan values(?,?)",2,new String[]{"0",Kecamatan.getText()});
+                    kdkec=kec.tampil3(Kecamatan.getText());
+                }else{
+                    Sequel.queryu4("insert ignore into kecamatan values(?,?)",2,new String[]{KdKec.getText(),Kecamatan.getText()});
+                    kdkec=kec.tampil3(Kecamatan.getText());
+                }
+            }else if(Kecamatan.isEditable()==false){
+                if(kdkec.equals("")){
+                    Sequel.queryu4("insert ignore into kecamatan values(?,?)",2,new String[]{"0",Kecamatan.getText()});
+                    kdkec=kec.tampil3(Kecamatan.getText());
+                }
+            }
+            
             if(Kabupaten.isEditable()==true){
-                Sequel.queryu4("insert into kabupaten values(?,?)",2,new String[]{"0",Kabupaten.getText().replaceAll("KABUPATEN","-")});
-                kdkab=Sequel.cariIsi("select kabupaten.kd_kab from kabupaten where kabupaten.nm_kab=?",Kabupaten.getText().replaceAll("KABUPATEN","-"));
-            }            
+                if(KdKab.getText().equals("")){
+                Sequel.queryu4("insert ignore into kabupaten values(?,?)",2,new String[]{"0",Kabupaten.getText()});
+                kdkab=kab.tampil3(Kabupaten.getText());
+                }else{
+                Sequel.queryu4("insert ignore into kabupaten values(?,?)",2,new String[]{KdKab.getText(),Kabupaten.getText()});
+                kdkab=kab.tampil3(Kabupaten.getText());
+                }
+            }else if(Kabupaten.isEditable()==false){
+                if(kdkab.equals("")){
+                    Sequel.queryu4("insert ignore into kabupaten values(?,?)",2,new String[]{"0",Kabupaten.getText()});
+                    kdkab=kab.tampil3(Kabupaten.getText());
+                }
+            }
+            
             if(Propinsi.isEditable()==true){
-               Sequel.queryu4("insert into propinsi values(?,?)",2,new String[]{"0",Propinsi.getText().replaceAll("PROPINSI","-")}); 
-               kdprop=Sequel.cariIsi("select propinsi.kd_prop from propinsi where propinsi.nm_prop=?",Propinsi.getText().replaceAll("PROPINSI","-"));
+                if(KdProp.getText().equals("")){
+                 Sequel.queryu4("insert ignore into propinsi values(?,?)",2,new String[]{"0",Propinsi.getText()}); 
+                 kdprop=prop.tampil3(Propinsi.getText());
+                }else{
+                 Sequel.queryu4("insert ignore into propinsi values(?,?)",2,new String[]{KdProp.getText(),Propinsi.getText()}); 
+                 kdprop=prop.tampil3(Propinsi.getText());
+                }
+            }else if(Propinsi.isEditable()==false){
+                if(kdprop.equals("")){
+                    Sequel.queryu4("insert ignore into propinsi values(?,?)",2,new String[]{"0",Propinsi.getText()}); 
+                    kdprop=prop.tampil3(Propinsi.getText());
+                }
             }
             
             Sequel.mengedit("pasien","no_rkm_medis=?","no_rkm_medis=?,nm_pasien=?,no_ktp=?,jk=?,tmp_lahir=?,"+
@@ -5634,7 +5942,7 @@ private void MnKartu3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_MnKartu3ActionPerformed
 
 private void KelurahanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KelurahanKeyPressed
-   if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+  if(evt.getKeyCode()==KeyEvent.VK_ENTER){
        if(Kelurahan.getText().equals("")){
            Kelurahan.setText("KELURAHAN");
        }
@@ -5651,7 +5959,16 @@ private void KelurahanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
        }     
        Alamat.requestFocus();
    }else if(evt.getKeyCode()==KeyEvent.VK_UP){
-       BtnKelurahanActionPerformed(null);
+        if(KdKec.getText().trim().equals("")||Kecamatan.getText().trim().equals("")||Kecamatan.getText().trim().equals("KECAMATAN")){
+            JOptionPane.showMessageDialog(null,"Silahkan pilih kecamatan dulu..!!");
+            BtnKelurahan.requestFocus();
+        }else{
+            pilih=1;
+            kelurahanref.setPropinsi(KdKec.getText(),Kecamatan.getText());
+            kelurahanref.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            kelurahanref.setLocationRelativeTo(internalFrame1);
+            kelurahanref.setVisible(true);
+        }
    }
 }//GEN-LAST:event_KelurahanKeyPressed
 
@@ -5673,7 +5990,16 @@ private void KecamatanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
        }     
        Kelurahan.requestFocus();
    }else if(evt.getKeyCode()==KeyEvent.VK_UP){
-       BtnKecamatanActionPerformed(null);
+       if(KdKab.getText().trim().equals("")||Kabupaten.getText().trim().equals("")||Kabupaten.getText().trim().equals("KABUPATEN")){
+            JOptionPane.showMessageDialog(null,"Silahkan pilih kabupaten dulu..!!");
+            BtnKabupaten.requestFocus();
+        }else{
+            pilih=1;
+            kecamatanref.setPropinsi(KdKab.getText(),Kabupaten.getText());
+            kecamatanref.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            kecamatanref.setLocationRelativeTo(internalFrame1);
+            kecamatanref.setVisible(true);
+        }
    }
 }//GEN-LAST:event_KecamatanKeyPressed
 
@@ -5695,7 +6021,16 @@ private void KabupatenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
        }     
        Kecamatan.requestFocus();
    }else if(evt.getKeyCode()==KeyEvent.VK_UP){
-       BtnKabupatenActionPerformed(null);
+        if(KdProp.getText().trim().equals("")||Propinsi.getText().trim().equals("")||Propinsi.getText().trim().equals("PROPINSI")){
+            JOptionPane.showMessageDialog(null,"Silahkan pilih propinsi dulu..!!");
+            BtnPropinsi.requestFocus();
+        }else{
+            pilih=1;
+            kabupatenref.setPropinsi(KdProp.getText(),Propinsi.getText());
+            kabupatenref.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            kabupatenref.setLocationRelativeTo(internalFrame1);
+            kabupatenref.setVisible(true);
+        }
    }
 }//GEN-LAST:event_KabupatenKeyPressed
 
@@ -7403,7 +7738,7 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
     }//GEN-LAST:event_PropinsiMouseExited
 
     private void PropinsiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_PropinsiKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+          if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             if(Propinsi.getText().equals("")){
                 Propinsi.setText("PROPINSI");
             }
@@ -7420,7 +7755,10 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
             }     
             Kabupaten.requestFocus();
         }else if(evt.getKeyCode()==KeyEvent.VK_UP){
-            BtnPropinsiActionPerformed(null);
+            pilih=1;
+            propinsiref.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+            propinsiref.setLocationRelativeTo(internalFrame1);
+            propinsiref.setVisible(true);
         }
     }//GEN-LAST:event_PropinsiKeyPressed
 
@@ -7815,6 +8153,50 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
         }
     }//GEN-LAST:event_MnViaSatuSehatNikActionPerformed
 
+    private void ppCreateIHSPasienBtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppCreateIHSPasienBtnPrintActionPerformed
+            String noRM = null; 
+            int activeTab = TabRawat.getSelectedIndex();
+
+            switch (activeTab) 
+                { case 1: if (tbPasien.getSelectedRow() != -1) 
+                        { noRM = tbPasien.getValueAt(tbPasien.getSelectedRow(), 1).toString(); } 
+                break;
+                    case 2: if (tbPasien2.getSelectedRow() != -1) { 
+                        noRM = tbPasien2.getValueAt(tbPasien2.getSelectedRow(), 1).toString(); }
+                 break;
+                    case 3: if (tbPasien3.getSelectedRow() != -1) 
+                        { noRM =tbPasien3.getValueAt(tbPasien3.getSelectedRow(), 1).toString(); } break;
+                 default: 
+                     if (!TNo.getText().trim().isEmpty()) 
+                     { noRM = TNo.getText().trim(); } break; } if (noRM == null) {
+                            JOptionPane.showMessageDialog(this, "Silakan pilih data pasien terlebih dahulu!", "Peringatan", JOptionPane.WARNING_MESSAGE); 
+                      return; }
+
+                     
+                     Map<String, String> patientData = getPatientData(noRM); 
+                     String fhirJson= null; 
+                        try { fhirJson = buildSatuSehatPatientJson(patientData);               
+                            } catch
+                               (Exception e) { System.out.println("Notifikasi:"+e); 
+                               return; } 
+                        JTextArea textArea = new JTextArea(fhirJson); textArea.setEditable(false);
+                        textArea.setRows(20); textArea.setColumns(80); JScrollPane scrollPane =new JScrollPane(textArea); int result =
+                               JOptionPane.showConfirmDialog(this, scrollPane, "FHIR Patient JSON Konfirmasi Kirim", JOptionPane.OK_CANCEL_OPTION,JOptionPane.INFORMATION_MESSAGE); 
+                        if (result == JOptionPane.OK_OPTION) {
+                                boolean success = sendToSatuSehat(fhirJson); 
+                                
+                                if (success) {
+                                    System.out.println( "Berhasil membuat dan menyimpan IHS Pasien!"); 
+                                    }
+                                else 
+                                    { System.out.println("Gagal mengirim atau menyimpan IHS Pasien.");
+                                    
+                                    }
+                        }
+
+    
+    }//GEN-LAST:event_ppCreateIHSPasienBtnPrintActionPerformed
+
     /**
      * @data args the command line arguments
      */
@@ -7925,6 +8307,10 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
     private widget.TextBox KabupatenPj;
     private javax.swing.JMenu KartuPasien;
     private widget.TextBox Kd2;
+    private widget.TextBox KdKab;
+    private widget.TextBox KdKec;
+    private widget.TextBox KdKel;
+    private widget.TextBox KdProp;
     private widget.TextBox Kdpnj;
     private widget.TextBox Kecamatan;
     private widget.TextBox Kecamatan2;
@@ -8119,6 +8505,7 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
     private widget.panelisi panelGlass8;
     private widget.panelisi panelGlass9;
     private javax.swing.JMenuItem ppCatatanPasien;
+    private javax.swing.JMenuItem ppCreateIHSPasien;
     private javax.swing.JMenuItem ppGabungRM;
     private javax.swing.JMenuItem ppGrafikDemografi;
     private javax.swing.JMenuItem ppGrafikPerAgama;
@@ -8852,6 +9239,15 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
         BtnJabatanTNI.setEnabled(false);
         BtnPangkatTNI.setEnabled(false);
         autoNomor();
+        kdkel="";
+        kdkec="";
+        kdkab="";
+        kdprop="";
+        KdProp.setText("");
+        KdKab.setText("");
+        KdKec.setText("");
+        KdKel.setText("");
+        autoNomor();
         TNm.requestFocus();
     }
 
@@ -9398,4 +9794,333 @@ private void KabupatenMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:eve
             } 
         }
     }
+       
+       
+       private Map<String, String> parseAddress(String fullAddress) { 
+           Map<String, String> result = new HashMap<>();
+       
+            result.put("addressLine", 
+            fullAddress == null ? "" : fullAddress);
+            result.put("rt", ""); 
+            result.put("rw", ""); 
+        if (fullAddress == null || fullAddress.length() < 14) { 
+            return result; 
+        } 
+        String suffix = fullAddress.substring(fullAddress.length() - 14); 
+      Pattern pattern = Pattern.compile("RT\\s+(\\d{3})\\s+RW\\s+(\\d{3})",Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(suffix); 
+        if(matcher.find()) { 
+            String rt = matcher.group(1); String rw = matcher.group(2); 
+            result.put("rt", rt); result.put("rw", rw); 
+            String baseAddress = fullAddress.substring(0, fullAddress.length() - 14);
+            result.put("addressLine", baseAddress); 
+            } 
+             return result; 
+       }
+        
+       
+       private Map<String, String> getPatientData(String noRm) 
+       { Map<String, String> data = new HashMap<>(); 
+       try { 
+           ps = koneksi.prepareStatement("SELECT p.no_rkm_medis, p.nm_pasien, p.no_ktp, p.jk, p.tmp_lahir, p.tgl_lahir,p.nm_ibu, p.alamat, p.gol_darah, p.pekerjaan, "+ 
+                   "p.stts_nikah, p.agama, p.tgl_daftar,p.no_tlp, p.umur, p.pnd,p.keluarga, p.namakeluarga, p.no_peserta," + 
+                   "p.kd_prop,propinsi.nm_prop, p.kd_kab, kabupaten.nm_kab,620301 as kd_kec,kecamatan.nm_kec," + 
+                   "6203011010 as kd_kel, kelurahan.nm_kel FROM pasien p INNER JOIN propinsi ON p.kd_prop = propinsi.kd_prop INNER JOIN kabupaten ON p.kd_kab = kabupaten.kd_kab INNER JOIN kecamatan ON p.kd_kec = kecamatan.kd_kec " + 
+                   "INNER JOIN kelurahan ON p.kd_kel = kelurahan.kd_kel WHERE p.no_rkm_medis = ?"); 
+           ps.setString(1, noRm);
+           rs = ps.executeQuery(); 
+            if (rs.next()) { 
+                data.put("no_rkm_medis", rs.getString("no_rkm_medis")); 
+                data.put("nm_pasien",rs.getString("nm_pasien")); 
+                data.put("no_ktp", rs.getString("no_ktp"));
+                data.put("jk", rs.getString("jk")); 
+                data.put("tmp_lahir",rs.getString("tmp_lahir")); 
+                data.put("tgl_lahir", rs.getString("tgl_lahir")); 
+                data.put("nm_ibu", rs.getString("nm_ibu"));
+                data.put("alamat", rs.getString("alamat")); 
+                data.put("no_tlp",rs.getString("no_tlp")); 
+                data.put("stts_nikah",rs.getString("stts_nikah")); 
+                data.put("kd_prop",rs.getString("kd_prop")); 
+                data.put("nm_prop", rs.getString("nm_prop"));
+                data.put("kd_kab", rs.getString("kd_kab")); 
+                data.put("nm_kab",rs.getString("nm_kab")); 
+                data.put("kd_kec", rs.getString("kd_kec"));
+                data.put("nm_kec", rs.getString("nm_kec")); 
+                data.put("kd_kel",rs.getString("kd_kel")); 
+                data.put("nm_kel", rs.getString("nm_kel"));
+                data.put("namakeluarga", rs.getString("namakeluarga")); 
+            } 
+       } catch
+            (Exception e) { System.out.println("Notifikasi:"+e); 
+       } finally { try 
+            {
+                if (rs != null) rs.close(); } catch (Exception e) {} 
+       try { if (ps != null) 
+                ps.close(); 
+       } catch (Exception e) {} 
+       } return data; 
+       } 
+       
+       private String buildSatuSehatPatientJson(Map<String, String> patient) throws JSONException { 
+            JSONObject resource = new JSONObject();
+            resource.put("resourceType", "Patient"); JSONObject meta = new JSONObject(); 
+            meta.put("profile", new JSONArray().put("https://fhir.kemkes.go.id/r4/StructureDefinition/Patient"));
+            resource.put("meta", meta); 
+            JSONObject identifier = new JSONObject();
+            identifier.put("use", "official");
+            identifier.put("system", "https://fhir.kemkes.go.id/id/nik");
+            identifier.put("value",patient.getOrDefault("no_ktp", "")); 
+            resource.put("identifier", new JSONArray().put(identifier)); resource.put("active", true); 
+            JSONObject name = new JSONObject(); name.put("use", "official"); 
+            name.put("text", patient.getOrDefault("nm_pasien", "")); 
+            resource.put("name", new JSONArray().put(name)); String gender = "male"; 
+            if ("P".equalsIgnoreCase(patient.get("jk"))) gender = "female";
+                resource.put("gender", gender); 
+                String tglLahir = patient.getOrDefault("tgl_lahir", ""); 
+                if (tglLahir.contains(" ")) tglLahir = tglLahir.split(" ")[0]; 
+                resource.put("birthDate", tglLahir);
+                resource.put("deceasedBoolean", false); 
+                String rawAddress = patient.getOrDefault("alamat", ""); 
+                Map<String, String> parsed = parseAddress(rawAddress); 
+                String addressLine = parsed.get("addressLine"); 
+                String rt = parsed.get("rt"); String rw = parsed.get("rw"); 
+                JSONObject address = new JSONObject();
+                address.put("use", "home");
+                address.put("line", new JSONArray().put(addressLine));
+                address.put("city", patient.getOrDefault("nm_kab", ""));
+                address.put("postalCode", "");
+                address.put("country", "ID");
+
+                JSONObject extension = new JSONObject();
+                extension.put("url", "https://fhir.kemkes.go.id/r4/StructureDefinition/administrativeCode");
+
+                JSONArray extArray = new JSONArray();
+
+                addExtensionPair(extArray, "province", patient.getOrDefault("kd_prop", ""));
+                addExtensionPair(extArray, "city", patient.getOrDefault("kd_kab", ""));
+                addExtensionPair(extArray, "district", patient.getOrDefault("kd_kec", ""));
+                addExtensionPair(extArray, "village", patient.getOrDefault("kd_kel", ""));
+
+                if (!rt.isEmpty()) {
+                    addExtensionPair(extArray, "rt", rt);
+                }
+
+                if (!rw.isEmpty()) {
+                    addExtensionPair(extArray, "rw", rw);
+                }
+
+                extension.put("extension", extArray);
+                address.put("extension", new JSONArray().put(extension));
+                resource.put("address", new JSONArray().put(address));
+
+                JSONObject maritalStatus = new JSONObject();
+
+                String maritalCode = mapMaritalStatus(patient.getOrDefault("stts_nikah", ""));
+
+                JSONObject maritalCoding = new JSONObject();
+                maritalCoding.put("system", "http://terminology.hl7.org/CodeSystem/v3-MaritalStatus");
+                maritalCoding.put("code", maritalCode);
+                maritalCoding.put("display", patient.getOrDefault("stts_nikah", ""));
+
+                maritalStatus.put("coding", new JSONArray().put(maritalCoding));
+                maritalStatus.put("text", patient.getOrDefault("stts_nikah", ""));
+
+                resource.put("maritalStatus", maritalStatus);
+                resource.put("multipleBirthInteger", 0);
+
+                JSONObject contact = new JSONObject();
+                JSONArray relationship = new JSONArray();
+
+                JSONObject relCoding = new JSONObject();
+                relCoding.put("system", "http://terminology.hl7.org/CodeSystem/v2-0131");
+                relCoding.put("code", "C");
+
+                JSONObject relObj = new JSONObject();
+                relObj.put("coding", new JSONArray().put(relCoding));
+
+                relationship.put(relObj);
+                contact.put("relationship", relationship);
+
+                JSONObject contactName = new JSONObject();
+                contactName.put("use", "official");
+                contactName.put("text", patient.getOrDefault("namakeluarga", ""));
+
+                contact.put("name", contactName);
+
+                JSONObject telecom = new JSONObject();
+                telecom.put("system", "phone");
+                telecom.put("value", patient.getOrDefault("no_tlp", ""));
+                telecom.put("use", "mobile");
+                contact.put("telecom", new JSONArray().put(telecom));
+                resource.put("contact", new JSONArray().put(contact));
+
+                JSONObject communication = new JSONObject();
+
+                JSONObject language = new JSONObject();
+                JSONObject langCoding = new JSONObject();
+
+                langCoding.put("system", "urn:ietf:bcp:47");
+                langCoding.put("code", "id-ID");
+                langCoding.put("display", "Indonesian");
+
+                language.put("coding", new JSONArray().put(langCoding));
+                language.put("text", "Indonesian");
+
+                communication.put("language", language);
+                communication.put("preferred", true);
+
+                resource.put("communication", new JSONArray().put(communication));
+
+                return resource.toString(2);
+                }
+
+            private void addExtensionPair(JSONArray extArray, String urlSuffix, String valueCode) throws JSONException {
+                if (valueCode != null && !valueCode.trim().isEmpty()) {
+                    JSONObject ext = new JSONObject();
+                    ext.put("url", urlSuffix);
+                    ext.put("valueCode", valueCode);
+                    extArray.put(ext);
+                }
+            }
+
+        private String mapMaritalStatus(String sttsNikah) {
+            if (sttsNikah == null) {
+                return "U";
+            }
+
+            switch (sttsNikah.toUpperCase()) {
+                case "MENIKAH":
+                    return "M";
+                case "BELUM MENIKAH":
+                    return "U";
+                case "JANDA":
+                    return "D";
+                case "DUDHA":
+                    return "W";
+                default:
+                    return "U";
+            }
+        }
+
+        private boolean sendToSatuSehat(String jsonBody) {
+            try {
+                String endpoint = "https://api-satusehat.kemkes.go.id/fhir-r4/v1/Patient";
+
+                URL url = new URL(endpoint);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", "Bearer " + api.TokenSatuSehat());
+                conn.setDoOutput(true);
+
+                System.out.println("URL : " + endpoint);
+                System.out.println("Request JSON : " + jsonBody);
+                
+                System.out.println("Authorization = Bearer " + api.TokenSatuSehat());
+                System.out.println("Content-Type = " + conn.getRequestProperty("Content-Type"));
+                System.out.println("Accept = " + conn.getRequestProperty("Accept"));
+
+                try (OutputStream os = conn.getOutputStream()) {
+                    byte[] input = jsonBody.getBytes(StandardCharsets.UTF_8);
+                    os.write(input, 0, input.length);
+                }
+
+                int responseCode = conn.getResponseCode();
+                System.out.println("STATUS CODE : " + responseCode);
+
+                if (responseCode == 201 || responseCode == 200) {
+
+                    try (BufferedReader br = new BufferedReader(
+                            new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8))) {
+
+                        StringBuilder responseBuilder = new StringBuilder();
+                        String line;
+
+                        while ((line = br.readLine()) != null) {
+                            responseBuilder.append(line);
+                        }
+
+                        String responseBody = responseBuilder.toString();
+                        System.out.println("Result JSON : " + responseBody);
+
+                        JSONObject jsonResponse = new JSONObject(responseBody);
+
+                        String patientId = jsonResponse.optString("id");
+                        String nik = null;
+
+                        JSONArray identifiers = jsonResponse.optJSONArray("identifier");
+
+                        if (identifiers != null) {
+                            for (int i = 0; i < identifiers.length(); i++) {
+                                JSONObject idObj = identifiers.getJSONObject(i);
+
+                                String system = idObj.optString("system");
+
+                                if ("https://fhir.kemkes.go.id/id/nik".equals(system)) {
+                                    nik = idObj.optString("value");
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (patientId != null && !patientId.isEmpty() &&
+                            nik != null && !nik.isEmpty()) {
+
+                            Sequel.menyimpan(
+                                "satu_sehat_ihs_patient",
+                                "?,?",
+                                "IHS Pasien",
+                                2,
+                                new String[]{nik, patientId}
+                            );
+
+                            boolean saved = true;
+
+                            if (saved) {
+                                System.out.println(
+                                    "Berhasil menyimpan ke database: NIK=" +
+                                    nik +
+                                    ", IHS Patient ID=" +
+                                    patientId
+                                );
+                            } else {
+                                System.out.println("Gagal menyimpan ke database.");
+                            }
+
+                            return true;
+
+                        } else {
+                            System.out.println("Error Tidak Diketahui.");
+                            return false;
+                        }
+
+                                }
+
+                } else {
+
+                    try (BufferedReader br = new BufferedReader(
+                            new InputStreamReader(
+                                    conn.getErrorStream(),
+                                    StandardCharsets.UTF_8))) {
+
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line);
+                        }
+
+                        System.out.println("Error response : " + sb.toString());
+                    }
+
+                    return false;
+                }
+
+                } catch (Exception e) {
+                    System.out.println("Notifikasi Bridging : " + e);
+                    return false;
+                }
+          }
+
 }
