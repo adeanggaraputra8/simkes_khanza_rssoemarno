@@ -48,6 +48,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
     private ResultSet rs;
     private int i=0;    
     private DlgCariPetugas petugas=new DlgCariPetugas(null,false);
+    private DlgCariPetugas petugasrecheck=new DlgCariPetugas(null,false);
     private DlgCariDataPemberianObat cariobat=new DlgCariDataPemberianObat(null, false);
     /** Creates new form DlgRujuk
      * @param parent
@@ -60,7 +61,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
 
         tabMode=new DefaultTableModel(null,new Object[]{
             "No.Rawat","No.R.M.","Nama Pasien","Umur","JK","Tgl.Lahir","Nama Obat","Dosis Obat",
-            "Tgl.Pemberian","Dinas Pagi","Dinas Sore","Dinas Malam","Keterangan","NIP","Nama Petugas"
+            "Tgl.Pemberian","Dinas Pagi","Dinas Sore","Dinas Malam","Keterangan","NIP","Nama Petugas","NIP Petugas Double Check","Nama Petugas Double Check"
         }){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -70,7 +71,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
         tbObat.setPreferredScrollableViewportSize(new Dimension(500,500));
         tbObat.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 15; i++) {
+        for (i = 0; i < 17; i++) {
             TableColumn column = tbObat.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(105);
@@ -102,12 +103,17 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
                 column.setPreferredWidth(75);
             }else if(i==14){
                 column.setPreferredWidth(120);
+            }else if(i==15){
+                column.setPreferredWidth(150);
+            }else if(i==16){
+                column.setPreferredWidth(175);
             }
         }
         tbObat.setDefaultRenderer(Object.class, new WarnaTable());
 
         TNoRw.setDocument(new batasInput((byte)17).getKata(TNoRw));
         NIP.setDocument(new batasInput((byte)20).getKata(NIP));
+        NIPRecheck.setDocument(new batasInput((byte)20).getKata(NIPRecheck));
         
         if(koneksiDB.CARICEPAT().equals("aktif")){
             TCari.getDocument().addDocumentListener(new javax.swing.event.DocumentListener(){
@@ -154,6 +160,29 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
             @Override
             public void windowDeactivated(WindowEvent e) {}
         }); 
+        
+        petugasrecheck.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {}
+            @Override
+            public void windowClosing(WindowEvent e) {}
+            @Override
+            public void windowClosed(WindowEvent e) {
+                if(petugasrecheck.getTable().getSelectedRow()!= -1){
+                    NIPRecheck.setText(petugasrecheck.getTable().getValueAt(petugasrecheck.getTable().getSelectedRow(),0).toString());
+                    NamaRecheck.setText(petugasrecheck.getTable().getValueAt(petugasrecheck.getTable().getSelectedRow(),1).toString());
+                }
+                btnRecheck.requestFocus();
+            }
+            @Override
+            public void windowIconified(WindowEvent e) {}
+            @Override
+            public void windowDeiconified(WindowEvent e) {}
+            @Override
+            public void windowActivated(WindowEvent e) {}
+            @Override
+            public void windowDeactivated(WindowEvent e) {}
+        });
         
         cariobat.addWindowListener(new WindowListener() {
             @Override
@@ -231,6 +260,11 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
         NIP = new widget.TextBox();
         NamaPetugas = new widget.TextBox();
         btnPetugas = new widget.Button();
+        jLabel24 = new widget.Label();
+        NIPRecheck = new widget.TextBox();
+        NamaRecheck = new widget.TextBox();
+        btnRecheck = new widget.Button();
+        btnHapusRecheck = new widget.Button();
         jLabel8 = new widget.Label();
         TglLahir = new widget.TextBox();
         jLabel12 = new widget.Label();
@@ -488,7 +522,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
 
         PanelInput.setName("PanelInput"); // NOI18N
         PanelInput.setOpaque(false);
-        PanelInput.setPreferredSize(new java.awt.Dimension(192, 180));
+        PanelInput.setPreferredSize(new java.awt.Dimension(192, 190));
         PanelInput.setLayout(new java.awt.BorderLayout(1, 1));
 
         FormInput.setBackground(new java.awt.Color(250, 255, 245));
@@ -594,7 +628,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
         jLabel18.setText("Petugas :");
         jLabel18.setName("jLabel18"); // NOI18N
         FormInput.add(jLabel18);
-        jLabel18.setBounds(400, 40, 70, 23);
+        jLabel18.setBounds(392, 40, 70, 23);
 
         NIP.setEditable(false);
         NIP.setHighlighter(null);
@@ -605,12 +639,12 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
             }
         });
         FormInput.add(NIP);
-        NIP.setBounds(474, 40, 94, 23);
+        NIP.setBounds(466, 40, 90, 23);
 
         NamaPetugas.setEditable(false);
         NamaPetugas.setName("NamaPetugas"); // NOI18N
         FormInput.add(NamaPetugas);
-        NamaPetugas.setBounds(570, 40, 187, 23);
+        NamaPetugas.setBounds(560, 40, 167, 23);
 
         btnPetugas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnPetugas.setMnemonic('2');
@@ -627,7 +661,56 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
             }
         });
         FormInput.add(btnPetugas);
-        btnPetugas.setBounds(761, 40, 28, 23);
+        btnPetugas.setBounds(731, 40, 28, 23);
+
+        jLabel24.setText("Double Check :");
+        jLabel24.setName("jLabel24"); // NOI18N
+        FormInput.add(jLabel24);
+        jLabel24.setBounds(372, 70, 90, 23);
+
+        NIPRecheck.setEditable(false);
+        NIPRecheck.setHighlighter(null);
+        NIPRecheck.setName("NIPRecheck"); // NOI18N
+        NIPRecheck.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                NIPRecheckKeyPressed(evt);
+            }
+        });
+        FormInput.add(NIPRecheck);
+        NIPRecheck.setBounds(466, 70, 90, 23);
+
+        NamaRecheck.setEditable(false);
+        NamaRecheck.setName("NamaRecheck"); // NOI18N
+        FormInput.add(NamaRecheck);
+        NamaRecheck.setBounds(560, 70, 167, 23);
+
+        btnRecheck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
+        btnRecheck.setMnemonic('5');
+        btnRecheck.setToolTipText("Alt+5 (opsional)");
+        btnRecheck.setName("btnRecheck"); // NOI18N
+        btnRecheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRecheckActionPerformed(evt);
+            }
+        });
+        btnRecheck.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnRecheckKeyPressed(evt);
+            }
+        });
+        FormInput.add(btnRecheck);
+        btnRecheck.setBounds(731, 70, 28, 23);
+
+        btnHapusRecheck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/stop_f2.png"))); // NOI18N
+        btnHapusRecheck.setToolTipText("Kosongkan petugas double check");
+        btnHapusRecheck.setName("btnHapusRecheck"); // NOI18N
+        btnHapusRecheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusRecheckActionPerformed(evt);
+            }
+        });
+        FormInput.add(btnHapusRecheck);
+        btnHapusRecheck.setBounds(762, 70, 28, 23);
 
         jLabel8.setText("Tgl.Lahir :");
         jLabel8.setName("jLabel8"); // NOI18N
@@ -652,17 +735,17 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
             }
         });
         FormInput.add(Keterangan);
-        Keterangan.setBounds(450, 120, 170, 23);
+        Keterangan.setBounds(466, 130, 261, 23);
 
         jLabel20.setText("Keterangan :");
         jLabel20.setName("jLabel20"); // NOI18N
         FormInput.add(jLabel20);
-        jLabel20.setBounds(370, 120, 80, 23);
+        jLabel20.setBounds(392, 130, 70, 23);
 
         jLabel23.setText("Dosis Obat :");
         jLabel23.setName("jLabel23"); // NOI18N
         FormInput.add(jLabel23);
-        jLabel23.setBounds(390, 80, 60, 23);
+        jLabel23.setBounds(392, 100, 70, 23);
 
         DosisObat.setFocusTraversalPolicyProvider(true);
         DosisObat.setName("DosisObat"); // NOI18N
@@ -672,7 +755,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
             }
         });
         FormInput.add(DosisObat);
-        DosisObat.setBounds(450, 80, 170, 23);
+        DosisObat.setBounds(466, 100, 261, 23);
 
         jLabel31.setText("Nama Obat :");
         jLabel31.setName("jLabel31"); // NOI18N
@@ -694,7 +777,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
         scrollPane6.setViewportView(NamaObat);
 
         FormInput.add(scrollPane6);
-        scrollPane6.setBounds(80, 100, 260, 40);
+        scrollPane6.setBounds(74, 100, 260, 53);
 
         CmbShift.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Dinas Pagi", "Dinas Sore", "Dinas Malam" }));
         CmbShift.setName("CmbShift"); // NOI18N
@@ -709,11 +792,11 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
             }
         });
         FormInput.add(CmbShift);
-        CmbShift.setBounds(80, 70, 100, 23);
+        CmbShift.setBounds(74, 70, 100, 23);
 
         btnDataObat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
-        btnDataObat.setMnemonic('2');
-        btnDataObat.setToolTipText("ALt+2");
+        btnDataObat.setMnemonic('4');
+        btnDataObat.setToolTipText("Alt+4");
         btnDataObat.setName("btnDataObat"); // NOI18N
         btnDataObat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -726,7 +809,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
             }
         });
         FormInput.add(btnDataObat);
-        btnDataObat.setBounds(340, 110, 28, 23);
+        btnDataObat.setBounds(338, 100, 28, 23);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -780,25 +863,25 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null,"Maaf, shif dinas tidak boleh - !");
         }else{
             if (CmbShift.getSelectedIndex()==1){
-                if(Sequel.menyimpantf("data_pemberian_injeksi","?,?,?,?,?,?,?,?,?","Data",9,new String[]{
+                if(Sequel.menyimpantf("data_pemberian_injeksi","?,?,?,?,?,?,?,?,?,?","Data",10,new String[]{
                     TNoRw.getText(),NamaObat.getText(),DosisObat.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+""),Jam.getSelectedItem()+":"+Menit.getSelectedItem()+":"+Detik.getSelectedItem(),"00:00:00","00:00:00",
-                    Keterangan.getText(),NIP.getText()
+                    Keterangan.getText(),NIP.getText(),getNipRecheck()
                 })==true){
                     tampil();
                     emptTeks();
                 }
             }else if (CmbShift.getSelectedIndex()==2){
-                if(Sequel.menyimpantf("data_pemberian_injeksi","?,?,?,?,?,?,?,?,?","Data",9,new String[]{
+                if(Sequel.menyimpantf("data_pemberian_injeksi","?,?,?,?,?,?,?,?,?,?","Data",10,new String[]{
                     TNoRw.getText(),NamaObat.getText(),DosisObat.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+""),"00:00:00",Jam.getSelectedItem()+":"+Menit.getSelectedItem()+":"+Detik.getSelectedItem(),"00:00:00",
-                    Keterangan.getText(),NIP.getText()
+                    Keterangan.getText(),NIP.getText(),getNipRecheck()
                 })==true){
                     tampil();
                     emptTeks();
                 }
             }else if (CmbShift.getSelectedIndex()==3){
-                if(Sequel.menyimpantf("data_pemberian_injeksi","?,?,?,?,?,?,?,?,?","Data",9,new String[]{
+                if(Sequel.menyimpantf("data_pemberian_injeksi","?,?,?,?,?,?,?,?,?,?","Data",10,new String[]{
                     TNoRw.getText(),NamaObat.getText(),DosisObat.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+""),"00:00:00","00:00:00",Jam.getSelectedItem()+":"+Menit.getSelectedItem()+":"+Detik.getSelectedItem(),
-                    Keterangan.getText(),NIP.getText()
+                    Keterangan.getText(),NIP.getText(),getNipRecheck()
                 })==true){
                     tampil();
                     emptTeks();
@@ -877,6 +960,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
 
     private void BtnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnKeluarActionPerformed
         petugas.dispose();
+        petugasrecheck.dispose();
         dispose();
 }//GEN-LAST:event_BtnKeluarActionPerformed
 
@@ -987,7 +1071,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
     }//GEN-LAST:event_btnPetugasActionPerformed
 
     private void btnPetugasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPetugasKeyPressed
-        Valid.pindah(evt,Detik,NamaObat);
+        Valid.pindah(evt,Detik,CmbShift);
     }//GEN-LAST:event_btnPetugasKeyPressed
 
     private void MnFormPemberianObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnFormPemberianObatActionPerformed
@@ -1020,7 +1104,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
     }//GEN-LAST:event_DosisObatKeyPressed
 
     private void NamaObatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NamaObatKeyPressed
-        Valid.pindah2(evt,CmbShift,DosisObat);
+        Valid.pindah2(evt,btnRecheck,DosisObat);
     }//GEN-LAST:event_NamaObatKeyPressed
 
     private void CmbShiftItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CmbShiftItemStateChanged
@@ -1028,7 +1112,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
     }//GEN-LAST:event_CmbShiftItemStateChanged
 
     private void CmbShiftKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbShiftKeyPressed
-        Valid.pindah(evt,btnPetugas,NamaObat);
+        Valid.pindah(evt,btnPetugas,btnRecheck);
     }//GEN-LAST:event_CmbShiftKeyPressed
 
     private void btnDataObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataObatActionPerformed
@@ -1045,6 +1129,37 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
     private void btnDataObatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnDataObatKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDataObatKeyPressed
+
+    private void NIPRecheckKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_NIPRecheckKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_PAGE_DOWN){
+            NamaRecheck.setText(petugasrecheck.tampil3(NIPRecheck.getText()));
+        }else if(evt.getKeyCode()==KeyEvent.VK_PAGE_UP){
+            CmbShift.requestFocus();
+        }else if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            NamaObat.requestFocus();
+        }else if(evt.getKeyCode()==KeyEvent.VK_UP){
+            btnRecheckActionPerformed(null);
+        }else if(evt.getKeyCode()==KeyEvent.VK_DELETE){
+            btnHapusRecheckActionPerformed(null);
+        }
+    }//GEN-LAST:event_NIPRecheckKeyPressed
+
+    private void btnRecheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecheckActionPerformed
+        petugasrecheck.emptTeks();
+        petugasrecheck.isCek();
+        petugasrecheck.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+        petugasrecheck.setLocationRelativeTo(internalFrame1);
+        petugasrecheck.setVisible(true);
+    }//GEN-LAST:event_btnRecheckActionPerformed
+
+    private void btnRecheckKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnRecheckKeyPressed
+        Valid.pindah(evt,CmbShift,NamaObat);
+    }//GEN-LAST:event_btnRecheckKeyPressed
+
+    private void btnHapusRecheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusRecheckActionPerformed
+        NIPRecheck.setText("");
+        NamaRecheck.setText("");
+    }//GEN-LAST:event_btnHapusRecheckActionPerformed
 
     /**
     * @param args the command line arguments
@@ -1084,8 +1199,10 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
     private widget.ComboBox Menit;
     private javax.swing.JMenuItem MnFormPemberianObat;
     private widget.TextBox NIP;
+    private widget.TextBox NIPRecheck;
     private widget.TextArea NamaObat;
     private widget.TextBox NamaPetugas;
+    private widget.TextBox NamaRecheck;
     private javax.swing.JPanel PanelInput;
     private widget.ScrollPane Scroll;
     private widget.TextBox TCari;
@@ -1095,7 +1212,9 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
     private widget.Tanggal Tanggal;
     private widget.TextBox TglLahir;
     private widget.Button btnDataObat;
+    private widget.Button btnHapusRecheck;
     private widget.Button btnPetugas;
+    private widget.Button btnRecheck;
     private widget.InternalFrame internalFrame1;
     private widget.Label jLabel12;
     private widget.Label jLabel16;
@@ -1104,6 +1223,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
     private widget.Label jLabel20;
     private widget.Label jLabel21;
     private widget.Label jLabel23;
+    private widget.Label jLabel24;
     private widget.Label jLabel31;
     private widget.Label jLabel4;
     private widget.Label jLabel6;
@@ -1124,19 +1244,21 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
                 ps=koneksi.prepareStatement(
                     "select data_pemberian_injeksi.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,reg_periksa.umurdaftar,reg_periksa.sttsumur, " +
                     "pasien.jk,pasien.tgl_lahir,data_pemberian_injeksi.nm_obat,data_pemberian_injeksi.dosis_obat,data_pemberian_injeksi.tgl_perawatan,data_pemberian_injeksi.dinas_pagi,data_pemberian_injeksi.dinas_sore,data_pemberian_injeksi.dinas_malam,data_pemberian_injeksi.keterangan, " +
-                    "data_pemberian_injeksi.nip,petugas.nama " +
+                    "data_pemberian_injeksi.nip,petugas.nama,ifnull(data_pemberian_injeksi.nip_recheck,'') as nip_recheck,ifnull(petugas_recheck.nama,'') as nama_recheck " +
                     "from data_pemberian_injeksi inner join reg_periksa on data_pemberian_injeksi.no_rawat=reg_periksa.no_rawat " +
                     "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis " +
-                    "inner join petugas on data_pemberian_injeksi.nip=petugas.nip where " +
+                    "inner join petugas on data_pemberian_injeksi.nip=petugas.nip " +
+                    "left join petugas petugas_recheck on data_pemberian_injeksi.nip_recheck=petugas_recheck.nip where " +
                     "data_pemberian_injeksi.tgl_perawatan between ? and ? order by data_pemberian_injeksi.tgl_perawatan ");
             }else{
                 ps=koneksi.prepareStatement(
                     "select data_pemberian_injeksi.no_rawat,pasien.no_rkm_medis,pasien.nm_pasien,reg_periksa.umurdaftar,reg_periksa.sttsumur, " +
                     "pasien.jk,pasien.tgl_lahir,data_pemberian_injeksi.nm_obat,data_pemberian_injeksi.dosis_obat,data_pemberian_injeksi.tgl_perawatan,data_pemberian_injeksi.dinas_pagi,data_pemberian_injeksi.dinas_sore,data_pemberian_injeksi.dinas_malam,data_pemberian_injeksi.keterangan, " +
-                    "data_pemberian_injeksi.nip,petugas.nama " +
+                    "data_pemberian_injeksi.nip,petugas.nama,ifnull(data_pemberian_injeksi.nip_recheck,'') as nip_recheck,ifnull(petugas_recheck.nama,'') as nama_recheck " +
                     "from data_pemberian_injeksi inner join reg_periksa on data_pemberian_injeksi.no_rawat=reg_periksa.no_rawat " +
                     "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis " +
-                    "inner join petugas on data_pemberian_injeksi.nip=petugas.nip where " +
+                    "inner join petugas on data_pemberian_injeksi.nip=petugas.nip " +
+                    "left join petugas petugas_recheck on data_pemberian_injeksi.nip_recheck=petugas_recheck.nip where " +
                     "data_pemberian_injeksi.tgl_perawatan between ? and ? and (reg_periksa.no_rawat like ? or pasien.no_rkm_medis like ? "+
                     "or pasien.nm_pasien like ? or data_pemberian_injeksi.nip like ? or petugas.nama like ?) "+
                     "order by data_pemberian_injeksi.tgl_perawatan ");
@@ -1162,7 +1284,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
                         rs.getString("no_rawat"),rs.getString("no_rkm_medis"),rs.getString("nm_pasien"),
                         rs.getString("umurdaftar")+" "+rs.getString("sttsumur"),rs.getString("jk"),rs.getString("tgl_lahir"),
                         rs.getString("nm_obat"),rs.getString("dosis_obat"),rs.getString("tgl_perawatan"),rs.getString("dinas_pagi"),rs.getString("dinas_sore"),rs.getString("dinas_malam"),
-                        rs.getString("keterangan"),rs.getString("nip"),rs.getString("nama")
+                        rs.getString("keterangan"),rs.getString("nip"),rs.getString("nama"),rs.getString("nip_recheck"),rs.getString("nama_recheck")
                     });
                 }
             } catch (Exception e) {
@@ -1188,6 +1310,8 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
         NamaObat.setText("");
         Tanggal.setDate(new Date());
         CmbShift.setSelectedIndex(0);
+        NIPRecheck.setText("");
+        NamaRecheck.setText("");
     } 
 
     private void getData() {
@@ -1218,7 +1342,14 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
             Keterangan.setText(tbObat.getValueAt(tbObat.getSelectedRow(),12).toString());
             NIP.setText(tbObat.getValueAt(tbObat.getSelectedRow(),13).toString());
             NamaPetugas.setText(tbObat.getValueAt(tbObat.getSelectedRow(),14).toString());
+            NIPRecheck.setText(tbObat.getValueAt(tbObat.getSelectedRow(),15).toString());
+            NamaRecheck.setText(tbObat.getValueAt(tbObat.getSelectedRow(),16).toString());
         }
+    }
+
+    private String getNipRecheck() {
+        // petugas re-check bersifat opsional: kosong disimpan sebagai NULL
+        return NIPRecheck.getText().trim().equals("")?null:NIPRecheck.getText().trim();
     }
     private void isRawat() {
          Sequel.cariIsi("select reg_periksa.no_rkm_medis from reg_periksa where reg_periksa.no_rawat='"+TNoRw.getText()+"' ",TNoRM);
@@ -1243,7 +1374,7 @@ public final class RMDataPemberianObatInjeksi extends javax.swing.JDialog {
     private void isForm(){
         if(ChkInput.isSelected()==true){
             ChkInput.setVisible(false);
-            PanelInput.setPreferredSize(new Dimension(WIDTH,170));
+            PanelInput.setPreferredSize(new Dimension(WIDTH,190));
             FormInput.setVisible(true);      
             ChkInput.setVisible(true);
         }else if(ChkInput.isSelected()==false){           

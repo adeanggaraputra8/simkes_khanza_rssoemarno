@@ -1367,7 +1367,7 @@ public final class DlgResepObat extends javax.swing.JDialog {
              JOptionPane.showMessageDialog(null,"Maaf, Gagal menghapus. Pilih dulu data yang mau dihapus.Klik data pada table untuk memilih...!!!!");
         }else if(!(TPasien.getText().trim().equals(""))){
            Sequel.meghapus("resep_obat","no_resep",NoResep.getText());
-           Sequel.meghapus("resep_dokter","no_resep",NoResep.getText());
+           //Sequel.meghapus("resep_dokter","no_resep",NoResep.getText());
            tampil();
         }
 }//GEN-LAST:event_BtnHapusActionPerformed

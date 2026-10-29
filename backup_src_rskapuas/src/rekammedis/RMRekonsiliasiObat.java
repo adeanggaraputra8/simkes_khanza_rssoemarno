@@ -61,10 +61,10 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         
-        DlgTambahObatRekonsiliasi.setSize(660,163);
+        DlgTambahObatRekonsiliasi.setSize(700,163);
         
         tabMode=new DefaultTableModel(null,new Object[]{
-            "Nama Obat","Dosis Obat","Frekuensi","Cara Pemberian/Aturan Pakai","Waktu Pemberian Terakhir","Tindak Lanjut","Perubahan Aturan Pakai"}){
+            "Nama Obat","Jumlah Obat","Frekuensi","Cara Pemberian/Aturan Pakai","Waktu Pemberian Terakhir","Tindak Lanjut","Perubahan Aturan Pakai"}){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
         tbPemeriksaan.setModel(tabMode);        
@@ -103,6 +103,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         TNoRekonsialiasi.setDocument(new batasInput((byte)20).getKata(TNoRekonsialiasi));
         AlergiObat.setDocument(new batasInput((int)70).getKata(AlergiObat));
         ManifestasiAlergi.setDocument(new batasInput((int)70).getKata(ManifestasiAlergi));
+        Keterangan.setDocument(new batasInput((int)200).getKata(Keterangan));
         
         
         petugas.addWindowListener(new WindowListener() {
@@ -239,6 +240,9 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         TglLahir = new widget.TextBox();
         jLabel11 = new widget.Label();
         Jk = new widget.TextBox();
+        jLabel7 = new widget.Label();
+        scrollPane4 = new widget.ScrollPane();
+        Keterangan = new widget.TextArea();
 
         DlgTambahObatRekonsiliasi.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         DlgTambahObatRekonsiliasi.setName("DlgTambahObatRekonsiliasi"); // NOI18N
@@ -255,7 +259,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         jLabel99.setText("Nama Obat :");
         jLabel99.setName("jLabel99"); // NOI18N
         panelBiasa2.add(jLabel99);
-        jLabel99.setBounds(0, 10, 85, 23);
+        jLabel99.setBounds(0, 10, 140, 23);
 
         BtnKeluarRekon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/cross.png"))); // NOI18N
         BtnKeluarRekon.setMnemonic('U');
@@ -269,7 +273,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(BtnKeluarRekon);
-        BtnKeluarRekon.setBounds(520, 100, 100, 30);
+        BtnKeluarRekon.setBounds(588, 100, 100, 30);
 
         BtnSimpanRekon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/save-16x16.png"))); // NOI18N
         BtnSimpanRekon.setMnemonic('S');
@@ -287,7 +291,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(BtnSimpanRekon);
-        BtnSimpanRekon.setBounds(415, 100, 100, 30);
+        BtnSimpanRekon.setBounds(484, 100, 100, 30);
 
         NamaObat.setHighlighter(null);
         NamaObat.setName("NamaObat"); // NOI18N
@@ -297,12 +301,12 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(NamaObat);
-        NamaObat.setBounds(89, 10, 532, 23);
+        NamaObat.setBounds(144, 10, 512, 23);
 
-        jLabel105.setText("Dosis Obat :");
+        jLabel105.setText("Jumlah Obat :");
         jLabel105.setName("jLabel105"); // NOI18N
         panelBiasa2.add(jLabel105);
-        jLabel105.setBounds(0, 40, 85, 23);
+        jLabel105.setBounds(0, 40, 140, 23);
 
         DosisObat.setHighlighter(null);
         DosisObat.setName("DosisObat"); // NOI18N
@@ -312,12 +316,12 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(DosisObat);
-        DosisObat.setBounds(89, 40, 90, 23);
+        DosisObat.setBounds(144, 40, 90, 23);
 
         jLabel108.setText("Tindak Lanjut :");
         jLabel108.setName("jLabel108"); // NOI18N
         panelBiasa2.add(jLabel108);
-        jLabel108.setBounds(367, 70, 150, 23);
+        jLabel108.setBounds(406, 70, 150, 23);
 
         TindakLanjut.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Stop", "Lanjut" }));
         TindakLanjut.setName("TindakLanjut"); // NOI18N
@@ -327,12 +331,12 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(TindakLanjut);
-        TindakLanjut.setBounds(521, 70, 100, 23);
+        TindakLanjut.setBounds(560, 70, 128, 23);
 
         jLabel109.setText("Frekuensi :");
         jLabel109.setName("jLabel109"); // NOI18N
         panelBiasa2.add(jLabel109);
-        jLabel109.setBounds(190, 40, 70, 23);
+        jLabel109.setBounds(238, 40, 70, 23);
 
         Frekuensi.setHighlighter(null);
         Frekuensi.setName("Frekuensi"); // NOI18N
@@ -342,12 +346,12 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(Frekuensi);
-        Frekuensi.setBounds(264, 40, 90, 23);
+        Frekuensi.setBounds(312, 40, 90, 23);
 
         jLabel111.setText("Aturan Pakai :");
         jLabel111.setName("jLabel111"); // NOI18N
         panelBiasa2.add(jLabel111);
-        jLabel111.setBounds(0, 70, 85, 23);
+        jLabel111.setBounds(0, 70, 140, 23);
 
         AturanPakai.setHighlighter(null);
         AturanPakai.setName("AturanPakai"); // NOI18N
@@ -357,12 +361,12 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(AturanPakai);
-        AturanPakai.setBounds(89, 70, 260, 23);
+        AturanPakai.setBounds(144, 70, 258, 23);
 
         jLabel112.setText("Waktu Pemberian Terakhir :");
         jLabel112.setName("jLabel112"); // NOI18N
         panelBiasa2.add(jLabel112);
-        jLabel112.setBounds(367, 40, 150, 23);
+        jLabel112.setBounds(406, 40, 150, 23);
 
         PemberianTerakhir.setHighlighter(null);
         PemberianTerakhir.setName("PemberianTerakhir"); // NOI18N
@@ -372,7 +376,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(PemberianTerakhir);
-        PemberianTerakhir.setBounds(521, 40, 100, 23);
+        PemberianTerakhir.setBounds(560, 40, 128, 23);
 
         jLabel113.setText("Perubahan Aturan Pakai :");
         jLabel113.setName("jLabel113"); // NOI18N
@@ -387,7 +391,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(PerubahanAturanPakai);
-        PerubahanAturanPakai.setBounds(144, 100, 260, 23);
+        PerubahanAturanPakai.setBounds(144, 100, 258, 23);
 
         btnobat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         btnobat.setMnemonic('2');
@@ -404,7 +408,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         panelBiasa2.add(btnobat);
-        btnobat.setBounds(620, 10, 28, 23);
+        btnobat.setBounds(660, 10, 28, 23);
 
         internalFrame4.add(panelBiasa2, java.awt.BorderLayout.CENTER);
 
@@ -560,36 +564,36 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         internalFrame1.add(panelGlass8, java.awt.BorderLayout.PAGE_END);
 
         PanelInput.setName("PanelInput"); // NOI18N
-        PanelInput.setPreferredSize(new java.awt.Dimension(560, 185));
+        PanelInput.setPreferredSize(new java.awt.Dimension(560, 235));
         PanelInput.setLayout(null);
 
         jLabel3.setText("No.Rawat :");
         jLabel3.setName("jLabel3"); // NOI18N
         PanelInput.add(jLabel3);
-        jLabel3.setBounds(0, 12, 94, 23);
+        jLabel3.setBounds(0, 10, 94, 23);
 
         TNoRw.setEditable(false);
         TNoRw.setHighlighter(null);
         TNoRw.setName("TNoRw"); // NOI18N
         PanelInput.add(TNoRw);
-        TNoRw.setBounds(98, 12, 128, 23);
+        TNoRw.setBounds(98, 10, 128, 23);
 
         TNoRM.setEditable(false);
         TNoRM.setHighlighter(null);
         TNoRM.setName("TNoRM"); // NOI18N
         PanelInput.add(TNoRM);
-        TNoRM.setBounds(228, 12, 100, 23);
+        TNoRM.setBounds(228, 10, 100, 23);
 
         TPasien.setEditable(false);
         TPasien.setHighlighter(null);
         TPasien.setName("TPasien"); // NOI18N
         PanelInput.add(TPasien);
-        TPasien.setBounds(330, 12, 225, 23);
+        TPasien.setBounds(330, 10, 455, 23);
 
         jLabel9.setText("Petugas :");
         jLabel9.setName("jLabel9"); // NOI18N
         PanelInput.add(jLabel9);
-        jLabel9.setBounds(197, 40, 69, 23);
+        jLabel9.setBounds(346, 40, 120, 23);
 
         Tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "13-07-2023" }));
         Tanggal.setDisplayFormat("dd-MM-yyyy");
@@ -606,22 +610,22 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         PanelInput.add(Tanggal);
-        Tanggal.setBounds(395, 70, 90, 23);
+        Tanggal.setBounds(470, 70, 90, 23);
 
         CmbJam.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23" }));
         CmbJam.setName("CmbJam"); // NOI18N
         PanelInput.add(CmbJam);
-        CmbJam.setBounds(489, 70, 62, 23);
+        CmbJam.setBounds(564, 70, 62, 23);
 
         CmbMenit.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         CmbMenit.setName("CmbMenit"); // NOI18N
         PanelInput.add(CmbMenit);
-        CmbMenit.setBounds(555, 70, 62, 23);
+        CmbMenit.setBounds(630, 70, 62, 23);
 
         CmbDetik.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
         CmbDetik.setName("CmbDetik"); // NOI18N
         PanelInput.add(CmbDetik);
-        CmbDetik.setBounds(621, 70, 62, 23);
+        CmbDetik.setBounds(696, 70, 62, 23);
 
         ChkJln.setBorder(null);
         ChkJln.setSelected(true);
@@ -630,18 +634,18 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         ChkJln.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ChkJln.setName("ChkJln"); // NOI18N
         PanelInput.add(ChkJln);
-        ChkJln.setBounds(687, 70, 23, 23);
+        ChkJln.setBounds(762, 70, 23, 23);
 
         KodePetugas.setEditable(false);
         KodePetugas.setName("KodePetugas"); // NOI18N
         PanelInput.add(KodePetugas);
-        KodePetugas.setBounds(270, 40, 128, 23);
+        KodePetugas.setBounds(470, 40, 100, 23);
 
         NamaPetugas.setEditable(false);
         NamaPetugas.setHighlighter(null);
         NamaPetugas.setName("NamaPetugas"); // NOI18N
         PanelInput.add(NamaPetugas);
-        NamaPetugas.setBounds(400, 40, 280, 23);
+        NamaPetugas.setBounds(574, 40, 179, 23);
 
         BtnPetugas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/190.png"))); // NOI18N
         BtnPetugas.setMnemonic('4');
@@ -653,12 +657,12 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         PanelInput.add(BtnPetugas);
-        BtnPetugas.setBounds(682, 40, 28, 23);
+        BtnPetugas.setBounds(757, 40, 28, 23);
 
         jLabel15.setText("Tanggal Wawancara :");
         jLabel15.setName("jLabel15"); // NOI18N
         PanelInput.add(jLabel15);
-        jLabel15.setBounds(261, 70, 130, 23);
+        jLabel15.setBounds(346, 70, 120, 23);
 
         jLabel4.setText("No.Rekonsiliasi :");
         jLabel4.setName("jLabel4"); // NOI18N
@@ -689,7 +693,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
             }
         });
         PanelInput.add(RekonsiliasiSaat);
-        RekonsiliasiSaat.setBounds(470, 150, 160, 23);
+        RekonsiliasiSaat.setBounds(470, 150, 315, 23);
 
         jLabel55.setText("Alergi Obat :");
         jLabel55.setName("jLabel55"); // NOI18N
@@ -733,7 +737,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         scrollPane3.setViewportView(ManifestasiAlergi);
 
         PanelInput.add(scrollPane3);
-        scrollPane3.setBounds(470, 100, 240, 43);
+        scrollPane3.setBounds(470, 100, 315, 43);
 
         jLabel6.setText("Dampak Alergi :");
         jLabel6.setName("jLabel6"); // NOI18N
@@ -754,13 +758,13 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         jLabel8.setText("Tgl.Lahir :");
         jLabel8.setName("jLabel8"); // NOI18N
         PanelInput.add(jLabel8);
-        jLabel8.setBounds(566, 10, 60, 23);
+        jLabel8.setBounds(184, 40, 62, 23);
 
         TglLahir.setEditable(false);
         TglLahir.setHighlighter(null);
         TglLahir.setName("TglLahir"); // NOI18N
         PanelInput.add(TglLahir);
-        TglLahir.setBounds(630, 10, 80, 23);
+        TglLahir.setBounds(250, 40, 90, 23);
 
         jLabel11.setText("J.K. :");
         jLabel11.setName("jLabel11"); // NOI18N
@@ -772,6 +776,28 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         Jk.setName("Jk"); // NOI18N
         PanelInput.add(Jk);
         Jk.setBounds(98, 40, 80, 23);
+
+        jLabel7.setText("Keterangan :");
+        jLabel7.setName("jLabel7"); // NOI18N
+        PanelInput.add(jLabel7);
+        jLabel7.setBounds(0, 180, 94, 23);
+
+        scrollPane4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane4.setName("scrollPane4"); // NOI18N
+
+        Keterangan.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        Keterangan.setColumns(20);
+        Keterangan.setRows(5);
+        Keterangan.setName("Keterangan"); // NOI18N
+        Keterangan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                KeteranganKeyPressed(evt);
+            }
+        });
+        scrollPane4.setViewportView(Keterangan);
+
+        PanelInput.add(scrollPane4);
+        scrollPane4.setBounds(98, 180, 687, 43);
 
         internalFrame1.add(PanelInput, java.awt.BorderLayout.PAGE_START);
 
@@ -804,7 +830,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
     }//GEN-LAST:event_TanggalItemStateChanged
 
     private void RekonsiliasiSaatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_RekonsiliasiSaatKeyPressed
-        Valid.pindah2(evt, DampakAlergi, BtnTambah);
+        Valid.pindah2(evt, DampakAlergi, Keterangan);
     }//GEN-LAST:event_RekonsiliasiSaatKeyPressed
 
     private void AlergiObatKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AlergiObatKeyPressed
@@ -814,6 +840,10 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
     private void ManifestasiAlergiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ManifestasiAlergiKeyPressed
         Valid.pindah2(evt, AlergiObat, DampakAlergi);
     }//GEN-LAST:event_ManifestasiAlergiKeyPressed
+
+    private void KeteranganKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_KeteranganKeyPressed
+        Valid.pindah2(evt, RekonsiliasiSaat, BtnTambah);
+    }//GEN-LAST:event_KeteranganKeyPressed
 
     private void DampakAlergiKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_DampakAlergiKeyPressed
         Valid.pindah(evt, ManifestasiAlergi, RekonsiliasiSaat);
@@ -834,7 +864,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){
             BtnTambahActionPerformed(null);
         }else{
-            Valid.pindah(evt,RekonsiliasiSaat,BtnBatal);
+            Valid.pindah(evt,Keterangan,BtnBatal);
         }
     }//GEN-LAST:event_BtnTambahKeyPressed
 
@@ -903,9 +933,9 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         }else{
             reply = JOptionPane.showConfirmDialog(rootPane,"Eeiiiiiits, udah bener belum data yang mau disimpan..??","Konfirmasi",JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
-                if(Sequel.menyimpantf("rekonsiliasi_obat","?,?,?,?,?,?,?,?","No.Rawat",8,new String[]{
+                if(Sequel.menyimpantf("rekonsiliasi_obat","?,?,?,?,?,?,?,?,?","No.Rawat",9,new String[]{
                         TNoRekonsialiasi.getText(),TNoRw.getText(),Valid.SetTgl(Tanggal.getSelectedItem()+"")+" "+CmbJam.getSelectedItem()+":"+CmbMenit.getSelectedItem()+":"+CmbDetik.getSelectedItem(), 
-                        RekonsiliasiSaat.getSelectedItem().toString(),AlergiObat.getText(),ManifestasiAlergi.getText(),DampakAlergi.getSelectedItem().toString(),KodePetugas.getText(),
+                        RekonsiliasiSaat.getSelectedItem().toString(),AlergiObat.getText(),ManifestasiAlergi.getText(),DampakAlergi.getSelectedItem().toString(),KodePetugas.getText(),Keterangan.getText()
                     })==true){
                         for (i = 0; i < tbPemeriksaan.getRowCount(); i++) {
                            Sequel.menyimpan2("rekonsiliasi_obat_detail_obat","?,?,?,?,?,?,?,?",8,new String[]{
@@ -934,7 +964,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         if(NamaObat.getText().trim().equals("")){
             Valid.textKosong(NamaObat,"Nama Obat");
         }else if(DosisObat.getText().trim().equals("")){
-            Valid.textKosong(DosisObat,"Dosis Obat");
+            Valid.textKosong(DosisObat,"Jumlah Obat");
         }else if(Frekuensi.getText().trim().equals("")){
             Valid.textKosong(Frekuensi,"Frekuensi");
         }else if(AturanPakai.getText().trim().equals("")){
@@ -1035,6 +1065,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
     private widget.TextBox DosisObat;
     private widget.TextBox Frekuensi;
     private widget.TextBox Jk;
+    private widget.TextArea Keterangan;
     private widget.TextBox KodePetugas;
     private widget.TextArea ManifestasiAlergi;
     private widget.TextBox NamaObat;
@@ -1068,6 +1099,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
     private widget.Label jLabel55;
     private widget.Label jLabel56;
     private widget.Label jLabel6;
+    private widget.Label jLabel7;
     private widget.Label jLabel8;
     private widget.Label jLabel9;
     private widget.Label jLabel99;
@@ -1078,6 +1110,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
     private widget.panelisi panelGlass8;
     private widget.ScrollPane scrollPane2;
     private widget.ScrollPane scrollPane3;
+    private widget.ScrollPane scrollPane4;
     private widget.Table tbPemeriksaan;
     // End of variables declaration//GEN-END:variables
 
@@ -1086,6 +1119,7 @@ public final class RMRekonsiliasiObat extends javax.swing.JDialog {
         AlergiObat.setText("");
         ManifestasiAlergi.setText("");
         DampakAlergi.setSelectedIndex(0);
+        Keterangan.setText("");
         
         autoNomor();
         TNoRekonsialiasi.requestFocus();

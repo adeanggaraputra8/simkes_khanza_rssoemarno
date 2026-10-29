@@ -375,7 +375,7 @@
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="05-02-2025"/>
+                        <StringItem index="0" value="30-09-2026"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -403,7 +403,7 @@
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
-                        <StringItem index="0" value="05-02-2025"/>
+                        <StringItem index="0" value="30-09-2026"/>
                       </StringArray>
                     </Property>
                     <Property name="displayFormat" type="java.lang.String" value="dd-MM-yyyy"/>
@@ -1322,19 +1322,22 @@
                     <Component class="widget.ComboBox" name="Kondisi">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                          <StringArray count="2">
-                            <StringItem index="0" value="Hidup"/>
-                            <StringItem index="1" value="Meninggal"/>
+                          <StringArray count="4">
+                            <StringItem index="0" value="Atas Persetujuan Dokter"/>
+                            <StringItem index="1" value="Hidup"/>
+                            <StringItem index="2" value="Rujuk"/>
+                            <StringItem index="3" value="Meninggal"/>
                           </StringArray>
                         </Property>
                         <Property name="name" type="java.lang.String" value="Kondisi" noResource="true"/>
                       </Properties>
                       <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="KondisiActionPerformed"/>
                         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="KondisiKeyPressed"/>
                       </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="685" y="40" width="100" height="23"/>
+                          <AbsoluteConstraints x="685" y="40" width="170" height="23"/>
                         </Constraint>
                       </Constraints>
                     </Component>

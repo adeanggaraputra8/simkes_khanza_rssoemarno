@@ -907,7 +907,14 @@ public final class AplicareKetersediaanKamar extends javax.swing.JDialog {
                               "\"tersediapriawanita\":\""+TersediaPW.getText()+"\""+
                               "}";
                 requestEntity = new HttpEntity(requestJson,headers);
-                //System.out.println(rest.exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
+                //System.out.println(api.getRest().exchange(URL, HttpMethod.POST, requestEntity, String.class).getBody());
+System.out.println("=== REQUEST BPJS ===");
+System.out.println("URL       : " + URL+"/rest/bed/update/"+kodeppk);
+System.out.println("METHOD    : POST");
+System.out.println("HEADERS   : " + headers);
+System.out.println("BODY      : " + requestJson);
+System.out.println("BODY LEN  : " + requestJson.getBytes("UTF-8").length);
+System.out.println("====================");
                 root = mapper.readTree(api.getRest().exchange(URL+"/rest/bed/update/"+kodeppk, HttpMethod.POST, requestEntity, String.class).getBody());
                 nameNode = root.path("metadata");
                 System.out.println("code : "+nameNode.path("code").asText());

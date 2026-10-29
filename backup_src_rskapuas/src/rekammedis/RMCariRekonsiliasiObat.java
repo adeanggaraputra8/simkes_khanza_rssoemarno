@@ -44,7 +44,7 @@ public class RMCariRekonsiliasiObat extends javax.swing.JDialog {
         
         DlgKonfirmasiObatRekonsiliasi.setSize(572,165);
 
-        Object[] row={"No.Rekonsiliasi","Pasien","Tanggal Wawancara","Rekonsiliasi Saat","Alergi Obat","Dampak Alergi","Manifestasi Alergi","Petugas Rekonsiliasi"};
+        Object[] row={"No.Rekonsiliasi","Pasien","Tanggal Wawancara","Rekonsiliasi Saat","Alergi Obat","Dampak Alergi","Manifestasi Alergi","Petugas Rekonsiliasi","Keterangan"};
         tabMode=new DefaultTableModel(null,row){
               @Override public boolean isCellEditable(int rowIndex, int colIndex){return false;}
         };
@@ -53,16 +53,16 @@ public class RMCariRekonsiliasiObat extends javax.swing.JDialog {
         tbDokter.setPreferredScrollableViewportSize(new Dimension(800,800));
         tbDokter.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 8; i++) {
+        for (i = 0; i < 9; i++) {
             TableColumn column = tbDokter.getColumnModel().getColumn(i);
             if(i==0){
                 column.setPreferredWidth(100);
             }else if(i==1){
                 column.setPreferredWidth(370);
             }else if(i==2){
-                column.setPreferredWidth(115);
+                column.setPreferredWidth(150);
             }else if(i==3){
-                column.setPreferredWidth(115);
+                column.setPreferredWidth(150);
             }else if(i==4){
                 column.setPreferredWidth(160);
             }else if(i==5){
@@ -71,6 +71,8 @@ public class RMCariRekonsiliasiObat extends javax.swing.JDialog {
                 column.setPreferredWidth(160);
             }else if(i==7){
                 column.setPreferredWidth(160);
+            }else if(i==8){
+                column.setPreferredWidth(250);
             }
         }
         tbDokter.setDefaultRenderer(Object.class, new WarnaTable());
@@ -786,7 +788,8 @@ private void KdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TKdKey
                                 tabMode.getValueAt(i,4).toString()+"','"+
                                 tabMode.getValueAt(i,5).toString()+"','"+
                                 tabMode.getValueAt(i,6).toString()+"','"+
-                                tabMode.getValueAt(i,7).toString()+"','','','','','','','','','','','','','','','','','','','','','','','','','','','','','"+akses.getalamatip()+"'","Transaksi operasi"); 
+                                tabMode.getValueAt(i,7).toString()+"','"+
+                                tabMode.getValueAt(i,8).toString().replace("\\","\\\\").replace("'","''")+"','','','','','','','','','','','','','','','','','','','','','','','','','','','','"+akses.getalamatip()+"'","Transaksi operasi"); 
             }
             Map<String, Object> param = new HashMap<>();    
             param.put("namars",akses.getnamars());
@@ -1012,7 +1015,7 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
             ps=koneksi.prepareStatement(
                 "select rekonsiliasi_obat.no_rekonsiliasi,rekonsiliasi_obat.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,pasien.jk,"+
                 "reg_periksa.umurdaftar,reg_periksa.sttsumur,rekonsiliasi_obat.tanggal_wawancara,rekonsiliasi_obat.rekonsiliasi_obat_saat,"+
-                "rekonsiliasi_obat.alergi_obat,rekonsiliasi_obat.manifestasi_alergi,rekonsiliasi_obat.dampak_alergi,rekonsiliasi_obat.nip,"+
+                "rekonsiliasi_obat.alergi_obat,rekonsiliasi_obat.manifestasi_alergi,rekonsiliasi_obat.dampak_alergi,rekonsiliasi_obat.nip,rekonsiliasi_obat.keterangan,"+
                 "petugas.nama from rekonsiliasi_obat inner join reg_periksa on reg_periksa.no_rawat=rekonsiliasi_obat.no_rawat "+
                 "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis inner join petugas on rekonsiliasi_obat.nip=petugas.nip "+
                 "where rekonsiliasi_obat.tanggal_wawancara between ? and ? "+(TCari.getText().trim().equals("")?"":" and "+
@@ -1034,10 +1037,10 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                 while(rs.next()){
                     tabMode.addRow(new String[]{
                         rs.getString("no_rekonsiliasi"),rs.getString("no_rawat")+" "+rs.getString("no_rkm_medis")+" "+rs.getString("nm_pasien")+" ("+rs.getString("jk")+") ("+rs.getString("umurdaftar")+rs.getString("sttsumur")+")",
-                        rs.getString("tanggal_wawancara"),rs.getString("rekonsiliasi_obat_saat"),rs.getString("alergi_obat"),rs.getString("dampak_alergi"),rs.getString("manifestasi_alergi"),rs.getString("nip")+" "+rs.getString("nama")
+                        rs.getString("tanggal_wawancara"),rs.getString("rekonsiliasi_obat_saat"),rs.getString("alergi_obat"),rs.getString("dampak_alergi"),rs.getString("manifestasi_alergi"),rs.getString("nip")+" "+rs.getString("nama"),rs.getString("keterangan")==null?"":rs.getString("keterangan")
                     });
                     tabMode.addRow(new String[]{
-                        "","Nama Obat","Dosis Obat","Frekuensi","Cara Pemberian","Pemberian Terakhir","Tindak Lanjut","Perubahan Aturan Pakai"
+                        "","Nama Obat","Jumlah Obat","Frekuensi","Cara Pemberian","Pemberian Terakhir","Tindak Lanjut","Perubahan Aturan Pakai",""
                     });
                     ps2=koneksi.prepareStatement("select * from rekonsiliasi_obat_detail_obat where rekonsiliasi_obat_detail_obat.no_rekonsiliasi=?");
                     try {
@@ -1045,7 +1048,7 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                         rs2=ps2.executeQuery();
                         while(rs2.next()){
                             tabMode.addRow(new String[]{
-                                "",rs2.getString("nama_obat"),rs2.getString("dosis_obat"),rs2.getString("frekuensi"),rs2.getString("cara_pemberian"),rs2.getString("waktu_pemberian_terakhir"),rs2.getString("tindak_lanjut"),rs2.getString("perubahan_aturan_pakai")
+                                "",rs2.getString("nama_obat"),rs2.getString("dosis_obat"),rs2.getString("frekuensi"),rs2.getString("cara_pemberian"),rs2.getString("waktu_pemberian_terakhir"),rs2.getString("tindak_lanjut"),rs2.getString("perubahan_aturan_pakai"),""
                             });
                         }
                     } catch (Exception e) {
@@ -1067,16 +1070,16 @@ private void BtnHapusKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_
                         rs3=ps3.executeQuery();
                         if(rs3.next()){
                             tabMode.addRow(new String[]{
-                                "","Diterima Farmasi : "+rs3.getString("diterima_farmasi"),"","","","","",""
+                                "","Diterima Farmasi : "+rs3.getString("diterima_farmasi"),"","","","","","",""
                             });
                             tabMode.addRow(new String[]{
-                                "","Dikonfirmasi Apoteker : "+rs3.getString("dikonfirmasi_apoteker"),"","","","","",""
+                                "","Dikonfirmasi Apoteker : "+rs3.getString("dikonfirmasi_apoteker"),"","","","","","",""
                             });
                             tabMode.addRow(new String[]{
-                                "","Petugas Farmasi/Apoteker : "+rs3.getString("nip")+" "+rs3.getString("nama"),"","","","","",""
+                                "","Petugas Farmasi/Apoteker : "+rs3.getString("nip")+" "+rs3.getString("nama"),"","","","","","",""
                             });
                             tabMode.addRow(new String[]{
-                                "","Kembali Ke Pasien : "+rs3.getString("diserahkan_pasien"),"","","","","",""
+                                "","Kembali Ke Pasien : "+rs3.getString("diserahkan_pasien"),"","","","","","",""
                             });
                         }
                     } catch (Exception e) {

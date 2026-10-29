@@ -77,7 +77,7 @@ public class DlgBarang extends javax.swing.JDialog {
             "Kelas Utama/BPJS(Rp)", "Ranap VIP(Rp)", "Ranap VVIP(Rp)", "Beli Luar(Rp)","Jual Bebas(Rp)", "Karyawan(Rp)", 
             "Stok Min", "Kode Jenis", "Nama Jenis","Kadaluwarsa","Kode I.F.","Industri Farmasi","Kode Kategori","Kategori",
             "Kode Golongan","Golongan","Modal","Grosir","Status","Letak Barang","Lasa","Life Saving","High Alert","Retriksi",
-            "Kelas Terapi"
+            "Kelas Terapi","Fast Moving"
         }) {
             @Override
             public boolean isCellEditable(int rowIndex, int colIndex) {
@@ -96,7 +96,7 @@ public class DlgBarang extends javax.swing.JDialog {
                 java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,
                 java.lang.Object.class,java.lang.Object.class,java.lang.Double.class,java.lang.Double.class,java.lang.Object.class,
                 java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,java.lang.Object.class,
-                java.lang.Object.class
+                java.lang.Object.class, java.lang.Object.class
             };
 
             @Override
@@ -109,7 +109,7 @@ public class DlgBarang extends javax.swing.JDialog {
         tbDokter.setPreferredScrollableViewportSize(new Dimension(800, 800));
         tbDokter.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
-        for (i = 0; i < 41; i++) {
+        for (i = 0; i < 42; i++) {
             TableColumn column = tbDokter.getColumnModel().getColumn(i);
             if (i == 0) {
                 column.setPreferredWidth(20);
@@ -196,6 +196,8 @@ public class DlgBarang extends javax.swing.JDialog {
             }else if (i == 39) {
                 column.setPreferredWidth(250);
             }else if (i == 40) {
+                column.setPreferredWidth(110);
+            }else if (i == 41) {
                 column.setPreferredWidth(110);
             }
         }
@@ -724,6 +726,8 @@ public class DlgBarang extends javax.swing.JDialog {
         label50 = new widget.Label();
         scrollPane3 = new widget.ScrollPane();
         Tnm_supp = new widget.TextArea();
+        CmbFastMoving = new widget.ComboBox();
+        label51 = new widget.Label();
         ChkInput = new widget.CekBox();
 
         Popup.setName("Popup"); // NOI18N
@@ -1542,7 +1546,7 @@ public class DlgBarang extends javax.swing.JDialog {
         karyawan.setBounds(630, 222, 110, 23);
 
         DTPExpired.setForeground(new java.awt.Color(50, 70, 50));
-        DTPExpired.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "03-02-2026" }));
+        DTPExpired.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPExpired.setDisplayFormat("dd-MM-yyyy");
         DTPExpired.setName("DTPExpired"); // NOI18N
         DTPExpired.setOpaque(false);
@@ -1896,11 +1900,11 @@ public class DlgBarang extends javax.swing.JDialog {
         FormInput.add(status_bayar);
         status_bayar.setBounds(850, 80, 90, 23);
 
-        label43.setText(" Supp : ");
+        label43.setText(" Fast Moving : ");
         label43.setName("label43"); // NOI18N
         label43.setPreferredSize(new java.awt.Dimension(65, 23));
         FormInput.add(label43);
-        label43.setBounds(1050, 110, 40, 23);
+        label43.setBounds(990, 170, 90, 23);
 
         label44.setText("Letak Barang :");
         label44.setName("label44"); // NOI18N
@@ -2124,6 +2128,38 @@ public class DlgBarang extends javax.swing.JDialog {
         FormInput.add(scrollPane3);
         scrollPane3.setBounds(1090, 110, 190, 50);
 
+        CmbFastMoving.setForeground(new java.awt.Color(50, 70, 50));
+        CmbFastMoving.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "-", "Fast Moving" }));
+        CmbFastMoving.setName("CmbFastMoving"); // NOI18N
+        CmbFastMoving.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CmbFastMovingItemStateChanged(evt);
+            }
+        });
+        CmbFastMoving.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CmbFastMovingMouseClicked(evt);
+            }
+        });
+        CmbFastMoving.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CmbFastMovingActionPerformed(evt);
+            }
+        });
+        CmbFastMoving.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                CmbFastMovingKeyPressed(evt);
+            }
+        });
+        FormInput.add(CmbFastMoving);
+        CmbFastMoving.setBounds(1090, 170, 90, 23);
+
+        label51.setText(" Supp : ");
+        label51.setName("label51"); // NOI18N
+        label51.setPreferredSize(new java.awt.Dimension(65, 23));
+        FormInput.add(label51);
+        label51.setBounds(1050, 110, 40, 23);
+
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
         ChkInput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/143.png"))); // NOI18N
@@ -2285,12 +2321,12 @@ public class DlgBarang extends javax.swing.JDialog {
             }
             Valid.editTable(tabMode, "databarang", "kode_brng", "?", "nama_brng=?,kode_brng=?,kapasitas=?,kode_sat=?,letak_barang=?,"
                     + "h_beli=?,ralan=?,kelas1=?,kelas2=?,stokminimal=?,kdjns=?,kelas3=?,utama=?,vip=?,vvip=?,beliluar=?,jualbebas=?,"
-                    + "karyawan=?,expire=?,kode_industri=?,kode_kategori=?,kode_golongan=?,kode_satbesar=?,dasar=?,isi=?,modal=?,grosir=?,status_bayar=?,tempat=?,lasal=?,lifesaving=?,highalert=?,retriksi=?,kelas_terapi=?", 35, new String[]{
+                    + "karyawan=?,expire=?,kode_industri=?,kode_kategori=?,kode_golongan=?,kode_satbesar=?,dasar=?,isi=?,modal=?,grosir=?,status_bayar=?,tempat=?,lasal=?,lifesaving=?,highalert=?,retriksi=?,kelas_terapi=?,fast_moving=?", 36, new String[]{
                         Nm.getText(), Kd.getText(), Kapasitas.getText(), kdsat.getText(), Letak.getText(), beli.getText(), ralan.getText(),
                         kelas1.getText(), kelas2.getText(), stok_minimal.getText(), kdjns.getText(),kelas3.getText(), utama.getText(), 
                         kelasvip.getText(), kelasvvip.getText(),beliluar.getText(), jualbebas.getText(), karyawan.getText(),tanggal,KdIF.getText(),
                         kdkategori.getText(),kdgolongan.getText(),kdsatBesar.getText(),dasar.getText(),Isi.getText(),modal1.getText(),grosir.getText(),
-                        status_bayar.getSelectedItem().toString(),tempat.getText(),lasal.getSelectedItem().toString(),lifesaving.getSelectedItem().toString(),highalert.getSelectedItem().toString(),TRetriksi.getText(),K_terapi.getText(),
+                        status_bayar.getSelectedItem().toString(),tempat.getText(),lasal.getSelectedItem().toString(),lifesaving.getSelectedItem().toString(),highalert.getSelectedItem().toString(),TRetriksi.getText(),K_terapi.getText(),CmbFastMoving.getSelectedItem().toString(),
                         tbDokter.getValueAt(tbDokter.getSelectedRow(), 1).toString()
                     });
             if (tabMode.getRowCount() != 0) {
@@ -2460,12 +2496,12 @@ public class DlgBarang extends javax.swing.JDialog {
             } else {
                 tanggal = "0000-00-00";
             }
-            if(Sequel.menyimpantf("databarang", "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?", "Kode Barang", 35, new String[]{
+            if(Sequel.menyimpantf("databarang", "?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?", "Kode Barang", 36, new String[]{
                 Kd.getText(), Nm.getText(), kdsatBesar.getText(), kdsat.getText(), Letak.getText(),dasar.getText(), beli.getText(), ralan.getText(),
                 kelas1.getText(), kelas2.getText(), kelas3.getText(),utama.getText(), kelasvip.getText(), kelasvvip.getText(),beliluar.getText(), 
                 jualbebas.getText(), karyawan.getText(),stok_minimal.getText(), kdjns.getText(), Isi.getText(),Kapasitas.getText(), tanggal,"1",
                 KdIF.getText(),kdkategori.getText(),kdgolongan.getText(),modal1.getText(),grosir.getText(),
-                status_bayar.getSelectedItem().toString(),tempat.getText(),lasal.getSelectedItem().toString(),lifesaving.getSelectedItem().toString(),highalert.getSelectedItem().toString(),TRetriksi.getText(),K_terapi.getText()
+                status_bayar.getSelectedItem().toString(),tempat.getText(),lasal.getSelectedItem().toString(),lifesaving.getSelectedItem().toString(),highalert.getSelectedItem().toString(),TRetriksi.getText(),K_terapi.getText(),CmbFastMoving.getSelectedItem().toString()
                 })==true){
                     tampil();
                     emptTeks();
@@ -3151,6 +3187,22 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
         // TODO add your handling code here:
     }//GEN-LAST:event_Tnm_suppKeyPressed
 
+    private void CmbFastMovingItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CmbFastMovingItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbFastMovingItemStateChanged
+
+    private void CmbFastMovingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CmbFastMovingMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbFastMovingMouseClicked
+
+    private void CmbFastMovingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CmbFastMovingActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbFastMovingActionPerformed
+
+    private void CmbFastMovingKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CmbFastMovingKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CmbFastMovingKeyPressed
+
     /**
      * @param args the command line arguments
      */
@@ -3186,6 +3238,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
     private widget.Button BtnSimpan;
     private widget.CekBox ChkInput;
     private widget.CekBox ChkKadaluarsa;
+    private widget.ComboBox CmbFastMoving;
     private widget.Tanggal DTPExpired;
     private widget.PanelBiasa FormInput;
     private widget.TextBox Isi;
@@ -3260,6 +3313,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
     private widget.Label label48;
     private widget.Label label49;
     private widget.Label label50;
+    private widget.Label label51;
     private widget.Label label9;
     private widget.ComboBox lasal;
     private widget.ComboBox lifesaving;
@@ -3311,7 +3365,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             + " databarang.karyawan,databarang.stokminimal, databarang.kdjns,"
                             + " jenis.nama,kapasitas,databarang.expire,databarang.kode_industri,industrifarmasi.nama_industri, "
                             + " databarang.kode_kategori,kategori_barang.nama as kategori,databarang.kode_golongan,golongan_barang.nama as golongan,databarang.modal,databarang.grosir, "
-                            + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi "
+                            + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi,databarang.fast_moving "
                             + " from databarang inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "
                             + " inner join kodesatuan as satuanbesar on databarang.kode_satbesar=satuanbesar.kode_sat "
                             + " inner join jenis on databarang.kdjns=jenis.kdjns "
@@ -3328,7 +3382,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             + " databarang.karyawan,databarang.stokminimal, databarang.kdjns,"
                             + " jenis.nama,kapasitas,databarang.expire,databarang.kode_industri,industrifarmasi.nama_industri, "
                             + " databarang.kode_kategori,kategori_barang.nama as kategori,databarang.kode_golongan,golongan_barang.nama as golongan,databarang.modal,databarang.grosir, "
-                            + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi "
+                            + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi,databarang.fast_moving "
                             + " from databarang inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "
                             + " inner join kodesatuan as satuanbesar on databarang.kode_satbesar=satuanbesar.kode_sat "
                             + " inner join jenis on databarang.kdjns=jenis.kdjns "
@@ -3354,6 +3408,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             + " databarang.status='1' "+filterExpired+" and databarang.tempat like ? or "
                             + " databarang.status='1' "+filterExpired+" and databarang.status_bayar like ? or "
                             + " databarang.status='1' "+filterExpired+" and databarang.kelas_terapi like ? or "
+                            + " databarang.status='1' "+filterExpired+" and databarang.fast_moving like ? or "
                             + " databarang.status='1' "+filterExpired+" and databarang.retriksi like ? "
                             + " order by databarang.nama_brng");
                 }
@@ -3380,6 +3435,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         ps.setString(18, "%" + TCari.getText().trim() + "%");
                         ps.setString(19, "%" + TCari.getText().trim() + "%");
                         ps.setString(20, "%" + TCari.getText().trim() + "%");
+                        ps.setString(21, "%" + TCari.getText().trim() + "%");
                     }
                     rs = ps.executeQuery();
                     while (rs.next()) {
@@ -3423,7 +3479,8 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             rs.getString("lifesaving"),
                             rs.getString("highalert"),
                             rs.getString("retriksi"),
-                            rs.getString("kelas_terapi")
+                            rs.getString("kelas_terapi"),
+                            rs.getString("fast_moving")
                         });
                     }
                     LCount.setText("" + tabMode.getRowCount());
@@ -3451,7 +3508,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     + " data_batch.karyawan,databarang.stokminimal, databarang.kdjns,"
                     + " jenis.nama,databarang.kapasitas,databarang.isi,data_batch.tgl_kadaluarsa as expire,databarang.kode_industri,industrifarmasi.nama_industri, "
                     + " databarang.kode_kategori,kategori_barang.nama as kategori,databarang.kode_golongan,golongan_barang.nama as golongan,data_batch.no_batch,data_batch.no_faktur,databarang.modal,databarang.grosir, "
-                    + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi "
+                    + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi,databarang.fast_moving "
                     + " from data_batch inner join databarang on data_batch.kode_brng=databarang.kode_brng "
                     + " inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "
                     + " inner join kodesatuan as satuanbesar on databarang.kode_satbesar=satuanbesar.kode_sat "
@@ -3480,6 +3537,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     + " data_batch.sisa>0 and databarang.tempat like ? or "
                     + " data_batch.sisa>0 and databarang.status_bayar like ? or "
                     + " data_batch.sisa>0 and databarang.kelas_terapi like ? or "
+                    + " data_batch.sisa>0 and databarang.fast_moving like ? or "       
                     + " data_batch.sisa>0 and databarang.retriksi like ? "
                     + " order by data_batch.tgl_kadaluarsa");
                 try {
@@ -3505,6 +3563,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     ps.setString(20, "%" + TCari.getText().trim() + "%");
                     ps.setString(21, "%" + TCari.getText().trim() + "%");
                     ps.setString(22, "%" + TCari.getText().trim() + "%");
+                     ps.setString(23, "%" + TCari.getText().trim() + "%");
                     rs = ps.executeQuery();
                     while (rs.next()) {
                         tabMode.addRow(new Object[]{
@@ -3549,7 +3608,8 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             rs.getString("lifesaving"),
                             rs.getString("highalert"),
                             rs.getString("retriksi"),
-                            rs.getString("kelas_terapi")
+                            rs.getString("kelas_terapi"),
+                            rs.getString("fast_moving")
                         });
                     }
                     LCount.setText("" + tabMode.getRowCount());
@@ -3587,7 +3647,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         + " databarang.karyawan,databarang.stokminimal, databarang.kdjns,"
                         + " jenis.nama,kapasitas,databarang.expire,databarang.kode_industri,industrifarmasi.nama_industri, "
                         + " databarang.kode_kategori,kategori_barang.nama as kategori,databarang.kode_golongan,golongan_barang.nama as golongan,databarang.modal,databarang.grosir, "
-                        + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi "
+                        + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi,databarang.fast_moving "
                         + " from databarang inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "
                         + " inner join kodesatuan as satuanbesar on databarang.kode_satbesar=satuanbesar.kode_sat "
                         + " inner join jenis on databarang.kdjns=jenis.kdjns "
@@ -3604,7 +3664,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         + " databarang.karyawan,databarang.stokminimal, databarang.kdjns,"
                         + " jenis.nama,kapasitas,databarang.expire,databarang.kode_industri,industrifarmasi.nama_industri, "
                         + " databarang.kode_kategori,kategori_barang.nama as kategori,databarang.kode_golongan,golongan_barang.nama as golongan,databarang.modal,databarang.grosir, "
-                        + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi "
+                        + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi,databarang.fast_moving "
                         + " from databarang inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "
                         + " inner join kodesatuan as satuanbesar on databarang.kode_satbesar=satuanbesar.kode_sat "
                         + " inner join jenis on databarang.kdjns=jenis.kdjns "
@@ -3630,6 +3690,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         + " databarang.status='1' and databarang.tempat like ? or "
                         + " databarang.status='1' and databarang.status_bayar like ? or "
                         + " databarang.status='1' and databarang.kelas_terapi like ? or "
+                        + " databarang.status='1' and databarang.fast_moving like ? or "
                         + " databarang.status='1' and databarang.retriksi like ? "
                         + " order by databarang.nama_brng");
             }
@@ -3656,6 +3717,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     ps.setString(18, "%" + TCari.getText().trim() + "%");
                     ps.setString(19, "%" + TCari.getText().trim() + "%");
                     ps.setString(20, "%" + TCari.getText().trim() + "%");
+                    ps.setString(21, "%" + TCari.getText().trim() + "%");
                 }
                 rs = ps.executeQuery();
                 while (rs.next()) {
@@ -3699,7 +3761,8 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         rs.getString("lifesaving"),
                         rs.getString("highalert"),
                         rs.getString("retriksi"),
-                        rs.getString("kelas_terapi")
+                        rs.getString("kelas_terapi"),
+                        rs.getString("fast_moving")
                     });
                     
                     ps2 = koneksi.prepareStatement("select kd_bangsal,nm_bangsal from bangsal");
@@ -3717,7 +3780,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                     stokgudang = rs3.getDouble(1);
                                     totalstok = totalstok + rs3.getDouble(1);
                                 }
-                                tabMode.addRow(new Object[]{false, "","    "+rs2.getString(2),": " + stokgudang, "", null,null,null,null,null, null, null, null, null, null, null, null, null, null, null, null,null,null, null,null,null,null,null,null,null});
+                                tabMode.addRow(new Object[]{false, "","    "+rs2.getString(2),": " + stokgudang, "", null,null,null,null,null, null, null, null, null, null, null, null, null, null, null, null,null,null, null,null,null,null,null,null,null,null});
                             } catch (Exception e) {
                                 System.out.println("Notifikasi : " + e);
                             } finally{
@@ -3730,7 +3793,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                 }
                             }
                         }
-                        tabMode.addRow(new Object[]{false, "", "  Total Stok", ": " + totalstok, "", null,null,null,null,null, null, null, null, null, null, null, null, null, null, null, null, null,null, null,null,null,null,null,null,null});
+                        tabMode.addRow(new Object[]{false, "", "  Total Stok", ": " + totalstok, "", null,null,null,null,null, null, null, null, null, null, null, null, null, null, null, null, null,null, null,null,null,null,null,null,null,null});
                     } catch (Exception e) {
                         System.out.println("Notifikasi : " + e);
                     } finally{
@@ -3776,7 +3839,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         + " databarang.karyawan,databarang.stokminimal, databarang.kdjns,"
                         + " jenis.nama,kapasitas,databarang.expire,databarang.kode_industri,industrifarmasi.nama_industri, "
                         + " databarang.kode_kategori,kategori_barang.nama as kategori,databarang.kode_golongan,golongan_barang.nama as golongan,databarang.modal,databarang.grosir, "
-                        + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi "
+                        + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi,databarang.fast_moving "
                         + " from databarang inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "
                         + " inner join kodesatuan as satuanbesar on databarang.kode_satbesar=satuanbesar.kode_sat "
                         + " inner join jenis on databarang.kdjns=jenis.kdjns "
@@ -3793,7 +3856,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         + " databarang.karyawan,databarang.stokminimal, databarang.kdjns,"
                         + " jenis.nama,kapasitas,databarang.expire,databarang.kode_industri,industrifarmasi.nama_industri, "
                         + " databarang.kode_kategori,kategori_barang.nama as kategori,databarang.kode_golongan,golongan_barang.nama as golongan,databarang.modal,databarang.grosir, "
-                        + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi "
+                        + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi,databarang.fast_moving "
                         + " from databarang inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "
                         + " inner join kodesatuan as satuanbesar on databarang.kode_satbesar=satuanbesar.kode_sat "
                         + " inner join jenis on databarang.kdjns=jenis.kdjns "
@@ -3819,6 +3882,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         + " databarang.status='1' and databarang.tempat like ? or "
                         + " databarang.status='1' and databarang.status_bayar like ? or "
                         + " databarang.status='1' and databarang.kelas_terapi like ? or "
+                        + " databarang.status='1' and databarang.fast_moving like ? or "             
                         + " databarang.status='1' and databarang.retriksi like ? "
                         + " order by databarang.nama_brng");
             }
@@ -3845,6 +3909,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     ps.setString(18, "%" + TCari.getText().trim() + "%");
                     ps.setString(19, "%" + TCari.getText().trim() + "%");
                     ps.setString(20, "%" + TCari.getText().trim() + "%");
+                    ps.setString(21, "%" + TCari.getText().trim() + "%");
                 }
                 rs = ps.executeQuery();
                 while (rs.next()) {
@@ -3888,7 +3953,9 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         rs.getString("lifesaving"),
                         rs.getString("highalert"),
                         rs.getString("retriksi"),
-                        rs.getString("kelas_terapi")
+                        rs.getString("kelas_terapi"),
+                        rs.getString("fast_moving")
+                            
                     });
                     stokgudang = 0;
                     ps3 = koneksi.prepareStatement(qrystok);
@@ -3899,7 +3966,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         if (rs3.next()) {
                             stokgudang = rs3.getDouble(1);
                         }
-                        tabMode.addRow(new Object[]{false, "","    "+nmlokasi, ": " + stokgudang, "", null,null,null,null,null, null, null, null, null, null, null, null, null, null, null, null,null,null, null,null,null,null,null,null,null});
+                        tabMode.addRow(new Object[]{false, "","    "+nmlokasi, ": " + stokgudang, "", null,null,null,null,null, null, null, null, null, null, null, null, null, null, null, null,null,null, null,null,null,null,null,null,null,null});
                     } catch (Exception e) {
                         System.out.println("Notifikasi : " + e);
                     } finally{
@@ -3942,7 +4009,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             + " data_batch.karyawan,databarang.stokminimal, databarang.kdjns,detail_pemberian_obat.no_faktur,"
                             + " jenis.nama,kapasitas,databarang.expire,databarang.kode_industri,industrifarmasi.nama_industri, "
                             + " databarang.kode_kategori,kategori_barang.nama as kategori,databarang.kode_golongan,golongan_barang.nama as golongan,databarang.modal,databarang.grosir, "
-                            + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi "
+                            + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi,databarang.fast_moving "
                             + " from data_batch inner join databarang on data_batch.kode_brng=databarang.kode_brng "
                             + " inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "
                             + " inner join kodesatuan as satuanbesar on databarang.kode_satbesar=satuanbesar.kode_sat "
@@ -3998,7 +4065,8 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                 rs.getString("lifesaving"),
                                 rs.getString("highalert"),
                                 rs.getString("retriksi"),
-                                rs.getString("kelas_terapi")
+                                rs.getString("kelas_terapi"),
+                                rs.getString("fast_moving")
                             });
                         }
                     } catch (Exception e) {
@@ -4029,7 +4097,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                             + " databarang.karyawan,databarang.stokminimal, databarang.kdjns,"
                             + " jenis.nama,kapasitas,databarang.expire,databarang.kode_industri,industrifarmasi.nama_industri, "
                             + " databarang.kode_kategori,kategori_barang.nama as kategori,databarang.kode_golongan,golongan_barang.nama as golongan,databarang.modal,databarang.grosir, "
-                            + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi "
+                            + " databarang.status_bayar,databarang.tempat,databarang.lasal,databarang.lifesaving,databarang.highalert,databarang.retriksi,databarang.kelas_terapi,databarang.fast_moving "
                             + " from databarang inner join kodesatuan on databarang.kode_sat=kodesatuan.kode_sat "
                             + " inner join kodesatuan as satuanbesar on databarang.kode_satbesar=satuanbesar.kode_sat "
                             + " inner join jenis on databarang.kdjns=jenis.kdjns "
@@ -4082,7 +4150,8 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                 rs.getString("lifesaving"),
                                 rs.getString("highalert"),
                                 rs.getString("retriksi"),
-                                rs.getString("kelas_terapi")
+                                rs.getString("kelas_terapi"),
+                                rs.getString("fast_moving")
                             });
                         }
                     } catch (Exception e) {
@@ -4147,6 +4216,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
         highalert.setSelectedIndex(0);
         TRetriksi.setText("");
         K_terapi.setText("");
+        CmbFastMoving.setSelectedIndex(0);
         KdIF.setText("");
         NmIF.setText("");
         Tnm_supp.setText("");
@@ -4197,7 +4267,7 @@ private void KapasitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
             highalert.setSelectedItem(tbDokter.getValueAt(row, 38).toString());
             TRetriksi.setText(tbDokter.getValueAt(row, 39).toString());
             K_terapi.setText(tbDokter.getValueAt(row, 40).toString());
-            
+            CmbFastMoving.setSelectedItem(tbDokter.getValueAt(row, 41).toString());
             
            
             ChkKadaluarsa.setSelected(false);

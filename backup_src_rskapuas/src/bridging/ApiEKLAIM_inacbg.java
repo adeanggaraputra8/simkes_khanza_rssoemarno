@@ -453,6 +453,7 @@ public class ApiEKLAIM_inacbg {
                     + "\"bayi_lahir_status_cd\": \"" + bayi_baru_lhr + "\","
                     + "\"dializer_single_use\": \"" + dialiser + "\","
                     + "\"kantong_darah\": \"" + Kantng_darah + "\","
+                    + "\"alteplase\": \"0\","
                     + "\"apgar\": {"
                     + "\"menit_1\": {"
                     + "\"appearance\": \"" + mnt1APP + "\","

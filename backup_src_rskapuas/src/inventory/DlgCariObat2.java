@@ -1369,7 +1369,7 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
             ChkNoResep1.requestFocus();
         }else if(KdDokter.getText().equals("")||(NmDokter.getText().equals(""))){
             Valid.textKosong(btnDokter,"Dokter");
-        }else if(Sequel.cariInteger("SELECT count(no_rawat) FROM reg_periksa WHERE kd_pj in ('002','009','INH','-') AND no_rawat=?",TNoRw.getText())>0){
+        }else if(Sequel.cariInteger("SELECT count(no_rawat) FROM reg_periksa WHERE kd_pj in ('002','009','011','012','013','014','015','016','GRT','INH','-') AND no_rawat=?",TNoRw.getText())>0){
             JOptionPane.showMessageDialog(null,"Maaf, Gunakan Simpan UMUM karena pasien UMUM !!!");
             BtnSimpan1.requestFocus();
         }else{
@@ -1744,12 +1744,12 @@ private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                               Valid.autoNomer3("select ifnull(MAX(CONVERT(RIGHT(no_resep,4),signed)),0) from resep_obat where tgl_peresepan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' ",
                                DTPTgl.getSelectedItem().toString().substring(6,10)+DTPTgl.getSelectedItem().toString().substring(3,5)+DTPTgl.getSelectedItem().toString().substring(0,2),4,NoResep); 
                             }
-                        if(Sequel.menyimpantf("resep_obat","?,?,?,?,?,?,?,?,?,?","Nomer Resep",10,new String[]{
+                        Sequel.menyimpantf("resep_obat","?,?,?,?,?,?,?,?,?,?","Nomer Resep",10,new String[]{
                                                 NoResep.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),
                                                 cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),
                                                 LblNoRawat.getText(),KdDokter.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),
                                                 cmbJam.getSelectedItem()+":"+DTPTgl.getSelectedItem().toString().substring(0,2)+":"+cmbDtk.getSelectedItem(),Sequel.cariIsi("SELECT status_lanjut FROM reg_periksa WHERE no_rawat=?",LblNoRawat.getText()),"0000-00-00","00:00:00"
-                                            })==true);    
+                                            });
                         
                     ChkJln.setSelected(false);
                     Sequel.AutoComitFalse();
@@ -2573,14 +2573,14 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
             ChkNoResep1.requestFocus();
         }else if(KdDokter.getText().equals("")||(NmDokter.getText().equals(""))){
             Valid.textKosong(btnDokter,"Dokter");
-        }else if(Sequel.cariInteger("SELECT count(no_rawat) FROM reg_periksa WHERE kd_pj in ('003','004','005','006','007','008','BPJ') AND no_rawat=?",TNoRw.getText())>0){
+        }else if(Sequel.cariInteger("SELECT count(no_rawat) FROM reg_periksa WHERE kd_pj in ('003','004','005','006','007','008','010','BPJ','JMA') AND no_rawat=?",TNoRw.getText())>0){
             JOptionPane.showMessageDialog(null,"Maaf, Gunakan Simpan BPJS karena pasien BPJS!!!");
             BtnSimpan1.requestFocus();
         }else{
             int reply = JOptionPane.showConfirmDialog(rootPane,"Eeiiiiiits, udah bener belum data yang mau disimpan..??","Konfirmasi",JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
             
-                 if(Sequel.cariInteger("SELECT count(no_rawat) FROM reg_periksa WHERE kd_pj in ('002','009','INH','-') AND no_rawat=?",LblNoRawat.getText())>0){
+                 if(Sequel.cariInteger("SELECT count(no_rawat) FROM reg_periksa WHERE kd_pj in ('002','009','011','012','013','014','015','016','GRT','INH','-') AND no_rawat=?",LblNoRawat.getText())>0){
                                      if(Sequel.menyimpantf3("status_resep","?,?,?,?,?,?,?,?,?","Nomer Resep",9,new String[]{
                                       NoResep.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),
                                       TNoRw.getText(),Sequel.cariIsi("SELECT kd_pj FROM reg_periksa WHERE no_rawat=?",LblNoRawat.getText()),
@@ -2959,12 +2959,12 @@ private void ChkJlnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:
                               Valid.autoNomer3("select ifnull(MAX(CONVERT(RIGHT(no_resep,4),signed)),0) from resep_obat where tgl_peresepan='"+Valid.SetTgl(DTPTgl.getSelectedItem()+"")+"' ",
                                DTPTgl.getSelectedItem().toString().substring(6,10)+DTPTgl.getSelectedItem().toString().substring(3,5)+DTPTgl.getSelectedItem().toString().substring(0,2),4,NoResep); 
                             }
-                        if(Sequel.menyimpantf("resep_obat","?,?,?,?,?,?,?,?,?,?","Nomer Resep",10,new String[]{
+                        Sequel.menyimpantf("resep_obat","?,?,?,?,?,?,?,?,?,?","Nomer Resep",10,new String[]{
                                                 NoResep.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),
                                                 cmbJam.getSelectedItem()+":"+cmbMnt.getSelectedItem()+":"+cmbDtk.getSelectedItem(),
                                                 LblNoRawat.getText(),KdDokter.getText(),Valid.SetTgl(DTPTgl.getSelectedItem()+""),
                                                 cmbJam.getSelectedItem()+":"+DTPTgl.getSelectedItem().toString().substring(0,2)+":"+cmbDtk.getSelectedItem(),Sequel.cariIsi("SELECT status_lanjut FROM reg_periksa WHERE no_rawat=?",LblNoRawat.getText()),"0000-00-00","00:00:00"
-                                            })==true);    
+                                            });  
                         
                     ChkJln.setSelected(false);
                     Sequel.AutoComitFalse();

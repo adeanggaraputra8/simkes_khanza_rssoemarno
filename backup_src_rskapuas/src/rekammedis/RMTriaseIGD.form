@@ -970,8 +970,8 @@
                                               </Properties>
                                               <Constraints>
                                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                                  <JTabbedPaneConstraints tabName="Skala 1">
-                                                    <Property name="tabTitle" type="java.lang.String" value="Skala 1"/>
+                                                  <JTabbedPaneConstraints tabName="Level 1">
+                                                    <Property name="tabTitle" type="java.lang.String" value="Level 1"/>
                                                   </JTabbedPaneConstraints>
                                                 </Constraint>
                                               </Constraints>
@@ -1005,8 +1005,8 @@
                                               </Properties>
                                               <Constraints>
                                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                                  <JTabbedPaneConstraints tabName="Skala 2">
-                                                    <Property name="tabTitle" type="java.lang.String" value="Skala 2"/>
+                                                  <JTabbedPaneConstraints tabName="Level 2">
+                                                    <Property name="tabTitle" type="java.lang.String" value="Level 2"/>
                                                   </JTabbedPaneConstraints>
                                                 </Constraint>
                                               </Constraints>
@@ -1805,8 +1805,8 @@
                                               </Properties>
                                               <Constraints>
                                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                                  <JTabbedPaneConstraints tabName="Skala 3">
-                                                    <Property name="tabTitle" type="java.lang.String" value="Skala 3"/>
+                                                  <JTabbedPaneConstraints tabName="Level 3">
+                                                    <Property name="tabTitle" type="java.lang.String" value="Level 3"/>
                                                   </JTabbedPaneConstraints>
                                                 </Constraint>
                                               </Constraints>
@@ -1840,8 +1840,8 @@
                                               </Properties>
                                               <Constraints>
                                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                                  <JTabbedPaneConstraints tabName="Skala 4">
-                                                    <Property name="tabTitle" type="java.lang.String" value="Skala 4"/>
+                                                  <JTabbedPaneConstraints tabName="Level 4">
+                                                    <Property name="tabTitle" type="java.lang.String" value="Level 4"/>
                                                   </JTabbedPaneConstraints>
                                                 </Constraint>
                                               </Constraints>
@@ -1875,8 +1875,8 @@
                                               </Properties>
                                               <Constraints>
                                                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-                                                  <JTabbedPaneConstraints tabName="Skala 5">
-                                                    <Property name="tabTitle" type="java.lang.String" value="Skala 5"/>
+                                                  <JTabbedPaneConstraints tabName="Level 5">
+                                                    <Property name="tabTitle" type="java.lang.String" value="Level 5"/>
                                                   </JTabbedPaneConstraints>
                                                 </Constraint>
                                               </Constraints>

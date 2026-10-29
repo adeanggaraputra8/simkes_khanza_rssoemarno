@@ -42,7 +42,7 @@ import javax.swing.event.DocumentEvent;
 public final class YaskiReferensiKabupaten extends javax.swing.JDialog {
     private final DefaultTableModel tabMode;
     private validasi Valid=new validasi();
-    private YaskiReferensiPropinsi propinsi;
+    private YaskiReferensiPropinsi propinsi=new YaskiReferensiPropinsi(null, false);
     private int i=0;
     private ObjectMapper mapper = new ObjectMapper();
     private JsonNode root;

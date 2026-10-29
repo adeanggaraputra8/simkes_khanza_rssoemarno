@@ -101,6 +101,9 @@ import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+
 
 
 /**
@@ -2080,7 +2083,111 @@ public final class validasi {
         }
         return x ;
     }
-       
+     
+    public boolean exportTableToExcel(DefaultTableModel model, String nm_filenya) {
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            System.out.println("=== CEK XMLBEANS ===");
+                System.out.println(
+                    org.apache.xmlbeans.XmlOptions.class
+                        .getProtectionDomain()
+                        .getCodeSource()
+                        .getLocation()
+                );
+
+                System.out.println("=== CEK POI ===");
+                System.out.println(
+                    XSSFWorkbook.class
+                        .getProtectionDomain()
+                        .getCodeSource()
+                        .getLocation()
+                );
+            XSSFSheet sheet = workbook.createSheet("Data");
+
+            // ==============================
+            // HEADER
+            // ==============================
+            Row headerRow = sheet.createRow(0);
+
+            for (int kolom = 0; kolom < model.getColumnCount(); kolom++) {
+                Cell cell = headerRow.createCell(kolom);
+                cell.setCellValue(model.getColumnName(kolom));
+            }
+
+            // ==============================
+            // DATA
+            // ==============================
+            for (int baris = 0; baris < model.getRowCount(); baris++) {
+
+                Row row = sheet.createRow(baris + 1);
+
+                for (int kolom = 0; kolom < model.getColumnCount(); kolom++) {
+
+                    Cell cell = row.createCell(kolom);
+
+                    Object nilai = model.getValueAt(baris, kolom);
+
+                    if (nilai == null) {
+                        cell.setCellValue("");
+                    } else if (nilai instanceof Number) {
+                        cell.setCellValue(
+                                ((Number) nilai).doubleValue()
+                        );
+                    } else if (nilai instanceof Boolean) {
+                        cell.setCellValue(
+                                (Boolean) nilai
+                        );
+                    } else if (nilai instanceof Date) {
+                        cell.setCellValue(
+                                (Date) nilai
+                        );
+                    } else {
+                        cell.setCellValue(
+                                nilai.toString()
+                        );
+                    }
+                }
+            }
+
+            // ==============================
+            // AUTO SIZE
+            // ==============================
+            for (int kolom = 0; kolom < model.getColumnCount(); kolom++) {
+
+                sheet.autoSizeColumn(kolom);
+
+                // Lebar minimum
+                if (sheet.getColumnWidth(kolom) < 3000) {
+                    sheet.setColumnWidth(kolom, 3000);
+                }
+
+                // Lebar maksimum
+                if (sheet.getColumnWidth(kolom) > 15000) {
+                    sheet.setColumnWidth(kolom, 15000);
+                }
+            }
+
+            // ==============================
+            // SIMPAN
+            // ==============================
+            try (FileOutputStream outputStream =
+                    new FileOutputStream(nm_filenya)) {
+
+                workbook.write(outputStream);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "Error exportTableToExcel : " + e
+            );
+
+            return false;
+        }
+    }  
+      
     public int daysOld(String path) {
         file=new File(path);
         if (file.lastModified() < 1) return 0;
@@ -2528,5 +2635,89 @@ public final class validasi {
             table.getColumnModel().getColumn(columnIndex).setCellEditor(cellEditor);
         }
       
+    
+     public String saveToPDFTteQry(String reportName, String reportDirName, String judul, String qry, Map parameters) {
+            String a = "";
+            try {
+                prop.loadFromXML(new FileInputStream("setting/database.xml"));
+                String saveDir = prop.getProperty("FOLDERPDF");
+
+                File d = new File(saveDir);
+                if (!d.isDirectory()) {
+                    Files.createDirectories(Paths.get(saveDir));
+                }
+
+                // 🔹 Tambahan: gunakan query SQL seperti MyReportqrypdf()
+                ps = connect.prepareStatement(qry);
+                rs = ps.executeQuery();
+                JRResultSetDataSource rsdt = new JRResultSetDataSource(rs);
+
+                try {
+                    // lokasi file jasper
+                    String namafile = "./" + reportDirName + "/" + reportName;
+
+                    // nama file PDF hasil
+                    String outputFile = saveDir + "/" + judul.replaceAll("/", "") + ".pdf";
+
+                    // isi report dengan data dari query (rsdt)
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(namafile, parameters, rsdt);
+
+                    // ekspor ke PDF
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, outputFile);
+
+                    a = outputFile;
+
+                    JOptionPane.showMessageDialog(null, 
+                        "Berhasil Menyiapkan File PDF. Klik Ok untuk membubuhkan TTE,..!!");
+
+                } catch (Exception rptexcpt) {
+                    System.out.println("Report Can't view because : " + rptexcpt);
+                    JOptionPane.showMessageDialog(null, "Report Can't view because : " + rptexcpt);
+                } finally {
+                    if (rs != null) rs.close();
+                    if (ps != null) ps.close();
+                }
+
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            return a;
+        }
+     
+      public String saveToPDFTte(String reportName, String reportDirName, String judul, Map parameters) {
+        String a = "";
+        try {
+            prop.loadFromXML(new FileInputStream("setting/database.xml"));
+            String saveDir = prop.getProperty("FOLDERPDF");
+
+            File d = new File(saveDir);
+            boolean cek = d.isDirectory();
+
+            if (cek == false) {
+                Files.createDirectories(Paths.get(saveDir));
+            }
+
+            try (Statement stm = connect.createStatement()) {
+                try {
+                    File f = new File("./" + reportDirName + "/" + reportName.replaceAll("jasper", "pdf"));
+                    String namafile = "./" + reportDirName + "/" + reportName;
+                    JasperPrint jasperPrint = JasperFillManager.fillReport(namafile, parameters, connect);
+//                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + reportName.replaceAll("jasper", "pdf"));
+                    JasperExportManager.exportReportToPdfFile(jasperPrint, saveDir + "/" + judul.replaceAll("/", "") + ".pdf");
+                    
+                    a = saveDir + "/" + judul.replaceAll("/", "") + ".pdf";
+//                    Desktop.getDesktop().open(f);
+                    JOptionPane.showMessageDialog(null, "Berhasil Menyiapkan File PDF. Klik Ok untuk membubuhkan TTE,..!!");
+                } catch (Exception rptexcpt) {
+
+                    System.out.println("Report Can't view because : " + rptexcpt);
+                    JOptionPane.showMessageDialog(null, "Report Can't view because : " + rptexcpt);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return a;
+    }
 }
 

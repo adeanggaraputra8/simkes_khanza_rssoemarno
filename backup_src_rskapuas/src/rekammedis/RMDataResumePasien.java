@@ -714,7 +714,7 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-02-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-09-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -728,7 +728,7 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "17-02-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "30-09-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -1244,15 +1244,20 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
         FormInput.add(BtnDokter);
         BtnDokter.setBounds(519, 40, 28, 23);
 
-        Kondisi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Hidup", "Meninggal" }));
+        Kondisi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Atas Persetujuan Dokter", "Hidup", "Rujuk", "Meninggal" }));
         Kondisi.setName("Kondisi"); // NOI18N
+        Kondisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KondisiActionPerformed(evt);
+            }
+        });
         Kondisi.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 KondisiKeyPressed(evt);
             }
         });
         FormInput.add(Kondisi);
-        Kondisi.setBounds(685, 40, 100, 23);
+        Kondisi.setBounds(685, 40, 170, 23);
 
         jLabel12.setText("Kondisi Pasien Pulang :");
         jLabel12.setName("jLabel12"); // NOI18N
@@ -1775,18 +1780,147 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
             Valid.textKosong(DiagnosaUtama,"Diagnosa Utama");
         }else{
             if(tbObat.getSelectedRow()>-1){
-                if(Sequel.mengedittf("resume_pasien","no_rawat=?","no_rawat=?,kd_dokter=?,keluhan_utama=?,jalannya_penyakit=?,pemeriksaan_penunjang=?,hasil_laborat=?,diagnosa_utama=?,kd_diagnosa_utama=?,diagnosa_sekunder=?,kd_diagnosa_sekunder=?,diagnosa_sekunder2=?,kd_diagnosa_sekunder2=?,diagnosa_sekunder3=?,kd_diagnosa_sekunder3=?,diagnosa_sekunder4=?,kd_diagnosa_sekunder4=?,diagnosa_sekunder5=?,kd_diagnosa_sekunder5=?,diagnosa_sekunder6=?,diagnosa_sekunder7=?,kd_diagnosa_sekunder7=?,diagnosa_sekunder8=?,kd_diagnosa_sekunder8=?,diagnosa_sekunder9=?,kd_diagnosa_sekunder9=?,diagnosa_sekunder10=?,kd_diagnosa_sekunder10=?,prosedur_utama=?,kd_prosedur_utama=?,prosedur_sekunder=?,kd_prosedur_sekunder=?,prosedur_sekunder2=?,kd_prosedur_sekunder2=?,prosedur_sekunder3=?,kd_prosedur_sekunder3=?,prosedur_sekunder4=?,prosedur_sekunder5=?,prosedur_sekunder6=?,prosedur_sekunder7=?,prosedur_sekunder8=?,prosedur_sekunder9=?,kd_prosedur_sekunder9=?,prosedur_sekunder10=?,kd_prosedur_sekunder10=?,kondisi_pulang=?,obat_pulang=?",53,new String[]{
-                        TNoRw.getText(),KodeDokter.getText(),Keluhan.getText(),JalannyaPenyakit.getText(),PemeriksaanPenunjang.getText(),HasilLaborat.getText(), 
-                        DiagnosaUtama.getText(),KodeDiagnosaUtama.getText(),DiagnosaSekunder1.getText(),KodeDiagnosaSekunder1.getText(),DiagnosaSekunder2.getText(), 
-                        KodeDiagnosaSekunder2.getText(),DiagnosaSekunder3.getText(),KodeDiagnosaSekunder3.getText(),DiagnosaSekunder4.getText(),KodeDiagnosaSekunder4.getText(),DiagnosaSekunder5.getText(),KodeProsedurSekunder5.getText(),DiagnosaSekunder6.getText(),KodeDiagnosaSekunder6.getText(),DiagnosaSekunder7.getText(),KodeProsedurSekunder7.getText(),DiagnosaSekunder8.getText(),KodeDiagnosaSekunder8.getText(),DiagnosaSekunder9.getText(),KodeProsedurSekunder9.getText(),DiagnosaSekunder10.getText(),KodeProsedurSekunder10.getText(),  
-                        ProsedurUtama.getText(),KodeProsedurUtama.getText(),ProsedurSekunder1.getText(),KodeProsedurSekunder1.getText(),ProsedurSekunder2.getText(), 
-                        KodeProsedurSekunder2.getText(),ProsedurSekunder3.getText(),KodeProsedurSekunder3.getText(),ProsedurSekunder4.getText(),KodeProsedurSekunder4.getText(),ProsedurSekunder5.getText(),KodeProsedurSekunder5.getText(),ProsedurSekunder6.getText(),KodeProsedurSekunder6.getText(),ProsedurSekunder7.getText(),KodeProsedurSekunder7.getText(),ProsedurSekunder8.getText(),KodeProsedurSekunder8.getText(),ProsedurSekunder9.getText(),KodeProsedurSekunder9.getText(),ProsedurSekunder10.getText(),KodeProsedurSekunder10.getText(),
-                        Kondisi.getSelectedItem().toString(),Obat2an.getText(),
-                        tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()
-                    })==true){
-                       tampil();
-                       emptTeks();
-                }
+                if(Sequel.mengedittf(
+                        "resume_pasien",
+                        "no_rawat=?",
+                        "no_rawat=?,"
+                        + "kd_dokter=?,"
+                        + "keluhan_utama=?,"
+                        + "jalannya_penyakit=?,"
+                        + "pemeriksaan_penunjang=?,"
+                        + "hasil_laborat=?,"
+                        + "diagnosa_utama=?,"
+                        + "kd_diagnosa_utama=?,"
+
+                        + "diagnosa_sekunder=?,"
+                        + "kd_diagnosa_sekunder=?,"
+                        + "diagnosa_sekunder2=?,"
+                        + "kd_diagnosa_sekunder2=?,"
+                        + "diagnosa_sekunder3=?,"
+                        + "kd_diagnosa_sekunder3=?,"
+                        + "diagnosa_sekunder4=?,"
+                        + "kd_diagnosa_sekunder4=?,"
+                        + "diagnosa_sekunder5=?,"
+                        + "kd_diagnosa_sekunder5=?,"
+                        + "diagnosa_sekunder6=?,"
+                        + "kd_diagnosa_sekunder6=?,"
+                        + "diagnosa_sekunder7=?,"
+                        + "kd_diagnosa_sekunder7=?,"
+                        + "diagnosa_sekunder8=?,"
+                        + "kd_diagnosa_sekunder8=?,"
+                        + "diagnosa_sekunder9=?,"
+                        + "kd_diagnosa_sekunder9=?,"
+                        + "diagnosa_sekunder10=?,"
+                        + "kd_diagnosa_sekunder10=?,"
+
+                        + "prosedur_utama=?,"
+                        + "kd_prosedur_utama=?,"
+                        + "prosedur_sekunder=?,"
+                        + "kd_prosedur_sekunder=?,"
+                        + "prosedur_sekunder2=?,"
+                        + "kd_prosedur_sekunder2=?,"
+                        + "prosedur_sekunder3=?,"
+                        + "kd_prosedur_sekunder3=?,"
+                        + "prosedur_sekunder4=?,"
+                        + "kd_prosedur_sekunder4=?,"
+                        + "prosedur_sekunder5=?,"
+                        + "kd_prosedur_sekunder5=?,"
+                        + "prosedur_sekunder6=?,"
+                        + "kd_prosedur_sekunder6=?,"
+                        + "prosedur_sekunder7=?,"
+                        + "kd_prosedur_sekunder7=?,"
+                        + "prosedur_sekunder8=?,"
+                        + "kd_prosedur_sekunder8=?,"
+                        + "prosedur_sekunder9=?,"
+                        + "kd_prosedur_sekunder9=?,"
+                        + "prosedur_sekunder10=?,"
+                        + "kd_prosedur_sekunder10=?,"
+                        + "kondisi_pulang=?,"
+                        + "obat_pulang=?",
+                        53,
+                        new String[]{
+                            TNoRw.getText(),
+                            KodeDokter.getText(),
+                            Keluhan.getText(),
+                            JalannyaPenyakit.getText(),
+                            PemeriksaanPenunjang.getText(),
+                            HasilLaborat.getText(),
+
+                            DiagnosaUtama.getText(),
+                            KodeDiagnosaUtama.getText(),
+
+                            DiagnosaSekunder1.getText(),
+                            KodeDiagnosaSekunder1.getText(),
+
+                            DiagnosaSekunder2.getText(),
+                            KodeDiagnosaSekunder2.getText(),
+
+                            DiagnosaSekunder3.getText(),
+                            KodeDiagnosaSekunder3.getText(),
+
+                            DiagnosaSekunder4.getText(),
+                            KodeDiagnosaSekunder4.getText(),
+
+                            DiagnosaSekunder5.getText(),
+                            KodeDiagnosaSekunder5.getText(),
+
+                            DiagnosaSekunder6.getText(),
+                            KodeDiagnosaSekunder6.getText(),
+
+                            DiagnosaSekunder7.getText(),
+                            KodeDiagnosaSekunder7.getText(),
+
+                            DiagnosaSekunder8.getText(),
+                            KodeDiagnosaSekunder8.getText(),
+
+                            DiagnosaSekunder9.getText(),
+                            KodeDiagnosaSekunder9.getText(),
+
+                            DiagnosaSekunder10.getText(),
+                            KodeDiagnosaSekunder10.getText(),
+
+                            ProsedurUtama.getText(),
+                            KodeProsedurUtama.getText(),
+
+                            ProsedurSekunder1.getText(),
+                            KodeProsedurSekunder1.getText(),
+
+                            ProsedurSekunder2.getText(),
+                            KodeProsedurSekunder2.getText(),
+
+                            ProsedurSekunder3.getText(),
+                            KodeProsedurSekunder3.getText(),
+
+                            ProsedurSekunder4.getText(),
+                            KodeProsedurSekunder4.getText(),
+
+                            ProsedurSekunder5.getText(),
+                            KodeProsedurSekunder5.getText(),
+
+                            ProsedurSekunder6.getText(),
+                            KodeProsedurSekunder6.getText(),
+
+                            ProsedurSekunder7.getText(),
+                            KodeProsedurSekunder7.getText(),
+
+                            ProsedurSekunder8.getText(),
+                            KodeProsedurSekunder8.getText(),
+
+                            ProsedurSekunder9.getText(),
+                            KodeProsedurSekunder9.getText(),
+
+                            ProsedurSekunder10.getText(),
+                            KodeProsedurSekunder10.getText(),
+
+                            Kondisi.getSelectedItem().toString(),
+                            Obat2an.getText(),
+
+                            tbObat.getValueAt(tbObat.getSelectedRow(),2).toString()
+                        })==true){
+
+                    tampil();
+                    emptTeks();
+}
             }else{
                 JOptionPane.showMessageDialog(rootPane,"Silahkan anda pilih data terlebih dahulu..!!");
             }
@@ -2324,6 +2458,10 @@ public final class RMDataResumePasien extends javax.swing.JDialog {
         }
 
     }//GEN-LAST:event_BtnDokter5ActionPerformed
+
+    private void KondisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KondisiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_KondisiActionPerformed
 
     /**
     * @param args the command line arguments

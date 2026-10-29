@@ -150,6 +150,7 @@ import surat.SuratSakit;
 import surat.SuratSakitPihak2;
 import surat.SuratTidakHamil;
 import rekammedis.RMSkriningMPP;
+import DigitalSignature.DlgTTEFile;
 
 /**
  *
@@ -200,6 +201,7 @@ public final class DlgKasirRalan extends javax.swing.JDialog {
     private boolean sukses=false;
     private Jurnal jur=new Jurnal();
     private double ttljmdokter=0,ttljmperawat=0,ttlkso=0,ttljasasarana=0,ttlbhp=0,ttlmenejemen=0,ttlpendapatan=0;
+    private  DlgTTEFile ttefile=new DlgTTEFile (null,false);
 
     /** Creates new form DlgReg
      * @param parent
@@ -11410,7 +11412,8 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
     }//GEN-LAST:event_MnSurveilensPoliBedahActionPerformed
 
     private void MnResumeRawatJalan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnResumeRawatJalan1ActionPerformed
-       if(tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),18).toString().equals("MAT")){
+        String data ="";
+        if(tbKasirRalan.getValueAt(tbKasirRalan.getSelectedRow(),18).toString().equals("MAT")){
             this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             nosep=Sequel.cariIsi("SELECT no_sep FROM bridging_sep WHERE no_rawat='"+TNoRwCari.getText()+"' ");
             mbak_eka.ambilDataDiagnosaDanProsedur(nosep,TNoRwCari.getText(),TNoRMCari.getText());
@@ -11515,7 +11518,8 @@ private void MnDataPemberianObatActionPerformed(java.awt.event.ActionEvent evt) 
                 param.put("tarifrs",Sequel.cariIsiBanyak("select if(sum(totalbiaya)='','0',sum(totalbiaya)) from billing where no_rawat='"+TNoRwCari.getText()+"' and status in ('Ralan Dokter','Ralan Paramedis','Ralan Dokter Paramedis')"));
                 param.put("carapulang",Sequel.cariIsiBanyak("SELECT IF(stts='Sudah','Atas Persetujuan Dokter',IF(stts='Dirujuk','Rujuk',IF(stts='Dirawat','MRS',''))) FROM reg_periksa WHERE no_rawat='"+TNoRwCari.getText()+"' "));
                 param.put("kontrol",Sequel.cariIsiBanyak("SELECT tgl_rencana FROM bridging_surat_kontrol_bpjs WHERE no_sep='"+nosep+"'"));
-                 Valid.MyReport("rptBridgingResume1.jasper","report","::[ Cetak Resume ]::",param);
+                Valid.MyReport("rptBridgingResume1.jasper","report","::[ Cetak Resume ]::",param);
+                 
        }
        
             this.setCursor(Cursor.getDefaultCursor());

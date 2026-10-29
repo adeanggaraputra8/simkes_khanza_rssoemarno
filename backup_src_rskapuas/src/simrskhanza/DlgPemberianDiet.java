@@ -917,36 +917,111 @@ public class DlgPemberianDiet extends javax.swing.JDialog {
 
     private void BtnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrintActionPerformed
         if(TabRawat.getSelectedIndex()==0){
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             if(tabMode.getRowCount()==0){
                 JOptionPane.showMessageDialog(null,"Maaf, data sudah habis. Tidak ada data yang bisa anda print...!!!!");
                 BtnBatal.requestFocus();
             }else if(tabMode.getRowCount()!=0){
-                Map<String, Object> param = new HashMap<>();  
-                param.put("namars",akses.getnamars());
-                param.put("alamatrs",akses.getalamatrs());
-                param.put("kotars",akses.getkabupatenrs());
-                param.put("propinsirs",akses.getpropinsirs());
-                param.put("kontakrs",akses.getkontakrs());
-                param.put("emailrs",akses.getemailrs());   
-                param.put("logo",Sequel.cariGambar("select setting.logo from setting")); 
-                Valid.MyReportqry("rptBrDiet.jasper","report","::[ Data Pemberian Diet ]::",
-                    "select detail_beri_diet.no_rawat,reg_periksa.no_rkm_medis,pasien.nm_pasien,concat(detail_beri_diet.kd_kamar,', ',bangsal.nm_bangsal) as namakamar,"+
-                    "detail_beri_diet.tanggal,detail_beri_diet.waktu,jam_diet_pasien.jam,diet.nama_diet,detail_beri_diet.kd_kamar,detail_beri_diet.kd_diet " +
-                    "from detail_beri_diet inner join reg_periksa on detail_beri_diet.no_rawat=reg_periksa.no_rawat "+
-                    "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
-                    "inner join diet on detail_beri_diet.kd_diet=diet.kd_diet "+
-                    "inner join kamar on detail_beri_diet.kd_kamar=kamar.kd_kamar "+
-                    "inner join bangsal on kamar.kd_bangsal=bangsal.kd_bangsal "+
-                    "inner join jam_diet_pasien on detail_beri_diet.waktu=jam_diet_pasien.waktu " +
-                    "where detail_beri_diet.tanggal between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' and detail_beri_diet.waktu like '%"+WaktuDiet2.getText().trim()+"%' and bangsal.nm_bangsal like '%"+NmBangsalCari.getText().trim()+"%' and "+
-                    "(detail_beri_diet.no_rawat like '%"+TCari.getText().trim()+"%' or reg_periksa.no_rkm_medis like '%"+TCari.getText().trim()+"%' or pasien.nm_pasien like '%"+TCari.getText().trim()+"%') order by bangsal.nm_bangsal,diet.nama_diet",param);
+                String[] pilihan = {"Cetak Normal", "Cetak Template", "Cetak Template 2 (Label Etiket Diet)"};
+                Object jawab = JOptionPane.showInputDialog(null,
+                    "Pilih jenis cetakan yang diinginkan :",
+                    "Pilihan Cetak",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    pilihan,
+                    pilihan[0]);
+                if(jawab!=null){
+                    if(jawab.equals("Cetak Template")){
+                        cetakBrDiet("rptBrDiet_template.jasper");
+                    }else if(jawab.equals("Cetak Template 2 (Label Etiket Diet)")){
+                        cetakEtiketDiet("rptEtiketDiet_template2.jasper");
+                    }else{
+                        cetakBrDiet("rptBrDiet.jasper");
+                    }
+                }
             }
-            this.setCursor(Cursor.getDefaultCursor());
         }else{
             JOptionPane.showMessageDialog(null,"Silahkan buka data diet pasien");
         }
 }//GEN-LAST:event_BtnPrintActionPerformed
+
+    private void cetakBrDiet(String namaJasper){
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        Map<String, Object> param = new HashMap<>();
+        param.put("namars",akses.getnamars());
+        param.put("alamatrs",akses.getalamatrs());
+        param.put("kotars",akses.getkabupatenrs());
+        param.put("propinsirs",akses.getpropinsirs());
+        param.put("kontakrs",akses.getkontakrs());
+        param.put("emailrs",akses.getemailrs());
+        param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
+        Valid.MyReportqry(namaJasper,"report","::[ Data Pemberian Diet ]::",
+            "select detail_beri_diet.no_rawat as no_rawat,"+
+            "reg_periksa.no_rkm_medis as no_rkm_medis,"+
+            "pasien.nm_pasien as nm_pasien,"+
+            "pasien.tgl_lahir as tgl_lahir,"+
+            "pasien.jk as jk,"+
+            "detail_beri_diet.tanggal as tanggal,"+
+            "detail_beri_diet.waktu as waktu,"+
+            "jam_diet_pasien.jam as jam,"+
+            "diet.nama_diet as nama_diet,"+
+            "detail_beri_diet.kd_kamar as kd_kamar,"+
+            "bangsal.nm_bangsal as nm_bangsal,"+
+            "detail_beri_diet.kd_diet as kd_diet " +
+            "from detail_beri_diet inner join reg_periksa on detail_beri_diet.no_rawat=reg_periksa.no_rawat "+
+            "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
+            "inner join diet on detail_beri_diet.kd_diet=diet.kd_diet "+
+            "inner join kamar on detail_beri_diet.kd_kamar=kamar.kd_kamar "+
+            "inner join bangsal on kamar.kd_bangsal=bangsal.kd_bangsal "+
+            "inner join jam_diet_pasien on detail_beri_diet.waktu=jam_diet_pasien.waktu " +
+            "where detail_beri_diet.tanggal between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' and detail_beri_diet.waktu like '%"+WaktuDiet2.getText().trim()+"%' and bangsal.nm_bangsal like '%"+NmBangsalCari.getText().trim()+"%' and "+
+            "(detail_beri_diet.no_rawat like '%"+TCari.getText().trim()+"%' or reg_periksa.no_rkm_medis like '%"+TCari.getText().trim()+"%' or pasien.nm_pasien like '%"+TCari.getText().trim()+"%') order by bangsal.nm_bangsal,diet.nama_diet",param);
+        this.setCursor(Cursor.getDefaultCursor());
+    }
+
+    private void cetakEtiketDiet(String namaJasper){
+        this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        Map<String, Object> param = new HashMap<>();
+        param.put("namars",akses.getnamars());
+        param.put("logo",Sequel.cariGambar("select setting.logo from setting"));
+
+        String joinClause =
+            "from detail_beri_diet inner join reg_periksa on detail_beri_diet.no_rawat=reg_periksa.no_rawat "+
+            "inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis "+
+            "inner join diet on detail_beri_diet.kd_diet=diet.kd_diet "+
+            "inner join kamar on detail_beri_diet.kd_kamar=kamar.kd_kamar "+
+            "inner join bangsal on kamar.kd_bangsal=bangsal.kd_bangsal "+
+            "inner join jam_diet_pasien on detail_beri_diet.waktu=jam_diet_pasien.waktu ";
+
+        String whereClause =
+            "where detail_beri_diet.tanggal between '"+Valid.SetTgl(DTPCari1.getSelectedItem()+"")+"' and '"+Valid.SetTgl(DTPCari2.getSelectedItem()+"")+"' and detail_beri_diet.waktu like '%"+WaktuDiet2.getText().trim()+"%' and bangsal.nm_bangsal like '%"+NmBangsalCari.getText().trim()+"%' and "+
+            "(detail_beri_diet.no_rawat like '%"+TCari.getText().trim()+"%' or reg_periksa.no_rkm_medis like '%"+TCari.getText().trim()+"%' or pasien.nm_pasien like '%"+TCari.getText().trim()+"%')";
+
+        String query =
+            "select no_rawat, no_rkm_medis, nm_pasien, tgl_lahir, jk, tanggal, waktu, jam, nama_diet, kd_kamar, nm_bangsal, diagnosa from (" +
+            "select detail_beri_diet.no_rawat as no_rawat,"+
+            "reg_periksa.no_rkm_medis as no_rkm_medis,"+
+            "pasien.nm_pasien as nm_pasien,"+
+            "pasien.tgl_lahir as tgl_lahir,"+
+            "pasien.jk as jk,"+
+            "detail_beri_diet.tanggal as tanggal,"+
+            "detail_beri_diet.waktu as waktu,"+
+            "jam_diet_pasien.jam as jam,"+
+            "diet.nama_diet as nama_diet,"+
+            "detail_beri_diet.kd_kamar as kd_kamar,"+
+            "bangsal.nm_bangsal as nm_bangsal,"+
+            "(select kamar_inap.diagnosa_awal from kamar_inap where kamar_inap.no_rawat=detail_beri_diet.no_rawat order by kamar_inap.tgl_masuk desc limit 1) as diagnosa " +
+            joinClause + whereClause +
+            " union all " +
+            "select null,null,null,null,null,null,null,null,null,null,null,null " +
+            "from (select 1 n union select 2 union select 3 union select 4 union select 5 " +
+            "union select 6 union select 7 union select 8 union select 9 union select 10 " +
+            "union select 11 union select 12 union select 13 union select 14) as pad " +
+            "where pad.n <= (15 - ((select count(*) " + joinClause + whereClause + ") % 15)) % 15" +
+            ") as gabungan order by (no_rawat is null), no_rawat, tanggal, waktu";
+
+        Valid.MyReportqry(namaJasper,"report","::[ Etiket Makanan Pasien ]::",query,param);
+        this.setCursor(Cursor.getDefaultCursor());
+    }
 
     private void BtnPrintKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnPrintKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_SPACE){

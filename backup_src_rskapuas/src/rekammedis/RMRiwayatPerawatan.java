@@ -2793,7 +2793,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
             htmlContent = new StringBuilder();
             if(R1.isSelected()==true){
                 ps=koneksi.prepareStatement(
-                    "select reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
+                    "select reg_periksa.no_rkm_medis, reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
                     "reg_periksa.kd_dokter,dokter.nm_dokter,poliklinik.nm_poli,reg_periksa.p_jawab,reg_periksa.almt_pj,"+
                     "reg_periksa.hubunganpj,reg_periksa.biaya_reg,reg_periksa.status_lanjut,penjab.png_jawab,"+
                     "reg_periksa.umurdaftar,reg_periksa.sttsumur "+
@@ -2802,7 +2802,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     "where reg_periksa.stts<>'Batal' and reg_periksa.no_rkm_medis=? order by reg_periksa.tgl_registrasi desc limit 5");
             }else if(R2.isSelected()==true){
                 ps=koneksi.prepareStatement(
-                    "select reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
+                    "select reg_periksa.no_rkm_medis, reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
                     "reg_periksa.kd_dokter,dokter.nm_dokter,poliklinik.nm_poli,reg_periksa.p_jawab,reg_periksa.almt_pj,"+
                     "reg_periksa.hubunganpj,reg_periksa.biaya_reg,reg_periksa.status_lanjut,penjab.png_jawab,"+
                     "reg_periksa.umurdaftar,reg_periksa.sttsumur "+
@@ -2812,7 +2812,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     "where reg_periksa.stts<>'Batal' and reg_periksa.no_rkm_medis=? order by reg_periksa.tgl_registrasi");
             }else if(R3.isSelected()==true){
                 ps=koneksi.prepareStatement(
-                    "select reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
+                    "select reg_periksa.no_rkm_medis, reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
                     "reg_periksa.kd_dokter,dokter.nm_dokter,poliklinik.nm_poli,reg_periksa.p_jawab,reg_periksa.almt_pj,"+
                     "reg_periksa.hubunganpj,reg_periksa.biaya_reg,reg_periksa.status_lanjut,penjab.png_jawab,"+
                     "reg_periksa.umurdaftar,reg_periksa.sttsumur "+
@@ -2823,7 +2823,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     "reg_periksa.tgl_registrasi between ? and ? order by reg_periksa.tgl_registrasi");
             }else if(R4.isSelected()==true){
                 ps=koneksi.prepareStatement(
-                    "select reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
+                    "select reg_periksa.no_rkm_medis, reg_periksa.no_reg,reg_periksa.no_rawat,reg_periksa.tgl_registrasi,reg_periksa.jam_reg,"+
                     "reg_periksa.kd_dokter,dokter.nm_dokter,poliklinik.nm_poli,reg_periksa.p_jawab,reg_periksa.almt_pj,"+
                     "reg_periksa.hubunganpj,reg_periksa.biaya_reg,reg_periksa.status_lanjut,penjab.png_jawab,"+
                     "reg_periksa.umurdaftar,reg_periksa.sttsumur "+
@@ -3136,6 +3136,8 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                     menampilkanDiagnosa(rs.getString("no_rawat"));
                     //menampilkan berkas digital
                     menampilkanBerkasDigital(rs.getString("no_rawat"));
+                    //menampilkan data pasien bayi
+                    menampilkanDataBayi(rs.getString("no_rkm_medis"));
                     //menampilkan catatan dokter
                     if(chkCatatanDokter.isSelected()==true){
                         try {
@@ -12560,7 +12562,7 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                         "transfer_pasien_antar_ruang.keadaan_umum_sesudah_transfer,transfer_pasien_antar_ruang.td_sesudah_transfer,"+
                         "transfer_pasien_antar_ruang.nadi_sesudah_transfer,transfer_pasien_antar_ruang.rr_sesudah_transfer,transfer_pasien_antar_ruang.suhu_sesudah_transfer,"+
                         "transfer_pasien_antar_ruang.nip_menyerahkan,petugasmenyerahkan.nama as petugasmenyerahkan,transfer_pasien_antar_ruang.nip_menerima,"+
-                        "petugasmenerima.nama as petugasmenerima "+
+                        "petugasmenerima.nama as petugasmenerima,transfer_pasien_antar_ruang.alasan_admisi,transfer_pasien_antar_ruang.derajat_kebutuhan_perawatan_medis "+
                         "from transfer_pasien_antar_ruang inner join petugas as petugasmenyerahkan on transfer_pasien_antar_ruang.nip_menyerahkan=petugasmenyerahkan.nip "+
                         "inner join petugas as petugasmenerima on transfer_pasien_antar_ruang.nip_menerima=petugasmenerima.nip where "+
                         "transfer_pasien_antar_ruang.no_rawat='"+norawat+"' order by transfer_pasien_antar_ruang.tanggal_pindah").executeQuery();
@@ -12604,11 +12606,13 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
                                        "DIAGNOSA & PROSEDUR"+  
                                        "<table width='100%' border='0' align='center' cellpadding='3px' cellspacing='0px' class='tbl_form'>"+
                                           "<tr>"+
-                                              "<td width='50%'>Diagnosa Utama : "+rs2.getString("diagnosa_utama")+"</td>"+
-                                              "<td width='50%'>Diagnosa Sekunder : "+rs2.getString("diagnosa_sekunder")+"</td>"+         
+                                              "<td width='50%' colspan='2'>Diagnosa Utama : "+rs2.getString("diagnosa_utama")+"</td>"+
+                                              "<td width='50%' >Diagnosa Sekunder : "+rs2.getString("diagnosa_sekunder")+"</td>"+         
                                           "</tr>"+
                                           "<tr>"+
-                                              "<td width='100%' colspan='2'>Prosedur Yang Sudah Dilakukan : "+rs2.getString("prosedur_yang_sudah_dilakukan")+"</td>"+
+                                              "<td width='100%' >Prosedur Yang Sudah Dilakukan : "+rs2.getString("prosedur_yang_sudah_dilakukan")+"</td>"+
+                                              "<td width='100%' >Alasan Admisi : "+rs2.getString("alasan_admisi")+"</td>"+
+                                              "<td width='100%' >Derajat Kebutuhan Perawatan : "+rs2.getString("derajat_kebutuhan_perawatan_medis")+"</td>"+
                                           "</tr>"+
                                        "</table>"+
                                     "</td>"+
@@ -22420,6 +22424,768 @@ private void BtnPasienKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event
             }
         } catch (Exception e) {
             System.out.println("Notif Asuhan Medis Rawat Jalan Paru: "+e);
+        }
+    }
+    
+    
+//    private void menampilkanDataBayi(String norm) {
+//            try {
+//                ps2 = koneksi.prepareStatement(
+//                    "SELECT " +
+//                    "pb.*, " +
+//                    "p.nm_pasien, " +
+//                    "p.jk, " +
+//                    "p.tmp_lahir, " +
+//                    "p.tgl_lahir, " +
+//                    "p.no_ktp, " +
+//                    "pg.nama AS nama_penolong " +
+//                    "FROM pasien_bayi pb " +
+//                    "INNER JOIN pasien p ON pb.no_rkm_medis=p.no_rkm_medis " +
+//                    "LEFT JOIN pegawai pg ON pb.penolong=pg.nik " +
+//                    "WHERE pb.no_rkm_medis=?"
+//                );
+//
+//                ps2.setString(1, norm);
+//                rs2 = ps2.executeQuery();
+//
+//                if (rs2.next()) {
+//
+//                    htmlContent.append(
+//                        "<tr class='isi'>").append(
+//                        "<td valign='top' width='100%'>").append(
+//
+//                        "<table width='100%' border='0' align='center' cellpadding='3px' cellspacing='0px' class='tbl_form'>").append(
+//
+//                        // =========================================================
+//                        // JUDUL
+//                        // =========================================================
+//
+//                        "<tr>").append(
+//                            "<td colspan='6'><b>SURAT KETERANGAN LAHIR</b></td>").append(
+//                        "</tr>").append(
+//
+//                        // =========================================================
+//                        // IDENTITAS BAYI
+//                        // =========================================================
+//
+//                        "<tr>").append(
+//                            "<td colspan='6'><b>Identitas Bayi</b></td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td width='12%'>No.RM</td>").append(
+//                            "<td width='2%'>:</td>").append(
+//                            "<td width='28%'>").append(
+//                                rs2.getString("no_rkm_medis")).append(
+//                            "</td>").append(
+//
+//                            "<td width='12%'>Nama Bayi</td>").append(
+//                            "<td width='2%'>:</td>").append(
+//                            "<td width='44%'>").append(
+//                                rs2.getString("nm_pasien")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Jenis Kelamin</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("jk")).append(
+//                            "</td>").append(
+//
+//                            "<td>Anak Ke</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("anakke")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Tempat Lahir</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("tmp_lahir")).append(
+//                            "</td>").append(
+//
+//                            "<td>Tanggal Lahir</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("tgl_lahir")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Jam Lahir</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("jam_lahir")).append(
+//                            "</td>").append(
+//
+//                            "<td>No. KTP</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("no_ktp")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        // =========================================================
+//                        // DATA ORANG TUA
+//                        // =========================================================
+//
+//                        "<tr>").append(
+//                            "<td colspan='6'><b>Data Orang Tua</b></td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Nama Ayah</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("nama_ayah")).append(
+//                            "</td>").append(
+//
+//                            "<td>Umur Ayah</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("umur_ayah")).append(
+//                                " tahun</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Umur Ibu</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("umur_ibu")).append(
+//                                " tahun</td>").append(
+//
+//                            "<td>Anak Ke</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("anakke")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>G</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("g")).append(
+//                            "</td>").append(
+//
+//                            "<td>P</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("p")).append(
+//                            " &nbsp;&nbsp;&nbsp; A : ").append(
+//                                rs2.getString("a")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        // =========================================================
+//                        // DATA KELAHIRAN
+//                        // =========================================================
+//
+//                        "<tr>").append(
+//                            "<td colspan='6'><b>Data Kelahiran</b></td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Proses Lahir</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='4'>").append(
+//                                rs2.getString("proses_lahir")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Diagnosa</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='4'>").append(
+//                                rs2.getString("diagnosa")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Penyulit Kehamilan</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='4'>").append(
+//                                rs2.getString("penyulit_kehamilan")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Ketuban</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='4'>").append(
+//                                rs2.getString("ketuban")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Penolong</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='2'>").append(
+//                                rs2.getString("nama_penolong")).append(
+//                            "</td>").append(
+//
+//                            "<td>No. SKL</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("no_skl")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Keterangan</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='4'>").append(
+//                                rs2.getString("keterangan")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        // =========================================================
+//                        // ANTROPOMETRI
+//                        // =========================================================
+//
+//                        "<tr>").append(
+//                            "<td colspan='6'><b>Antropometri</b></td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Berat Badan</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("berat_badan")).append(
+//                                " gram</td>").append(
+//
+//                            "<td>Panjang Badan</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("panjang_badan")).append(
+//                                " cm</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Lingkar Kepala</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("lingkar_kepala")).append(
+//                                " cm</td>").append(
+//
+//                            "<td>Lingkar Dada</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("lingkar_dada")).append(
+//                                " cm</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Lingkar Perut</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='4'>").append(
+//                                rs2.getString("lingkar_perut")).append(
+//                                " cm</td>").append(
+//                        "</tr>").append(
+//
+//                        // =========================================================
+//                        // APGAR
+//                        // =========================================================
+//
+//                        "<tr>").append(
+//                            "<td colspan='6'><b>APGAR SCORE</b></td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td colspan='6'>").append(
+//
+//                            "<table width='100%' border='0' align='center' cellpadding='3px' cellspacing='0px' class='tbl_form'>").append(
+//
+//                            "<tr>").append(
+//                                "<td align='center'><b>Tanda</b></td>").append(
+//                                "<td align='center'><b>0</b></td>").append(
+//                                "<td align='center'><b>1</b></td>").append(
+//                                "<td align='center'><b>2</b></td>").append(
+//                                "<td align='center'><b>N 1'</b></td>").append(
+//                                "<td align='center'><b>N 5'</b></td>").append(
+//                                "<td align='center'><b>N 10'</b></td>").append(
+//                            "</tr>").append(
+//
+//                            "<tr>").append(
+//                                "<td>Frekuensi Jantung</td>").append(
+//                                "<td>Tidak Ada</td>").append(
+//                                "<td>&lt; 100</td>").append(
+//                                "<td>&gt; 100</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("f1")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("f5")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("f10")).append("</td>").append(
+//                            "</tr>").append(
+//
+//                            "<tr>").append(
+//                                "<td>Usaha Nafas</td>").append(
+//                                "<td>Tidak Ada</td>").append(
+//                                "<td>Lambat Tak Teratur</td>").append(
+//                                "<td>Menangis Kuat</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("u1")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("u5")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("u10")).append("</td>").append(
+//                            "</tr>").append(
+//
+//                            "<tr>").append(
+//                                "<td>Tonus Otot</td>").append(
+//                                "<td>Lumpuh</td>").append(
+//                                "<td>Ext. Fleksi Sedikit</td>").append(
+//                                "<td>Gerakan Aktif</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("t1")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("t5")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("t10")).append("</td>").append(
+//                            "</tr>").append(
+//
+//                            "<tr>").append(
+//                                "<td>Refleks</td>").append(
+//                                "<td>Tidak Ada Respon</td>").append(
+//                                "<td>Pergerakan Sedikit</td>").append(
+//                                "<td>Menangis</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("r1")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("r5")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("r10")).append("</td>").append(
+//                            "</tr>").append(
+//
+//                            "<tr>").append(
+//                                "<td>Warna</td>").append(
+//                                "<td>Biru Pucat</td>").append(
+//                                "<td>Tubuh Kemerahan, Tangan & Kaki Biru</td>").append(
+//                                "<td>Kemerahan</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("w1")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("w5")).append("</td>").append(
+//                                "<td align='center'>").append(
+//                                    rs2.getString("w10")).append("</td>").append(
+//                            "</tr>").append(
+//
+//                            "<tr>").append(
+//                                "<td colspan='4'><b>Total Nilai</b></td>").append(
+//                                "<td align='center'><b>").append(
+//                                    rs2.getString("n1")).append("</b></td>").append(
+//                                "<td align='center'><b>").append(
+//                                    rs2.getString("n5")).append("</b></td>").append(
+//                                "<td align='center'><b>").append(
+//                                    rs2.getString("n10")).append("</b></td>").append(
+//                            "</tr>").append(
+//
+//                            "</table>").append(
+//
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        // =========================================================
+//                        // TINDAKAN BAYI
+//                        // =========================================================
+//
+//                        "<tr>").append(
+//                            "<td colspan='6'><b>Tindakan / Kondisi Bayi</b></td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Resusitasi</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='4'>").append(
+//                                rs2.getString("resusitas")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Obat Diberikan</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='4'>").append(
+//                                rs2.getString("obat_diberikan")
+//                                    .replaceAll("(\r\n|\r|\n|\n\r)", "<br>")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "<tr>").append(
+//                            "<td>Mikasi</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td colspan='2'>").append(
+//                                rs2.getString("mikasi")).append(
+//                            "</td>").append(
+//
+//                            "<td>Mekonium</td>").append(
+//                            "<td>:</td>").append(
+//                            "<td>").append(
+//                                rs2.getString("mikonium")).append(
+//                            "</td>").append(
+//                        "</tr>").append(
+//
+//                        "</table>").append(
+//
+//                        "</td>").append(
+//                    "</tr>"
+//                    );
+//                }
+//
+//            } catch (Exception e) {
+//                System.out.println("Notifikasi : " + e);
+//            }
+//        }
+    
+    private void menampilkanDataBayi(String norm) {
+        try {
+            ps2 = koneksi.prepareStatement(
+                "SELECT " +
+                "pb.*, " +
+                "p.nm_pasien, " +
+                "p.jk, " +
+                "p.tmp_lahir, " +
+                "p.tgl_lahir, " +
+                "p.no_ktp, " +
+                "pg.nama AS nama_penolong " +
+                "FROM pasien_bayi pb " +
+                "INNER JOIN pasien p ON pb.no_rkm_medis=p.no_rkm_medis " +
+                "LEFT JOIN pegawai pg ON pb.penolong=pg.nik " +
+                "WHERE pb.no_rkm_medis=?"
+            );
+
+            ps2.setString(1, norm);
+            rs2 = ps2.executeQuery();
+
+            if (rs2.next()) {
+
+                htmlContent.append(
+                    "<tr class='isi'>"+
+                        "<td valign='top' width='2%'></td>"+
+                        "<td valign='top' width='18%'>Keterangan Kelahiran</td>"+
+                        "<td valign='top' width='1%' align='center'>:</td>"+
+                        "<td valign='top' width='79%'>"+
+
+                            "<table width='100%' border='0' align='center' cellpadding='3px' cellspacing='0' class='tbl_form'>"+
+
+                            // =====================================================
+                            // JUDUL
+                            // =====================================================
+
+                            "<tr>"+
+                                "<td colspan='6'><b>Keterangan Kelahiran</b></td>"+
+                            "</tr>"+
+
+                            // =====================================================
+                            // IDENTITAS BAYI
+                            // =====================================================
+
+                            "<tr>"+
+                                "<td colspan='6'><b>Identitas Bayi</b></td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td width='12%'>No.RM</td>"+
+                                "<td width='2%'>:</td>"+
+                                "<td width='28%'>"+rs2.getString("no_rkm_medis")+"</td>"+
+
+                                "<td width='12%'>Nama Bayi</td>"+
+                                "<td width='2%'>:</td>"+
+                                "<td width='44%'>"+rs2.getString("nm_pasien")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Jenis Kelamin</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("jk")+"</td>"+
+
+                                "<td>Anak Ke</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("anakke")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Tempat Lahir</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("tmp_lahir")+"</td>"+
+
+                                "<td>Tanggal Lahir</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("tgl_lahir")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Jam Lahir</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("jam_lahir")+"</td>"+
+
+                                "<td>No. KTP</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("no_ktp")+"</td>"+
+                            "</tr>"+
+
+                            // =====================================================
+                            // DATA ORANG TUA
+                            // =====================================================
+
+                            "<tr>"+
+                                "<td colspan='6'><b>Data Orang Tua</b></td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Nama Ayah</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("nama_ayah")+"</td>"+
+
+                                "<td>Umur Ayah</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("umur_ayah")+" tahun</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Umur Ibu</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("umur_ibu")+" tahun</td>"+
+
+                                "<td>Anak Ke</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("anakke")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>G</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("g")+"</td>"+
+
+                                "<td>P / A</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("p")+" / "+rs2.getString("a")+"</td>"+
+                            "</tr>"+
+
+                            // =====================================================
+                            // DATA KELAHIRAN
+                            // =====================================================
+
+                            "<tr>"+
+                                "<td colspan='6'><b>Data Kelahiran</b></td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Proses Lahir</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+rs2.getString("proses_lahir")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Diagnosa</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+rs2.getString("diagnosa")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Penyulit Kehamilan</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+rs2.getString("penyulit_kehamilan")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Ketuban</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+rs2.getString("ketuban")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Penolong</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+rs2.getString("nama_penolong")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Keterangan</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+
+                                    rs2.getString("keterangan").replaceAll("(\r\n|\r|\n|\n\r)","<br>")+
+                                "</td>"+
+                            "</tr>"+
+
+                            // =====================================================
+                            // ANTROPOMETRI
+                            // =====================================================
+
+                            "<tr>"+
+                                "<td colspan='6'><b>Antropometri</b></td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td width='20%'>Berat Badan</td>"+
+                                "<td width='2%'>:</td>"+
+                                "<td width='28%'>"+rs2.getString("berat_badan")+" gram</td>"+
+
+                                "<td width='20%'>Panjang Badan</td>"+
+                                "<td width='2%'>:</td>"+
+                                "<td width='28%'>"+rs2.getString("panjang_badan")+" cm</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Lingkar Kepala</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("lingkar_kepala")+" cm</td>"+
+
+                                "<td>Lingkar Dada</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("lingkar_dada")+" cm</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Lingkar Perut</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+rs2.getString("lingkar_perut")+" cm</td>"+
+                            "</tr>"+
+
+                            // =====================================================
+                            // APGAR SCORE
+                            // =====================================================
+
+                            "<tr>"+
+                                "<td colspan='6'><b>APGAR SCORE</b></td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td colspan='6'>"+
+
+                                    "<table width='100%' border='0' align='center' cellpadding='3px' cellspacing='0px' class='tbl_form'>"+
+
+                                        "<tr>"+
+                                            "<td align='center'><b>Tanda</b></td>"+
+                                            "<td align='center'><b>0</b></td>"+
+                                            "<td align='center'><b>1</b></td>"+
+                                            "<td align='center'><b>2</b></td>"+
+                                            "<td align='center'><b>N 1'</b></td>"+
+                                            "<td align='center'><b>N 5'</b></td>"+
+                                            "<td align='center'><b>N 10'</b></td>"+
+                                        "</tr>"+
+
+                                        "<tr>"+
+                                            "<td>Frekuensi Jantung</td>"+
+                                            "<td>Tidak Ada</td>"+
+                                            "<td>&lt; 100</td>"+
+                                            "<td>&gt; 100</td>"+
+                                            "<td align='center'>"+rs2.getString("f1")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("f5")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("f10")+"</td>"+
+                                        "</tr>"+
+
+                                        "<tr>"+
+                                            "<td>Usaha Nafas</td>"+
+                                            "<td>Tidak Ada</td>"+
+                                            "<td>Lambat Tak Teratur</td>"+
+                                            "<td>Menangis Kuat</td>"+
+                                            "<td align='center'>"+rs2.getString("u1")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("u5")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("u10")+"</td>"+
+                                        "</tr>"+
+
+                                        "<tr>"+
+                                            "<td>Tonus Otot</td>"+
+                                            "<td>Lumpuh</td>"+
+                                            "<td>Ext. Fleksi Sedikit</td>"+
+                                            "<td>Gerakan Aktif</td>"+
+                                            "<td align='center'>"+rs2.getString("t1")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("t5")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("t10")+"</td>"+
+                                        "</tr>"+
+
+                                        "<tr>"+
+                                            "<td>Refleks</td>"+
+                                            "<td>Tidak Ada Respon</td>"+
+                                            "<td>Pergerakan Sedikit</td>"+
+                                            "<td>Menangis</td>"+
+                                            "<td align='center'>"+rs2.getString("r1")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("r5")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("r10")+"</td>"+
+                                        "</tr>"+
+
+                                        "<tr>"+
+                                            "<td>Warna</td>"+
+                                            "<td>Biru Pucat</td>"+
+                                            "<td>Tubuh Kemerahan, Tangan & Kaki Biru</td>"+
+                                            "<td>Kemerahan</td>"+
+                                            "<td align='center'>"+rs2.getString("w1")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("w5")+"</td>"+
+                                            "<td align='center'>"+rs2.getString("w10")+"</td>"+
+                                        "</tr>"+
+
+                                        "<tr>"+
+                                            "<td colspan='4'><b>Total Nilai</b></td>"+
+                                            "<td align='center'><b>"+rs2.getString("n1")+"</b></td>"+
+                                            "<td align='center'><b>"+rs2.getString("n5")+"</b></td>"+
+                                            "<td align='center'><b>"+rs2.getString("n10")+"</b></td>"+
+                                        "</tr>"+
+
+                                    "</table>"+
+
+                                "</td>"+
+                            "</tr>"+
+
+                            // =====================================================
+                            // TINDAKAN / KONDISI BAYI
+                            // =====================================================
+
+                            "<tr>"+
+                                "<td colspan='6'><b>Tindakan / Kondisi Bayi</b></td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Resusitasi</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+rs2.getString("resusitas")+"</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Obat Diberikan</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+
+                                    rs2.getString("obat_diberikan")
+                                        .replaceAll("(\r\n|\r|\n|\n\r)","<br>")+
+                                "</td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>Mikasi</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='2'>"+rs2.getString("mikasi")+"</td>"+
+
+                                "<td>Mekonium</td>"+
+                                "<td>:</td>"+
+                                "<td>"+rs2.getString("mikonium")+"</td>"+
+                            "</tr>"+
+
+                            // =====================================================
+                            // NO SKL
+                            // =====================================================
+
+                            "<tr>"+
+                                "<td colspan='6'><b>Surat Keterangan Lahir</b></td>"+
+                            "</tr>"+
+
+                            "<tr>"+
+                                "<td>No. SKL</td>"+
+                                "<td>:</td>"+
+                                "<td colspan='4'>"+rs2.getString("no_skl")+"</td>"+
+                            "</tr>"+
+
+                            "</table>"+
+
+                        "</td>"+
+                    "</tr>"
+                );
+            }
+
+        } catch (Exception e) {
+            System.out.println("Notifikasi : " + e);
         }
     }
 }

@@ -1126,7 +1126,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         tbSkala1.setSelectionForeground(new java.awt.Color(0, 255, 0));
         Scroll3.setViewportView(tbSkala1);
 
-        TabSkala1dan2.addTab("Skala 1", Scroll3);
+        TabSkala1dan2.addTab("Level 1", Scroll3);
 
         Scroll4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 253)));
         Scroll4.setName("Scroll4"); // NOI18N
@@ -1137,7 +1137,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         tbSkala2.setSelectionForeground(new java.awt.Color(0, 255, 0));
         Scroll4.setViewportView(tbSkala2);
 
-        TabSkala1dan2.addTab("Skala 2", Scroll4);
+        TabSkala1dan2.addTab("Level 2", Scroll4);
 
         jPanel4.add(TabSkala1dan2, java.awt.BorderLayout.CENTER);
 
@@ -1551,7 +1551,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         tbSkala3.setSelectionForeground(new java.awt.Color(0, 255, 0));
         Scroll6.setViewportView(tbSkala3);
 
-        TabSkala3dan4dan5.addTab("Skala 3", Scroll6);
+        TabSkala3dan4dan5.addTab("Level 3", Scroll6);
 
         Scroll7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 253)));
         Scroll7.setName("Scroll7"); // NOI18N
@@ -1562,7 +1562,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         tbSkala4.setSelectionForeground(new java.awt.Color(0, 255, 0));
         Scroll7.setViewportView(tbSkala4);
 
-        TabSkala3dan4dan5.addTab("Skala 4", Scroll7);
+        TabSkala3dan4dan5.addTab("Level 4", Scroll7);
 
         Scroll8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 253)));
         Scroll8.setName("Scroll8"); // NOI18N
@@ -1573,7 +1573,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
         tbSkala5.setSelectionForeground(new java.awt.Color(0, 255, 0));
         Scroll8.setViewportView(tbSkala5);
 
-        TabSkala3dan4dan5.addTab("Skala 5", Scroll8);
+        TabSkala3dan4dan5.addTab("Level 5", Scroll8);
 
         jPanel6.add(TabSkala3dan4dan5, java.awt.BorderLayout.CENTER);
 
@@ -2117,7 +2117,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     Valid.textKosong(btnPrimerPetugas,"Dokter/Petugas Triase");
                 }else if((jmlskala1==0)&&(jmlskala2==0)){
                     sukses=false;
-                    Valid.textKosong(TCariPemeriksaan,"Skala 1 / Skala 2");
+                    Valid.textKosong(TCariPemeriksaan,"Level 1 / Level 2");
                 }else{
                     if(Sequel.menyimpantf("data_triase_igd","?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat",13,new String[]{
                             TNoRw.getText(),Valid.SetTgl(TanggalKunjungan.getSelectedItem()+"")+" "+TanggalKunjungan.getSelectedItem().toString().substring(11,19),
@@ -2138,7 +2138,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             if(TabSkala1dan2.getSelectedIndex()==0){
                                 for(i=0;i<tbSkala1.getRowCount();i++){ 
                                     if(tbSkala1.getValueAt(i,0).toString().equals("true")){
-                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala1","?,?","Skala 1",2,new String[]{
+                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala1","?,?","Level 1",2,new String[]{
                                                 TNoRw.getText(),tbSkala1.getValueAt(i,1).toString()
                                             })==true){
                                                 tbSkala1.setValueAt(false,i,0);
@@ -2150,7 +2150,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             }else if(TabSkala1dan2.getSelectedIndex()==1){
                                 for(i=0;i<tbSkala2.getRowCount();i++){ 
                                     if(tbSkala2.getValueAt(i,0).toString().equals("true")){
-                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala2","?,?","Skala 2",2,new String[]{
+                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala2","?,?","Level 2",2,new String[]{
                                                 TNoRw.getText(),tbSkala2.getValueAt(i,1).toString()
                                             })==true){
                                                 tbSkala2.setValueAt(false,i,0);
@@ -2213,7 +2213,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     Valid.textKosong(btnSekunderPetugas,"Dokter Sekunder");
                 }else if((jmlskala3==0)&&(jmlskala4==0)&&(jmlskala5==0)){
                     sukses=false;
-                    Valid.textKosong(TCariPemeriksaan2,"Skala 3 / Skala 4 / Skala 5");
+                    Valid.textKosong(TCariPemeriksaan2,"Level 3 / Level 4 / Level 5");
                 }else{
                     if(Sequel.menyimpantf("data_triase_igd","?,?,?,?,?,?,?,?,?,?,?,?,?","No.Rawat",13,new String[]{
                             TNoRw.getText(),Valid.SetTgl(TanggalKunjungan.getSelectedItem()+"")+" "+TanggalKunjungan.getSelectedItem().toString().substring(11,19),
@@ -2234,7 +2234,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             if(TabSkala3dan4dan5.getSelectedIndex()==0){
                                 for(i=0;i<tbSkala3.getRowCount();i++){ 
                                     if(tbSkala3.getValueAt(i,0).toString().equals("true")){
-                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala3","?,?","Skala 3",2,new String[]{
+                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala3","?,?","Level 3",2,new String[]{
                                                 TNoRw.getText(),tbSkala3.getValueAt(i,1).toString()
                                             })==true){
                                                 tbSkala3.setValueAt(false,i,0);
@@ -2246,7 +2246,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             }else if(TabSkala3dan4dan5.getSelectedIndex()==1){
                                 for(i=0;i<tbSkala4.getRowCount();i++){ 
                                     if(tbSkala4.getValueAt(i,0).toString().equals("true")){
-                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala4","?,?","Skala 4",2,new String[]{
+                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala4","?,?","Level 4",2,new String[]{
                                                 TNoRw.getText(),tbSkala4.getValueAt(i,1).toString()
                                             })==true){
                                                 tbSkala4.setValueAt(false,i,0);
@@ -2258,7 +2258,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                             }else if(TabSkala3dan4dan5.getSelectedIndex()==2){
                                 for(i=0;i<tbSkala5.getRowCount();i++){ 
                                     if(tbSkala5.getValueAt(i,0).toString().equals("true")){
-                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala5","?,?","Skala 5",2,new String[]{
+                                        if(Sequel.menyimpantf2("data_triase_igddetail_skala5","?,?","Level 5",2,new String[]{
                                                 TNoRw.getText(),tbSkala5.getValueAt(i,1).toString()
                                             })==true){
                                                 tbSkala5.setValueAt(false,i,0);
@@ -3992,13 +3992,13 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                       
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 1..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 1","PDF Triase Skala 1"},"Lambar Triase Skala 1");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Level 1..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Level 1","PDF Triase Level 1"},"Lambar Triase Level 1");
                         switch (pilihan) {
-                            case "Lembar Triase Skala 1":
-                                  Valid.MyReportqry("rptLembarTriaseSkala1.jasper","report","::[ Triase Skala 1 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "Lembar Triase Level 1":
+                                  Valid.MyReportqry("rptLembarTriaseSkala1.jasper","report","::[ Triase Level 1 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
-                            case "PDF Triase Skala 1":
-                                  Valid.MyReportqrypdf("rptLembarTriaseSkala1.jasper","report","::[ Triase Skala 1 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "PDF Triase Level 1":
+                                  Valid.MyReportqrypdf("rptLembarTriaseSkala1.jasper","report","::[ Triase Level 1 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                         } 
                     } catch (Exception e) {
@@ -4113,13 +4113,13 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                       
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 2..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 2","PDF Triase Skala 2"},"Lambar Triase Skala 2");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Level 2..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Level 2","PDF Triase Level 2"},"Lambar Triase Level 2");
                         switch (pilihan) {
-                            case "Lembar Triase Skala 2":
-                                  Valid.MyReportqry("rptLembarTriaseSkala2.jasper","report","::[ Triase Skala 2 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "Lembar Triase Level 2":
+                                  Valid.MyReportqry("rptLembarTriaseSkala2.jasper","report","::[ Triase Level 2 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
-                            case "PDF Triase Skala 2":
-                                  Valid.MyReportqrypdf("rptLembarTriaseSkala2.jasper","report","::[ Triase Skala 2 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "PDF Triase Level 2":
+                                  Valid.MyReportqrypdf("rptLembarTriaseSkala2.jasper","report","::[ Triase Level 2 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                         }
                     } catch (Exception e) {
@@ -4233,13 +4233,13 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                        
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 3..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 3","PDF Triase Skala 3"},"Lembar Triase Skala 3");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Level 3..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Level 3","PDF Triase Level 3"},"Lembar Triase Level 3");
                         switch (pilihan) {
-                            case "Lembar Triase Skala 3":
-                                  Valid.MyReportqry("rptLembarTriaseSkala3.jasper","report","::[ Triase Skala 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "Lembar Triase Level 3":
+                                  Valid.MyReportqry("rptLembarTriaseSkala3.jasper","report","::[ Triase Level 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
-                            case "PDF Triase Skala 3":
-                                  Valid.MyReportqrypdf("rptLembarTriaseSkala3.jasper","report","::[ Triase Skala 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "PDF Triase Level 3":
+                                  Valid.MyReportqrypdf("rptLembarTriaseSkala3.jasper","report","::[ Triase Level 3 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                         }
                     } catch (Exception e) {
@@ -4353,13 +4353,13 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                       
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 4..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 4","PDF Triase Skala 4"},"Lembar Triase Skala 4");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Level 4..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Level 4","PDF Triase Level 4"},"Lembar Triase Level 4");
                         switch (pilihan) {
-                            case "Lembar Triase Skala 4":
-                                  Valid.MyReportqry("rptLembarTriaseSkala4.jasper","report","::[ Triase Skala 4 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "Lembar Triase Level 4":
+                                  Valid.MyReportqry("rptLembarTriaseSkala4.jasper","report","::[ Triase Level 4 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
-                            case "PDF Triase Skala 4":
-                                  Valid.MyReportqrypdf("rptLembarTriaseSkala4.jasper","report","::[ Triase Skala 4 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "PDF Triase Level 4":
+                                  Valid.MyReportqrypdf("rptLembarTriaseSkala4.jasper","report","::[ Triase Level 4 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                         }
                     } catch (Exception e) {
@@ -4473,13 +4473,13 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                     }
                         
                     try {
-                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Skala 5..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Skala 5","PDF Triase Skala 5"},"Lembar Triase Skala 5");
+                        pilihan = (String)JOptionPane.showInputDialog(null,"Silahkan pilih Lembar/PDF Triase Level 5..!","Pilihan",JOptionPane.QUESTION_MESSAGE,null,new Object[]{"Lembar Triase Level 5","PDF Triase Level 5"},"Lembar Triase Level 5");
                         switch (pilihan) {
-                            case "Lembar Triase Skala 5":
-                                  Valid.MyReportqry("rptLembarTriaseSkala5.jasper","report","::[ Triase Skala 5 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "Lembar Triase Level 5":
+                                  Valid.MyReportqry("rptLembarTriaseSkala5.jasper","report","::[ Triase Level 5 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
-                            case "PDF Triase Skala 5":
-                                  Valid.MyReportqry("rptLembarTriaseSkala5.jasper","report","::[ Triase Skala 5 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
+                            case "PDF Triase Level 5":
+                                  Valid.MyReportqry("rptLembarTriaseSkala5.jasper","report","::[ Triase Level 5 ]::","select * from temporary where temporary.temp37='"+akses.getalamatip()+"' order by temporary.no",param);
                                   break;
                         }
                     } catch (Exception e) {
@@ -5731,7 +5731,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                 Valid.textKosong(btnPrimerPetugas,"Dokter/Petugas Triase");
             }else if((jmlskala1==0)&&(jmlskala2==0)){
                 sukses=false;
-                Valid.textKosong(TCariPemeriksaan,"Skala 1 / Skala 2");
+                Valid.textKosong(TCariPemeriksaan,"Level 1 / Level 2");
             }else{
                 if(Sequel.mengedittf("data_triase_igd","no_rawat=?","no_rawat=?,tgl_kunjungan=?,cara_masuk=?,alat_transportasi=?,alasan_kedatangan=?,keterangan_kedatangan=?,kode_kasus=?,tekanan_darah=?,nadi=?,pernapasan=?,suhu=?,saturasi_o2=?,nyeri=?",14,new String[]{
                         TNoRw.getText(),Valid.SetTgl(TanggalKunjungan.getSelectedItem()+"")+" "+TanggalKunjungan.getSelectedItem().toString().substring(11,19),
@@ -5752,7 +5752,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                         if(TabSkala1dan2.getSelectedIndex()==0){
                             for(i=0;i<tbSkala1.getRowCount();i++){ 
                                 if(tbSkala1.getValueAt(i,0).toString().equals("true")){
-                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala1","?,?","Skala 1",2,new String[]{
+                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala1","?,?","Level 1",2,new String[]{
                                             TNoRw.getText(),tbSkala1.getValueAt(i,1).toString()
                                         })==true){
                                             tbSkala1.setValueAt(false,i,0);
@@ -5764,7 +5764,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                         }else if(TabSkala1dan2.getSelectedIndex()==1){
                             for(i=0;i<tbSkala2.getRowCount();i++){ 
                                 if(tbSkala2.getValueAt(i,0).toString().equals("true")){
-                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala2","?,?","Skala 2",2,new String[]{
+                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala2","?,?","Level 2",2,new String[]{
                                             TNoRw.getText(),tbSkala2.getValueAt(i,1).toString()
                                         })==true){
                                             tbSkala2.setValueAt(false,i,0);
@@ -5827,7 +5827,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                 Valid.textKosong(btnSekunderPetugas,"Dokter/Petugas Triase");
             }else if((jmlskala3==0)&&(jmlskala4==0)&&(jmlskala5==0)){
                 sukses=false;
-                Valid.textKosong(TCariPemeriksaan2,"Skala 3 / Skala 4 / Skala 5");
+                Valid.textKosong(TCariPemeriksaan2,"Level 3 / Level 4 / Level 5");
             }else{
                 if(Sequel.mengedittf("data_triase_igd","no_rawat=?","no_rawat=?,tgl_kunjungan=?,cara_masuk=?,alat_transportasi=?,alasan_kedatangan=?,keterangan_kedatangan=?,kode_kasus=?,tekanan_darah=?,nadi=?,pernapasan=?,suhu=?,saturasi_o2=?,nyeri=?",14,new String[]{
                         TNoRw.getText(),Valid.SetTgl(TanggalKunjungan.getSelectedItem()+"")+" "+TanggalKunjungan.getSelectedItem().toString().substring(11,19),
@@ -5848,7 +5848,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                         if(TabSkala3dan4dan5.getSelectedIndex()==0){
                             for(i=0;i<tbSkala3.getRowCount();i++){ 
                                 if(tbSkala3.getValueAt(i,0).toString().equals("true")){
-                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala3","?,?","Skala 3",2,new String[]{
+                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala3","?,?","Level 3",2,new String[]{
                                             TNoRw.getText(),tbSkala3.getValueAt(i,1).toString()
                                         })==true){
                                             tbSkala3.setValueAt(false,i,0);
@@ -5860,7 +5860,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                         }else if(TabSkala3dan4dan5.getSelectedIndex()==1){
                             for(i=0;i<tbSkala4.getRowCount();i++){ 
                                 if(tbSkala4.getValueAt(i,0).toString().equals("true")){
-                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala4","?,?","Skala 4",2,new String[]{
+                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala4","?,?","Level 4",2,new String[]{
                                             TNoRw.getText(),tbSkala4.getValueAt(i,1).toString()
                                         })==true){
                                             tbSkala4.setValueAt(false,i,0);
@@ -5872,7 +5872,7 @@ public final class RMTriaseIGD extends javax.swing.JDialog {
                         }else if(TabSkala3dan4dan5.getSelectedIndex()==2){
                             for(i=0;i<tbSkala5.getRowCount();i++){ 
                                 if(tbSkala5.getValueAt(i,0).toString().equals("true")){
-                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala5","?,?","Skala 5",2,new String[]{
+                                    if(Sequel.menyimpantf2("data_triase_igddetail_skala5","?,?","Level 5",2,new String[]{
                                             TNoRw.getText(),tbSkala5.getValueAt(i,1).toString()
                                         })==true){
                                             tbSkala5.setValueAt(false,i,0);

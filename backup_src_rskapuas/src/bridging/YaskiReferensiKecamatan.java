@@ -43,7 +43,7 @@ import javax.swing.event.DocumentEvent;
 public final class YaskiReferensiKecamatan extends javax.swing.JDialog {
     private final DefaultTableModel tabMode;
     private validasi Valid=new validasi();
-    private YaskiReferensiKabupaten kabupaten;
+    private YaskiReferensiKabupaten kabupaten=new YaskiReferensiKabupaten(null, false);
     private int i=0;
     private ObjectMapper mapper = new ObjectMapper();
     private JsonNode root;

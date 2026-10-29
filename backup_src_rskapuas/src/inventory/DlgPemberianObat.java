@@ -3623,6 +3623,11 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     }//GEN-LAST:event_TTuslahKeyPressed
 
     private void ppResepObatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ppResepObatActionPerformed
+        if(Sequel.cariInteger("select count(no_rawat) from reg_periksa where status_lanjut='Ralan' and no_rawat='"+TNoRw.getText()+"' ")>1){
+            status="Ralan";
+        }else{
+            status="Ranap";
+        }
         if(tabModePO.getRowCount()==0){
              JOptionPane.showMessageDialog(null,"Maaf, data sudah habis...!!!!");
              TNoRw.requestFocus();

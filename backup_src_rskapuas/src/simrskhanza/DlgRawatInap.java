@@ -51,6 +51,7 @@ import keuangan.Jurnal;
 import laporan.DlgBerkasRawat;
 import laporan.DlgDiagnosaPenyakit;
 import modifikasi.DlgDataAlergiPasien;
+import modifikasi.DlgMonertPasien;
 import modifikasi.RMDataPemberianObatInjeksi;
 import modifikasi.grafiksqlttv1;
 import permintaan.DlgBookingOperasi;
@@ -130,7 +131,7 @@ import rekammedis.RMSkriningNutrisiDewasa;
 import rekammedis.RMSkriningNutrisiLansia;
 import rekammedis.RMTimeOutSebelumInsisi;
 import rekammedis.RMTransferPasienAntarRuang;
-import widget.PanelBiasa;
+
 
 /**
  *
@@ -150,6 +151,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
     public  DlgKamar kamar2=new DlgKamar(null,false);
     private RMCari5SOAPTerakhir soapterakhir=new RMCari5SOAPTerakhir(null,false); 
     private DlgDataAlergiPasien alergi=new DlgDataAlergiPasien(null,false);
+    private DlgMonertPasien monert=new DlgMonertPasien(null,false);
     private PreparedStatement ps,ps2,ps3,ps4,ps5,psrekening,ps6,psotomatis,psotomatis2,pskasir;
     private ResultSet rs,rsrekening,rskasir;
     private int i=0,tinggi=0,cektindakan=0;
@@ -1335,6 +1337,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         TNadi = new widget.TextBox();
         jLabel61 = new widget.Label();
         BtnTambahAlergi = new widget.Button();
+        BtnTambahDataMonert = new widget.Button();
         internalFrame6 = new widget.InternalFrame();
         Scroll4 = new widget.ScrollPane();
         tbPemeriksaanObstetri = new widget.Table();
@@ -1801,7 +1804,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         panelGlass10.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-08-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-10-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -1815,7 +1818,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         panelGlass10.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-08-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-10-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -2303,6 +2306,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         Scroll3.setComponentPopupMenu(jPopupMenu2);
         Scroll3.setName("Scroll3"); // NOI18N
         Scroll3.setOpaque(true);
+        Scroll3.setPreferredSize(new java.awt.Dimension(422, 402));
 
         tbPemeriksaan.setAutoCreateRowSorter(true);
         tbPemeriksaan.setToolTipText("Silahkan klik untuk memilih data yang mau diedit ataupun dihapus");
@@ -2324,7 +2328,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
 
         PanelInput1.setName("PanelInput1"); // NOI18N
         PanelInput1.setOpaque(false);
-        PanelInput1.setPreferredSize(new java.awt.Dimension(192, 273));
+        PanelInput1.setPreferredSize(new java.awt.Dimension(200, 290));
         PanelInput1.setLayout(new java.awt.BorderLayout(1, 1));
 
         ChkInput.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/143.png"))); // NOI18N
@@ -2704,6 +2708,20 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         });
         panelGlass12.add(BtnTambahAlergi);
         BtnTambahAlergi.setBounds(870, 10, 28, 23);
+
+        BtnTambahDataMonert.setIcon(new javax.swing.ImageIcon(getClass().getResource("/picture/plus_16.png"))); // NOI18N
+        BtnTambahDataMonert.setMnemonic('3');
+        BtnTambahDataMonert.setText("TTV dari Alat");
+        BtnTambahDataMonert.setToolTipText("Alt+3");
+        BtnTambahDataMonert.setName("BtnTambahDataMonert"); // NOI18N
+        BtnTambahDataMonert.setPreferredSize(new java.awt.Dimension(28, 23));
+        BtnTambahDataMonert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnTambahDataMonertActionPerformed(evt);
+            }
+        });
+        panelGlass12.add(BtnTambahDataMonert);
+        BtnTambahDataMonert.setBounds(10, 245, 120, 23);
 
         PanelInput1.add(panelGlass12, java.awt.BorderLayout.CENTER);
 
@@ -3481,7 +3499,7 @@ public final class DlgRawatInap extends javax.swing.JDialog {
         TPasien.setBounds(283, 10, 260, 23);
 
         DTPTgl.setForeground(new java.awt.Color(50, 70, 50));
-        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "29-08-2025" }));
+        DTPTgl.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "26-10-2026" }));
         DTPTgl.setDisplayFormat("dd-MM-yyyy");
         DTPTgl.setName("DTPTgl"); // NOI18N
         DTPTgl.setOpaque(false);
@@ -9242,6 +9260,14 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
                 alergi.tampil();
     }//GEN-LAST:event_BtnTambahAlergiActionPerformed
 
+    private void BtnTambahDataMonertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnTambahDataMonertActionPerformed
+                monert.setSize(internalFrame1.getWidth()-20,internalFrame1.getHeight()-20);
+                monert.setLocationRelativeTo(internalFrame1);
+                monert.setVisible(true);
+                monert.setNoRm(TNoRw.getText(),DTPCari1.getDate());
+                monert.tampil();
+    }//GEN-LAST:event_BtnTambahDataMonertActionPerformed
+
     private void BtnSkorBromagePascaAnestesiActionPerformed(java.awt.event.ActionEvent evt) {                                                            
         if(TPasien.getText().trim().equals("")||TNoRw.getText().trim().equals("")){
             JOptionPane.showMessageDialog(null,"Maaf, Silahkan anda pilih dulu dengan menklik data pada table...!!!");
@@ -9497,6 +9523,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private widget.Button BtnSkriningNutrisiDewasa;
     private widget.Button BtnSkriningNutrisiLansia;
     private widget.Button BtnTambahAlergi;
+    private widget.Button BtnTambahDataMonert;
     private widget.Button BtnTimeOutSebelumInsisi;
     private widget.Button BtnTransferAntarRuang;
     private widget.CekBox ChkAccor;
@@ -10064,6 +10091,11 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
         TDokter.setText(perawatan.dokter.tampil3(KdDok.getText()));
         KdDok2.setText(KdDok.getText());
         TDokter2.setText(TDokter.getText()); 
+        if(Sequel.cariInteger("select count(no_rawat) from monert_tanda_vital where no_rawat ='"+norwt+"' ")>1 || akses.getkode().equals("Admin Utama")){
+            BtnTambahDataMonert.setVisible(true);
+        }else{
+            BtnTambahDataMonert.setVisible(false);
+        }
         
         isRawat();
         isPsien();
@@ -10089,7 +10121,7 @@ private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_B
     private void isForm(){
         if(ChkInput.isSelected()==true){
             ChkInput.setVisible(false);
-            PanelInput1.setPreferredSize(new Dimension(WIDTH,273));
+            PanelInput1.setPreferredSize(new Dimension(WIDTH,293));
             panelGlass12.setVisible(true);      
             ChkInput.setVisible(true);
         }else if(ChkInput.isSelected()==false){           

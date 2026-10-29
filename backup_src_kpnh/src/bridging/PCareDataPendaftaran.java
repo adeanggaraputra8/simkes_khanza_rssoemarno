@@ -1180,6 +1180,9 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         jLabel51 = new widget.Label();
         scrollPane3 = new widget.ScrollPane();
         TRiwayatDulu = new widget.TextArea();
+        jLabel59 = new widget.Label();
+        scrollPane10 = new widget.ScrollPane();
+        TRiwayaObatPRB = new widget.TextArea();
         internalFrame4 = new widget.InternalFrame();
         Scroll = new widget.ScrollPane();
         tbPendaftaran = new widget.Table();
@@ -1575,7 +1578,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
 
         tanggal.setEditable(false);
         tanggal.setForeground(new java.awt.Color(50, 70, 50));
-        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025 00:50:08" }));
+        tanggal.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026 05:56:33" }));
         tanggal.setDisplayFormat("dd-MM-yyyy HH:mm:ss");
         tanggal.setName("tanggal"); // NOI18N
         tanggal.setOpaque(false);
@@ -1834,7 +1837,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         jLabel22.setBounds(0, 102, 90, 23);
 
         TanggalDaftar.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalDaftar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        TanggalDaftar.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         TanggalDaftar.setDisplayFormat("dd-MM-yyyy");
         TanggalDaftar.setName("TanggalDaftar"); // NOI18N
         TanggalDaftar.setOpaque(false);
@@ -2151,7 +2154,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         jLabel26.setBounds(30, 272, 97, 23);
 
         TanggalKunjungan.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalKunjungan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        TanggalKunjungan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         TanggalKunjungan.setDisplayFormat("dd-MM-yyyy");
         TanggalKunjungan.setEnabled(false);
         TanggalKunjungan.setName("TanggalKunjungan"); // NOI18N
@@ -2256,7 +2259,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         BtnStatusPulang.setBounds(700, 392, 28, 23);
 
         TanggalPulang.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        TanggalPulang.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         TanggalPulang.setDisplayFormat("dd-MM-yyyy");
         TanggalPulang.setEnabled(false);
         TanggalPulang.setName("TanggalPulang"); // NOI18N
@@ -2458,7 +2461,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         jLabel32.setBounds(90, 492, 95, 23);
 
         TanggalEstRujuk.setForeground(new java.awt.Color(50, 70, 50));
-        TanggalEstRujuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        TanggalEstRujuk.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         TanggalEstRujuk.setDisplayFormat("dd-MM-yyyy");
         TanggalEstRujuk.setEnabled(false);
         TanggalEstRujuk.setName("TanggalEstRujuk"); // NOI18N
@@ -3036,7 +3039,29 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         scrollPane3.setViewportView(TRiwayatDulu);
 
         FormInput.add(scrollPane3);
-        scrollPane3.setBounds(770, 130, 90, 50);
+        scrollPane3.setBounds(770, 130, 110, 50);
+
+        jLabel59.setText("Riwayat Obat PRB :");
+        jLabel59.setName("jLabel59"); // NOI18N
+        FormInput.add(jLabel59);
+        jLabel59.setBounds(750, 190, 100, 23);
+
+        scrollPane10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        scrollPane10.setName("scrollPane10"); // NOI18N
+
+        TRiwayaObatPRB.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        TRiwayaObatPRB.setColumns(20);
+        TRiwayaObatPRB.setRows(5);
+        TRiwayaObatPRB.setName("TRiwayaObatPRB"); // NOI18N
+        TRiwayaObatPRB.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                TRiwayaObatPRBKeyPressed(evt);
+            }
+        });
+        scrollPane10.setViewportView(TRiwayaObatPRB);
+
+        FormInput.add(scrollPane10);
+        scrollPane10.setBounds(760, 210, 120, 60);
 
         Scroll1.setViewportView(FormInput);
 
@@ -3081,7 +3106,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass9.add(jLabel19);
 
         DTPCari1.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -3095,7 +3120,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass9.add(jLabel21);
 
         DTPCari2.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -3185,7 +3210,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass10.add(jLabel42);
 
         DTPCari3.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        DTPCari3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPCari3.setDisplayFormat("dd-MM-yyyy");
         DTPCari3.setName("DTPCari3"); // NOI18N
         DTPCari3.setOpaque(false);
@@ -3199,7 +3224,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass10.add(jLabel43);
 
         DTPCari4.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        DTPCari4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPCari4.setDisplayFormat("dd-MM-yyyy");
         DTPCari4.setName("DTPCari4"); // NOI18N
         DTPCari4.setOpaque(false);
@@ -3289,7 +3314,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass11.add(jLabel45);
 
         DTPCari5.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        DTPCari5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPCari5.setDisplayFormat("dd-MM-yyyy");
         DTPCari5.setName("DTPCari5"); // NOI18N
         DTPCari5.setOpaque(false);
@@ -3303,7 +3328,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         panelGlass11.add(jLabel46);
 
         DTPCari6.setForeground(new java.awt.Color(50, 70, 50));
-        DTPCari6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "04-02-2025" }));
+        DTPCari6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPCari6.setDisplayFormat("dd-MM-yyyy");
         DTPCari6.setName("DTPCari6"); // NOI18N
         DTPCari6.setOpaque(false);
@@ -6347,6 +6372,10 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_TRiwayatDuluKeyPressed
 
+    private void TRiwayaObatPRBKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TRiwayaObatPRBKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TRiwayaObatPRBKeyPressed
+
     /**
     * @param args the command line arguments
     */
@@ -6513,6 +6542,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
     private widget.TextBox TNoRM;
     private widget.TextBox TNoRw;
     private widget.TextBox TPasien;
+    private widget.TextArea TRiwayaObatPRB;
     private widget.TextArea TRiwayatDulu;
     private widget.TextBox TSuhu;
     private widget.TextBox TTlp;
@@ -6583,6 +6613,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
     private widget.Label jLabel50;
     private widget.Label jLabel51;
     private widget.Label jLabel53;
+    private widget.Label jLabel59;
     private widget.Label jLabel6;
     private widget.Label jLabel7;
     private widget.Label jLabel8;
@@ -6603,6 +6634,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
     private javax.swing.JMenuItem ppRujukanPCare;
     private javax.swing.JMenuItem ppRujukanPCare1;
     private javax.swing.JMenuItem ppSinkronGagal;
+    private widget.ScrollPane scrollPane10;
     private widget.ScrollPane scrollPane3;
     private widget.Tanggal tanggal;
     private widget.Table tbKunjungan;
@@ -6893,6 +6925,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
                     KdPoliTujuan.setText(rs.getString("kd_poli"));
                     TNoRM.setText(rs.getString("no_rkm_medis"));
                     TRiwayatDulu.setText(Sequel.cariIsi("select riwayat_dulu from m_input_riwayat where no_rkm_medis ='"+TNoRM.getText()+"' "));
+                    TRiwayaObatPRB.setText(Sequel.cariIsi("select catatan from obat_prb where no_rkm_medis ='"+TNoRM.getText()+"' "));
                     if(rs.getString("status_lanjut").equals("Ralan")){
                         Perawatan.setSelectedIndex(0);
                     }else{
@@ -7439,6 +7472,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
                     KdPoliTujuan.setText(rs.getString("kd_poli"));
                     TNoRM.setText(rs.getString("no_rkm_medis"));
                     TRiwayatDulu.setText(Sequel.cariIsi("select riwayat_dulu from m_input_riwayat where no_rkm_medis ='"+TNoRM.getText()+"' "));
+                    TRiwayaObatPRB.setText(Sequel.cariIsi("select catatan from obat_prb where no_rkm_medis ='"+TNoRM.getText()+"' "));
                     if(rs.getString("status_lanjut").equals("Ralan")){
                         Perawatan.setSelectedIndex(0);
                     }else{
@@ -8018,6 +8052,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
             Perawatan.setSelectedItem(tbPendaftaran.getValueAt(tbPendaftaran.getSelectedRow(),18).toString());
             Valid.SetTgl(TanggalDaftar,tbPendaftaran.getValueAt(tbPendaftaran.getSelectedRow(),1).toString());
             TRiwayatDulu.setText(Sequel.cariIsi("select riwayat_dulu from m_input_riwayat where no_rkm_medis ='"+TNoRM.getText()+"' "));
+            TRiwayaObatPRB.setText(Sequel.cariIsi("select catatan from obat_prb where no_rkm_medis ='"+TNoRM.getText()+"' "));
         }
     }
     
@@ -8066,6 +8101,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
             Valid.SetTgl(TanggalPulang,tbKunjungan.getValueAt(tbKunjungan.getSelectedRow(),21).toString());
             TglLahir.setText(Sequel.cariIsi("select pasien.tgl_lahir from pasien where pasien.no_rkm_medis=?",TNoRM.getText()));
             TRiwayatDulu.setText(Sequel.cariIsi("select riwayat_dulu from m_input_riwayat where no_rkm_medis ='"+TNoRM.getText()+"' "));
+            TRiwayaObatPRB.setText(Sequel.cariIsi("select catatan from obat_prb where no_rkm_medis ='"+TNoRM.getText()+"' "));
         }
     }
     
@@ -8124,6 +8160,7 @@ public final class PCareDataPendaftaran extends javax.swing.JDialog {
             Valid.SetTgl(TanggalEstRujuk,tbSpesialis.getValueAt(tbSpesialis.getSelectedRow(),30).toString());
             TglLahir.setText(Sequel.cariIsi("select pasien.tgl_lahir from pasien where pasien.no_rkm_medis=?",TNoRM.getText()));
             TRiwayatDulu.setText(Sequel.cariIsi("select riwayat_dulu from m_input_riwayat where no_rkm_medis ='"+TNoRM.getText()+"' "));
+            TRiwayaObatPRB.setText(Sequel.cariIsi("select catatan from obat_prb where no_rkm_medis ='"+TNoRM.getText()+"' "));
         }
     }
 

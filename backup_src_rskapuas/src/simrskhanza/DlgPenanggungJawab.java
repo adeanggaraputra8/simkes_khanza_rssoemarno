@@ -540,6 +540,7 @@ public final class DlgPenanggungJawab extends javax.swing.JDialog {
 }//GEN-LAST:event_AlamatAsuransiKeyPressed
 
     private void BtnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSimpanActionPerformed
+     if(akses.getkode().equals("Admin Utama")) {
         if(KdAsuransi.getText().trim().equals("")){
             Valid.textKosong(KdAsuransi,"Kode Penanggung/Askes/Asuransi");
         }else if(NmAsuransi.getText().trim().equals("")){
@@ -557,6 +558,9 @@ public final class DlgPenanggungJawab extends javax.swing.JDialog {
             BtnCariActionPerformed(evt);
             emptTeks();
         }
+     }else{
+         JOptionPane.showMessageDialog(null, "Silahkan Hubungi Administartor/ IT");  
+     }
 }//GEN-LAST:event_BtnSimpanActionPerformed
 
     private void BtnSimpanKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnSimpanKeyPressed
@@ -598,6 +602,7 @@ public final class DlgPenanggungJawab extends javax.swing.JDialog {
 }//GEN-LAST:event_BtnHapusKeyPressed
 
     private void BtnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEditActionPerformed
+    if(akses.getkode().equals("Admin Utama")) {
         if(KdAsuransi.getText().trim().equals("")){
             Valid.textKosong(KdAsuransi,"Kode Penanggung/Askes/Asuransi");
         }else if(NmAsuransi.getText().trim().equals("")){
@@ -615,6 +620,9 @@ public final class DlgPenanggungJawab extends javax.swing.JDialog {
             if(tabMode.getRowCount()!=0){BtnCariActionPerformed(evt);}
             emptTeks();
         }
+     }else{
+         JOptionPane.showMessageDialog(null, "Silahkan Hubungi Administartor/ IT");  
+     }
 }//GEN-LAST:event_BtnEditActionPerformed
 
     private void BtnEditKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BtnEditKeyPressed

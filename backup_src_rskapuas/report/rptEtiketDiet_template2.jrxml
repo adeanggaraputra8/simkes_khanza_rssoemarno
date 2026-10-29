@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptEtiketDiet_template2" pageWidth="609" pageHeight="935" orientation="Portrait" columnWidth="191" leftMargin="14" rightMargin="14" topMargin="14" bottomMargin="14" columnSpacing="4" columnCount="3" printOrder="Horizontal" uuid="a1b2c3d4-e5f6-47a8-9b0c-1d2e3f4a5b6c">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="lokal"/>
+	<parameter name="namars" class="java.lang.String"/>
+	<parameter name="logo" class="java.io.InputStream"/>
+	<queryString>
+		<![CDATA[select no_rawat, no_rkm_medis, nm_pasien, tgl_lahir, jk, tanggal, waktu, jam, nama_diet, kd_kamar, nm_bangsal, diagnosa from (
+select detail_beri_diet.no_rawat as no_rawat,
+reg_periksa.no_rkm_medis as no_rkm_medis,
+pasien.nm_pasien as nm_pasien,
+pasien.tgl_lahir as tgl_lahir,
+pasien.jk as jk,
+detail_beri_diet.tanggal as tanggal,
+detail_beri_diet.waktu as waktu,
+jam_diet_pasien.jam as jam,
+diet.nama_diet as nama_diet,
+detail_beri_diet.kd_kamar as kd_kamar,
+bangsal.nm_bangsal as nm_bangsal,
+(select kamar_inap.diagnosa_awal from kamar_inap where kamar_inap.no_rawat=detail_beri_diet.no_rawat order by kamar_inap.tgl_masuk desc limit 1) as diagnosa
+from detail_beri_diet inner join reg_periksa on detail_beri_diet.no_rawat=reg_periksa.no_rawat
+inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis
+inner join diet on detail_beri_diet.kd_diet=diet.kd_diet
+inner join kamar on detail_beri_diet.kd_kamar=kamar.kd_kamar
+inner join bangsal on kamar.kd_bangsal=bangsal.kd_bangsal
+inner join jam_diet_pasien on detail_beri_diet.waktu=jam_diet_pasien.waktu
+union all
+select null,null,null,null,null,null,null,null,null,null,null,null
+from (select 1 n union select 2 union select 3 union select 4 union select 5
+union select 6 union select 7 union select 8 union select 9 union select 10
+union select 11 union select 12 union select 13 union select 14) as pad
+where pad.n <= (15 - ((select count(*)
+    from detail_beri_diet inner join reg_periksa on detail_beri_diet.no_rawat=reg_periksa.no_rawat
+    inner join pasien on reg_periksa.no_rkm_medis=pasien.no_rkm_medis
+    inner join diet on detail_beri_diet.kd_diet=diet.kd_diet
+    inner join kamar on detail_beri_diet.kd_kamar=kamar.kd_kamar
+    inner join bangsal on kamar.kd_bangsal=bangsal.kd_bangsal
+    inner join jam_diet_pasien on detail_beri_diet.waktu=jam_diet_pasien.waktu
+) % 15) % 15
+) as gabungan
+order by (no_rawat is null), no_rawat, tanggal, waktu]]>
+	</queryString>
+	<field name="no_rawat" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="no_rawat"/>
+	</field>
+	<field name="no_rkm_medis" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="no_rkm_medis"/>
+	</field>
+	<field name="nm_pasien" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nm_pasien"/>
+	</field>
+	<field name="tgl_lahir" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="tgl_lahir"/>
+	</field>
+	<field name="jk" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="jk"/>
+	</field>
+	<field name="tanggal" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="tanggal"/>
+	</field>
+	<field name="waktu" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="waktu"/>
+	</field>
+	<field name="jam" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="jam"/>
+	</field>
+	<field name="nama_diet" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nama_diet"/>
+	</field>
+	<field name="kd_kamar" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="kd_kamar"/>
+	</field>
+	<field name="nm_bangsal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nm_bangsal"/>
+	</field>
+	<field name="diagnosa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="diagnosa"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="181" splitType="Stretch">
+			<!-- Border kotak label (gaya sama seperti rptLabelDiet: garis teal) -->
+			<line>
+				<reportElement x="1" y="1" width="188" height="1" forecolor="#006666" uuid="c1000000-0000-0000-0000-000000000001"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="178" width="188" height="1" forecolor="#006666" uuid="c1000000-0000-0000-0000-000000000002"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="1" y="1" width="1" height="177" forecolor="#006666" uuid="c1000000-0000-0000-0000-000000000003"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="189" y="1" width="1" height="177" forecolor="#006666" uuid="c1000000-0000-0000-0000-000000000004"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+
+			<!-- Header: logo + judul -->
+			<image scaleImage="FillFrame" onErrorType="Blank">
+				<reportElement x="4" y="4" width="22" height="22" uuid="c1000000-0000-0000-0000-000000000005"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="28" y="4" width="158" height="22" uuid="c1000000-0000-0000-0000-000000000006"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="8" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[ETIKET MAKANAN PASIEN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="28" width="188" height="1" forecolor="#006666" uuid="c1000000-0000-0000-0000-000000000007"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+
+			<!-- Baris 1: Nama -->
+			<staticText>
+				<reportElement x="4" y="32" width="50" height="10" uuid="c1000000-0000-0000-0000-000000000008"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="55" y="32" width="131" height="10" uuid="c1000000-0000-0000-0000-000000000009"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nm_pasien}==null?":":": "+$F{nm_pasien}]]></textFieldExpression>
+			</textField>
+
+			<!-- Baris 2: No MR -->
+			<staticText>
+				<reportElement x="4" y="50" width="50" height="10" uuid="c1000000-0000-0000-0000-000000000010"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[No MR]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="55" y="50" width="131" height="10" uuid="c1000000-0000-0000-0000-000000000011"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_rkm_medis}==null?":":": "+$F{no_rkm_medis}]]></textFieldExpression>
+			</textField>
+
+			<!-- Baris 3: Tanggal Lahir -->
+			<staticText>
+				<reportElement x="4" y="68" width="50" height="10" uuid="c1000000-0000-0000-0000-000000000012"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Tgl Lahir]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement x="55" y="68" width="131" height="10" uuid="c1000000-0000-0000-0000-000000000013"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgl_lahir}==null?":":": "+new java.text.SimpleDateFormat("dd/MM/yyyy").format($F{tgl_lahir})]]></textFieldExpression>
+			</textField>
+
+			<!-- Baris 4: Jenis Kelamin -->
+			<staticText>
+				<reportElement x="4" y="86" width="50" height="10" uuid="c1000000-0000-0000-0000-000000000014"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Jenis Kelamin]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="55" y="86" width="131" height="10" uuid="c1000000-0000-0000-0000-000000000015"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}==null?":":": "+($F{jk}.equals("L")?"Laki-laki":"Perempuan")]]></textFieldExpression>
+			</textField>
+
+			<!-- Baris 5: No Kamar -->
+			<staticText>
+				<reportElement x="4" y="104" width="50" height="10" uuid="c1000000-0000-0000-0000-000000000016"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[No Kamar]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="55" y="104" width="131" height="10" uuid="c1000000-0000-0000-0000-000000000017"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kd_kamar}==null?":":": "+$F{kd_kamar}+" - "+$F{nm_bangsal}]]></textFieldExpression>
+			</textField>
+
+			<!-- Baris 6: Jam Diet -->
+			<staticText>
+				<reportElement x="4" y="122" width="50" height="10" uuid="c1000000-0000-0000-0000-000000000022"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Jam Diet]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="55" y="122" width="131" height="10" uuid="c1000000-0000-0000-0000-000000000023"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{waktu}==null?":":": "+$F{waktu}+" ("+$F{jam}+")"]]></textFieldExpression>
+			</textField>
+
+			<!-- Baris 7: Diagnosa -->
+			<staticText>
+				<reportElement x="4" y="140" width="50" height="10" uuid="c1000000-0000-0000-0000-000000000018"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Diagnosa]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="55" y="140" width="131" height="10" uuid="c1000000-0000-0000-0000-000000000019"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[": "+($F{diagnosa}==null?"":$F{diagnosa})]]></textFieldExpression>
+			</textField>
+
+
+			<!-- Baris 8: Jenis Diet -->
+			<staticText>
+				<reportElement x="4" y="158" width="50" height="10" uuid="c1000000-0000-0000-0000-000000000020"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Jenis Diet]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="55" y="158" width="131" height="10" uuid="c1000000-0000-0000-0000-000000000021"/>
+				<textElement textAlignment="Left">
+					<font fontName="Tahoma" size="7" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nama_diet}==null?":":": "+$F{nama_diet}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

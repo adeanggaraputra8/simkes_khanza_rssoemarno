@@ -1183,6 +1183,7 @@ import ziscsr.ZISPengeluaranPenerimaDankes;
 import ziscsr.ZISPenghasilanPenerimaDankes;
 import ziscsr.ZISTernakPenerimaDankes;
 import ziscsr.ZISUkuranRumahPenerimaDankes;
+import modifikasi.NotifikasiManager;
 
 
 /**
@@ -1267,7 +1268,7 @@ public class frmUtama extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Notif IP : "+e);
         }
-        
+       
         FlayMenu.setVisible(false);
         TCari.setVisible(false);
         if(koneksiDB.CARICEPAT().equals("aktif")){
@@ -1308,7 +1309,7 @@ public class frmUtama extends javax.swing.JFrame {
 
         return myInstance;
     }
-    
+   
      
 
     /** This method is called from within the constructor to
@@ -8531,6 +8532,8 @@ public class frmUtama extends javax.swing.JFrame {
                     forminformasiuser info=forminformasiuser.getInstance();
                     info.iscek();
                     info.setVisible(true);
+                    NotifikasiManager.setkodeDokter(akses.getkode());
+                    NotifikasiManager.start();
                 }else if(akses.getjml2()>=1){  
                     BtnMenu.setEnabled(true);
                     DlgLogin.dispose();
@@ -8585,6 +8588,8 @@ public class frmUtama extends javax.swing.JFrame {
                     forminformasiuser info=forminformasiuser.getInstance();
                     info.iscek();
                     info.setVisible(true);
+                    NotifikasiManager.setkodeDokter(akses.getkode());
+                    NotifikasiManager.start();
                 }else if((akses.getjml1()==0)&&(akses.getjml2()==0)){
                     JOptionPane.showMessageDialog(null,"Maaf, Gagal login. ID User atau password ada yang salah ...!");
                     BtnToolReg.setEnabled(false);
@@ -8618,6 +8623,8 @@ public class frmUtama extends javax.swing.JFrame {
                     lblUser.setText("Log Out");   
                     forminformasiuser info=forminformasiuser.getInstance();
                     info.setVisible(false);
+                   NotifikasiManager.setkodeDokter(akses.getkode());
+                   NotifikasiManager.start();
                 }
             } catch (Exception e) {
                 System.out.println("Notifikasi : "+e);

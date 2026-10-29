@@ -159,6 +159,7 @@ public final class RMDataCatatanCekGDS extends javax.swing.JDialog {
         ChkInput.setSelected(false);
         isForm();
         jam();
+        isCek();
     }
 
 
