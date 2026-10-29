@@ -2260,6 +2260,7 @@ public final class RMDataResumePasienRanap extends javax.swing.JDialog {
     }//GEN-LAST:event_HasilLaboratKeyPressed
 
     private void MnLaporanResumeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MnLaporanResumeActionPerformed
+
         if(tbObat.getSelectedRow()>-1){
             Map<String, Object> param = new HashMap<>();    
             param.put("namars",akses.getnamars());

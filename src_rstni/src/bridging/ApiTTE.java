@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fungsi.koneksiDB;
 import fungsi.sekuel;
-import java.awt.Component;
-import java.awt.Cursor;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -22,7 +20,6 @@ import java.security.cert.X509Certificate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Properties;
 import javax.net.ssl.SSLContext;
@@ -80,7 +77,7 @@ public class ApiTTE {
 
                         Properties prop = new Properties();
                         prop.loadFromXML(new FileInputStream("setting/database.xml"));
-                        host_port = prop.getProperty("HOSTport");
+                        host_port = prop.getProperty("HOSTPORT");
                         //System.out.println("JSON : " + requestJson12);
                         requestEntity = new HttpEntity(requestJson12, headers);
                         stringbalik = getRest().exchange("http://" + host_port + "/ws-tte-simrs/kirim.php", HttpMethod.POST, requestEntity, String.class).getBody();

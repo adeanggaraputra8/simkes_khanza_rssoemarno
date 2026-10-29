@@ -105,14 +105,5 @@ public class TteApi {
         return var;
     }
     
-    public static String NOANTRIAN(){
-        try{
-            prop.loadFromXML(new FileInputStream("setting/database.xml"));
-            var=prop.getProperty("NOANTRIANDARIMESIN");
-        }catch(Exception e){
-            var=""; 
-        }
-        return var;
-    }
 
 }
