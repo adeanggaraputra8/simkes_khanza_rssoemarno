@@ -945,6 +945,8 @@ public class BPJSSuratKontrol extends javax.swing.JDialog {
             Valid.textKosong(KdDokter,"Dokter");
         }else if(NmPoli.getText().trim().equals("")||NmPoli.getText().trim().equals("")){
             Valid.textKosong(KdPoli,"Poli");
+        }else if(Valid.SetTgl(TanggalKontrol.getSelectedItem()+"")==Valid.SetTgl(TanggalSurat.getSelectedItem()+"")){
+            JOptionPane.showMessageDialog(null, "Tanggal Surat dan Tanggal Rencana Kontrol tidak boleh sama..!");
         }else{
             try {
                 headers = new HttpHeaders();

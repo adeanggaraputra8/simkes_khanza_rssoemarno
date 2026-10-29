@@ -612,7 +612,8 @@ public final class DlgReg extends javax.swing.JDialog {
                                     TBiaya.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),2).toString());
                                     break;
                             }
-                            isNumber();                            
+                            isNumber();
+                            Info();                            
                             kdpoli.requestFocus();
                         }else if(pilihan==2){
                             CrPoli.setText(poli.getTable().getValueAt(poli.getTable().getSelectedRow(),1).toString());
@@ -757,7 +758,7 @@ public final class DlgReg extends javax.swing.JDialog {
                 if(akses.getform().equals("DlgReg")){
                     if(pasien.penjab.getTable().getSelectedRow()!= -1){
                         kdpnj.setText(pasien.penjab.getTable().getValueAt(pasien.penjab.getTable().getSelectedRow(),1).toString());
-                        nmpnj.setText(pasien.penjab.getTable().getValueAt(pasien.penjab.getTable().getSelectedRow(),2).toString());
+                        nmpnj.setText(pasien.penjab.getTable().getValueAt(pasien.penjab.getTable().getSelectedRow(),2).toString());                      
                     }    
                     kdpnj.requestFocus();
                 }
@@ -1336,6 +1337,8 @@ public final class DlgReg extends javax.swing.JDialog {
         btnCekBridging = new widget.Button();
         TNosep = new widget.TextBox();
         jLabel43 = new widget.Label();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TInfo = new widget.TextArea();
         ChkInput = new widget.CekBox();
         TabRawat = new javax.swing.JTabbedPane();
         Scroll = new widget.ScrollPane();
@@ -5938,7 +5941,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel15.setPreferredSize(new java.awt.Dimension(60, 23));
         panelGlass7.add(jLabel15);
 
-        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-08-2024" }));
+        DTPCari1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPCari1.setDisplayFormat("dd-MM-yyyy");
         DTPCari1.setName("DTPCari1"); // NOI18N
         DTPCari1.setOpaque(false);
@@ -5951,7 +5954,7 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel17.setPreferredSize(new java.awt.Dimension(24, 23));
         panelGlass7.add(jLabel17);
 
-        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-08-2024" }));
+        DTPCari2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPCari2.setDisplayFormat("dd-MM-yyyy");
         DTPCari2.setName("DTPCari2"); // NOI18N
         DTPCari2.setOpaque(false);
@@ -6122,7 +6125,7 @@ public final class DlgReg extends javax.swing.JDialog {
         FormInput.add(jLabel9);
         jLabel9.setBounds(165, 72, 36, 23);
 
-        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "11-08-2024" }));
+        DTPReg.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "19-10-2026" }));
         DTPReg.setDisplayFormat("dd-MM-yyyy");
         DTPReg.setName("DTPReg"); // NOI18N
         DTPReg.setOpaque(false);
@@ -6433,6 +6436,18 @@ public final class DlgReg extends javax.swing.JDialog {
         jLabel43.setName("jLabel43"); // NOI18N
         FormInput.add(jLabel43);
         jLabel43.setBounds(691, 102, 43, 23);
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
+
+        TInfo.setEditable(false);
+        TInfo.setColumns(20);
+        TInfo.setForeground(new java.awt.Color(255, 0, 0));
+        TInfo.setRows(5);
+        TInfo.setName("TInfo"); // NOI18N
+        jScrollPane1.setViewportView(TInfo);
+
+        FormInput.add(jScrollPane1);
+        jScrollPane1.setBounds(930, 50, 320, 100);
 
         PanelInput.add(FormInput, java.awt.BorderLayout.CENTER);
 
@@ -13206,6 +13221,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private widget.TextBox TDokter;
     private widget.TextBox TGCS;
     private widget.TextBox THbngn;
+    private widget.TextArea TInfo;
     private widget.TextArea TKeluhan;
     private widget.TextBox TNadi;
     private widget.TextBox TNoRM;
@@ -13289,6 +13305,7 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JPopupMenu jPopupMenu2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator10;
     private javax.swing.JPopupMenu.Separator jSeparator11;
     private javax.swing.JPopupMenu.Separator jSeparator12;
@@ -14301,5 +14318,124 @@ private void MnLaporanRekapKunjunganBulananPoliActionPerformed(java.awt.event.Ac
     private void riwayat() {
         TRiwayatDulu.setText(Sequel.cariIsi("select riwayat_dulu from m_input_riwayat where no_rkm_medis ='"+TNoRM.getText()+"' "));
         TRiwayaKeluarga.setText(Sequel.cariIsi("select riwayat_keluarga from m_input_riwayat where no_rkm_medis ='"+TNoRM.getText()+"' "));
+    }
+    
+     
+private void Info() {
+        String poli = TPoli.getText().trim().toLowerCase(java.util.Locale.ROOT);
+        StringBuilder info = new StringBuilder();
+
+        // Informasi umum
+        info.append("INFORMASI PELAYANAN POLI\n");
+        info.append("========================================\n\n");
+
+        info.append("A. KETENTUAN PASIEN BPJS\n");
+        info.append("1. Pasien BPJS disarankan menggunakan aplikasi Mobile JKN ");
+        info.append("untuk mengambil antrean apabila fasilitas dan layanan ");
+        info.append("telah terintegrasi.\n");
+
+        info.append("2. Pasien kontrol wajib membawa surat kontrol dan datang ");
+        info.append("sesuai tanggal yang ditentukan. Jika datang terlalu awal ");
+        info.append("atau melewati tanggal kontrol, lakukan verifikasi dan ");
+        info.append("penjadwalan ulang sesuai ketentuan yang berlaku.\n");
+
+        info.append("3. Verifikasi riwayat kunjungan pasien pada hari yang sama. ");
+        info.append("Apabila sudah berkunjung dan ingin berobat kembali, ");
+        info.append("pastikan ketentuan penjamin dan administrasi terlebih dahulu. ");
+        info.append("Pelayanan umum dapat dipilih sesuai ketentuan fasilitas.\n");
+
+        info.append("4. Konsultasi ke poli spesialis lain harus disertai ");
+        info.append("konsul atau rujukan internal sesuai prosedur. ");
+        info.append("Apabila dijadwalkan kembali pada hari berikutnya, ");
+        info.append("pastikan pasien memperoleh informasi jadwal yang jelas.\n");
+
+        info.append("5. Pasien kontrol wajib mengikuti jadwal yang ditetapkan ");
+        info.append("dokter. Untuk poli Dalam dan Saraf, jadwal kontrol ");
+        info.append("diupayakan maksimal 2 minggu atau sesuai indikasi medis, ");
+        info.append("kondisi pasien, dan instruksi dokter.\n\n");
+
+        // Informasi khusus Poli Dalam
+        if (poli.contains("dalam")) {
+            info.append("B. INFORMASI KHUSUS POLI PENYAKIT DALAM\n");
+
+            info.append("1. PASIEN BPJS DENGAN PEMERIKSAAN EKG\n");
+            info.append("- Jika EKG dilakukan, pastikan hasil pemeriksaan dan ");
+            info.append("interpretasi atau bacaan EKG terdokumentasi pada menu ");
+            info.append("SOAP SIM Klinik sesuai kewenangan tenaga medis.\n");
+            info.append("- Pastikan dokumentasi pemeriksaan sesuai kondisi ");
+            info.append("pasien dan kebutuhan pelayanan.\n\n");
+
+            info.append("2. PASIEN PENYAKIT KRONIS\n");
+            info.append("- Pasien yang menjalani pengobatan penyakit kronis ");
+            info.append("wajib membawa hasil pemeriksaan penunjang yang masih ");
+            info.append("relevan sesuai diagnosis, terapi, dan instruksi dokter.\n");
+            info.append("- Gangguan tiroid, termasuk hipertiroid atau gondok ");
+            info.append("toksik: siapkan hasil TSH dan FT4 apabila diperlukan ");
+            info.append("untuk evaluasi atau pemantauan terapi.\n");
+            info.append("- Diabetes melitus: hasil gula darah dan/atau HbA1c ");
+            info.append("sesuai jadwal pemantauan dokter.\n");
+            info.append("- Hipertensi dan penyakit jantung: bawa catatan ");
+            info.append("tekanan darah serta hasil EKG atau pemeriksaan lain ");
+            info.append("jika diminta dokter.\n");
+            info.append("- Penyakit ginjal kronis: hasil kreatinin, eGFR, ");
+            info.append("elektrolit, dan pemeriksaan urine sesuai indikasi.\n");
+            info.append("- Dislipidemia: hasil profil lipid jika diperlukan.\n");
+            info.append("- Penyakit paru kronis: bawa hasil pemeriksaan ");
+            info.append("fungsi paru atau penunjang lain jika tersedia dan diminta.\n");
+            info.append("- Pemeriksaan laboratorium tidak harus sama untuk ");
+            info.append("semua penyakit. Jenis dan waktu pemeriksaan ditentukan ");
+            info.append("berdasarkan kondisi klinis dan kebutuhan terapi.\n\n");
+        }
+
+        // Informasi khusus Poli Saraf
+        if (poli.contains("saraf")) {
+            info.append("B. INFORMASI KHUSUS POLI SARAF\n");
+
+            info.append("1. TINDAKAN INJEKSI\n");
+            info.append("- Injeksi harus berdasarkan indikasi medis dan ");
+            info.append("keputusan dokter, dengan diagnosis yang sesuai.\n");
+            info.append("- Untuk tindakan injeksi pada osteoartritis (OA), ");
+            info.append("ikuti SOP klinis yang berlaku dan pastikan diagnosis ");
+            info.append("serta indikasi tindakan terdokumentasi.\n");
+            info.append("- Sesuai ketentuan SOP internal, tindakan injeksi ");
+            info.append("yang direncanakan hanya dilakukan pada kunjungan ");
+            info.append("kedua atau setelah evaluasi awal, jika memang sesuai ");
+            info.append("dengan jenis tindakan dan keputusan dokter.\n");
+            info.append("- Sebelum tindakan, lengkapi persetujuan tindakan ");
+            info.append("dan lembar injeksi. Ketentuan ini berlaku bagi pasien ");
+            info.append("umum maupun BPJS sesuai SOP dan ketentuan penjamin.\n\n");
+
+            info.append("2. PASIEN PENYAKIT KRONIS\n");
+            info.append("- Epilepsi: bawa catatan frekuensi kejang, obat yang ");
+            info.append("digunakan, efek samping, dan hasil pemeriksaan yang ");
+            info.append("diminta dokter. Pemeriksaan kadar obat atau EEG ");
+            info.append("dilakukan sesuai indikasi, bukan otomatis pada semua pasien.\n");
+            info.append("- Riwayat stroke: bawa hasil CT-scan/MRI jika tersedia, ");
+            info.append("daftar obat, serta hasil pemeriksaan faktor risiko.\n");
+            info.append("- Penyakit Parkinson atau gangguan gerak: bawa daftar ");
+            info.append("obat, jadwal konsumsi, dan catatan perubahan gejala.\n");
+            info.append("- Neuropati akibat diabetes: bawa hasil gula darah ");
+            info.append("atau HbA1c dan pemeriksaan lain jika diminta.\n");
+            info.append("- Bila pasien juga menderita gangguan tiroid, ");
+            info.append("bawa hasil TSH dan FT4 sesuai instruksi dokter.\n");
+            info.append("- Pemeriksaan penunjang ditentukan berdasarkan ");
+            info.append("diagnosis dan kebutuhan klinis masing-masing pasien.\n\n");
+        }
+
+        info.append("C. PENGINGAT DOKTER DAN PETUGAS\n");
+        info.append("1. Lengkapi SOAP, diagnosis, tindakan, dan hasil ");
+        info.append("pemeriksaan penunjang yang relevan.\n");
+        info.append("2. Verifikasi tanggal kontrol, surat kontrol, rujukan, ");
+        info.append("dan kelengkapan administrasi pasien BPJS.\n");
+        info.append("3. Jangan menunda pelayanan gawat darurat hanya karena ");
+        info.append("kendala administrasi atau jadwal kontrol.\n");
+        info.append("4. Ketentuan administratif harus mengikuti SOP fasilitas, ");
+        info.append("indikasi medis, dan ketentuan penjamin yang berlaku.\n");
+        info.append("5. Asisten dokter wajib memeriksa (kasa, suntikan, dan lainnya) dan merapikan ulang ruangan dokter.\n ");
+
+        // Tampilkan informasi sesuai poli
+        TInfo.setText(info.toString());
+        TInfo.setCaretPosition(0);
+
     }
 }
