@@ -4983,8 +4983,10 @@ private void MnPeriksaLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         }else{
             if(akses.getkode().equals("Admin Utama")){
                 BtnNota.setVisible(true);
+                DTPTgl.setEnabled(true);
             }else{
                 BtnNota.setVisible(false);
+                DTPTgl.setEnabled(false);
             }            
         }
     } 

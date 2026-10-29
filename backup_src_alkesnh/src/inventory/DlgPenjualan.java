@@ -4527,9 +4527,17 @@ private void BtnGudangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
              if(akses.getkode().equals("Admin Utama")){
                     BtnCari.setVisible(true);
                     ppStok1.setEnabled(true);
+                    Tgl.setEnabled(true);
+                    CmbJam.setEnabled(true);
+                    CmbMenit.setEnabled(true);
+                    CmbDetik.setEnabled(true);
                 }else{
                     BtnCari.setVisible(false);
                     ppStok1.setEnabled(false);
+                    Tgl.setEnabled(false);
+                    CmbJam.setEnabled(false);
+                    CmbMenit.setEnabled(false);
+                    CmbDetik.setEnabled(false);
                 }
              if(var.equals("yes")){
                  BtnSimpan.setVisible(true);
