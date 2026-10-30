@@ -529,7 +529,7 @@ public final class DapurBarang extends javax.swing.JDialog {
         Stok.setEditable(false);
         Stok.setText("0");
         Stok.setName("Stok"); // NOI18N
-        Stok.setPreferredSize(new java.awt.Dimension(207, 23));
+        Stok.setPreferredSize(new java.awt.Dimension(207, 24));
         Stok.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 StokKeyPressed(evt);
