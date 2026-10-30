@@ -156,7 +156,7 @@ public final class AplicareCekReferensiKamar extends javax.swing.JDialog {
         panelGlass6.add(jLabel16);
 
         Kelas.setName("Kelas"); // NOI18N
-        Kelas.setPreferredSize(new java.awt.Dimension(250, 23));
+        Kelas.setPreferredSize(new java.awt.Dimension(250, 24));
         Kelas.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 KelasKeyPressed(evt);
